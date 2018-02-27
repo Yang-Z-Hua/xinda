@@ -68,6 +68,7 @@ export default new Router({
             {
               path: 'huiyuanzhongxinIndex',
               name: 'huiyuanzhongxinIndex',
+              alias:'',
               component: HuiyuanzhongxinIndex,
             },
             {
