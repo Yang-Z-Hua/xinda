@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h5>这是店铺页面</h5>
+    <h5>这是店铺页面 frfr</h5>
   </div>
 </template>
 
