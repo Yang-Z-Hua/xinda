@@ -18,6 +18,8 @@ import Gouwuche from '@/views/Gouwuche'
 import Jiamengwomen from '@/views/Jiamengwomen'  
 import Liebiaoye from '@/views/Liebiaoye'  
 import Shangpinxiangqing from '@/views/Shangpinxiangqing'  
+import Zhifuchenggong from '@/views/Zhifuchenggong'  
+import Zhifushibai from '@/views/Zhifushibai'  
 
 Vue.use(Router)
 
@@ -119,6 +121,16 @@ export default new Router({
           path: 'shangpinxiangqing',
           name: 'shangpinxiangqing',
           component: Shangpinxiangqing
+        },
+        {
+          path: 'zhifuchenggong',
+          name: 'zhifuchenggong',
+          component: Zhifuchenggong
+        },
+        {
+          path: 'zhifushibai',
+          name: 'zhifushibai',
+          component: Zhifushibai
         },
       ]  
     },
