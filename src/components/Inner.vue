@@ -30,7 +30,7 @@ export default {
 <style scoped lang='less'>
 .head-1{
   width: 1200px;
-  height: ;
+
 }
   .foot-1{
     height: 200px;
