@@ -13,15 +13,15 @@
         </div>
         <div class="bottom">
           <div class="dingdan">
-            <span><img src="../assets/images/u5092.png" alt=""></span>
+            <img src="../assets/images/u5092.png" alt="">
             <p>我的订单</p>
           </div>
           <div>
-            <span><img src="../assets/images/u5098.png" alt=""></span>
+            <img src="../assets/images/u5098.png" alt="">
             <p>用户评价</p>
           </div>
           <div>
-            <span><img src="../assets/images/u5102.png" alt=""></span>
+            <img src="../assets/images/u5102.png" alt="">
             <p>账户设置</p>
           </div>
         </div>
@@ -94,13 +94,15 @@ export default {
           font-size: 17px;
           line-height: 17px;
           display: inline-block;
+          vertical-align: middle;
         }
-        span{
+       
           img{
             width: 22px;
             height: 22px;
+            vertical-align: middle;
           }
-        }
+        
       } 
       .dingdan{
         background-color:#e9e9e9;

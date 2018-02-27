@@ -1,8 +1,14 @@
 <template>
   <div>
-    <h4>与注册有关的公共头部</h4>
-    <router-view></router-view>
-    <h4>与注册有关的公共头部</h4>
+    <div class="head-2">
+      <img src="../assets/images/logo.jpg" alt="">
+      <ul>欢迎注册</ul>
+    </div>
+    <div class="middl-2">
+      <div class="whit">
+        <router-view></router-view>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -17,16 +23,16 @@ export default {
       b: true,
       firstName: "C",
       lastName: "HT",
-      cont:0
+      cont: 0
     };
   }, // data:function(){return...}
   methods: {
     foo: function(event) {
       // this.info = "登录";
       // this.style = "green";
-      this.fullName='陈 恒通';
-      this.b=0;
-      console.log(event.target)
+      this.fullName = "陈 恒通";
+      this.b = 0;
+      console.log(event.target);
     }
   },
   computed: {
@@ -52,11 +58,28 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.test {
-  color: red;
+<style scoped lang='less'>
+.head-2 {
+  width: 1200px;
+  margin: 25px auto;
+  display: flex;
+  ul {
+    border-left: 1px solid #b4b4b4;
+    font-size: 18px;
+    line-height: 47px;
+    padding-left: 25px;
+    margin-left: 25px;
+  }
 }
-.green {
-  color: green;
+.middl-2 {
+  height: 650px;
+  background: #f5f5f5;
+  overflow: hidden;
+  .whit{
+    width: 1200px;
+    height: 435px;
+    margin: 42px auto;
+    background: white;
+  }
 }
 </style>
