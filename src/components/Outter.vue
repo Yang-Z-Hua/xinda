@@ -1,13 +1,8 @@
 <template>
   <div>
-    <h3 v-bind:class="style">欢迎{{reverseInfo}}-----{{info}}</h3>
-    <P v-show="b">这是一段文字{{reverseInfo}}</P>
-    <P>{{fullName}}</P>
-    <button v-on:click='foo'>按钮</button>
-    <p>我被点击了{{cont}}次</p>
-    <input type="text" v-model="info">
-
+    <h4>与注册有关的公共头部</h4>
     <router-view></router-view>
+    <h4>与注册有关的公共头部</h4>
   </div>
 </template>
 
