@@ -5,6 +5,12 @@
 import Vue from 'vue'   //var vue=require('vue');
 import App from './App'
 import router from './router'
+import axios from 'axios'
+import qs from 'qs'
+
+axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+Vue.prototype.ajax = axios;
+Vue.prototype.qs = qs;
 
 Vue.config.productionTip = false
 
