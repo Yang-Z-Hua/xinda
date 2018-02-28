@@ -17,6 +17,7 @@ export default {
     this.$parent.ask = "还没有账号？";
     this.$parent.meth = "立即注册";
     this.$parent.tb = "欢迎登录";
+    this.$parent.de = "register";
   },
   data() {
     return {

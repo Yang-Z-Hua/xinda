@@ -10,7 +10,7 @@
         <div class="midd"></div>
         <div class="right">
           <ul>{{ask}}</ul>
-          <ul>{{meth}}>></ul>
+          <ul><router-link :to="de">{{meth}}>></router-link></ul>
           <img src="../assets/images/zhuce_03.png" alt="">
         </div>
       </div>
@@ -25,7 +25,8 @@ export default {
     return{
       ask:'',
       meth:'',
-      tb:''
+      tb:'',
+      de:''
     }
   }, 
   methods: {
@@ -118,5 +119,8 @@ export default {
     border: 1px solid #cbcbcb;
     height: 34px;
     margin-bottom:18px; 
+  };
+  a{
+    text-decoration: none!important;
   }
 </style>

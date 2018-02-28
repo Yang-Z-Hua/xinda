@@ -28,6 +28,7 @@ export default {
     this.$parent.ask='已有账号？';
     this.$parent.meth='立即登录';
     this.$parent.tb='欢迎注册';
+    this.$parent.de = "login";
   },
   data () {
     return {
