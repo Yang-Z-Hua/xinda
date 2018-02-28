@@ -8,19 +8,7 @@ import router from './router'
 import axios from 'axios'
 import qs from 'qs'
 
-axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-Vue.prototype.ajax = axios;
-Vue.prototype.qs = qs;
 
-
-
-
-//ajax
-import qs from 'qs'
-import axios from 'axios'
-axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-Vue.prototype.ajax=axios;
-Vue.prototype.qs=qs;
 
 
 
