@@ -1,89 +1,104 @@
 <template>
     <div class="zj">
       <div class="left">
-        <ul class="d1"><input type="text"></ul>
-        <ul class="d2"><input type="text"></ul>
-        <ul class="d3"><input type="text"><span>点击获取</span></ul>
+        <ul class="d1">
+          <input @input="checkphone" v-model="phone" type="text" placeholder='请输入手机号'>
+          <span class="tip">{{phoneTip}}</span>
+        </ul>
+        <ul class="d2">
+          <input type="text" v-model="pic" placeholder="请输入验证码">
+          <img :src="png" v-on:click='cha'>
+          <span class="tip">{{picTip}}</span>
+        </ul>
+        <ul class="d3">
+          <input type="text" placeholder="请输入验证码">
+          <span @click="hq">点击获取</span>
+        </ul>
         <ul class="d4">
-          <select name="" id="">
-            <option value="">省</option>
+          <select id='province'>
+            <option value="">-----省-----</option>
           </select>
-          <select name="" id="">
-            <option value="">市</option>
+          <select id="city" name="">
+            <option value="">-----市-----</option>
           </select>
-          <select name="" id="">
-            <option value="">区</option>
+          <select id='area' name="">
+            <option value="">-----区-----</option>
           </select>
         </ul>
-        <ul class="d5"><input type="text"></ul>
+        <ul class="d5"><input type="text" placeholder="请设置密码"></ul>
         <ul class="d6">立即注册</ul>
-      </div>
-      <div class="midd"></div>
-      <div class="right">
-        <ul>已有账号？</ul>
-        <ul>立即登录>></ul>
-        <img src="../assets/images/zhuce_03.png" alt="">
-      </div>
+      </div>   
     </div>
 </template>
 
 <script>
 export default {
   name: 'HelloWorld',
+  created(){
+    this.$parent.ask='已有账号？';
+    this.$parent.meth='立即登录';
+    this.$parent.tb='欢迎注册';
+    this.$parent.de = "login";
+    
+  },
+  methods:{
+    cha(){
+      this.png='';
+      setTimeout(this.chen,11)
+    },
+    chen(){
+      this.png='/xinda-api/ajaxAuthcode';
+    },
+    checkphone(){
+      var a=/1\d{10}/;
+      if(!a.test(this.phone)){
+        this.phoneTip='手机号错误！'
+      }else{
+        this.phoneTip='';
+        return 1;
+      }
+    },
+    hq(){
+      if(this.checkphone()){
+        this.ajax.post('/xinda-api/register/sendsms',this.qs.stringify({
+        cellphone: this.phone,					
+        smsType:1,
+        imgCode:this.pic	
+        })).then((data)=>{
+          console.log(data)
+          if(data.data.status==-1){
+            this.picTip=data.data.msg
+          }else{
+            this.picTip=''
+          }
+        })
+      }      
+    },
+  },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      png:'/xinda-api/ajaxAuthcode',
+      pic:'',    //图片验证码
+      picTip:'',  //图片验证码提示
+      phone:'',   //手机号
+      phoneTip:'',//手机号提示
     }
-  }
+  },
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang='less'>
-  .zj{
-    display:flex;
-    padding: 50px 0 0 145px;
-    .d2 input,.d3 input{
-      width: 172px;
-    }
-    .d3 span{
-      border: 1px solid ;
-      color: #2693d4;
-      font-size: 18px;
-      padding: 4.5px 12px;
-      margin-left: 10px;
-      vertical-align: middle;
-      border-radius: 4px
-    };
-    .d6{
-      font-size: 17px;
-      border: 1px solid ;
-      color: #2693d4;
-      width: 282px;
-      text-align: center;
-      line-height: 34px;
-      border-radius: 4px;
-    };
-    .midd{
-      height: 260px;
-      border-left: 1px solid #dadada;
-      margin: 20px 168px;
-    }
+  div div ul.d3 input {
+    display: inline !important;
   }
-  input{
-    border-radius: 4px;
-    outline: none;
-    border: 1px solid #cbcbcb;
-    height: 34px;
-    width: 280px;
-    margin-bottom:18px; 
-  }
-  select{
-    width: 78px;
-    border-radius: 4px;
-    outline: none;
-    border: 1px solid #cbcbcb;
-    height: 34px;
-    margin-bottom:18px; 
+  div div ul.d3 {
+    margin: 0 !important;
+    span {
+      border: 1px solid!important;
+    }
+  };
+  .tip{
+    color: red
   }
 </style>
