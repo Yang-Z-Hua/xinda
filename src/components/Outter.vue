@@ -83,6 +83,11 @@ export default {
     padding: 50px 0 0 145px;
     .d2 input,.d3 input{
       width: 172px;
+    };
+    .d2 img{
+      vertical-align: middle;
+      margin-left: 36px;
+      margin-top: -2px
     }
     .d3 span{
       border: 1px solid ;
@@ -107,13 +112,13 @@ export default {
     border-radius: 4px;
     outline: none;
     border: 1px solid #cbcbcb;
-    height: 34px;
+    height: 32px;
     width: 280px;
     margin-bottom:18px; 
     padding-left: 10px;
   }
   select{
-    width: 78px;
+    width: 95px;
     border-radius: 4px;
     outline: none;
     border: 1px solid #cbcbcb;

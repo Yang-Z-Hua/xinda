@@ -1,9 +1,13 @@
 <template>
   <div class="zj">
       <div class="left">
-        <ul class="d1"><input type="text"></ul>
-        <ul class="d5"><input type="text"></ul>
-        <ul class="d2"><input type="text"></ul>
+        <ul class="d1"><input type="text" placeholder="请输入手机号"></ul>
+        <ul class="d5"><input type="text"  placeholder="请输入密码"></ul>
+        <ul class="d2">
+          <input type="text"  placeholder="请输入验证码">
+          <img :src="png" v-on:click='cha'>
+          <span class="tip">{{picTip}}</span>
+        </ul>
         <ul class="d3"><input type="text"><span>忘记密码？</span></ul>
         <ul class="d6">立即登录</ul>
       </div>   
@@ -21,8 +25,19 @@ export default {
   },
   data() {
     return {
-      msg: "Welcome to Your Vue.js App"
+      msg: "Welcome to Your Vue.js App",
+      png:'/xinda-api/ajaxAuthcode',
+      picTip:'',  //图片验证码提示
     };
+  },
+  methods:{
+    cha(){
+      this.png='';
+      setTimeout(this.chen,11)
+    },
+    chen(){
+      this.png='/xinda-api/ajaxAuthcode';
+    },
   }
 };
 </script>

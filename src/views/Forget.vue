@@ -19,15 +19,7 @@ export default {
     this.$parent.meth = "立即登录";
     this.$parent.tb = "忘记密码";
     this.$parent.de = "login";
-    this.ajax.post('/xinda-api/sso/login',this.qs.stringify({
-      loginId: 12345678901,						  
-      password:'46f94c8de14fb36680850768ff1b7f2a', 
-      imgCode:'gb4n'	
-
-    }))
-    .then((data)=>{
-      console.log(data)
-    })
+    
   },
   data () {
     return {
