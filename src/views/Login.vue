@@ -15,42 +15,38 @@
 </template>
 
 <script>
-export default {
-  name: "HelloWorld",
-  created() {
-    this.$parent.ask = "还没有账号？";
-    this.$parent.meth = "立即注册";
-    this.$parent.tb = "欢迎登录";
-    this.$parent.de = "register";
-  },
-  data() {
-    return {
-      msg: "Welcome to Your Vue.js App",
-      png:'/xinda-api/ajaxAuthcode',
-      picTip:'',  //图片验证码提示
-    };
-  },
-  methods:{
-    cha(){
-      this.png='';
-      setTimeout(this.chen,11)
+  export default {
+    name: "HelloWorld",
+    created() {
+      this.$parent.ask = "还没有账号？";
+      this.$parent.meth = "立即注册";
+      this.$parent.tb = "欢迎登录";
+      this.$parent.de = "register";
     },
-    chen(){
-      this.png='/xinda-api/ajaxAuthcode';
+    data() {
+      return {
+        msg: "Welcome to Your Vue.js App",
+        png:'/xinda-api/ajaxAuthcode',
+        picTip:'',  //图片验证码提示
+      };
     },
-  }
-};
+    methods:{
+      cha(){
+        this.png+=' ';
+      },
+    }
+  };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='less'>
-div div ul.d3 input {
-  display: none !important;
-}
-div div ul.d3 {
-  margin: 0 0 20px 160px !important;
-  span {
-    border: none !important;
+  div div ul.d3 input {
+    display: none !important;
   }
-}
+  div div ul.d3 {
+    margin: 0 0 20px 160px !important;
+    span {
+      border: none !important;
+    }
+  }
 </style>

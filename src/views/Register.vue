@@ -43,11 +43,7 @@ export default {
   },
   methods:{
     cha(){
-      this.png='';
-      setTimeout(this.chen,11)
-    },
-    chen(){
-      this.png='/xinda-api/ajaxAuthcode';
+      this.png+=' ';
     },
     checkphone(){
       var a=/1\d{10}/;
@@ -99,6 +95,6 @@ export default {
     }
   };
   .tip{
-    color: red
+    color: red;
   }
 </style>
