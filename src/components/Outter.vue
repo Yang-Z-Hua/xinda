@@ -2,11 +2,17 @@
   <div>
     <div class="head-2">
       <img src="../assets/images/logo.jpg" alt="">
-      <ul>欢迎注册</ul>
+      <ul>{{tb}}</ul>
     </div>
     <div class="middl-2">
       <div class="whit">
         <router-view></router-view>
+        <div class="midd"></div>
+        <div class="right">
+          <ul>{{ask}}</ul>
+          <ul><router-link :to="de">{{meth}}>></router-link></ul>
+          <img src="../assets/images/zhuce_03.png" alt="">
+        </div>
       </div>
     </div>
   </div>
@@ -16,49 +22,24 @@
 export default {
   name: "HelloWorld",
   data() {
-    return {
-      info: "注册",
-      style: "test",
-      n: 1,
-      b: true,
-      firstName: "C",
-      lastName: "HT",
-      cont: 0
-    };
-  }, // data:function(){return...}
-  methods: {
-    foo: function(event) {
-      // this.info = "登录";
-      // this.style = "green";
-      this.fullName = "陈 恒通";
-      this.b = 0;
-      console.log(event.target);
+    return{
+      ask:'',
+      meth:'',
+      tb:'',
+      de:''
     }
+  }, 
+  methods: {
+    
   },
   computed: {
-    reverseInfo() {
-      console.log(1);
-      return this.info
-        .split("")
-        .reverse()
-        .join("");
-    },
-    fullName: {
-      get() {
-        return this.firstName + " " + this.lastName;
-      },
-      set(newValue) {
-        var names = newValue.split(" ");
-        this.firstName = names[0];
-        this.lastName = names[names.length - 1];
-      }
-    }
+
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang='less'>
+<style  lang='less'>
 .head-2 {
   width: 1200px;
   margin: 25px auto;
@@ -80,6 +61,71 @@ export default {
     height: 435px;
     margin: 42px auto;
     background: white;
+    display: flex;
+    .right{
+      margin-top: 30px;
+      ul{
+        margin-bottom: 15px;
+      };
+      ul:nth-child(2){
+        color: #349ad7;
+      }
+    };
+    .midd{
+      height: 260px;
+      border-left: 1px solid #dadada;
+      margin: 50px 168px;
+    }
   }
 }
+.zj{
+    display:flex;
+    padding: 50px 0 0 145px;
+    .d2 input,.d3 input{
+      width: 172px;
+    };
+    .d2 img{
+      vertical-align: middle;
+      margin-left: 36px;
+      margin-top: -2px
+    }
+    .d3 span{
+      border: 1px solid ;
+      color: #2693d4;
+      font-size: 18px;
+      padding: 4.5px 12px;
+      margin-left: 10px;
+      vertical-align: middle;
+      border-radius: 4px;
+    };
+    .d6{
+      font-size: 17px;
+      border: 1px solid ;
+      color: #2693d4;
+      width: 290px;
+      text-align: center;
+      line-height: 34px;
+      border-radius: 4px;
+    };
+  }
+  input{
+    border-radius: 4px;
+    outline: none;
+    border: 1px solid #cbcbcb;
+    height: 32px;
+    width: 280px;
+    margin-bottom:18px; 
+    padding-left: 10px;
+  }
+  select{
+    width: 95px;
+    border-radius: 4px;
+    outline: none;
+    border: 1px solid #cbcbcb;
+    height: 34px;
+    margin-bottom:18px; 
+  };
+  a{
+    text-decoration: none!important;
+  }
 </style>

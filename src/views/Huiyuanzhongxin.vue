@@ -12,18 +12,24 @@
           <p>12345678901</p>
         </div>
         <div class="bottom">
-          <div class="dingdan">
-            <img src="../assets/images/u5092.png" alt="">
-            <p>我的订单</p>
-          </div>
-          <div>
-            <img src="../assets/images/u5098.png" alt="">
-            <p>用户评价</p>
-          </div>
-          <div>
-            <img src="../assets/images/u5102.png" alt="">
-            <p>账户设置</p>
-          </div>
+          <router-link to="/Huiyuanzhongxin/Huiyuanzhongxinindex" tag="div">
+            <div  v-bind:class="sty" v-on:click="foo">
+              <img src="../assets/images/u5092.png" alt="">
+              <p>我的订单</p>
+            </div>
+          </router-link>
+          <router-link to="/Huiyuanzhongxin/HuiyuanzhongxinUser"  tag="div">
+            <div v-bind:class="styl" v-on:click="foq">
+              <img src="../assets/images/u5098.png" alt="">
+              <p>用户评价</p>
+            </div>
+          </router-link>
+          <router-link to="/Huiyuanzhongxin/HuiyuanzhongxinAccount"  tag="div">
+            <div v-bind:class="style" v-on:click="foa">
+              <img src="../assets/images/u5102.png" alt="">
+              <p>账户设置</p>
+            </div>
+          </router-link>
         </div>
       </div>
       
@@ -38,16 +44,41 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+    sty:'dd',
+    styl:'pj',
+    style:'pj'
     }
+  },
+  methods:{
+     foo:function(){
+       this.sty = 'dd',
+        this.style = 'pj',
+        this.styl = 'pj'
+     },
+     foq:function(){
+       this.styl = 'dd',
+       this.sty = 'pj',
+       this.style = 'pj'
+     },
+     foa:function(){
+       this.style = 'dd',
+        this.sty = 'pj',
+         this.styl = 'pj'
+     }
+  },
+  computed:{
+    
   }
 }
 </script>
 
+
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 .public{
+  display: flex;
     width: 1200px;
+    height: 650px;
     margin: 26px auto;
 }
 .left{
@@ -62,7 +93,6 @@ export default {
     display: inline-block;
   }
 }
-
 .middle{
     width: 242px;
     height:526px;
@@ -95,18 +125,21 @@ export default {
           line-height: 17px;
           display: inline-block;
           vertical-align: middle;
+          color: black;
+          cursor:pointer;
         }
-       
-          img{
-            width: 22px;
-            height: 22px;
-            vertical-align: middle;
-          }
-        
+        img{
+          width: 22px;
+          height: 22px;
+          vertical-align: middle;
+        }
       } 
-      .dingdan{
-        background-color:#e9e9e9;
-      }
     }
+}
+.pj{
+  background-color:#f7f7f7;
+} 
+.dd{
+  background-color:#e9e9e9;
 }
 </style>

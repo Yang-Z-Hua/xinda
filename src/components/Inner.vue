@@ -32,7 +32,7 @@
         <li>公司地址：北京市朝阳区大望路soho现代城</li>
         <li>官方客服电话:010-83421842</li>
       </div>
-    </div>    
+    </div> 
   </div>
 </template>
 
@@ -53,63 +53,63 @@ export default {
   width: 1200px;
   height: 150px;
   margin: 0 auto;
-  border-bottom: 1px solid #2693d4
+  border-bottom: 1px solid #2693d4;
 }
-.head-1 .sh{
+.head-1 .sh {
   display: flex;
-  .logo{
-    display:flex;
-    img{
+  .logo {
+    display: flex;
+    img {
       margin-top: 40px;
     }
-    ul{
+    ul {
       margin: 50px 0 0 26px;
       font-size: 14px;
-      p{
-        color: #2693d4
+      p {
+        color: #2693d4;
       }
     }
-  };
-  .search{
+  }
+  .search {
     margin: 25px 0 0 110px;
     line-height: 1;
-    .cp{
+    .cp {
       font-size: 14px;
-    };
-    input{
+    }
+    input {
       outline: none;
       width: 470px;
       height: 37px;
       border: 2px solid #2693d4;
       margin-top: 5px;
       padding-left: 10px;
-    };
-    .mdd span{
+    }
+    .mdd span {
       display: inline-block;
       width: 100px;
       height: 41px;
       background: #2693d4;
       margin-top: 5px;
       vertical-align: top;
-      img{
+      img {
         margin: 10px 0 0 40px;
       }
-    };
-    .bott span{
+    }
+    .bott span {
       font-size: 11px;
       color: #c7c7c7;
     }
-  };
-  .phone{
+  }
+  .phone {
     margin: 40px 0 0 auto;
-    img{
-      vertical-align: middle
+    img {
+      vertical-align: middle;
     }
   }
-} 
-.head-1 .xia{
-  display:flex;
-  li{
+}
+.head-1 .xia {
+  display: flex;
+  li {
     font-size: 18px;
     color: #555555;
     padding: 0 12px 4px;
