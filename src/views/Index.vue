@@ -80,18 +80,10 @@
       <li class="triangle"></li>
     </ul>
     <div class="star_list">
-      <div>
-        <ul><img src="../assets/images/u10.png" alt=""></ul>
-      </div>
-      <div>
-        <ul><img src="../assets/images/u12.png" alt=""></ul>
-      </div>
-      <div>
-        <ul><img src="../assets/images/u14.png" alt=""></ul>
-      </div>
-      <div>
-        <ul><img src="../assets/images/u16.png" alt=""></ul>
-      </div>
+      <img src="../assets/images/u10.png" alt="">
+      <img src="../assets/images/u12.png" alt="">
+      <img src="../assets/images/u14.png" alt="">
+      <img src="../assets/images/u16.png" alt="">
     </div>
 
     <!-- 初创企业必备 -->
@@ -100,10 +92,42 @@
       <li class="triangle"></li>
     </ul>
     <div class="company">
-      <ul><img src="../assets/images/qiye.png" alt=""></ul>
-      <ul><img src="../assets/images/qiye.png" alt=""></ul>
-      <ul><img src="../assets/images/qiye.png" alt=""></ul>
-      <ul><img src="../assets/images/qiye.png" alt=""></ul>
+      <div>
+        <ul>
+          <img src="" alt="">
+          <p class="product_title">{{title1}}</p>
+          <li><p class="product_introduce">{{introduce1}}</p></li>
+          <p class="product_price"><span>￥{{price1}}</span>{{unit1}}</p>
+          <button>查看详情</button>
+        </ul>
+      </div>
+      <div>
+        <ul>
+          <img src="" alt="">
+          <p class="product_title">{{title2}}</p>
+          <li><p class="product_introduce">{{introduce2}}</p></li>
+          <p class="product_price"><span>￥{{price2}}</span>{{unit2}}</p>
+          <button>查看详情</button>
+        </ul>      
+      </div>
+      <div>
+        <ul>
+          <img src="" alt="">
+          <p class="product_title">{{title3}}</p>
+          <li><p class="product_introduce">{{introduce3}}</p></li>
+          <p class="product_price"><span>￥{{price3}}</span>{{unit3}}</p>
+          <button>查看详情</button>
+        </ul>
+      </div>
+      <div>
+        <ul>
+          <img src="" alt="">
+          <p class="product_title">{{title4}}</p>
+          <li><p class="product_introduce">{{introduce4}}</p></li>
+          <p class="product_price"><span>￥{{price4}}</span>{{unit4}}</p>
+          <button>查看详情</button>
+        </ul>
+      </div>
     </div>
     <!-- 知识产权 -->
     <ul class="product_star">
@@ -130,6 +154,8 @@
       <img src="../assets/images/zanshi.png" alt="">
       <img src="../assets/images/zanshi.png" alt="">
     </ul>
+
+
     <!-- 合作伙伴 -->
     <ul class="product_star">
       <p>合作伙伴</p>
@@ -141,11 +167,29 @@
 
 <script>
 import '../assets/swiper.js'
+
 export default {
   name: 'HelloWorld',
   created() {
     this.ajax.post('/xinda-api/recommend/list')
     .then((data)=>{
+      console.log(data.data.data);
+      this.title1 = data.data.data.product[0].serviceName.split('（')[0];
+      this.introduce1 = data.data.data.product[0].serviceInfo;
+      this.price1 = data.data.data.product[0].marketPrice;
+      this.unit1 = data.data.data.product[0].unit;
+      this.title2 = data.data.data.product[1].serviceName.split('（')[0];
+      this.introduce2 = data.data.data.product[1].serviceInfo;
+      this.price2 = data.data.data.product[1].marketPrice;
+      this.unit2 = data.data.data.product[1].unit;
+      this.title3 = data.data.data.product[2].serviceName.split('（')[0];
+      this.introduce3 = data.data.data.product[2].serviceInfo;
+      this.price3 = data.data.data.product[2].marketPrice;
+      this.unit3 = data.data.data.product[2].unit;
+      this.title4 = data.data.data.product[3].serviceName.split('(')[0];
+      this.introduce4 = data.data.data.product[3].serviceInfo;
+      this.price4 = data.data.data.product[3].marketPrice;
+      this.unit4 = data.data.data.product[3].unit;
     })
   },
   data () {
@@ -155,10 +199,26 @@ export default {
       b:0,
       c:0,
       d:0,
+      title1:'',
+      introduce1:'',
+      price1:'',
+      unit1:'',
+      title2:'',
+      introduce2:'',
+      price2:'',
+      unit2:'',
+      title3:'',
+      introduce3:'',
+      price3:'',
+      unit3:'',
+      title4:'',
+      introduce4:'',
+      price4:'',
+      unit4:'',
     }
   },
   mounted(){
-     var mySwiper = new Swiper('.HM_lb', {
+    var mySwiper = new Swiper('.HM_lb', {
   direction: 'horizontal',
   loop: true,
   autoplay: 3000,
@@ -169,7 +229,7 @@ export default {
   //   scrollbar: '.swiper-scrollbar',
   effect: 'fade',
   fade: {
-    crossFade: true,
+    crossFade: 4,
   }
 })
   },
@@ -179,7 +239,8 @@ export default {
   },
   off:function(eve){
     this.a = 0;
-  }
+  },
+  
 }
 }
 
@@ -288,15 +349,10 @@ export default {
   margin-top: 46px;
   display: flex;
   justify-content: space-between;
-  ul{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    img{
-      width: 276px;
-      height: 404px;
+  img{
+      width:254px;
+      height: 382px;
     }
-  }
 }
 .company{
   width: 1200px;
@@ -304,6 +360,49 @@ export default {
   margin-top: 48px;
   display: flex;
   justify-content: space-between;
+  ul{
+    width: 270px;
+    height: 462px;
+    border: 1px solid #e8e8e8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .product_title{
+        font-size: 16px;
+        font-weight: bold;
+        color: black;
+        margin-top: 48px
+      }
+      li{
+        width: 90%;
+        height: 70px;
+        margin-top: 14px;
+        .product_introduce{
+          font-size: 14px;
+      }
+      }
+      
+      .product_price{
+        font-size: 14px;
+        color:#3d3d3d;
+        margin-top: 28px;
+        span{
+          font-size: 24px;
+          color:#2692d2;
+        }
+      }
+      button{
+        width: 157px;
+        height: 44px;
+        outline: none;
+        border: 2px solid #2693d4;
+        border-radius: 4px;
+        color: #2693d4;
+        font-size: 16px;
+        background-color: transparent;
+        margin-top: 36px;
+      }
+  }
 }
 
 // 知识产权
