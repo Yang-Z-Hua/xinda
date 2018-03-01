@@ -5,8 +5,8 @@
     </div>
     <div class="evaluate">
       <div class="evaluate-top">
-        <p>未评价</p>
-        <p>以评价</p>
+        <p  v-bind:class="sty" v-on:click="foo">未评价</p>
+        <p  v-bind:class="st" v-on:click="fos">以评价</p>
       </div>
       <div class="evaluate-xia">
         <div class="img">
@@ -36,8 +36,20 @@ export default {
   data () {
     return {
       count:1,
+      sty:'sa',
+      st:'ad'
     }
-  }
+  },
+   methods:{
+     foo (){
+       this.sty = 'sa',
+        this.st = 'as'
+     },
+     fos (){
+       this.sty = 'as',
+        this.st = 'sa'
+     },
+   }
 }
 </script>
 
@@ -75,15 +87,15 @@ export default {
       height: 41px;
      background-color: #f7f7f7;
      align-items: center;
+     border-bottom: 1px solid #cccccc;
       p{
         padding: 14px 30px;
-        background-color: #2693d4;
         line-height: 14px;
+        font-size: 14px;
       }
     }
     .evaluate-xia{
       height: 151px;
-      border-top: 1px solid #cccccc;
       display: flex;
       align-items: center;
       .img{
@@ -147,10 +159,16 @@ export default {
     .noone{
       width: 37px;
       margin: 0 6px;
-      border:1px solid #2693d4;
+      border:1px solid #2693d4; 
       color: #2693d4;
     }
   }
+}
+.sa{
+  background-color: #2693d4;
+}
+.as{
+  background-color: #f7f7f7;
 }
 </style>
 
