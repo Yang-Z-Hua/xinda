@@ -1,5 +1,5 @@
 <template>
-    <ul class="d4">
+    <ul :class="style">
         <select @change="provinceChange" v-model="provinceSelect">
             <option value="0">-----省-----</option>
             <option v-for="(item,index) in province" :key="index" :value="index">{{item}}</option>
@@ -27,9 +27,14 @@ export default {
       provinceSelect:'0',//选中的省份
       citySelect:'0',//选中的市
       areaSelect:'0',//选中的区
+      style:''
     }
   },
+  props:{
+      display:String
+  },
   created(){
+      this.style=this.display
   },
   methods:{
     provinceChange(){
@@ -48,5 +53,15 @@ export default {
 </script>
 
 <style scoped lang='less'>
-
+    .big{
+        select{
+            width: 95px;
+            border-radius: 4px;
+            outline: none;
+            border: 1px solid #cbcbcb;
+            height: 34px;
+            margin-bottom:18px; 
+        };
+    }
+    
 </style>

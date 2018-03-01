@@ -117,14 +117,6 @@ export default {
     margin-bottom:18px; 
     padding-left: 10px;
   }
-  select{
-    width: 95px;
-    border-radius: 4px;
-    outline: none;
-    border: 1px solid #cbcbcb;
-    height: 34px;
-    margin-bottom:18px; 
-  };
   a{
     text-decoration: none!important;
   }

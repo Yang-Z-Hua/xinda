@@ -14,7 +14,7 @@
           <input type="text" placeholder="请输入验证码">
           <span @click="hq">点击获取</span>
         </ul>
-        <Area></Area>
+        <Area display='big'></Area>
         <ul class="d5"><input type="text" placeholder="请设置密码"></ul>
         <ul class="d6">立即注册</ul>
       </div>   
