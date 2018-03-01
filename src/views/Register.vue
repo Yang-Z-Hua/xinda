@@ -14,17 +14,7 @@
           <input type="text" placeholder="请输入验证码">
           <span @click="hq">点击获取</span>
         </ul>
-        <ul class="d4">
-          <select id='province'>
-            <option value="">-----省-----</option>
-          </select>
-          <select id="city" name="">
-            <option value="">-----市-----</option>
-          </select>
-          <select id='area' name="">
-            <option value="">-----区-----</option>
-          </select>
-        </ul>
+        <Area></Area>
         <ul class="d5"><input type="text" placeholder="请设置密码"></ul>
         <ul class="d6">立即注册</ul>
       </div>   
@@ -32,16 +22,46 @@
 </template>
 
 <script>
+import areasData from '../areasData';
+import Area from '../components/Area'
 export default {
   name: 'HelloWorld',
+  data () {
+    return {
+      png:'/xinda-api/ajaxAuthcode',
+      pic:'',    //图片验证码
+      picTip:'',  //图片验证码提示
+      phone:'',   //手机号
+      phoneTip:'',//手机号提示
+      province:areasData[100000], //省份
+      city:null,
+      area:null,
+      provinceSelect:'0',//选中的省份
+      citySelect:'0',//选中的市
+      areaSelect:'0',//选中的区
+    }
+  },
+  components:{
+    Area
+  },
   created(){
     this.$parent.ask='已有账号？';
     this.$parent.meth='立即登录';
     this.$parent.tb='欢迎注册';
     this.$parent.de = "login";
-    
   },
   methods:{
+    provinceChange(){
+      console.log(this.provinceSelect);
+      this.city=areasData[this.provinceSelect];
+      this.citySelect=0;
+      this.areaSelect=0;
+      this.area=null;
+    },
+    cityChange(){
+      this.area=areasData[this.citySelect];
+      this.areaSelect=0;
+    },
     cha(){
       this.png+=' ';
     },
@@ -71,15 +91,7 @@ export default {
       }      
     },
   },
-  data () {
-    return {
-      png:'/xinda-api/ajaxAuthcode',
-      pic:'',    //图片验证码
-      picTip:'',  //图片验证码提示
-      phone:'',   //手机号
-      phoneTip:'',//手机号提示
-    }
-  },
+  
 }
 </script>
 
