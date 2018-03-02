@@ -71,5 +71,16 @@ export default {
             margin-bottom:18px; 
         };
     }
+    .lby{
+        select{
+            width: 95px;
+            border-radius: 4px;
+            outline: none;
+            border: 1px solid #cbcbcb;
+            height: 25px;
+            margin-bottom:18px; 
+            margin: 8px 0 0 10px;
+        };
+    }
     span{color: red}
 </style>
