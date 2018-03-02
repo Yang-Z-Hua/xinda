@@ -8,10 +8,11 @@
             <option value="0">-----市-----</option>
             <option v-for="(item,index) in city" :key="index" :value="index">{{item}}</option>
         </select>
-        <select v-model="areaSelect" >
+        <select @change="areaChange" v-model="areaSelect" >
             <option value="0">-----区-----</option>
             <option v-for="(item,index) in area" :key="index" :value="index">{{item}}</option>
         </select>
+        <span>{{areaCheck}}</span>
     </ul>
 </template>
 
@@ -27,27 +28,34 @@ export default {
       provinceSelect:'0',//选中的省份
       citySelect:'0',//选中的市
       areaSelect:'0',//选中的区
-      style:''
+      style:'',
+      areaCheck:'',//地区提示码
     }
   },
   props:{
-      display:String
+      display:String,
+      are:String
   },
   created(){
       this.style=this.display
   },
   methods:{
     provinceChange(){
-      console.log(this.provinceSelect);
       this.city=areasData[this.provinceSelect];
       this.citySelect=0;
       this.areaSelect=0;
       this.area=null;
     },
+    children(){
+      this.areaCheck=this.are
+    },
     cityChange(){
       this.area=areasData[this.citySelect];
       this.areaSelect=0;
     },
+    areaChange(){
+        this.$emit('confirm',this.areaSelect);
+    }
   },
 }
 </script>
@@ -63,5 +71,5 @@ export default {
             margin-bottom:18px; 
         };
     }
-    
+    span{color: red}
 </style>

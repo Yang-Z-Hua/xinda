@@ -89,7 +89,7 @@ export default {
       margin-left: 36px;
       margin-top: -2px
     }
-    .d3 span{
+    .d3 span.qq{
       border: 1px solid ;
       color: #2693d4;
       font-size: 18px;
