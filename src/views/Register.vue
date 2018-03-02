@@ -28,6 +28,7 @@
 <script>
 import areasData from "../areasData";
 import Area from "../components/Area";
+import md5 from 'md5';
 export default {
   name: "HelloWorld",
   data() {
@@ -60,6 +61,7 @@ export default {
     this.$parent.meth = "立即登录";
     this.$parent.tb = "欢迎注册";
     this.$parent.de = "login";
+    console.log(md5(1111))
   },
   methods: {
     provinceChange() {
@@ -133,6 +135,7 @@ export default {
             if (this.pass == "") {
               this.passTip = "请输入密码";
             } else {
+              //注册验证
               this.passTip = "";
               this.ajax
                 .post(
@@ -149,7 +152,28 @@ export default {
                     this.phoneTip = data.data.msg;
                   } else {
                     this.phoneTip = "";
-                    //注册提交接口
+                    console.log(this.areaNum)
+                    // 注册提交接口
+                    this.ajax
+                      .post(
+                        "/xinda-api/register/register",
+                        this.qs.stringify({
+                          cellphone: this.phone,
+                          smsType: 1,
+                          validCode:'111111',						
+                          password:this.pass, 
+                          regionId:this.areaNum
+
+                        })
+                      )
+                      .then(data => {
+                        console.log(data);
+                      });
+
+
+
+
+
                   }
                 });
             }
