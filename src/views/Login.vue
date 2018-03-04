@@ -1,13 +1,13 @@
 <template>
   <div class="zj">
       <div class="left">
-        <li>{{tip}}</li>
+        <li class="ti">{{tip}}</li>
         <ul class="d1">
           <input v-model="phone" type="text" placeholder="请输入手机号">
           <span class="tip">{{phoneTip}}</span>
         </ul>
         <ul class="d5">
-          <input v-model="password" type="text"  placeholder="请输入密码">
+          <input v-model="password" type="password"  placeholder="请输入密码">
           <span class="tip">{{passwordTip}}</span>
         </ul>
         <ul class="d2">
@@ -65,6 +65,10 @@
               this.cha()
             }else{
               this.tip=data.data.msg;
+              this.$parent.$parent.user=this.phone
+              this.$parent.$parent.denglu=''
+              this.$parent.$parent.ljzc=''
+              this.$parent.$parent.tuichu='[退出]'
             }
           });
 
@@ -84,7 +88,7 @@
       border: none !important;
     }
   }
-  li{
+  .left li.ti{
     color: red
   }
 </style>

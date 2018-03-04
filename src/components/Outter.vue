@@ -108,7 +108,7 @@ export default {
       border-radius: 4px;
     };
   }
-  input{
+ .zj input{
     border-radius: 4px;
     outline: none;
     border: 1px solid #cbcbcb;

@@ -4,9 +4,10 @@
     <div class="head">
       <ul class="mmm">
         <div class="left">
-          <li>欢迎来到信达！</li>
-          <li>登录</li>
-          <li>快速注册</li>
+          <li>{{user}} 欢迎来到信达！</li>
+          <li>{{tuichu}}</li>
+          <li><a href="#/outter/login">{{denglu}}</a></li>
+          <li><a href="#/outter/register">{{ljzc}}</a></li>
         </div>
         <div class="right">
           <ul>购物车<span>0</span>件</ul>
@@ -22,8 +23,17 @@
 
 <script>
 export default {
-  name: "App"
-};
+  name: "App",
+  data(){
+    return{
+      user:'',
+      denglu:'登录',
+      ljzc:'立即注册',
+      tuichu:''
+    }
+
+  }
+}
 
 
 </script>
@@ -72,5 +82,9 @@ export default {
   text-align: center;
   line-height: 41px;
   font-size: 14px;
+}
+a{
+  text-decoration: none;
+  color: #2693d4;
 }
 </style>
