@@ -144,9 +144,7 @@ export default {
     fwfl(a){   //服务分类
         var data=this.data.data.data[a];
         this.data1=data.itemList;
-        // console.log(this.data1)
         for(this.b in this.data1){
-          // console.log(this.b)
           this.fwflClick(this.b);
           break
         }
