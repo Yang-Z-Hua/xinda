@@ -17,8 +17,8 @@
      </div>
      <div class="xingbie">
        <p>性别：</p>
-       <p class="nan">男</p>
-       <p class="nv">女</p>
+       <input type="radio" name="radio" vulue="1" class="nan" >男
+       <input type="radio" name="radio" vulue="2" class="nv" >女
      </div>
      <div class="youxiang">
        <p>邮箱：</p>
@@ -27,15 +27,7 @@
      <div class="diqu">
        <p>所在地区：</p>
        <div class="shq">
-          <select name="" id="">
-            <option value="">北京</option>
-          </select>
-          <select name="" id="">
-            <option value="">北京市</option>
-          </select>
-          <select name="" id="">
-            <option value="">海淀区</option>
-          </select>
+          <Area></Area>
        </div>
      </div>
      <p class="baocun">保存</p>
@@ -44,12 +36,16 @@
 </template>
 
 <script>
+import Area from '../components/Area'
 export default {
   name: 'HelloWorld',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
+  },
+  components:{
+    Area
   }
 }
 </script>
@@ -114,7 +110,7 @@ export default {
       height: 64px;
       align-items: center;
       .nan{
-        margin-left: 77px;
+        margin-left: 60px;
       }
       .nv{
         margin-left: 55px;
@@ -129,9 +125,6 @@ export default {
       margin-top:20px;
       .shq{
         margin-left: 28px;
-        select{
-          height: 23px;
-        }
       }
     }
     .baocun{
