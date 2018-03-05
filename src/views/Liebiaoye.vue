@@ -6,9 +6,8 @@
         <div class="sh">
           <ul class="d">
             <li>服务分类</li>
-            <li @mousedown="dcll" @click="jjj">
-              <p :class='ysl' @click="zc">公司注册</p>
-              <p :class='ysl' @click="bg">公司变更</p>
+            <li >
+              <p @click="fwflClick(index)" ref="c1" :class="index" v-for="(data,index) in data1" :key="data.name">{{data.name}}</p>
             </li>
           </ul>
           <ul class="d d2">
@@ -19,7 +18,7 @@
           </ul>
           <ul class="d">
             <li>服务区域</li>
-            <li><Area display="lby"></Area></li>
+            <li><Area display="lby"/></li>
           </ul>
         </div>
         <div class="xia">
@@ -47,9 +46,9 @@
           </div>
         </div>
         <div class="fanye">
-          <span @click="prev">上一页</span>
+          <span @click="prev" :class="shang1">上一页</span>
           <ul>{{number}}</ul>
-          <span @click="next">下一页</span>
+          <span @click="next" :class="xia1">下一页</span>
         </div>
       </div>
       <div class="right">
@@ -83,45 +82,19 @@ export default {
     return {
       msg: "Welcome to Your Vue.js App",
       ys:'qw',
-      ysl:'qw',
       arr:'',
       imgSrc:'http://123.58.241.146:8088/xinda/pic',
       number:'1',
       num:0,
       sleType:'',//公司注册/变更
+      shang1:'grey',
+      xia1:'blue',
+      data1:'' , //主页传过来的大类
+      data:''
     };
   },
-  components:{
-    Area
-  },
-  methods:{
-    next(){
-      if(this.number==3){
-        return
-      }
-      this.num+=3;
-      this.number++;
-      this.chen()
-    },
-    prev(){
-      if(this.number==1){
-        return
-      }
-      this.num-=3;
-      this.number--;
-      this.chen()
-    },
-    dcl(){
-      this.ys+='r';
-    },
-    dcll(){
-      this.ysl+='r';
-    },
-    jjj(e){
-      e.target.setAttribute('class','djsj');
-    },
-    type(a){//产品类型列表
-      this.ajax
+  created() {
+     this.ajax
       .post(
         "/xinda-api/product/style/list",
         this.qs.stringify({
@@ -129,41 +102,90 @@ export default {
         })
       )
       .then(data => {
-        var data=data.data.data['5af629246fa34f6f8d49758c6a7b25f1'].itemList;
-        var zhuce=data[a].itemList; //公司注册
-        this.sleType=zhuce;
-        // console.log(data)
-      });
+        this.data=data;
+        console.log(this.data)
+        this.data1=this.$route.query.id
+        this.chen();
+        this.fwfl(this.data1);
 
+      });
+  },
+  components:{
+    Area
+  },
+  methods:{
+    next(){
+      if(this.number==2){
+        this.xia1='grey'
+      }
+      if(this.number==3){
+        return
+      }
+      this.num+=3;
+      this.number++;
+      this.chen();
+      this.shang1='blue'
     },
+    prev(){
+      if(this.number==2){
+        this.shang1='grey'
+      }
+      if(this.number==1){
+        return
+      }
+      this.num-=3;
+      this.xia1='blue',
+      this.number--;
+      this.chen()
+    },
+    dcl(){
+      this.ys+='r';
+    },
+    jjj(e){
+      e.target.setAttribute('class','djsj');
+    },
+    
+    fwfl(a){   //服务分类
+        var data=this.data.data.data[a];
+        this.data1=data.itemList;
+        // console.log(this.data1)
+        for(this.b in this.data1){
+          // console.log(this.b)
+          this.fwflClick(this.b);
+          break
+        }
+    },
+
+    fwflClick(index){
+      console.log(index)
+      this.type(index)
+    },
+    type(a){//产品类型列表
+        var data=this.data.data.data[this.$route.query.id].itemList[a].itemList;
+        // console.log(data)
+        this.sleType=data;
+    },
+
+
+
     chen(){   //产品服务列表
       this.ajax
       .post(
         "/xinda-api/product/package/grid",
         this.qs.stringify({
          start:this.num,
-         limit:1113,
-         productTypeCode: "1",
+         limit:3,
+         productTypeCode: "1",  
          providerId: "a7304eecbd7246b4b424874e0359eab0",
         })
       )
       .then(data => {
-        console.log(data.data.data)
+        // console.log(data.data.data)
         this.arr=data.data.data
       });
     },
-    zc(){
-      this.type('1b58d4f1f258495e8bf4b8a2df5c0e8e');
-    },
-    bg(){
-      this.type('5da86e8bca0d4d8cb28a2897c2219f4a') 
-    },
-
   },
-  created() {
-    this.chen();
-    this.type('1b58d4f1f258495e8bf4b8a2df5c0e8e') 
-  }
+  
 };
 </script>
 
@@ -295,10 +317,16 @@ export default {
         font-size: 14px;
         span{
           cursor: pointer;
-          color: #cccccc;
+          // color: #cccccc;
           border: 1px solid ;
           line-height: 1;
           padding: 10px 13px
+        }
+        span.grey{
+          color: #cccccc;
+        }
+        span.blue{
+          color: #2693d4;
         }
         ul{
           color: #2693d4;

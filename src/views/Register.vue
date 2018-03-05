@@ -15,7 +15,7 @@
           <span class="qq" @click="hq">点击获取</span>
           <span class="tip">{{yzmcw}}</span>
         </ul>
-        <Area ref="c1" :are='aaaa' display='big' @confirm='chose'></Area>
+        <Area ref="c1" :are='aaaa' display='big' @confirm='chose'/>
         <ul class="d5">
           <input v-model="pass" type="text" placeholder="请设置密码">
           <span class="tip">{{passTip}}</span>

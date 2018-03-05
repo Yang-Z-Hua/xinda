@@ -15,7 +15,7 @@
           <img :src="png" v-on:click='cha'>
           <span class="tip">{{picTip}}</span>
         </ul>
-        <ul class="d3"><input type="text"><span>忘记密码？</span></ul>
+        <ul class="d3"><input type="text"><router-link to='forget'>忘记密码？</router-link></ul>
         <ul class="d6" @click="login">立即登录</ul>
       </div>   
     </div>

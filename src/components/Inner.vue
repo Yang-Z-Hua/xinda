@@ -18,8 +18,8 @@
       </div>
       <div class="xia">
         <li>全部产品</li>
-        <li>财税服务</li>
-        <li>公司工商</li>
+        <li @click="csfw">财税服务</li>
+        <li @click="gsgs">公司工商</li>
         <li>加盟我们</li>
         <li>店铺</li>
       </div>
@@ -41,8 +41,41 @@ export default {
   name: "HelloWorld",
   data() {
     return {
-      msg: "Welcome to Your Vue.js App"
+      msg: "Welcome to Your Vue.js App",
+      data1:''
     };
+  },
+  created(){
+    this.ajax
+      .post(
+        "/xinda-api/product/style/list",
+        this.qs.stringify({
+
+        })
+      )
+      .then(data => {
+        this.data1=data.data.data
+        // console.log(this.data1);
+        this.data1='2e110f0df53243c197fede52fba8e5d0'
+      });
+  },
+  methods:{
+    csfw(){
+      this.$router.push({
+        path:'/inner/liebiaoye',
+        query:{
+          id:'2e110f0df53243c197fede52fba8e5d0'
+        }
+      })
+    },
+    gsgs(){
+       this.$router.push({
+        path:'/inner/liebiaoye',
+        query:{
+          id:'5af629246fa34f6f8d49758c6a7b25f1'
+        }
+      })
+    }
   }
 };
 </script>
