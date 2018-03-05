@@ -7,13 +7,13 @@
           <ul class="d">
             <li>服务分类</li>
             <li >
-              <p @click="fwflClick(index)" ref="c1" :class="index" v-for="(data,index) in data1" :key="data.name">{{data.name}}</p>
+              <p @click="fwflClick(index)" :class="index==background?'blue':''" v-for="(data,index) in data1" :key="data.name">{{data.name}}</p>
             </li>
           </ul>
           <ul class="d d2">
             <li>类型</li>
-            <li @mousedown="dcl" @click="jjj">
-              <p :class='ys' v-for="b in sleType" :key="b.name">{{b.name}}</p>
+            <li >
+              <p @click="lxclick(index)" :class="index==backgroundlx?'blue':''" v-for="(b,index) in sleType" :key="b.name">{{b.name}}</p>
             </li>
           </ul>
           <ul class="d">
@@ -81,7 +81,6 @@ export default {
   data() {
     return {
       msg: "Welcome to Your Vue.js App",
-      ys:'qw',
       arr:'',
       imgSrc:'http://123.58.241.146:8088/xinda/pic',
       number:'1',
@@ -90,7 +89,10 @@ export default {
       shang1:'grey',
       xia1:'blue',
       data1:'' , //主页传过来的大类
-      data:''
+      data:'',
+      background:'',
+      backgroundlx:'',
+
     };
   },
   created() {
@@ -138,12 +140,6 @@ export default {
       this.number--;
       this.chen()
     },
-    dcl(){
-      this.ys+='r';
-    },
-    jjj(e){
-      e.target.setAttribute('class','djsj');
-    },
     
     fwfl(a){   //服务分类
         var data=this.data.data.data[a];
@@ -155,14 +151,16 @@ export default {
           break
         }
     },
-
     fwflClick(index){
       console.log(index)
       this.type(index)
+      this.background=index
+    },
+    lxclick(index){
+      this.backgroundlx=index
     },
     type(a){//产品类型列表
         var data=this.data.data.data[this.$route.query.id].itemList[a].itemList;
-        // console.log(data)
         this.sleType=data;
     },
 
@@ -180,7 +178,6 @@ export default {
         })
       )
       .then(data => {
-        // console.log(data.data.data)
         this.arr=data.data.data
       });
     },
@@ -208,6 +205,10 @@ export default {
         border-bottom: 1px solid #cccccc;
         border-right: 1px solid #cccccc;
         .d{
+          .blue{
+            background: #2693d4;
+            color: white
+          }
           display: flex;
           li:nth-child(1){
             border: 1px solid #cccccc;
