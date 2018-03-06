@@ -13,7 +13,7 @@
           <li class="message">
             <div v-for="(b,key1) in arr1[index].itemList" :key="key1">
               <li class="secondTitle"><p>{{b.name}}></p></li>
-              <li class="thirdTitle"><a href="##" v-for="(c,key2) in arr1[index].itemList[key1].itemList" :key="key2" @click="thirdGo(c,index,b)">{{c.name}}</a></li>            
+              <li class="thirdTitle"><a v-for="(c,key2) in arr1[index].itemList[key1].itemList" :key="key2" @click="thirdGo(c,index,b)">{{c.name}}</a></li>            
             </div>
           </li>
         </ul>
