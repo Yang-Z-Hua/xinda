@@ -110,17 +110,7 @@ export default {
         this.id3=this.$route.query.id3;
         this.code=this.$route.query.code;
         this.fwfl(this.data1);
-        this.chen(this.code,this.id3);
-        if(this.id3){
-        var data=this.data.data.data[this.$route.query.id].itemList[a].itemList;
-        this.sleType=data;
-          for(this.b in this.sleType){
-            if(this.id3==undefined||this.b==this.id3){
-              this.lxclick(this.b,null);
-              break;
-            }
-          }
-        }
+                
       });
   },
   components:{
@@ -174,10 +164,15 @@ export default {
     fwflClick(index,code){
       this.type(index)
       this.background=index;
-      this.chen(code,undefined)
+      if(this.id3){
+        this.lxclick(this.id3)
+      }else{
+        this.chen(code,this.id3)
+      }
     },
     lxclick(index){
       this.backgroundlx=index;
+      console.log(index)
       this.chen(0,index)
     },
     type(a){//产品类型列表
