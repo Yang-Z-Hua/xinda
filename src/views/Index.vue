@@ -8,12 +8,12 @@
             <p @click="firstGo(index)">{{a.name}}</p>
           </li>
           <li class="example">
-            <a href="##" v-for="(b,key1) in arr1[index].itemList" :key="key1" @click="secondGo(b)">{{b.name}}</a>
+            <a href="##" v-for="(b,key1) in arr1[index].itemList" :key="key1" @click="secondGo(b,index)">{{b.name}}</a>
           </li>
           <li class="message">
             <div v-for="(b,key1) in arr1[index].itemList" :key="key1">
               <li class="secondTitle"><p>{{b.name}}></p></li>
-              <li class="thirdTitle"><a href="##" v-for="(c,key2) in arr1[index].itemList[key1].itemList" :key="key2" @click="thirdGo(thirdId)">{{c.name}}</a></li>            
+              <li class="thirdTitle"><a href="##" v-for="(c,key2) in arr1[index].itemList[key1].itemList" :key="key2" @click="thirdGo(c,index)">{{c.name}}</a></li>            
             </div>
           </li>
         </ul>
@@ -159,8 +159,18 @@ export default {
         }
       })
   },
-  secondGo(b){
-    console.log(b)
+  secondGo(b,index){
+    this.$router.push({
+        path:'/inner/Liebiaoye',
+        query:{
+          id:index,
+          id2:b.id
+        }
+      })
+  },
+  thirdGo(c){
+    console.log(c.id);
+    // console.log()
   }
   
 }
@@ -224,7 +234,7 @@ export default {
           margin: 0;
           border-left: 1px solid #ccc;
           padding: 0 5px 0 10px;
-          margin: 5px 0;
+          margin: 2px 0;
         }
         div{
           width: 1000px;
