@@ -2,13 +2,13 @@
   <div class="outer">
     <div class="allproduct">
       <div class="product_list">
-        <ul v-for="(a,index) in arr1" :key="index">
+        <ul v-for="(a,index) in arr1" :key="index" @mouseover="show(index)">
           <li class="title">
             <img src="../assets/images/tax.png" alt="">
             <p @click="firstGo(index)">{{a.name}}</p>
           </li>
           <li class="example">
-            <a href="##" v-for="(b,key1) in arr1[index].itemList" :key="key1" @click="secondGo(b,index)">{{b.name}}</a>
+            <a v-for="(b,key1) in arr1[index].itemList" :key="key1" @click="secondGo(b,index)">{{b.name}}</a>
           </li>
           <li class="message">
             <div v-for="(b,key1) in arr1[index].itemList" :key="key1">
@@ -121,9 +121,7 @@ export default {
       arr1:'',
       arr2:'',
       imgSrc:'http://123.58.241.146:8088/xinda/pic',
-      a:'',
-      b:'',
-      k:''
+      currentIndex:-1,
     }
   },
   mounted(){
@@ -143,11 +141,9 @@ export default {
 })
   },
   methods:{
-  // on(index){
-  //   // console.log(this.arr1[index].itemList);
-  //   let arr2 = this.arr1[index].itemList;
-  //   console.log(this.index)
-  // },
+  show(index){
+    console.log(index)
+  },
   // off:function(eve){
   //   this.a = 0;
   // },
@@ -212,6 +208,7 @@ export default {
         color: #d5d7d9;
         margin: 0 2px 0 18px;
         text-decoration: none;
+        cursor: pointer;
       }
       li{
         display: flex;
@@ -222,7 +219,7 @@ export default {
         font-size: 16px;
       }
       .example{
-        line-height: 25px;
+        line-height: 28px;
         font-size: 14px;
         padding-left: 17px;
       }
@@ -240,10 +237,9 @@ export default {
         justify-content: center;
         font-size: 13px;
         a{
-          margin: 0;
           border-left: 1px solid #ccc;
           padding: 0 5px 0 10px;
-          margin: 2px 0;
+          margin: 3px 0;
         }
         div{
           width: 1000px;
@@ -260,6 +256,7 @@ export default {
             width: 900px;
           }
         }
+        display: none;
       }
     }
     .list_bottom{
