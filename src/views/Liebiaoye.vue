@@ -6,20 +6,19 @@
         <div class="sh">
           <ul class="d">
             <li>服务分类</li>
-            <li @mousedown="dcll" @click="jjj">
-              <p :class='ysl' @click="zc">公司注册</p>
-              <p :class='ysl' @click="bg">公司变更</p>
+            <li >
+              <p @click="fwflClick(index,data.code)" :class="index==background?'blue':''" v-for="(data,index) in data1" :key="data.name">{{data.name}}</p>
             </li>
           </ul>
           <ul class="d d2">
             <li>类型</li>
-            <li @mousedown="dcl" @click="jjj">
-              <p :class='ys' v-for="b in sleType" :key="b.name">{{b.name}}</p>
+            <li>
+              <p @click="lxclick(index)" :class="index==backgroundlx?'blue':''" v-for="(b,index) in sleType" :key="b.name">{{b.name}}</p>
             </li>
           </ul>
           <ul class="d">
             <li>服务区域</li>
-            <li><Area display="lby"></Area></li>
+            <li><Area display="lby"/></li>
           </ul>
         </div>
         <div class="xia">
@@ -32,7 +31,7 @@
             <span>价格</span>
           </div>
           <div class="xq">
-            <div class="list" v-for="a in arr" :key="a.serviceInfo">
+            <div class="list" v-for="a in arr" :key="a.id">
               <img :src='imgSrc+a.productImg' alt="">
               <div class="zcfgs">
                 <ul>{{a.serviceInfo}}</ul>
@@ -44,12 +43,13 @@
                 <li><span>立即购买</span><span>加入购物车</span></li>
               </div>
             </div>
+            <div class="tsnr" v-if="!arrLength">当前选项无内容</div>
           </div>
         </div>
         <div class="fanye">
-          <span @click="prev">上一页</span>
+          <span @click="prev" :class="shang1">上一页</span>
           <ul>{{number}}</ul>
-          <span @click="next">下一页</span>
+          <p v-if="prevTip">当前是第一页!!</p><span @click="next" :class="xia1">下一页</span><p v-if="nextTip">当前是最后一页!!</p>
         </div>
       </div>
       <div class="right">
@@ -76,257 +76,342 @@
 </template>
 
 <script>
-  import Area from '../components/Area.vue'
+import Area from "../components/Area.vue";
 export default {
   name: "HelloWorld",
   data() {
     return {
-      msg: "Welcome to Your Vue.js App",
-      ys:'qw',
-      ysl:'qw',
-      arr:'',
-      imgSrc:'http://123.58.241.146:8088/xinda/pic',
-      number:'1',
-      num:0,
-      sleType:'',//公司注册/变更
+      arr: "",
+      imgSrc: "http://123.58.241.146:8088/xinda/pic",
+      number: "1",
+      num: 0,
+      sleType: "", //公司注册/变更
+      shang1: "grey",
+      xia1: "blue",
+      data1: "", //主页传过来的大类
+      data: "",
+      background: "",
+      backgroundlx: "",
+      id2: undefined,
+      id3: undefined,
+      code: "",
+      arrLength: "",
+      fyCode: "",
+      fyId: "",
+      i: 0,
+      nextTip: "",
+      prevTip: ""
     };
   },
-  components:{
+  created() {
+    this.ajax
+      .post("/xinda-api/product/style/list", this.qs.stringify({}))
+      .then(data => {
+        this.data = data;
+        this.data1 = this.$route.query.id;
+        this.id2 = this.$route.query.id2;
+        this.id3 = this.$route.query.id3;
+        this.code = this.$route.query.code;
+        this.fwfl(this.data1);
+      });
+    this.shang1 = "blue";
+  },
+  components: {
     Area
   },
-  methods:{
-    next(){
-      if(this.number==3){
-        return
-      }
-      this.num+=3;
-      this.number++;
-      this.chen()
-    },
-    prev(){
-      if(this.number==1){
-        return
-      }
-      this.num-=3;
-      this.number--;
-      this.chen()
-    },
-    dcl(){
-      this.ys+='r';
-    },
-    dcll(){
-      this.ysl+='r';
-    },
-    jjj(e){
-      e.target.setAttribute('class','djsj');
-    },
-    type(a){//产品类型列表
-      this.ajax
-      .post(
-        "/xinda-api/product/style/list",
-        this.qs.stringify({
-
-        })
-      )
-      .then(data => {
-        var data=data.data.data['5af629246fa34f6f8d49758c6a7b25f1'].itemList;
-        var zhuce=data[a].itemList; //公司注册
-        this.sleType=zhuce;
-        // console.log(data)
-      });
-
-    },
-    chen(){   //产品服务列表
-      this.ajax
-      .post(
-        "/xinda-api/product/package/grid",
-        this.qs.stringify({
-         start:this.num,
-         limit:1113,
-         productTypeCode: "1",
-         providerId: "a7304eecbd7246b4b424874e0359eab0",
-        })
-      )
-      .then(data => {
-        console.log(data.data.data)
-        this.arr=data.data.data
-      });
-    },
-    zc(){
-      this.type('1b58d4f1f258495e8bf4b8a2df5c0e8e');
-    },
-    bg(){
-      this.type('5da86e8bca0d4d8cb28a2897c2219f4a') 
-    },
-
+  watch: {
+    $route() {
+      this.data1 = this.$route.query.id;
+      this.id2 = this.$route.query.id2;
+      this.id3 = this.$route.query.id3;
+      this.code = this.$route.query.code;
+      this.fwfl(this.data1);
+      // this.chen(this.$route.query.code);
+    }
   },
-  created() {
-    this.chen();
-    this.type('1b58d4f1f258495e8bf4b8a2df5c0e8e') 
+  methods: {
+    next() {
+      this.prevTip = 0;
+      if (this.num + 1 >= this.arrLength) {
+        this.nextTip = 1;
+        // this.xia1='grey';
+        return;
+      } else {
+        this.num += 3;
+        this.number++;
+        this.chen(this.fyCode, this.fyId);
+        this.shang1 = "blue";
+        if (this.num + 1 >= this.arrLength) {
+          // this.xia1='grey';
+        }
+      }
+    },
+    prev() {
+      this.nextTip = 0;
+      if (this.number == 1) {
+        this.prevTip = 1;
+        return;
+      }
+      this.num -= 3;
+      (this.xia1 = "blue"), this.number--;
+      this.chen(this.fyCode, this.fyId);
+      if (this.number == 1) {
+        // this.shang1='grey';
+      }
+    },
+    fwfl(a) {
+      //就开始调用一次
+      //服务分类
+      var data = this.data.data.data[a];
+      this.data1 = data.itemList;
+      for (this.b in this.data1) {
+        if (this.id2 == undefined || this.b == this.id2) {
+          this.fwflClick(this.b, this.code);
+          break;
+        }
+      }
+    },
+    fwflClick(index, code) {
+      this.nextTip = 0;
+      this.prevTip = 0;
+      this.number = 1;
+      this.num = 0;
+      this.fyCode = code;
+      this.fyId = undefined;
+      this.backgroundlx = "";
+      this.type(index);
+      this.background = index;
+      if (this.id3) {
+        this.lxclick(this.id3);
+      } else {
+        this.chen(code, undefined);
+      }
+    },
+    lxclick(index) {
+      this.nextTip = 0;
+      this.prevTip = 0;
+      this.number = 1;
+      this.num = 0;
+      this.fyId = index;
+      this.fyCode = undefined;
+      this.backgroundlx = index;
+      this.chen(0, index);
+    },
+    type(a) {
+      //产品类型列表
+      var data = this.data.data.data[this.$route.query.id].itemList[a].itemList;
+      this.sleType = data;
+    },
+    chen(code, id) {
+      //产品服务列表
+      this.ajax
+        .post(
+          "/xinda-api/product/package/grid",
+          this.qs.stringify({
+            start: this.num,
+            limit: 3,
+            productTypeCode: code,
+            productId: id
+          })
+        )
+        .then(data => {
+          console.log(data)
+          this.arr = data.data.data;
+          this.arrLength = this.arr.length;
+          console.log(data);
+          this.id3 = undefined;
+          this.code = undefined;
+          this.id2 = undefined;
+        });
+    }
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang='less'>
-  .bt{
-        width: 1200px;
-        margin: 25px auto 0;
-        font-size: 14px;
-    }
-  .all{
-    width: 1200px;
-    margin: 0 auto 5px;
-    display:flex;
-    .left{
-      .sh{
-        width: 950px;
-        height: 163px;
-        background: #f7f7f7;
-        border-bottom: 1px solid #cccccc;
-        border-right: 1px solid #cccccc;
-        .d{
-          display: flex;
-          li:nth-child(1){
-            border: 1px solid #cccccc;
-            border-bottom: none;
-            border-right: none;
-            width: 100px;
-            height: 40px;
-            text-align: center;
-            line-height: 40px;
-            font-weight: bold;
-          }
-          li:nth-child(2){
-            border: 1px solid #cccccc;
-            width: 848px;
-            border-bottom: none;
-            border-right: none;
-            height: 40px;
-            
-            p{
-              
-              padding: 5px 13px;
-              border-radius: 4px;
-              display: inline-block;
-              margin-top: 5px;
-              cursor: pointer;
-            }
-            .djsj{
-              background: #2693d4;
-              color: white
-            }
-          }
+.bt {
+  width: 1200px;
+  margin: 25px auto 0;
+  font-size: 14px;
+}
+.all {
+  width: 1200px;
+  margin: 0 auto 5px;
+  display: flex;
+  .left {
+    .sh {
+      width: 950px;
+      // height: 163px;
+      background: #f7f7f7;
+      border-bottom: 1px solid #cccccc;
+      border-right: 1px solid #cccccc;
+      .d {
+        .blue {
+          background: #2693d4;
+          color: white;
         }
-        ul.d2 li{
-          height: 80px!important;
-        }
-      }
-      .xia{
-        width: 950px;
-        margin-top: 25px;
-        border: 1px solid #cccccc;
-        .head1{
-          height: 41px;
-          border-bottom: 1px solid #cccccc;
-          line-height: 41px;
-          background: #f7f7f7;
-          span{
-            padding:  0 25px;
-          }
-        };
-        .sp{
-          height: 50px;
-          line-height: 50px;
-          display: flex;
-          justify-content: space-between;
-          border-bottom: 1px solid #cccccc;
-          margin: 0 8px;
-          padding: 0 30px;
-        }
-        .xq{
-          margin: 0 8px;
-          .list{
-            display: flex;
-            padding: 10px 0;
-            align-items: flex-start;
-            border-bottom: 1px solid #cccccc;
-            img{
-              width: 98px;
-              height: 98px;
-              border: 1px solid #cccccc;
-              margin-right: 12px
-            }
-            .zcfgs ul{
-              font-weight: bold;
-            }
-            .zcfgs li{
-              font-size: 14px;
-              color: #404040;
-              line-height: 1;
-              margin-top: 20px;
-            }
-            .sizeal{
-              margin: 0 0 0 auto
-            }
-            .sizeal ul{
-              color: red;
-              font-size: 24px;
-              text-align: center
-            }
-            .sizeal li span{
-              color: white;
-              background: #2693d4;
-              font-size: 14px;
-              line-height: 1;
-              padding: 8px 17px;
-              margin-left: 11px;
-              border-radius: 2px;
-              display: inline-block;
-              margin-top: 25px;
-            }
-          }
-        }
-      }
-      .fanye{
-        margin: 29px auto 202px;
         display: flex;
-        justify-content: center;
-        font-size: 14px;
-        span{
-          cursor: pointer;
-          color: #cccccc;
-          border: 1px solid ;
-          line-height: 1;
-          padding: 10px 13px
+        li:nth-child(1) {
+          border: 1px solid #cccccc;
+          border-bottom: none;
+          border-right: none;
+          width: 100px;
+          // height: 40px;
+          text-align: center;
+          line-height: 40px;
+          font-weight: bold;
         }
-        ul{
-          color: #2693d4;
-          border: 1px solid ;
-          line-height: 1;
-          padding: 10px 13px;
-          margin: 0 6px
+        li:nth-child(2) {
+          border: 1px solid #cccccc;
+          width: 848px;
+          border-bottom: none;
+          border-right: none;
+          padding: 0 0 5px 10px;
+          // height: 40px;
+
+          p {
+            padding: 5px 13px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 5px;
+            cursor: pointer;
+          }
+          .djsj {
+            background: #2693d4;
+            color: white;
+          }
         }
       }
     }
-    .right{
-      width: 236px;
-      height: 645px;
-      margin-left: 10px;
+    .xia {
+      width: 950px;
+      margin-top: 25px;
       border: 1px solid #cccccc;
-      div{
-        img{
-          margin: 0 auto;
-          display: block;
-          margin-top: 10px;
+      .head1 {
+        height: 41px;
+        border-bottom: 1px solid #cccccc;
+        line-height: 41px;
+        background: #f7f7f7;
+        span {
+          padding: 0 25px;
         }
-        li{
+      }
+      .sp {
+        height: 50px;
+        line-height: 50px;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #cccccc;
+        margin: 0 8px;
+        padding: 0 30px;
+      }
+      .xq {
+        margin: 0 8px;
+        .tsnr {
           text-align: center;
-          border-bottom: 1px solid #cccccc;
-          margin: 18px 35px;
-          padding-bottom: 4px
+          font-size: 40px;
+          padding: 40px;
+          color: gainsboro;
         }
+        .list {
+          display: flex;
+          padding: 10px 0;
+          align-items: flex-start;
+          border-bottom: 1px solid #cccccc;
+          img {
+            width: 98px;
+            height: 98px;
+            border: 1px solid #cccccc;
+            margin-right: 12px;
+          }
+          .zcfgs ul {
+            font-weight: bold;
+            width: 600px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+          .zcfgs li {
+            font-size: 14px;
+            color: #404040;
+            line-height: 1;
+            margin-top: 20px;
+          }
+          .sizeal {
+            margin: 0 0 0 auto;
+          }
+          .sizeal ul {
+            color: red;
+            font-size: 24px;
+            text-align: center;
+          }
+          .sizeal li span {
+            color: white;
+            background: #2693d4;
+            font-size: 14px;
+            line-height: 1;
+            padding: 8px 17px;
+            margin-left: 11px;
+            border-radius: 2px;
+            display: inline-block;
+            margin-top: 25px;
+          }
+        }
+      }
+    }
+    .fanye {
+      p {
+        color: red;
+        line-height: 35px;
+        position: absolute;
+        right: 270px;
+      }
+      position: relative;
+      margin: 29px auto 202px;
+      display: flex;
+      justify-content: center;
+      font-size: 14px;
+      span {
+        cursor: pointer;
+        // color: #cccccc;
+        border: 1px solid;
+        line-height: 1;
+        padding: 10px 13px;
+      }
+      span.grey {
+        color: #cccccc;
+      }
+      span.blue {
+        color: #2693d4;
+      }
+      ul {
+        color: #2693d4;
+        border: 1px solid;
+        line-height: 1;
+        padding: 10px 13px;
+        margin: 0 6px;
       }
     }
   }
+  .right {
+    width: 236px;
+    height: 645px;
+    margin-left: 10px;
+    border: 1px solid #cccccc;
+    div {
+      img {
+        margin: 0 auto;
+        display: block;
+        margin-top: 10px;
+      }
+      li {
+        text-align: center;
+        border-bottom: 1px solid #cccccc;
+        margin: 18px 35px;
+        padding-bottom: 4px;
+      }
+    }
+  }
+}
 </style>
