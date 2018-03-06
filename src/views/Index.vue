@@ -149,7 +149,7 @@ export default {
   // },
   firstGo(index){
     this.$router.push({
-        path:'/inner/Liebiaoye',
+        path:'/inner/liebiaoye',
         query:{
           id:this.arr1[index].id
         }
@@ -157,7 +157,7 @@ export default {
   },
   secondGo(b,index){
     this.$router.push({
-        path:'/inner/Liebiaoye',
+        path:'/inner/liebiaoye',
         query:{
           id:index,
           id2:b.id
@@ -169,7 +169,7 @@ export default {
     // console.log(b.id);
     // console.log(index);
     this.$router.push({
-        path:'/inner/Liebiaoye',
+        path:'/inner/liebiaoye',
         query:{
           id:index,
           id2:b.id,
@@ -256,7 +256,7 @@ export default {
             width: 900px;
           }
         }
-        display: none;
+        // display: none;
       }
     }
     .list_bottom{
