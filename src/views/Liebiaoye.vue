@@ -80,7 +80,6 @@ export default {
   name: "HelloWorld",
   data() {
     return {
-      msg: "Welcome to Your Vue.js App",
       arr:'',
       imgSrc:'http://123.58.241.146:8088/xinda/pic',
       number:'1',
@@ -92,7 +91,6 @@ export default {
       data:'',
       background:'',
       backgroundlx:'',
-
     };
   },
   created() {
@@ -100,20 +98,24 @@ export default {
       .post(
         "/xinda-api/product/style/list",
         this.qs.stringify({
-
         })
       )
       .then(data => {
         this.data=data;
-        console.log(this.data)
         this.data1=this.$route.query.id
         this.chen();
         this.fwfl(this.data1);
-
       });
   },
   components:{
     Area
+  },
+  watch:{
+    $route(){
+      this.data1=this.$route.query.id
+      this.chen();
+      this.fwfl(this.data1);
+    }
   },
   methods:{
     next(){
@@ -140,7 +142,6 @@ export default {
       this.number--;
       this.chen()
     },
-    
     fwfl(a){   //服务分类
         var data=this.data.data.data[a];
         this.data1=data.itemList;
@@ -150,20 +151,20 @@ export default {
         }
     },
     fwflClick(index){
-      console.log(index)
       this.type(index)
-      this.background=index
+      this.background=index;
     },
     lxclick(index){
-      this.backgroundlx=index
+      this.backgroundlx=index;
     },
     type(a){//产品类型列表
         var data=this.data.data.data[this.$route.query.id].itemList[a].itemList;
         this.sleType=data;
+        for(this.b in this.sleType){
+          this.lxclick(this.b);
+          break
+        }
     },
-
-
-
     chen(){   //产品服务列表
       this.ajax
       .post(
@@ -180,7 +181,6 @@ export default {
       });
     },
   },
-  
 };
 </script>
 

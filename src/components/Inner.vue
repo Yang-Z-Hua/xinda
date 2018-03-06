@@ -147,7 +147,7 @@ export default {
     color: #555555;
     padding: 0 12px 4px;
     margin: 15px 0 0 100px;
-    // border-bottom: 4px solid red
+    cursor: pointer;
   }
 }
 .foot-1 {

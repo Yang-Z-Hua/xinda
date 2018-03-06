@@ -78,7 +78,7 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang='less'>
+<style scoped lang='less'>
   div div ul.d3 input {
     display: none !important;
   }
