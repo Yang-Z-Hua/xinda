@@ -17,6 +17,8 @@
         </ul>
         <ul class="d3"><input type="text"><router-link to='forget'>忘记密码？</router-link></ul>
         <ul class="d6" @click="login">立即登录</ul>
+        <i @click="rf">添加数据</i>
+        <i @click="xss">显示数据</i>
       </div>   
     </div>
 </template>
@@ -44,6 +46,33 @@
       };
     },
     methods:{
+      rf(){
+        this.ajax
+          .post(
+            "xinda-api/cart/add",
+            this.qs.stringify({
+              id:"c3dbb4e69d6247ba9ef6785f573518a1",
+	          	num:11,
+            })
+          )
+          .then(data => {
+            console.log(data);
+           
+          });
+      },
+      xss(){
+        this.ajax
+          .post(
+            "/xinda-api/cart/list",
+            this.qs.stringify({
+              
+            })
+          )
+          .then(data => {
+            console.log(data);
+           
+          });
+      },
       cha(){
         this.png+=' ';
       },
