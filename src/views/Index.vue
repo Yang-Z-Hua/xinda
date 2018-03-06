@@ -5,7 +5,7 @@
         <ul v-for="(a,index) in arr1" :key="index" @mouseover="show(index)">
           <li class="title">
             <img src="../assets/images/tax.png" alt="">
-            <p @click="firstGo(index)">{{a.name}}</p>
+            <p>{{a.name}}</p>
           </li>
           <li class="example">
             <a v-for="(b,key1) in arr1[index].itemList" :key="key1" @click="secondGo(b,index)">{{b.name}}</a>
@@ -111,7 +111,7 @@ export default {
     this.ajax.post('/xinda-api/product/style/list')
     .then((data)=>{
       this.arr1 = data.data.data;
-      console.log(this.arr1)
+      console.log(data)
     })
   },
   
@@ -148,14 +148,14 @@ export default {
   // off:function(eve){
   //   this.a = 0;
   // },
-  firstGo(index){
-    this.$router.push({
-        path:'/inner/liebiaoye',
-        query:{
-          id:this.arr1[index].id
-        }
-      })
-  },
+  // firstGo(index){
+  //   this.$router.push({
+  //       path:'/inner/liebiaoye',
+  //       query:{
+  //         id:this.arr1[index].id
+  //       }
+  //     })
+  // },
   secondGo(b,index){
     this.$router.push({
         path:'/inner/liebiaoye',
