@@ -91,6 +91,8 @@ export default {
       data:'',
       background:'',
       backgroundlx:'',
+      id2:'',
+      id3:'',
     };
   },
   created() {
@@ -102,7 +104,9 @@ export default {
       )
       .then(data => {
         this.data=data;
-        this.data1=this.$route.query.id
+        this.data1=this.$route.query.id;
+        this.id2=this.$route.query.id2;
+        this.id3=this.$route.query.id3;
         this.chen();
         this.fwfl(this.data1);
       });
@@ -112,7 +116,9 @@ export default {
   },
   watch:{
     $route(){
-      this.data1=this.$route.query.id
+      this.data1=this.$route.query.id;
+      this.id2=this.$route.query.id2;
+      this.id3=this.$route.query.id3;
       this.chen();
       this.fwfl(this.data1);
     }
@@ -145,9 +151,12 @@ export default {
     fwfl(a){   //服务分类
         var data=this.data.data.data[a];
         this.data1=data.itemList;
+        console.log(this.id2)
         for(this.b in this.data1){
-          this.fwflClick(this.b);
-          break
+          if(this.id2==undefined||this.b==this.id2){
+            this.fwflClick(this.b);
+            break
+          }
         }
     },
     fwflClick(index){
@@ -161,8 +170,10 @@ export default {
         var data=this.data.data.data[this.$route.query.id].itemList[a].itemList;
         this.sleType=data;
         for(this.b in this.sleType){
-          this.lxclick(this.b);
-          break
+          if(this.id3==undefined||this.b==this.id3){
+            this.lxclick(this.b);
+            break;
+          }
         }
     },
     chen(){   //产品服务列表
@@ -198,7 +209,7 @@ export default {
     .left{
       .sh{
         width: 950px;
-        height: 163px;
+        // height: 163px;
         background: #f7f7f7;
         border-bottom: 1px solid #cccccc;
         border-right: 1px solid #cccccc;
@@ -213,7 +224,7 @@ export default {
             border-bottom: none;
             border-right: none;
             width: 100px;
-            height: 40px;
+            // height: 40px;
             text-align: center;
             line-height: 40px;
             font-weight: bold;
@@ -223,7 +234,8 @@ export default {
             width: 848px;
             border-bottom: none;
             border-right: none;
-            height: 40px;
+            padding:0 0 5px 10px;
+            // height: 40px;
             
             p{
               
@@ -239,9 +251,7 @@ export default {
             }
           }
         }
-        ul.d2 li{
-          height: 80px!important;
-        }
+        
       }
       .xia{
         width: 950px;

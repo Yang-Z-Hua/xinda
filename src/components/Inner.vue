@@ -64,7 +64,9 @@ export default {
       this.$router.push({
         path:'/inner/liebiaoye',
         query:{
-          id:'2e110f0df53243c197fede52fba8e5d0'
+          id:'2e110f0df53243c197fede52fba8e5d0',
+          id2:undefined,
+          id3:undefined
         }
       })
     },
@@ -72,7 +74,9 @@ export default {
        this.$router.push({
         path:'/inner/liebiaoye',
         query:{
-          id:'5af629246fa34f6f8d49758c6a7b25f1'
+          id:'5af629246fa34f6f8d49758c6a7b25f1',
+          id3:undefined,
+          id2:undefined,
         }
       })
     }
