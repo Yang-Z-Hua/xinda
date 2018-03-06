@@ -13,7 +13,8 @@
   <div class="information">
      <div class="xingming">
        <p>姓名：</p>
-       <input type="text">
+       <input @input="name"  v-model="mingzi" type="text">
+       <span class="ts">{{mingzits}}</span>
      </div>
      <div class="xingbie">
        <p>性别：</p>
@@ -21,13 +22,14 @@
        <input type="radio" name="radio" vulue="2" class="nv" >女
      </div>
      <div class="youxiang">
-       <p>邮箱：</p>
-       <input type="text" placeholder="请输入邮箱">
+      <p>邮箱：</p>
+      <input @input="email"  v-model="pgone" type="text" placeholder="请输入邮箱">
+      <span class="ts">{{pgonets}}</span>
      </div>  
      <div class="diqu">
        <p>所在地区：</p>
        <div class="shq">
-          <Area></Area>
+          <Area display='ar'/>
        </div>
      </div>
      <p class="baocun">保存</p>
@@ -39,16 +41,57 @@
 import Area from '../components/Area'
 export default {
   name: 'HelloWorld',
+  created() {
+    this.ajax.post('/xinda-api/member/info')
+    .then((data)=>{
+       console.log(data);
+    })
+  },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      pgone:'',//邮箱
+      pgonets:'',//邮箱提示
+      mingzi:'',//姓名
+      mingzits:'',//姓名提示 
     }
   },
   components:{
     Area
+  },
+  methods: {
+    email() {
+      var a = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+      if (!a.test(this.pgone)) {
+        this.pgonets = "请输入正确邮箱地址！";
+      } else {
+        this.pgonets = "";
+        return 1;
+      }
+    },
+    name(){
+      var a = /^\S{2,6}$/;
+      if(!a.test(this.mingzi)){
+        this.mingzits = "姓名格式不正确";
+      }else{
+        this.mingzits = "";
+        return 1;
+      }
+    }
   }
 }
 </script>
+
+<style lang="less">
+.ar{
+  select{
+    width: 75px;
+    border-radius: 4px;
+    outline: none;
+    border: 1px solid #cbcbcb;
+    height: 23px;
+  }
+}
+</style>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
@@ -135,6 +178,9 @@ export default {
       border: 1px solid #2693d4;
       border-radius: 10%;
     }
+  }
+  .ts{
+    color:red;
   }
 }
 </style>

@@ -10,8 +10,8 @@
     </div>
     <div class="time">
       <p>创建时间：</p>
-      <input type="text">
-      <input type="text">
+      <el-date-picker class="rili" v-model="startDate" type="date"></el-date-picker>
+      <el-date-picker class="rili" v-model="endDate" type="date"></el-date-picker>
     </div>
     <div class="list">
       <ul>
@@ -24,8 +24,10 @@
       </ul>
       <div class="list-top">
         <div class="order-time">
-          <p>订单号：s347484929274490</p>
-          <p>下单时间：2017-04-01 01:23:32</p>
+          <p>订单号：</p>
+          <span>s347484929274490</span>
+          <p>下单时间：</p>
+          <span>2017-04-01 01:23:32</span>
         </div>
         <div class="details">
           <div class="det-left">
@@ -79,8 +81,10 @@
       </div>
             <div class="list-top">
         <div class="order-time">
-          <p>订单号：s347484929274490</p>
-          <p>下单时间：2017-04-01 01:23:32</p>
+           <p>订单号：</p>
+          <span>s347484929274490</span>
+          <p>下单时间：</p>
+          <span>2017-04-01 01:23:32</span>
         </div>
         <div class="details">
           <div class="det-left">
@@ -146,13 +150,42 @@
 <script>
 export default { 
   name: 'HelloWorld',
+  created() {
+    this.ajax.post('/xinda-api/service-order/grid',
+      this.qs.stringify({
+        businessNo:1,
+        startTime:'2017-03-28',
+        endTime:'2017-03-28',
+        start:0,
+
+      })
+    )
+    .then((data)=>{
+       console.log(data);
+    })
+  },
   data () {
     return {
       count:1,
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        }
     }
   }
 }
 </script>
+
+<style lang="less">
+.el-input__inner{
+  height: 23px;
+}
+.el-input__icon{
+  line-height: 0;
+}
+.el-input__prefix {
+    left: 85px;
+}
+</style>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
@@ -208,9 +241,8 @@ export default {
       display: inline-block;
       font-size: 14px;    
     }
-    input{
-      width: 109px;
-      height: 22px;
+    .rili{
+      width: 111px;
     }
   }
   .list{
@@ -252,10 +284,10 @@ export default {
         height: 37px;
         display: flex;
         background-color: #f7f7f7;
+        font-size:12px;
         align-items: center;
         p{
-          display: inline-block;
-          font-size:12px;
+          display: inline-block; 
           margin-left:23px;
         }
       }

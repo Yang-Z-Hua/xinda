@@ -11,6 +11,8 @@ import HuiyuanzhongxinIndex from '@/huiyuanzhongxin/HuiyuanzhongxinIndex'
 import HuiyuanzhongxinForget from '@/huiyuanzhongxin/HuiyuanzhongxinForget'  
 import HuiyuanzhongxinAccount from '@/huiyuanzhongxin/HuiyuanzhongxinAccount'  
 import HuiyuanzhongxinUser from '@/huiyuanzhongxin/HuiyuanzhongxinUser'  
+import HuiyuanzhongxinAlready from '@/huiyuanzhongxin/HuiyuanzhongxinAlready'
+import HuiyuanzhongxinEvaluate from '@/huiyuanzhongxin/HuiyuanzhongxinEvaluate'
 import Dianpu from '@/views/Dianpu'  
 import Dianpushouye from '@/views/Dianpushouye'  
 import Dingdanxiangqing from '@/views/Dingdanxiangqing'  
@@ -86,7 +88,18 @@ export default new Router({
               path: 'huiyuanzhongxinUser',
               name: 'huiyuanzhongxinUser',
               component: HuiyuanzhongxinUser,
-            }
+            },
+            {
+              path: 'huiyuanzhongxinAlready',
+              name: 'huiyuanzhongxinAlready',
+              component: HuiyuanzhongxinAlready,
+            },
+            {
+              path: 'HuiyuanzhongxinEvaluate',
+              name: 'HuiyuanzhongxinEvaluate',
+              component:HuiyuanzhongxinEvaluate,
+            },
+
           ]
         },
         {
