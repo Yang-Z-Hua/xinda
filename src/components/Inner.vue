@@ -42,7 +42,8 @@ export default {
   data() {
     return {
       msg: "Welcome to Your Vue.js App",
-      data1:''
+      data1:'',
+      data:'',
     };
   },
   created(){
@@ -66,7 +67,8 @@ export default {
         query:{
           id:'2e110f0df53243c197fede52fba8e5d0',
           id2:undefined,
-          id3:undefined
+          id3:undefined,
+          code:3
         }
       })
     },
@@ -77,6 +79,7 @@ export default {
           id:'5af629246fa34f6f8d49758c6a7b25f1',
           id3:undefined,
           id2:undefined,
+          code:4
         }
       })
     }

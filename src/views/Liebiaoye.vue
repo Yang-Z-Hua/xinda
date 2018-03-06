@@ -7,7 +7,7 @@
           <ul class="d">
             <li>服务分类</li>
             <li >
-              <p @click="fwflClick(index)" :class="index==background?'blue':''" v-for="(data,index) in data1" :key="data.name">{{data.name}}</p>
+              <p @click="fwflClick(index,data.code)" :class="index==background?'blue':''" v-for="(data,index) in data1" :key="data.name">{{data.name}}</p>
             </li>
           </ul>
           <ul class="d d2">
@@ -31,7 +31,7 @@
             <span>价格</span>
           </div>
           <div class="xq">
-            <div class="list" v-for="a in arr" :key="a.serviceInfo">
+            <div class="list" v-for="a in arr" :key="a.id">
               <img :src='imgSrc+a.productImg' alt="">
               <div class="zcfgs">
                 <ul>{{a.serviceInfo}}</ul>
@@ -91,8 +91,9 @@ export default {
       data:'',
       background:'',
       backgroundlx:'',
-      id2:'',
-      id3:'',
+      id2:undefined,
+      id3:undefined,
+      code:''
     };
   },
   created() {
@@ -107,8 +108,19 @@ export default {
         this.data1=this.$route.query.id;
         this.id2=this.$route.query.id2;
         this.id3=this.$route.query.id3;
-        this.chen();
+        this.code=this.$route.query.code;
         this.fwfl(this.data1);
+        this.chen(this.code,this.id3);
+        if(this.id3){
+        var data=this.data.data.data[this.$route.query.id].itemList[a].itemList;
+        this.sleType=data;
+          for(this.b in this.sleType){
+            if(this.id3==undefined||this.b==this.id3){
+              this.lxclick(this.b,null);
+              break;
+            }
+          }
+        }
       });
   },
   components:{
@@ -119,72 +131,74 @@ export default {
       this.data1=this.$route.query.id;
       this.id2=this.$route.query.id2;
       this.id3=this.$route.query.id3;
-      this.chen();
+      this.code=this.$route.query.code;
       this.fwfl(this.data1);
+      // this.chen(this.$route.query.code);
     }
   },
   methods:{
     next(){
-      if(this.number==2){
-        this.xia1='grey'
-      }
-      if(this.number==3){
-        return
-      }
+      // if(this.number==2){
+      //   this.xia1='grey'
+      // }
+      // if(this.number==3){
+      //   return
+      // }
       this.num+=3;
       this.number++;
       this.chen();
-      this.shang1='blue'
+      // this.shang1='blue'
     },
     prev(){
-      if(this.number==2){
-        this.shang1='grey'
-      }
-      if(this.number==1){
-        return
-      }
+      // if(this.number==2){
+      //   this.shang1='grey'
+      // }
+      // if(this.number==1){
+      //   return
+      // }
       this.num-=3;
-      this.xia1='blue',
+      // this.xia1='blue',
       this.number--;
       this.chen()
     },
     fwfl(a){   //服务分类
         var data=this.data.data.data[a];
         this.data1=data.itemList;
-        console.log(this.id2)
         for(this.b in this.data1){
           if(this.id2==undefined||this.b==this.id2){
-            this.fwflClick(this.b);
+            this.fwflClick(this.b,this.code);
             break
           }
         }
     },
-    fwflClick(index){
+    fwflClick(index,code){
       this.type(index)
       this.background=index;
+      this.chen(code,undefined)
     },
     lxclick(index){
       this.backgroundlx=index;
+      this.chen(0,index)
     },
     type(a){//产品类型列表
         var data=this.data.data.data[this.$route.query.id].itemList[a].itemList;
         this.sleType=data;
-        for(this.b in this.sleType){
-          if(this.id3==undefined||this.b==this.id3){
-            this.lxclick(this.b);
-            break;
-          }
-        }
+        // for(this.b in this.sleType){
+        //   if(this.id3==undefined||this.b==this.id3){
+        //     this.lxclick(this.b);
+        //     break;
+        //   }
+        // }
     },
-    chen(){   //产品服务列表
+    chen(code,id){   //产品服务列表
       this.ajax
       .post(
         "/xinda-api/product/package/grid",
         this.qs.stringify({
          start:this.num,
-         limit:3,
-         productTypeCode: "1",  
-         providerId: "a7304eecbd7246b4b424874e0359eab0",
+         limit:1000,
+         productTypeCode: code,  
+         productId: id,
         })
       )
       .then(data => {
