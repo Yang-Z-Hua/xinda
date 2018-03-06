@@ -13,7 +13,7 @@
           <li class="message">
             <div v-for="(b,key1) in arr1[index].itemList" :key="key1">
               <li class="secondTitle"><p>{{b.name}}></p></li>
-              <li class="thirdTitle"><a href="##" v-for="(c,key2) in arr1[index].itemList[key1].itemList" :key="key2" @click="thirdGo(c,index)">{{c.name}}</a></li>            
+              <li class="thirdTitle"><a href="##" v-for="(c,key2) in arr1[index].itemList[key1].itemList" :key="key2" @click="thirdGo(c,index,b)">{{c.name}}</a></li>            
             </div>
           </li>
         </ul>
@@ -168,9 +168,18 @@ export default {
         }
       })
   },
-  thirdGo(c){
-    console.log(c.id);
-    // console.log()
+  thirdGo(c,index,b){
+    // console.log(c.id);
+    // console.log(b.id);
+    // console.log(index);
+    this.$router.push({
+        path:'/inner/Liebiaoye',
+        query:{
+          id:index,
+          id2:b.id,
+          id3:c.id
+        }
+    })
   }
   
 }
