@@ -46,7 +46,6 @@ export default {
     }))
     .then((data)=>{
       this.arr = data.data.data;
-      console.log(data)
       })
     },
   data () {

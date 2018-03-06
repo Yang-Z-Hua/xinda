@@ -111,6 +111,7 @@ export default {
     this.ajax.post('/xinda-api/product/style/list')
     .then((data)=>{
       this.arr1 = data.data.data;
+      console.log(this.arr1)
     })
   },
   
@@ -160,14 +161,12 @@ export default {
         path:'/inner/liebiaoye',
         query:{
           id:index,
-          id2:b.id
+          id2:b.id,
+          code:b.code
         }
       })
   },
   thirdGo(c,index,b){
-    // console.log(c.id);
-    // console.log(b.id);
-    // console.log(index);
     this.$router.push({
         path:'/inner/liebiaoye',
         query:{
