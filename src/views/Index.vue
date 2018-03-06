@@ -2,63 +2,24 @@
   <div class="outer">
     <div class="allproduct">
       <div class="product_list">
-        <ul v-on:mouseover="on" v-on:mouseout="off">
+        <ul v-for="(a,index) in arr1" :key="index">
           <li class="title">
             <img src="../assets/images/tax.png" alt="">
-            <p>财税服务</p>
+            <p @click="firstGo(index)">{{a.name}}</p>
           </li>
           <li class="example">
-            <a href="##">代理记账</a>
-            <a href="##">税务代办</a>
-            <a href="##">审计报告</a>
+            <a href="##" v-for="(b,key1) in arr1[index].itemList" :key="key1" @click="secondGo(b)">{{b.name}}</a>
           </li>
-          <li v-show="a" class="message_a message">
-
-          </li>
-        </ul>
-        <ul>
-          <li class="title">
-            <img src="../assets/images/tax.png" alt="">
-            <p>公司工商</p>
-          </li>
-          <li class="example">
-            <a href="##">公司注册</a>
-            <a href="##">公司变更</a>
-          </li>
-          <li v-show="b" class="message_b message">
-
-          </li>
-        </ul>
-        <ul>
-          <li class="title">
-            <img src="../assets/images/tax.png" alt="">
-            <p>知识产权</p>
-          </li>
-          <li class="example">
-            <a href="##">专利申请</a>
-            <a href="##">商标注册</a>
-            <a href="##">版权保护</a>
-          </li>
-          <li v-show="c" class="message_c message">
-
-          </li>
-        </ul>
-        <ul class="list_bottom">
-          <li class="title">
-            <img src="../assets/images/tax.png" alt="">
-            <p>社保办理</p>
-          </li>
-          <li class="example">
-            <a href="##">企业社保</a>
-            <a href="##">个人社保</a>
-          </li>
-          <li v-show="d" class="message_d message">
-
+          <li class="message">
+            <div v-for="(b,key1) in arr1[index].itemList" :key="key1">
+              <li class="secondTitle"><p>{{b.name}}></p></li>
+              <li class="thirdTitle"><a href="##" v-for="(c,key2) in arr1[index].itemList[key1].itemList" :key="key2" @click="thirdGo(thirdId)">{{c.name}}</a></li>            
+            </div>
           </li>
         </ul>
       </div>
       <div class="cycle">
-          <div class="swiper-container HM_lb ">
+          <div class="swiper-container HM_lb">
               <div class="swiper-wrapper">
                   <div class="swiper-slide " style="width:100%">
                       <img class="img-responsive" src="../assets/images/logo.jpg" alt="">
@@ -68,7 +29,7 @@
                   </div>
               </div>
         <!-- 如果需要分页器 -->
-        <div class="swiper-pagination"></div>
+          <div class="swiper-pagination"></div>
           </div>
       </div>
         
@@ -92,42 +53,14 @@
       <li class="triangle"></li>
     </ul>
     <div class="company">
-      <div>
-        <ul>
-          <img src="" alt="">
-          <p class="product_title">{{title1}}</p>
-          <li><p class="product_introduce">{{introduce1}}</p></li>
-          <p class="product_price"><span>￥{{price1}}</span>{{unit1}}</p>
+      <div v-for="(a,index) in arr.hq" :key="index">
+          <li class="img"><img :src="imgSrc+a.providerImg" alt=""></li>
+          <p class="product_title">{{a.serviceName.split('（')[0]}}</p>
+          <li><p class="product_introduce">{{a.serviceInfo}}</p></li>
+          <p class="product_price"><span>￥{{a.marketPrice}}</span>{{a.unit}}</p>
           <button>查看详情</button>
-        </ul>
       </div>
-      <div>
-        <ul>
-          <img src="" alt="">
-          <p class="product_title">{{title2}}</p>
-          <li><p class="product_introduce">{{introduce2}}</p></li>
-          <p class="product_price"><span>￥{{price2}}</span>{{unit2}}</p>
-          <button>查看详情</button>
-        </ul>      
-      </div>
-      <div>
-        <ul>
-          <img src="" alt="">
-          <p class="product_title">{{title3}}</p>
-          <li><p class="product_introduce">{{introduce3}}</p></li>
-          <p class="product_price"><span>￥{{price3}}</span>{{unit3}}</p>
-          <button>查看详情</button>
-        </ul>
-      </div>
-      <div>
-        <ul>
-          <img src="" alt="">
-          <p class="product_title">{{title4}}</p>
-          <li><p class="product_introduce">{{introduce4}}</p></li>
-          <p class="product_price"><span>￥{{price4}}</span>{{unit4}}</p>
-          <button>查看详情</button>
-        </ul>
-      </div>
+      
     </div>
     <!-- 知识产权 -->
     <ul class="product_star">
@@ -173,48 +106,24 @@ export default {
   created() {
     this.ajax.post('/xinda-api/recommend/list')
     .then((data)=>{
-      console.log(data.data.data);
-      this.title1 = data.data.data.product[0].serviceName.split('（')[0];
-      this.introduce1 = data.data.data.product[0].serviceInfo;
-      this.price1 = data.data.data.product[0].marketPrice;
-      this.unit1 = data.data.data.product[0].unit;
-      this.title2 = data.data.data.product[1].serviceName.split('（')[0];
-      this.introduce2 = data.data.data.product[1].serviceInfo;
-      this.price2 = data.data.data.product[1].marketPrice;
-      this.unit2 = data.data.data.product[1].unit;
-      this.title3 = data.data.data.product[2].serviceName.split('（')[0];
-      this.introduce3 = data.data.data.product[2].serviceInfo;
-      this.price3 = data.data.data.product[2].marketPrice;
-      this.unit3 = data.data.data.product[2].unit;
-      this.title4 = data.data.data.product[3].serviceName.split('(')[0];
-      this.introduce4 = data.data.data.product[3].serviceInfo;
-      this.price4 = data.data.data.product[3].marketPrice;
-      this.unit4 = data.data.data.product[3].unit;
+      this.arr = data.data.data;
+    });
+    this.ajax.post('/xinda-api/product/style/list')
+    .then((data)=>{
+      this.arr1 = data.data.data;
     })
   },
+  
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
-      a:0,
-      b:0,
-      c:0,
-      d:0,
-      title1:'',
-      introduce1:'',
-      price1:'',
-      unit1:'',
-      title2:'',
-      introduce2:'',
-      price2:'',
-      unit2:'',
-      title3:'',
-      introduce3:'',
-      price3:'',
-      unit3:'',
-      title4:'',
-      introduce4:'',
-      price4:'',
-      unit4:'',
+      arr:'',
+      arr1:'',
+      arr2:'',
+      imgSrc:'http://123.58.241.146:8088/xinda/pic',
+      a:'',
+      b:'',
+      k:''
     }
   },
   mounted(){
@@ -234,12 +143,25 @@ export default {
 })
   },
   methods:{
-  on:function(eve){
-    this.a = 1;
+  // on(index){
+  //   // console.log(this.arr1[index].itemList);
+  //   let arr2 = this.arr1[index].itemList;
+  //   console.log(this.index)
+  // },
+  // off:function(eve){
+  //   this.a = 0;
+  // },
+  firstGo(index){
+    this.$router.push({
+        path:'/inner/Liebiaoye',
+        query:{
+          id:this.arr1[index].id
+        }
+      })
   },
-  off:function(eve){
-    this.a = 0;
-  },
+  secondGo(b){
+    console.log(b)
+  }
   
 }
 }
@@ -256,14 +178,12 @@ export default {
 }
 .allproduct{
   width: 1200px;
-  height: 400px;
   display: flex;
   .product_list{
     width: 200px;
-    height: 400px;
     background-color: #1b2d43;
     ul{
-      padding: 18px 14px 17px;
+      padding: 18px 14px 18px;
       position: relative;
       p{
         color: #d5d7d9;
@@ -289,22 +209,38 @@ export default {
       }
       .message{
         width: 1000px; 
+        height: 100%;
         background-color: red;
         position: absolute;
+        z-index: 9;
         top: 0;
         left: 200px;
-      }
-      .message_a{
-        height: 112px;
-      }
-      .message_b{
-        height: 88px;
-      }
-      .message_c{
-        height: 113px;
-      }
-      .message_d{
-        height: 89px;
+        opacity: .4;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        font-size: 13px;
+        a{
+          margin: 0;
+          border-left: 1px solid #ccc;
+          padding: 0 5px 0 10px;
+          margin: 5px 0;
+        }
+        div{
+          width: 1000px;
+          display: flex;
+          line-height: 17px;
+          li{
+            display: flex;
+            flex-wrap: wrap;         
+          }
+          .secondTitle{
+            width: 100px;
+          }
+          .thirdTitle{
+            width: 900px;
+          }
+        }
       }
     }
     .list_bottom{
@@ -360,18 +296,27 @@ export default {
   margin-top: 48px;
   display: flex;
   justify-content: space-between;
-  ul{
+ 
+  div{
     width: 270px;
     height: 462px;
     border: 1px solid #e8e8e8;
     display: flex;
     flex-direction: column;
     align-items: center;
+    .img{
+      display: flex;
+      align-items: center;
+      height: 158px;
+      img{
+          width: 256px;    
+  }
+    }
     .product_title{
         font-size: 16px;
         font-weight: bold;
         color: black;
-        margin-top: 48px
+        margin-top: 20px
       }
       li{
         width: 90%;
