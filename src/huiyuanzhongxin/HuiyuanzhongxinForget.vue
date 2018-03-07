@@ -42,11 +42,9 @@ export default {
   },
   created(){
     this.user=this.$parent.$parent.$parent.user;
-    console.log(this.user)
   },
   methods:{
     save(){
-      console.log(this.old,this.new1,this.reNew1);
       if(this.new1!=this.reNew1){
         this.passwordTip='两次密码不匹配'
       }else{
@@ -62,11 +60,9 @@ export default {
             })
           )
           .then(data => {
-           console.log(data)
            this.passwordTip=data.data.msg
         });
       }
-      
     }
   }
 };
