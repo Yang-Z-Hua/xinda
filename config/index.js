@@ -10,14 +10,7 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-<<<<<<< HEAD
-    proxyTable: {'/xinda-api/':
-     {
-      target: "http://123.58.241.146:8088/xinda/ ",
-      changeOrigin: true,
-    }
-  },
-=======
+
     proxyTable: {
       '/xinda-api/': {
         target: "http://123.58.241.146:8088/xinda/",
@@ -31,7 +24,6 @@ module.exports = {
         errorOverlay: true,
         notifyOnErrors: true,
         poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
->>>>>>> 6dea637d165df5daf8b624552a156e1b76f07bf6
 
 
         /**
