@@ -98,7 +98,10 @@ import md5 from 'md5';
               this.$parent.$parent.user=this.phone
               this.$parent.$parent.denglu=''
               this.$parent.$parent.ljzc=''
-              this.$parent.$parent.tuichu='[退出]'
+              this.$parent.$parent.tuichu='[退出]';
+              this.$router.push({
+                path:'/'
+              })
             }
           });
 

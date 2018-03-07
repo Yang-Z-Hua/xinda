@@ -4,7 +4,7 @@
     <div class="head">
       <ul class="mmm">
         <div class="left">
-          <li>{{user}} 欢迎来到信达！</li>
+          <li><router-link to="/inner/huiyuanzhongxin">{{user}}</router-link> 欢迎来到信达！</li>
           <li>{{tuichu}}</li>
           <li><a href="#/outter/login">{{denglu}}</a></li>
           <li><a href="#/outter/register">{{ljzc}}</a></li>
