@@ -34,7 +34,6 @@ export default {
     this.$parent.meth = "立即登录";
     this.$parent.tb = "忘记密码";
     this.$parent.de = "login";
-    
   },
   data () {
     return {
