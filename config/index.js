@@ -10,6 +10,7 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
+
     proxyTable: {
       '/xinda-api/': {
         target: "http://123.58.241.146:8088/xinda/",

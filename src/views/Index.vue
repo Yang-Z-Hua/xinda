@@ -8,12 +8,12 @@
             <p>{{a.name}}</p>
           </li>
           <li class="example">
-            <a v-for="(b,key1) in arr1[index].itemList" :key="key1" @click="secondGo(b,index)">{{b.name}}</a>
+            <a v-for="(b,key1) in arr1[index].itemList" :key="key1" @click="secondGo(a,b,index)">{{b.name}}</a>
           </li>
           <li class="message">
             <div v-for="(b,key1) in arr1[index].itemList" :key="key1">
               <li class="secondTitle"><p>{{b.name}}></p></li>
-              <li class="thirdTitle"><a v-for="(c,key2) in arr1[index].itemList[key1].itemList" :key="key2" @click="thirdGo(c,index,b)">{{c.name}}</a></li>            
+              <li class="thirdTitle"><a v-for="(c,key2) in arr1[index].itemList[key1].itemList" :key="key2" @click="thirdGo(a,c,index,b)">{{c.name}}</a></li>            
             </div>
           </li>
         </ul>
@@ -143,7 +143,6 @@ export default {
   },
   methods:{
   show(index){
-    console.log(index)
   },
   // off:function(eve){
   //   this.a = 0;
@@ -156,20 +155,22 @@ export default {
   //       }
   //     })
   // },
-  secondGo(b,index){
+  secondGo(a,b,index){
     this.$router.push({
         path:'/inner/liebiaoye',
         query:{
+          firstName:a.name,
           id:index,
           id2:b.id,
           code:b.code
         }
       })
   },
-  thirdGo(c,index,b){
+  thirdGo(a,c,index,b){
     this.$router.push({
         path:'/inner/liebiaoye',
         query:{
+          firstName:a.name,
           id:index,
           id2:b.id,
           id3:c.id

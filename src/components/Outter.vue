@@ -87,7 +87,8 @@ export default {
     .d2 img{
       vertical-align: middle;
       margin-left: 36px;
-      margin-top: -2px
+      margin-top: -2px;
+      cursor: pointer;
     }
     .d3 span.qq{
       border: 1px solid ;
@@ -106,6 +107,7 @@ export default {
       text-align: center;
       line-height: 34px;
       border-radius: 4px;
+      cursor: pointer;
     };
   }
  .zj input{

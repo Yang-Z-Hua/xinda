@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import md5 from 'md5';
 export default {
   name: 'HelloWorld',
   created() {
@@ -108,7 +109,7 @@ export default {
               cellphone: this.phone,
               smsType: 1,
               validCode:111111	,					
-              password:this.password
+              password:md5(this.password)
             })
           )
           .then(data => {

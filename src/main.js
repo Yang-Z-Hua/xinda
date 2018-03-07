@@ -8,6 +8,7 @@ import router from './router'
 import axios from 'axios'
 import qs from 'qs'
 
+<<<<<<< HEAD
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 // import App from './App.vue'
@@ -17,6 +18,8 @@ Vue.config.productionTip = false
 
 
 
+=======
+>>>>>>> 74cbb1307e0ab82ed19a6c6f92b9444fd076cdb5
 Vue.config.productionTip = false
 axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded';
 Vue.prototype.ajax = axios;

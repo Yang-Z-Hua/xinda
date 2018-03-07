@@ -161,7 +161,7 @@ export default {
                           cellphone: this.phone,
                           smsType: 1,
                           validCode:'111111',						
-                          password:this.pass, 
+                          password:md5(this.pass), 
                           regionId:this.areaNum
 
                         })
@@ -194,6 +194,7 @@ div div ul.d3 {
   margin: 0 !important;
   span.qq {
     border: 1px solid !important;
+    cursor: pointer;
   }
 }
 span.tip {
