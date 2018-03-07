@@ -11,7 +11,16 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
-  }
+  },
+  created(){
+  this.ajax.post('/xinda-api/product/package/detail',this.qs.stringify({
+        sId:'0cb85ec6b63b41fc8aa07133b6144ea3'
+    }))
+    .then((data)=>{
+      console.log(data)
+    });
+  },
+  
 }
 </script>
 

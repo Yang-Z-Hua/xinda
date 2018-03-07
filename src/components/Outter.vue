@@ -89,7 +89,7 @@ export default {
       margin-left: 36px;
       margin-top: -2px
     }
-    .d3 span{
+    .d3 span.qq{
       border: 1px solid ;
       color: #2693d4;
       font-size: 18px;
@@ -108,7 +108,7 @@ export default {
       border-radius: 4px;
     };
   }
-  input{
+ .zj input{
     border-radius: 4px;
     outline: none;
     border: 1px solid #cbcbcb;
@@ -117,14 +117,6 @@ export default {
     margin-bottom:18px; 
     padding-left: 10px;
   }
-  select{
-    width: 95px;
-    border-radius: 4px;
-    outline: none;
-    border: 1px solid #cbcbcb;
-    height: 34px;
-    margin-bottom:18px; 
-  };
   a{
     text-decoration: none!important;
   }

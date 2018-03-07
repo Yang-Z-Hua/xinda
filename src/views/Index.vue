@@ -2,63 +2,24 @@
   <div class="outer">
     <div class="allproduct">
       <div class="product_list">
-        <ul v-on:mouseover="on" v-on:mouseout="off">
+        <ul v-for="(a,index) in arr1" :key="index" @mouseover="show(index)">
           <li class="title">
             <img src="../assets/images/tax.png" alt="">
-            <p>财税服务</p>
+            <p>{{a.name}}</p>
           </li>
           <li class="example">
-            <a href="##">代理记账</a>
-            <a href="##">税务代办</a>
-            <a href="##">审计报告</a>
+            <a v-for="(b,key1) in arr1[index].itemList" :key="key1" @click="secondGo(b,index)">{{b.name}}</a>
           </li>
-          <li v-show="a" class="message_a message">
-
-          </li>
-        </ul>
-        <ul>
-          <li class="title">
-            <img src="../assets/images/tax.png" alt="">
-            <p>公司工商</p>
-          </li>
-          <li class="example">
-            <a href="##">公司注册</a>
-            <a href="##">公司变更</a>
-          </li>
-          <li v-show="b" class="message_b message">
-
-          </li>
-        </ul>
-        <ul>
-          <li class="title">
-            <img src="../assets/images/tax.png" alt="">
-            <p>知识产权</p>
-          </li>
-          <li class="example">
-            <a href="##">专利申请</a>
-            <a href="##">商标注册</a>
-            <a href="##">版权保护</a>
-          </li>
-          <li v-show="c" class="message_c message">
-
-          </li>
-        </ul>
-        <ul class="list_bottom">
-          <li class="title">
-            <img src="../assets/images/tax.png" alt="">
-            <p>社保办理</p>
-          </li>
-          <li class="example">
-            <a href="##">企业社保</a>
-            <a href="##">个人社保</a>
-          </li>
-          <li v-show="d" class="message_d message">
-
+          <li class="message">
+            <div v-for="(b,key1) in arr1[index].itemList" :key="key1">
+              <li class="secondTitle"><p>{{b.name}}></p></li>
+              <li class="thirdTitle"><a v-for="(c,key2) in arr1[index].itemList[key1].itemList" :key="key2" @click="thirdGo(c,index,b)">{{c.name}}</a></li>            
+            </div>
           </li>
         </ul>
       </div>
       <div class="cycle">
-          <div class="swiper-container HM_lb ">
+          <div class="swiper-container HM_lb">
               <div class="swiper-wrapper">
                   <div class="swiper-slide " style="width:100%">
                       <img class="img-responsive" src="../assets/images/logo.jpg" alt="">
@@ -68,7 +29,7 @@
                   </div>
               </div>
         <!-- 如果需要分页器 -->
-        <div class="swiper-pagination"></div>
+          <div class="swiper-pagination"></div>
           </div>
       </div>
         
@@ -80,18 +41,10 @@
       <li class="triangle"></li>
     </ul>
     <div class="star_list">
-      <div>
-        <ul><img src="../assets/images/u10.png" alt=""></ul>
-      </div>
-      <div>
-        <ul><img src="../assets/images/u12.png" alt=""></ul>
-      </div>
-      <div>
-        <ul><img src="../assets/images/u14.png" alt=""></ul>
-      </div>
-      <div>
-        <ul><img src="../assets/images/u16.png" alt=""></ul>
-      </div>
+      <img src="../assets/images/u10.png" alt="">
+      <img src="../assets/images/u12.png" alt="">
+      <img src="../assets/images/u14.png" alt="">
+      <img src="../assets/images/u16.png" alt="">
     </div>
 
     <!-- 初创企业必备 -->
@@ -100,10 +53,14 @@
       <li class="triangle"></li>
     </ul>
     <div class="company">
-      <ul><img src="../assets/images/qiye.png" alt=""></ul>
-      <ul><img src="../assets/images/qiye.png" alt=""></ul>
-      <ul><img src="../assets/images/qiye.png" alt=""></ul>
-      <ul><img src="../assets/images/qiye.png" alt=""></ul>
+      <div v-for="(a,index) in arr.hq" :key="index">
+          <li class="img"><img :src="imgSrc+a.providerImg" alt=""></li>
+          <p class="product_title">{{a.serviceName.split('（')[0]}}</p>
+          <li><p class="product_introduce">{{a.serviceInfo}}</p></li>
+          <p class="product_price"><span>￥{{a.marketPrice}}</span>{{a.unit}}</p>
+          <button>查看详情</button>
+      </div>
+      
     </div>
     <!-- 知识产权 -->
     <ul class="product_star">
@@ -130,6 +87,8 @@
       <img src="../assets/images/zanshi.png" alt="">
       <img src="../assets/images/zanshi.png" alt="">
     </ul>
+
+
     <!-- 合作伙伴 -->
     <ul class="product_star">
       <p>合作伙伴</p>
@@ -141,24 +100,33 @@
 
 <script>
 import '../assets/swiper.js'
+
 export default {
   name: 'HelloWorld',
   created() {
     this.ajax.post('/xinda-api/recommend/list')
     .then((data)=>{
+      this.arr = data.data.data;
+    });
+    this.ajax.post('/xinda-api/product/style/list')
+    .then((data)=>{
+      this.arr1 = data.data.data;
+      console.log(data)
     })
   },
+  
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
-      a:0,
-      b:0,
-      c:0,
-      d:0,
+      arr:'',
+      arr1:'',
+      arr2:'',
+      imgSrc:'http://123.58.241.146:8088/xinda/pic',
+      currentIndex:-1,
     }
   },
   mounted(){
-     var mySwiper = new Swiper('.HM_lb', {
+    var mySwiper = new Swiper('.HM_lb', {
   direction: 'horizontal',
   loop: true,
   autoplay: 3000,
@@ -169,17 +137,46 @@ export default {
   //   scrollbar: '.swiper-scrollbar',
   effect: 'fade',
   fade: {
-    crossFade: true,
+    crossFade: 4,
   }
 })
   },
   methods:{
-  on:function(eve){
-    this.a = 1;
+  show(index){
+    console.log(index)
   },
-  off:function(eve){
-    this.a = 0;
+  // off:function(eve){
+  //   this.a = 0;
+  // },
+  // firstGo(index){
+  //   this.$router.push({
+  //       path:'/inner/liebiaoye',
+  //       query:{
+  //         id:this.arr1[index].id
+  //       }
+  //     })
+  // },
+  secondGo(b,index){
+    this.$router.push({
+        path:'/inner/liebiaoye',
+        query:{
+          id:index,
+          id2:b.id,
+          code:b.code
+        }
+      })
+  },
+  thirdGo(c,index,b){
+    this.$router.push({
+        path:'/inner/liebiaoye',
+        query:{
+          id:index,
+          id2:b.id,
+          id3:c.id
+        }
+    })
   }
+  
 }
 }
 
@@ -195,14 +192,12 @@ export default {
 }
 .allproduct{
   width: 1200px;
-  height: 400px;
   display: flex;
   .product_list{
     width: 200px;
-    height: 400px;
     background-color: #1b2d43;
     ul{
-      padding: 18px 14px 17px;
+      padding: 18px 14px 18px;
       position: relative;
       p{
         color: #d5d7d9;
@@ -212,6 +207,7 @@ export default {
         color: #d5d7d9;
         margin: 0 2px 0 18px;
         text-decoration: none;
+        cursor: pointer;
       }
       li{
         display: flex;
@@ -222,28 +218,44 @@ export default {
         font-size: 16px;
       }
       .example{
-        line-height: 25px;
+        line-height: 28px;
         font-size: 14px;
         padding-left: 17px;
       }
       .message{
         width: 1000px; 
+        height: 100%;
         background-color: red;
         position: absolute;
+        z-index: 9;
         top: 0;
         left: 200px;
-      }
-      .message_a{
-        height: 112px;
-      }
-      .message_b{
-        height: 88px;
-      }
-      .message_c{
-        height: 113px;
-      }
-      .message_d{
-        height: 89px;
+        opacity: .4;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        font-size: 13px;
+        a{
+          border-left: 1px solid #ccc;
+          padding: 0 5px 0 10px;
+          margin: 3px 0;
+        }
+        div{
+          width: 1000px;
+          display: flex;
+          line-height: 17px;
+          li{
+            display: flex;
+            flex-wrap: wrap;         
+          }
+          .secondTitle{
+            width: 100px;
+          }
+          .thirdTitle{
+            width: 900px;
+          }
+        }
+        // display: none;
       }
     }
     .list_bottom{
@@ -288,15 +300,10 @@ export default {
   margin-top: 46px;
   display: flex;
   justify-content: space-between;
-  ul{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    img{
-      width: 276px;
-      height: 404px;
+  img{
+      width:254px;
+      height: 382px;
     }
-  }
 }
 .company{
   width: 1200px;
@@ -304,6 +311,58 @@ export default {
   margin-top: 48px;
   display: flex;
   justify-content: space-between;
+ 
+  div{
+    width: 270px;
+    height: 462px;
+    border: 1px solid #e8e8e8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .img{
+      display: flex;
+      align-items: center;
+      height: 158px;
+      img{
+          width: 256px;    
+  }
+    }
+    .product_title{
+        font-size: 16px;
+        font-weight: bold;
+        color: black;
+        margin-top: 20px
+      }
+      li{
+        width: 90%;
+        height: 70px;
+        margin-top: 14px;
+        .product_introduce{
+          font-size: 14px;
+      }
+      }
+      
+      .product_price{
+        font-size: 14px;
+        color:#3d3d3d;
+        margin-top: 28px;
+        span{
+          font-size: 24px;
+          color:#2692d2;
+        }
+      }
+      button{
+        width: 157px;
+        height: 44px;
+        outline: none;
+        border: 2px solid #2693d4;
+        border-radius: 4px;
+        color: #2693d4;
+        font-size: 16px;
+        background-color: transparent;
+        margin-top: 36px;
+      }
+  }
 }
 
 // 知识产权

@@ -70,7 +70,7 @@
           </div>
           <div class="det-right">
             <div class="zhong">
-              <p class="xg">修改</p>
+              <p class="xg">付款</p>
               <p class="scdd">删除订单</p>
             </div>
            
@@ -128,7 +128,7 @@
           </div>
           <div class="det-right">
             <div class="zhong">
-              <p class="xg">修改</p>
+              <p class="xg">付款</p>
               <p class="scdd">删除订单</p>
             </div>
           </div>
