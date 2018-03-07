@@ -57,7 +57,7 @@ import md5 from 'md5';
             })
           )
           .then(data => {
-            console.log(data);
+            // console.log(data);
            
           });
       },
@@ -70,7 +70,7 @@ import md5 from 'md5';
             })
           )
           .then(data => {
-            console.log(data);
+            // console.log(data);
            
           });
       },
@@ -89,7 +89,7 @@ import md5 from 'md5';
             })
           )
           .then(data => {
-            console.log(data);
+            // console.log(data);
             if(data.data.status==-1){
               this.tip=data.data.msg;
               this.cha()
