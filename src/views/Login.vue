@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import md5 from 'md5';
   export default {
     name: "HelloWorld",
     created() {
@@ -82,7 +83,7 @@
             "/xinda-api/sso/login",
             this.qs.stringify({
               loginId: this.phone,
-              password:this.password, 
+              password:md5(this.password), 
               imgCode:this.yzm
 
             })

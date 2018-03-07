@@ -83,4 +83,7 @@ export default {
         };
     }
     span{color: red}
+    select{
+        cursor: pointer;
+    }
 </style>

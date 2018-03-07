@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="bt">首页/公司工商</div>
+    <div class="bt">首页/{{firstName}}</div>
     <div class="all">
       <div class="left">
         <div class="sh">
@@ -100,7 +100,8 @@ export default {
       fyId: "",
       i: 0,
       nextTip: "",
-      prevTip: ""
+      prevTip: "",
+      firstName:''
     };
   },
   created() {
@@ -111,6 +112,7 @@ export default {
         this.data1 = this.$route.query.id;
         this.id2 = this.$route.query.id2;
         this.id3 = this.$route.query.id3;
+        this.firstName = this.$route.query.firstName;
         this.code = this.$route.query.code;
         this.fwfl(this.data1);
       });
@@ -125,6 +127,7 @@ export default {
       this.id2 = this.$route.query.id2;
       this.id3 = this.$route.query.id3;
       this.code = this.$route.query.code;
+      this.firstName = this.$route.query.firstName;
       this.fwfl(this.data1);
     }
   },
