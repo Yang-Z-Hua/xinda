@@ -126,24 +126,19 @@ export default {
       this.id3 = this.$route.query.id3;
       this.code = this.$route.query.code;
       this.fwfl(this.data1);
-      // this.chen(this.$route.query.code);
     }
   },
   methods: {
     next() {
       this.prevTip = 0;
-      if (this.num + 1 >= this.arrLength) {
+      if (this.arrLength<3) {
         this.nextTip = 1;
-        // this.xia1='grey';
         return;
       } else {
         this.num += 3;
         this.number++;
         this.chen(this.fyCode, this.fyId);
         this.shang1 = "blue";
-        if (this.num + 1 >= this.arrLength) {
-          // this.xia1='grey';
-        }
       }
     },
     prev() {
@@ -155,9 +150,6 @@ export default {
       this.num -= 3;
       (this.xia1 = "blue"), this.number--;
       this.chen(this.fyCode, this.fyId);
-      if (this.number == 1) {
-        // this.shang1='grey';
-      }
     },
     fwfl(a) {
       //就开始调用一次
@@ -215,7 +207,6 @@ export default {
           })
         )
         .then(data => {
-          console.log(data)
           this.arr = data.data.data;
           this.arrLength = this.arr.length;
           console.log(data);
@@ -365,7 +356,7 @@ export default {
         color: red;
         line-height: 35px;
         position: absolute;
-        right: 270px;
+        left:580px;
       }
       position: relative;
       margin: 29px auto 202px;

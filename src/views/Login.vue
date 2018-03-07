@@ -17,8 +17,8 @@
         </ul>
         <ul class="d3"><input type="text"><router-link to='forget'>忘记密码？</router-link></ul>
         <ul class="d6" @click="login">立即登录</ul>
-        <i @click="rf">添加数据</i>
-        <i @click="xss">显示数据</i>
+        <i @click="rf">添加购物车产品服务数据</i>
+        <i @click="xss">显示购物车产品服务数据</i>
       </div>   
     </div>
 </template>
@@ -51,7 +51,7 @@
           .post(
             "xinda-api/cart/add",
             this.qs.stringify({
-              id:"c3dbb4e69d6247ba9ef6785f573518a1",
+              id:"f2332ef103c54c2db3f517119cde536e",
 	          	num:11,
             })
           )
