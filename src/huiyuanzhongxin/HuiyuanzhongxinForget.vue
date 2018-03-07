@@ -56,10 +56,10 @@ export default {
             this.qs.stringify({
               oldPwd:md5(this.old) ,	 
               newPwd:md5(this.new1)
-
             })
           )
           .then(data => {
+            console.log(data)
            this.passwordTip=data.data.msg
         });
       }

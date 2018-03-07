@@ -22,7 +22,7 @@
         <li class="zt">订单状态</li>
         <li class="cz">订单操作</li>
       </ul>
-      <div class="list-top">
+      <div class="list-top" v-for="dd in data" :key="dd.id">
         <div class="order-time">
           <p>订单号：</p>
           <span>s347484929274490</span>
@@ -34,17 +34,17 @@
             <div class="manei" >
               <div class="zuo">
                 <div class="img">
-
+                  <img :src="imgSrc+dd.providerImg" alt="">
                 </div>
                 <div class="xdfw">
-                  <p></p>
-                  <p></p>
+                  <p>{{dd.providerName}}</p>
+                  <p>{{dd.serviceName}}</p>
                 </div>
-                <span></span>
-                <span class="one"></span>
+                <p>￥{{dd.unitPrice}}.00</p>
+                <span class="one">{{dd.buyNum}}</span>
               </div>
               <div class="zongjia">
-                <p></p>
+                <p>￥{{dd.totalPrice}}.00</p>
               </div>
               <div class="ddzhuangt">
                 <p>等待买家付款</p>
@@ -72,14 +72,25 @@
 <script>
 export default {
   name: "HelloWorld",
-
+  data() {
+    return {
+      count: 1,
+      data: "",
+      startDate:'',
+      endDate:'',
+      imgSrc: "http://123.58.241.146:8088/xinda/pic",
+      disabledDate(time) {
+        return time.getTime() > Date.now();
+      }
+    }
+  },
   created() {
     this.ajax.post("/xinda-api/cart/list",
      this.qs.stringify({
 
      }))
      .then(data => { 
-      this.data = data;
+      this.data = data.data.data;
       console.log(data);
     });
 
@@ -95,22 +106,14 @@ export default {
     // .then((data)=>{
     //   //  console.log(data);
     // })
-  },
-
-  data() {
-    return {
-      count: 1,
-      data: "",
-
-      disabledDate(time) {
-        return time.getTime() > Date.now();
-      }
-    };
   }
 };
 </script>
 
 <style lang="less">
+.el-input--prefix .el-input__inner{
+  padding: 0;
+}
 .el-input__inner {
   height: 23px;
 }
@@ -249,9 +252,8 @@ export default {
               border-right: 1px solid #e8e8e8;
               .img {
                 width: 48px;
-                height: 48px;
-                background-color: red;
                 margin-left: 12px;
+                overflow: hidden;
               }
               .xdfw {
                 margin-left: 11px;

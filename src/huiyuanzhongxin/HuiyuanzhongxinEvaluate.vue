@@ -20,7 +20,7 @@
         </div>
         <div class="pingjia">
             <p>评价：</p>
-            <input type="radio" name="radio" vulue="1">好评
+            <input type="radio" name="radio" vulue="1" checked="checked">好评
             <input type="radio" name="radio" vulue="1">中评
             <input type="radio" name="radio" vulue="1">差评
         </div>
@@ -38,8 +38,6 @@
                     <span>★</span>
                     <input type="radio" name="b" value="4" v-model="inputdata" />
                     <span>★</span>
-                    <!-- <input type="radio" name="b" value="5" v-model="inputdata" />
-                    <span>★</span> -->
                 </p>
             </div>
         </div>
@@ -65,7 +63,7 @@ export default {
     },
     watch: {
     inputdata(value) {
-    console.log(value)
+
     }
   }
 }
@@ -143,14 +141,9 @@ export default {
     width:2em;
     height:3em;
 }
-// .all>span:nth-of-type(1){
-//     display:none;
-// }
 .all>span{
     font-size:2em;
     color:gold;
-    // -webkit-transition:color.2s;
-    // transition:color.2s;
 }
 .all>input:checked~span{
     color:#666;

@@ -41,6 +41,30 @@ export default {
     return {
       count:1,
     }
+  },
+  created() {
+    this.ajax.post("/xinda-api/service/judge/grid",
+      this.qs.stringify({
+        start:0,
+        limit:6,
+        status:2
+      }))
+      .then(data => { 
+      this.data = data.data.data;
+      console.log(data);
+    });
+    this.ajax.post("/xinda-api/service/judge/submit",     //评价
+      this.qs.stringify({
+        id:'f2332ef103c54c2db3f517119cde536e',
+        type:1,
+        score:5	,
+        content:'服务好，赞！',
+
+
+      }))
+      .then(data => { 
+        console.log(data)
+    })
   }
 }
 </script>

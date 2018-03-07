@@ -18,8 +18,8 @@
      </div>
      <div class="xingbie">
        <p>性别：</p>
-       <input type="radio" name="radio" vulue="1" class="nan" >男
-       <input type="radio" name="radio" vulue="2" class="nv" >女
+       <input type="radio" name="radio" vulue="1" :checked="aaa"  class="nan" @click="man">男
+       <input type="radio" name="radio" vulue="2" :checked="bbb" class="nv" @click="woman" >女
      </div>
      <div class="youxiang">
       <p>邮箱：</p>
@@ -29,10 +29,10 @@
      <div class="diqu">
        <p>所在地区：</p>
        <div class="shq">
-          <Area display='ar'/>
+          <Area @confirm='bianma' display='ar'/>
        </div>
      </div>
-     <p class="baocun">保存</p>
+     <p class="baocun" @click="send">保存</p>
   </div>
 </div>
 </template>
@@ -42,9 +42,20 @@ import Area from '../components/Area'
 export default {
   name: 'HelloWorld',
   created() {
-    this.ajax.post('/xinda-api/member/info')
+    this.ajax.post("/xinda-api/member/info",
+      this.qs.stringify({
+
+      }))
     .then((data)=>{
-       console.log(data);
+      this.data = data.data.data
+       console.log(this.data);
+       this.mingzi = this.data.name;
+       this.pgone = this.data.email;
+       if(this.data.gender == 1){
+         this.aaa=true
+       }else{
+         this.bbb=true
+       }
     })
   },
   data () {
@@ -53,12 +64,40 @@ export default {
       pgonets:'',//邮箱提示
       mingzi:'',//姓名
       mingzits:'',//姓名提示 
+      sex:1,
+      youbian:'',
+      aaa:false,
+      bbb:false
     }
   },
   components:{
     Area
   },
   methods: {
+    bianma(a){
+      // console.log(a)
+      this.youbian=a
+    },
+    man(){
+      this.sex=1
+    },
+    woman(){
+      this.sex=2
+    },
+    send(){
+        this.ajax.post("/xinda-api/member/update-info",
+          this.qs.stringify({
+              headImg:'/2016/10/28/152843b6d9a04abe83a396d2ba03675f',
+              name:this.mingzi,
+              gender:this.sex,
+              email:this.pgone,
+              regionId:this.youbian
+          }))
+        .then((data)=>{
+          // console.log(data);
+
+        })
+    },
     email() {
       var a = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
       if (!a.test(this.pgone)) {
@@ -134,8 +173,9 @@ export default {
     span{
       width: 96px;
       height: 96px;
-      background-color: red;
       margin-left: 28px;
+      overflow: hidden;
+      background-color:red;
     }
   }
   .information{
