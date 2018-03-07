@@ -159,7 +159,7 @@ export default {
     this.$router.push({
         path:'/inner/liebiaoye',
         query:{
-          firstNmae:a.name,
+          firstName:a.name,
           id:index,
           id2:b.id,
           code:b.code
@@ -170,7 +170,7 @@ export default {
     this.$router.push({
         path:'/inner/liebiaoye',
         query:{
-          firstNmae:a.name,
+          firstName:a.name,
           id:index,
           id2:b.id,
           id3:c.id
