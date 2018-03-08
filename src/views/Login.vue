@@ -70,7 +70,7 @@ import md5 from 'md5';
             })
           )
           .then(data => {
-            // console.log(data);
+            console.log(data);
            
           });
       },
@@ -104,7 +104,6 @@ import md5 from 'md5';
               })
             }
           });
-
       }
     }
   };

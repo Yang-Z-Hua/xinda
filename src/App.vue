@@ -5,7 +5,7 @@
       <ul class="mmm">
         <div class="left">
           <li><router-link to="/inner/huiyuanzhongxin">{{user}}</router-link> 欢迎来到信达！</li>
-          <li>{{tuichu}}</li>
+          <li @click="logOut">{{tuichu}}</li>
           <li><a href="#/outter/login">{{denglu}}</a></li>
           <li><a href="#/outter/register">{{ljzc}}</a></li>
         </div>
@@ -30,7 +30,25 @@ export default {
       ljzc:'立即注册',
       tuichu:''
     }
-
+  },
+  methods:{
+    logOut(){
+      this.ajax
+          .post(
+            "/xinda-api/sso/logout",
+            this.qs.stringify({
+            })
+          )
+          .then(data => {
+      });
+      this.user='';
+      this.tuichu='';
+      this.denglu='登录';
+      this.ljzc='立即注册';
+      this.$router.push({
+        path:'/'
+      })
+    }
   }
 }
 
@@ -63,6 +81,9 @@ export default {
 }
 .mmm .left li:nth-child(1) {
   color: black;
+}
+.mmm .left li:nth-child(2) {
+  cursor: pointer;
 }
 .mmm .left li {
   margin-right: 18px;

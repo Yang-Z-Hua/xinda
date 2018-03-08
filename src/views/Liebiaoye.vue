@@ -40,7 +40,7 @@
               </div>
               <div class="sizeal">
                 <ul>￥{{a.marketPrice}}</ul>
-                <li><span>立即购买</span><span>加入购物车</span></li>
+                <li><span @click="buy(a.id)">立即购买</span><span @click="gouwuche(a.id)">加入购物车</span></li>
               </div>
             </div>
             <div class="tsnr" v-if="!arrLength">当前选项无内容</div>
@@ -101,7 +101,7 @@ export default {
       i: 0,
       nextTip: "",
       prevTip: "",
-      firstName:''
+      firstName: ""
     };
   },
   created() {
@@ -132,9 +132,39 @@ export default {
     }
   },
   methods: {
+    gouwuche(id1) {
+      // console.log(id);
+      this.ajax
+        .post(
+          "xinda-api/cart/add",
+          this.qs.stringify({
+            id: id1,
+            num: 1
+          })
+        )
+        .then(data => {
+          console.log(data);
+        });
+    },
+    buy(id1) {
+      this.ajax
+        .post(
+          "xinda-api/cart/add",
+          this.qs.stringify({
+            id: id1,
+            num: 1
+          })
+        )
+        .then(data => {
+          console.log(data)
+          this.$router.push({
+            path:'/inner/gouwuche'
+          })
+        });
+    },
     next() {
       this.prevTip = 0;
-      if (this.arrLength<3) {
+      if (this.arrLength < 3) {
         this.nextTip = 1;
         return;
       } else {
@@ -341,6 +371,7 @@ export default {
             text-align: center;
           }
           .sizeal li span {
+            cursor: pointer;
             color: white;
             background: #2693d4;
             font-size: 14px;
@@ -359,7 +390,7 @@ export default {
         color: red;
         line-height: 35px;
         position: absolute;
-        left:580px;
+        left: 580px;
       }
       position: relative;
       margin: 29px auto 202px;

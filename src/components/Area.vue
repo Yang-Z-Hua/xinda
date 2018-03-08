@@ -55,6 +55,7 @@ export default {
     },
     areaChange(){
         this.$emit('confirm',this.areaSelect);
+        console.log(this.areaSelect)
     }
   },
 }
