@@ -42,48 +42,42 @@ export default {
   data() {
     return {
       msg: "Welcome to Your Vue.js App",
-      data1:'',
-      data:'',
+      data1: "",
+      data: ""
     };
   },
-  created(){
+  created() {
     this.ajax
-      .post(
-        "/xinda-api/product/style/list",
-        this.qs.stringify({
-
-        })
-      )
+      .post("/xinda-api/product/style/list", this.qs.stringify({}))
       .then(data => {
-        this.data1=data.data.data
-        // console.log(this.data1);
-        this.data1='2e110f0df53243c197fede52fba8e5d0'
+        this.data1 = data.data.data;
+        this.data1 = "2e110f0df53243c197fede52fba8e5d0";
       });
   },
-  methods:{
-    csfw(){
+  methods: {
+    csfw() {
       this.$router.push({
-        path:'/inner/liebiaoye',
-        query:{
-          id:'2e110f0df53243c197fede52fba8e5d0',
-          id2:undefined,
-          id3:undefined,
-          firstName:'财税服务',
-          code:3
+        path: "/inner/liebiaoye",
+        query: {
+          id: "2e110f0df53243c197fede52fba8e5d0",
+          id2: undefined,
+          id3: undefined,
+          firstName: "财税服务",
+          code: 3
         }
-      })
+      });
     },
-    gsgs(){
-       this.$router.push({
-        path:'/inner/liebiaoye',
-        query:{
-          id:'5af629246fa34f6f8d49758c6a7b25f1',
-          id3:undefined,
-          id2:undefined,
-          firstName:'公司工商',
-          code:4
+    gsgs() {
+      this.$router.push({
+        path: "/inner/liebiaoye",
+        query: {
+          id: "5af629246fa34f6f8d49758c6a7b25f1",
+          id3: undefined,
+          id2: undefined,
+          firstName: "公司工商",
+          code: 4
         }
-      })
+      });
     }
   }
 };

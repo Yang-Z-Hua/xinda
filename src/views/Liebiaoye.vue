@@ -133,7 +133,6 @@ export default {
   },
   methods: {
     gouwuche(id1) {
-      // console.log(id);
       this.ajax
         .post(
           "xinda-api/cart/add",
@@ -142,9 +141,7 @@ export default {
             num: 1
           })
         )
-        .then(data => {
-          console.log(data);
-        });
+        .then(data => {});
     },
     buy(id1) {
       this.ajax
@@ -156,10 +153,9 @@ export default {
           })
         )
         .then(data => {
-          console.log(data)
           this.$router.push({
-            path:'/inner/gouwuche'
-          })
+            path: "/inner/gouwuche"
+          });
         });
     },
     next() {
@@ -242,7 +238,6 @@ export default {
         .then(data => {
           this.arr = data.data.data;
           this.arrLength = this.arr.length;
-          console.log(data);
           this.id3 = undefined;
           this.code = undefined;
           this.id2 = undefined;

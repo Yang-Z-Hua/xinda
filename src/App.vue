@@ -23,36 +23,29 @@
 <script>
 export default {
   name: "App",
-  data(){
-    return{
-      user:'',
-      denglu:'登录',
-      ljzc:'立即注册',
-      tuichu:''
-    }
+  data() {
+    return {
+      user: "",
+      denglu: "登录",
+      ljzc: "立即注册",
+      tuichu: ""
+    };
   },
-  methods:{
-    logOut(){
+  methods: {
+    logOut() {
       this.ajax
-          .post(
-            "/xinda-api/sso/logout",
-            this.qs.stringify({
-            })
-          )
-          .then(data => {
-      });
-      this.user='';
-      this.tuichu='';
-      this.denglu='登录';
-      this.ljzc='立即注册';
+        .post("/xinda-api/sso/logout", this.qs.stringify({}))
+        .then(data => {});
+      this.user = "";
+      this.tuichu = "";
+      this.denglu = "登录";
+      this.ljzc = "立即注册";
       this.$router.push({
-        path:'/'
-      })
+        path: "/"
+      });
     }
   }
-}
-
-
+};
 </script>
 
 <style>
@@ -103,7 +96,7 @@ export default {
   line-height: 41px;
   font-size: 14px;
 }
-a{
+a {
   text-decoration: none;
   color: #2693d4;
 }

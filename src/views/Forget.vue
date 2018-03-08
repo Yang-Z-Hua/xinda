@@ -26,34 +26,34 @@
 </template>
 
 <script>
-import md5 from 'md5';
+import md5 from "md5";
 export default {
-  name: 'HelloWorld',
+  name: "HelloWorld",
   created() {
     this.$parent.ask = "想起密码来了？";
     this.$parent.meth = "立即登录";
     this.$parent.tb = "忘记密码";
     this.$parent.de = "login";
   },
-  data () {
+  data() {
     return {
-      msg: 'Welcome to Your Vue.js App',
-      png:'/xinda-api/ajaxAuthcode',
-      phone:'',
-      phoneTip:'',
-      pic:'',
-      password:'',
-      password1:'',
+      msg: "Welcome to Your Vue.js App",
+      png: "/xinda-api/ajaxAuthcode",
+      phone: "",
+      phoneTip: "",
+      pic: "",
+      password: "",
+      password1: "",
       yzmtg: 0, //验证码是否通过
       picTip: "", //手机验证码提示
-      phoneyzm:'',
-      yzmcw:' ',
-      mmbyz:''
-    }
+      phoneyzm: "",
+      yzmcw: " ",
+      mmbyz: ""
+    };
   },
-  methods:{
-    cha(){
-        this.png+=' ';
+  methods: {
+    cha() {
+      this.png += " ";
     },
     checkphone() {
       var a = /1\d{10}/;
@@ -76,7 +76,6 @@ export default {
             })
           )
           .then(data => {
-            console.log(data);
             if (data.data.status == -1) {
               this.picTip = data.data.msg;
               this.yzmtg = 0;
@@ -88,64 +87,60 @@ export default {
           });
       }
     },
-    reset(){
+    reset() {
       if (this.yzmtg == 0) {
         this.hq();
       }
       if (this.yzmtg == 1) {
-        if (this.phoneyzm!= 111111) {
+        if (this.phoneyzm != 111111) {
           this.yzmcw = "验证码错误!!";
-          // console.log(data)
-        }else{
+        } else {
           this.yzmcw = "";
-          if(this.password!=this.password1||this.password==''){
-            this.mmbyz='两次密码不一致'
-          }else{
+          if (this.password != this.password1 || this.password == "") {
+            this.mmbyz = "两次密码不一致";
+          } else {
             this.ajax
-          .post(
-            "/xinda-api/register/findpas",
-            this.qs.stringify({
-              cellphone: this.phone,
-              smsType: 1,
-              validCode:111111	,					
-              password:md5(this.password)
-            })
-          )
-          .then(data => {
-           console.log(data)
-           this.mmbyz=data.data.msg
-          });
+              .post(
+                "/xinda-api/register/findpas",
+                this.qs.stringify({
+                  cellphone: this.phone,
+                  smsType: 1,
+                  validCode: 111111,
+                  password: md5(this.password)
+                })
+              )
+              .then(data => {
+                this.mmbyz = data.data.msg;
+              });
           }
         }
       }
     }
   }
-}
-
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang='less'>
-  .d3 span{
-    color: #349ad7;
-    border: 1px solid;
-    padding: 5px ;
-    border-radius: 4px;
-    margin: 5px 0 0 29px;
-    vertical-align: middle;
-    height: 21px;
-    margin-top: 1px
-  }
-  .tip{
+.d3 span {
+  color: #349ad7;
+  border: 1px solid;
+  padding: 5px;
+  border-radius: 4px;
+  margin: 5px 0 0 29px;
+  vertical-align: middle;
+  height: 21px;
+  margin-top: 1px;
+}
+.tip {
+  color: red;
+}
+.d3 {
+  display: flex;
+  .tip {
+    border: none;
+    margin-left: 0;
     color: red;
   }
-  .d3{
-    display: flex;
-    .tip{
-      border: none;
-      margin-left: 0;
-      color: red;
-      
-    }
-    } 
+}
 </style>

@@ -99,191 +99,185 @@
 </template>
 
 <script>
-import '../assets/swiper.js'
+import "../assets/swiper.js";
 
 export default {
-  name: 'HelloWorld',
+  name: "HelloWorld",
   created() {
-    this.ajax.post('/xinda-api/recommend/list')
-    .then((data)=>{
+    this.ajax.post("/xinda-api/recommend/list").then(data => {
       this.arr = data.data.data;
     });
-    this.ajax.post('/xinda-api/product/style/list')
-    .then((data)=>{
+    this.ajax.post("/xinda-api/product/style/list").then(data => {
       this.arr1 = data.data.data;
-      console.log(data)
-    })
+    });
   },
-  
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App',
-      arr:'',
-      arr1:'',
-      arr2:'',
-      imgSrc:'http://123.58.241.146:8088/xinda/pic',
-      currentIndex:-1,
-    }
-  },
-  mounted(){
-    var mySwiper = new Swiper('.HM_lb', {
-  direction: 'horizontal',
-  loop: true,
-  autoplay: 3000,
-  autoplayDisableOnInteraction: false,
-  // 如果需要分页器
-  pagination: '.swiper-pagination',
-  // 如果需要滚动条
-  //   scrollbar: '.swiper-scrollbar',
-  effect: 'fade',
-  fade: {
-    crossFade: 4,
-  }
-})
-  },
-  methods:{
-  show(index){
-  },
-  // off:function(eve){
-  //   this.a = 0;
-  // },
-  // firstGo(index){
-  //   this.$router.push({
-  //       path:'/inner/liebiaoye',
-  //       query:{
-  //         id:this.arr1[index].id
-  //       }
-  //     })
-  // },
-  secondGo(a,b,index){
-    this.$router.push({
-        path:'/inner/liebiaoye',
-        query:{
-          firstName:a.name,
-          id:index,
-          id2:b.id,
-          code:b.code
-        }
-      })
-  },
-  thirdGo(a,c,index,b){
-    this.$router.push({
-        path:'/inner/liebiaoye',
-        query:{
-          firstName:a.name,
-          id:index,
-          id2:b.id,
-          id3:c.id
-        }
-    })
-  }
-  
-}
-}
 
+  data() {
+    return {
+      msg: "Welcome to Your Vue.js App",
+      arr: "",
+      arr1: "",
+      arr2: "",
+      imgSrc: "http://123.58.241.146:8088/xinda/pic",
+      currentIndex: -1
+    };
+  },
+  mounted() {
+    var mySwiper = new Swiper(".HM_lb", {
+      direction: "horizontal",
+      loop: true,
+      autoplay: 3000,
+      autoplayDisableOnInteraction: false,
+      // 如果需要分页器
+      pagination: ".swiper-pagination",
+      // 如果需要滚动条
+      //   scrollbar: '.swiper-scrollbar',
+      effect: "fade",
+      fade: {
+        crossFade: 4
+      }
+    });
+  },
+  methods: {
+    show(index) {},
+    // off:function(eve){
+    //   this.a = 0;
+    // },
+    // firstGo(index){
+    //   this.$router.push({
+    //       path:'/inner/liebiaoye',
+    //       query:{
+    //         id:this.arr1[index].id
+    //       }
+    //     })
+    // },
+    secondGo(a, b, index) {
+      this.$router.push({
+        path: "/inner/liebiaoye",
+        query: {
+          firstName: a.name,
+          id: index,
+          id2: b.id,
+          code: b.code
+        }
+      });
+    },
+    thirdGo(a, c, index, b) {
+      this.$router.push({
+        path: "/inner/liebiaoye",
+        query: {
+          firstName: a.name,
+          id: index,
+          id2: b.id,
+          id3: c.id
+        }
+      });
+    }
+  }
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-@import '../assets/swiper.css';
-.outer{
+@import "../assets/swiper.css";
+.outer {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.allproduct{
+.allproduct {
   width: 1200px;
   display: flex;
-  .product_list{
+  .product_list {
     width: 200px;
     background-color: #1b2d43;
-    ul{
+    ul {
       padding: 18px 14px 18px;
       position: relative;
-      p{
+      p {
         color: #d5d7d9;
         margin: 0 9px;
       }
-      a{
+      a {
         color: #d5d7d9;
         margin: 0 2px 0 18px;
         text-decoration: none;
         cursor: pointer;
       }
-      li{
+      li {
         display: flex;
         flex-wrap: wrap;
       }
-      .title{
+      .title {
         line-height: 26px;
         font-size: 16px;
       }
-      .example{
+      .example {
         line-height: 28px;
         font-size: 14px;
         padding-left: 17px;
       }
-      .message{
-        width: 1000px; 
+      .message {
+        width: 1000px;
         height: 100%;
         background-color: red;
         position: absolute;
         z-index: 9;
         top: 0;
         left: 200px;
-        opacity: .4;
+        opacity: 0.4;
         display: flex;
         flex-direction: column;
         justify-content: center;
         font-size: 13px;
-        a{
+        a {
           border-left: 1px solid #ccc;
           padding: 0 5px 0 10px;
           margin: 3px 0;
         }
-        div{
+        div {
           width: 1000px;
           display: flex;
           line-height: 17px;
-          li{
+          li {
             display: flex;
-            flex-wrap: wrap;         
+            flex-wrap: wrap;
           }
-          .secondTitle{
+          .secondTitle {
             width: 100px;
           }
-          .thirdTitle{
+          .thirdTitle {
             width: 900px;
           }
         }
         // display: none;
       }
     }
-    .list_bottom{
-      padding:18px 14px 19px; 
+    .list_bottom {
+      padding: 18px 14px 19px;
     }
-    ul:hover{
+    ul:hover {
       background-color: #2693d4;
     }
   }
-  .cycle{
+  .cycle {
     width: 1000px;
     height: 400px;
   }
 }
 
 // 明星产品
-.product_star{
+.product_star {
   margin-top: 45px;
   position: relative;
   width: 1200px;
   line-height: 31px;
   font-size: 14px;
   border-bottom: solid 2px #2393d3;
-  p{
+  p {
     margin-left: 10px;
   }
-  li{
+  li {
     position: absolute;
     bottom: 0;
     left: 40px;
@@ -295,85 +289,85 @@ export default {
     border-bottom: 5px solid #2393d3;
   }
 }
-.star_list{
+.star_list {
   width: 1200px;
   height: 400px;
   margin-top: 46px;
   display: flex;
   justify-content: space-between;
-  img{
-      width:254px;
-      height: 382px;
-    }
+  img {
+    width: 254px;
+    height: 382px;
+  }
 }
-.company{
+.company {
   width: 1200px;
   height: 464px;
   margin-top: 48px;
   display: flex;
   justify-content: space-between;
- 
-  div{
+
+  div {
     width: 270px;
     height: 462px;
     border: 1px solid #e8e8e8;
     display: flex;
     flex-direction: column;
     align-items: center;
-    .img{
+    .img {
       display: flex;
       align-items: center;
       height: 158px;
-      img{
-          width: 256px;    
-  }
+      img {
+        width: 256px;
+      }
     }
-    .product_title{
-        font-size: 16px;
-        font-weight: bold;
-        color: black;
-        margin-top: 20px
-      }
-      li{
-        width: 90%;
-        height: 70px;
-        margin-top: 14px;
-        .product_introduce{
-          font-size: 14px;
-      }
-      }
-      
-      .product_price{
+    .product_title {
+      font-size: 16px;
+      font-weight: bold;
+      color: black;
+      margin-top: 20px;
+    }
+    li {
+      width: 90%;
+      height: 70px;
+      margin-top: 14px;
+      .product_introduce {
         font-size: 14px;
-        color:#3d3d3d;
-        margin-top: 28px;
-        span{
-          font-size: 24px;
-          color:#2692d2;
-        }
       }
-      button{
-        width: 157px;
-        height: 44px;
-        outline: none;
-        border: 2px solid #2693d4;
-        border-radius: 4px;
-        color: #2693d4;
-        font-size: 16px;
-        background-color: transparent;
-        margin-top: 36px;
+    }
+
+    .product_price {
+      font-size: 14px;
+      color: #3d3d3d;
+      margin-top: 28px;
+      span {
+        font-size: 24px;
+        color: #2692d2;
       }
+    }
+    button {
+      width: 157px;
+      height: 44px;
+      outline: none;
+      border: 2px solid #2693d4;
+      border-radius: 4px;
+      color: #2693d4;
+      font-size: 16px;
+      background-color: transparent;
+      margin-top: 36px;
+    }
   }
 }
 
 // 知识产权
-.knowledge{
+.knowledge {
   margin-top: 48px;
   width: 1200px;
   height: 482px;
   display: flex;
   justify-content: space-between;
-  .knowledge_2{
+  .knowledge_2 {
     width: 850px;
     height: 482px;
     display: flex;
@@ -381,31 +375,31 @@ export default {
     justify-content: space-between;
     align-content: space-between;
   }
-  .u82{
+  .u82 {
     width: 327px;
     height: 482px;
   }
-  .u84{
+  .u84 {
     width: 414px;
-    height: 230px;;
+    height: 230px;
   }
-  .u86{
+  .u86 {
     width: 414px;
-    height: 230px;;
+    height: 230px;
   }
 }
-.approve{
+.approve {
   margin-top: 43px;
 }
-.provider{
+.provider {
   width: 1200px;
   display: flex;
   margin-top: 48px;
-  img{
+  img {
     margin-right: 39px;
   }
 }
-.partner{
+.partner {
   margin-top: 48px;
   margin-bottom: 100px;
 }
