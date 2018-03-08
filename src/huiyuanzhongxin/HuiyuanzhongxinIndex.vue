@@ -96,6 +96,7 @@ export default {
       .post("/xinda-api/business-order/grid", this.qs.stringify({}))
       .then(data => {
         let orderList = data.data.data;
+        var j=0;
         for (let i in orderList) {
           this.ajax
             .post(
@@ -106,6 +107,7 @@ export default {
             )
             .then(data => {
               orderList[i].service = data.data.data;
+              j++
               if (i == orderList.length - 1) {
                 this.da = orderList;
               }
