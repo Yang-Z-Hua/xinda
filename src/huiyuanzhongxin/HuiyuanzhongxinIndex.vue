@@ -119,7 +119,7 @@ export default {
               // console.log('j===',j);
               this.data = data.data.data;
               this.def[this.abc[j]]=this.data;
-               console.log(1,this.def);
+               console.log(this.def);
             });
         }
       });
