@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-
     <div class="head">
       <ul class="mmm">
         <div class="left">
@@ -10,7 +9,7 @@
           <li><a href="#/outter/register">{{ljzc}}</a></li>
         </div>
         <div class="right">
-          <ul>购物车<span>0</span>件</ul>
+          <router-link to="/inner/gouwuche">购物车<span>{{number}}</span>件</router-link>
           <li>服务商入口</li>
         </div>
       </ul>
@@ -28,8 +27,12 @@ export default {
       user: "",
       denglu: "登录",
       ljzc: "立即注册",
-      tuichu: ""
+      tuichu: "",
+      number:''
     };
+  },
+  created() {
+    
   },
   methods: {
     logOut() {
@@ -48,7 +51,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang='less'>
 * {
   padding: 0;
   margin: 0;
@@ -84,10 +87,20 @@ export default {
 .mmm .right {
   display: flex;
   margin: 0 0 0 auto;
+  a {
+    color: black;
+    span {
+      color: #2693d4;
+      padding: 0 4px;
+    }
+  }
 }
 .mmm .right li {
   color: #2693d4;
   margin-left: 17px;
+}
+.mmm .right ul {
+  cursor: pointer;
 }
 .foot {
   height: 41px;

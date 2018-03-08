@@ -37,7 +37,7 @@
         </div>
         <div class="details" >
           <div class="det-left">
-            <div class="manei" v-for="dd in def[aa.businessNo]" :key="dd.id">
+            <div class="manei" v-for="dd in aa.service" :key="dd.id">
               <div class="zuo">
                 <div class="img">
                   <!-- <img :src="imgSrc+dd.providerImg" alt=""> -->
@@ -88,38 +88,27 @@ export default {
       // imgSrc: "http://123.58.241.146:8088/xinda/pic",
       disabledDate(time) {
         return time.getTime() > Date.now();
-      },
-      abc: [],
-      def:{},
+      }
     };
-  },
-  computed: {
-    date() {}
   },
   created() {
     this.ajax
-      .post("/xinda-api/business-order/grid", this.qs.stringify({
-
-      }))
+      .post("/xinda-api/business-order/grid", this.qs.stringify({}))
       .then(data => {
-        this.da = data.data.data;
-        for (let i in this.da) {
-          this.abc.push(this.da[i].businessNo);
-        }
-        console.log(this.abc)
-        for (let j in this.abc) {
+        let orderList = data.data.data;
+        for (let i in orderList) {
           this.ajax
             .post(
               "/xinda-api/service-order/grid",
               this.qs.stringify({
-                businessNo: this.abc[j]
+                businessNo: orderList[i].businessNo
               })
             )
             .then(data => {
-              // console.log('j===',j);
-              this.data = data.data.data;
-              this.def[this.abc[j]]=this.data;
-               console.log(1,this.def);
+              orderList[i].service = data.data.data;
+              if (i == orderList.length - 1) {
+                this.da = orderList;
+              }
             });
         }
       });
