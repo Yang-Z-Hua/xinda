@@ -8,12 +8,12 @@
   </div>
   <div class="touxiang">
     <p>当前头像：</p>
-    <span></span>
+    <span><img src="../assets/images/u7066.png" alt=""></span>
   </div>
   <div class="information">
      <div class="xingming">
        <p>姓名：</p>
-       <input @input="name"  v-model="mingzi" type="text">
+       <input @blur="name"  v-model="mingzi" type="text">
        <span class="ts">{{mingzits}}</span>
      </div>
      <div class="xingbie">
@@ -23,7 +23,7 @@
      </div>
      <div class="youxiang">
       <p>邮箱：</p>
-      <input @input="email"  v-model="pgone" type="text" placeholder="请输入邮箱">
+      <input @blur="email"  v-model="pgone" type="text" placeholder="请输入邮箱">
       <span class="ts">{{pgonets}}</span>
      </div>  
      <div class="diqu">
@@ -67,7 +67,7 @@ export default {
       sex:1,
       youbian:'',
       aaa:false,
-      bbb:false
+      bbb:false,
     }
   },
   components:{
@@ -101,7 +101,7 @@ export default {
     email() {
       var a = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
       if (!a.test(this.pgone)) {
-        this.pgonets = "请输入正确邮箱地址！";
+        this.pgonets = "请输入正确邮箱格式！";
       } else {
         this.pgonets = "";
         return 1;
@@ -110,7 +110,7 @@ export default {
     name(){
       var a = /^\S{2,6}$/;
       if(!a.test(this.mingzi)){
-        this.mingzits = "姓名格式不正确";
+        this.mingzits = "姓名格式不正确！";
       }else{
         this.mingzits = "";
         return 1;
@@ -171,11 +171,12 @@ export default {
     display: flex;
     align-items: center;
     span{
-      width: 96px;
-      height: 96px;
       margin-left: 28px;
       overflow: hidden;
-      background-color:red;
+      img{
+        width: 96px;
+        height: 96px;
+      }
     }
   }
   .information{
@@ -217,6 +218,7 @@ export default {
       color: #2992d3;
       border: 1px solid #2693d4;
       border-radius: 10%;
+      cursor: pointer;
     }
   }
   .ts{

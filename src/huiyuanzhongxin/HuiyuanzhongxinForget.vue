@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       user:'',
-      old:'',
+      old:6,
       oldTip:'',
       new1:'',
       reNew1:'',
@@ -59,8 +59,8 @@ export default {
             })
           )
           .then(data => {
-            console.log(data)
-           this.passwordTip=data.data.msg
+          console.log(data)
+          this.passwordTip=data.data.msg
         });
       }
     }

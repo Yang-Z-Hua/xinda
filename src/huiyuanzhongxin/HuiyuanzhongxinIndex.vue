@@ -22,19 +22,25 @@
         <li class="zt">订单状态</li>
         <li class="cz">订单操作</li>
       </ul>
-      <div class="list-top" v-for="dd in data" :key="dd.id">
+      <div class="list-top"  v-for="aa in da" :key="aa.id">
         <div class="order-time">
           <p>订单号：</p>
-          <span>s347484929274490</span>
+          <span>{{aa.businessNo}}</span>
           <p>下单时间：</p>
-          <span>2017-04-01 01:23:32</span>
+          <span>{{new Date(aa.createTime).getFullYear()+'-'+
+                  new Date(aa.createTime).getMonth()+'-'+
+                  new Date(aa.createTime).getDate()+' '+
+                  new Date(aa.createTime).getHours()+':'+
+                  new Date(aa.createTime).getMinutes()+':'+
+                  new Date(aa.createTime).getSeconds()
+          }}</span>
         </div>
-        <div class="details">
+        <div class="details" >
           <div class="det-left">
-            <div class="manei" >
+            <div class="manei" v-for="dd in def[aa.businessNo]" :key="dd.id">
               <div class="zuo">
                 <div class="img">
-                  <img :src="imgSrc+dd.providerImg" alt="">
+                  <!-- <img :src="imgSrc+dd.providerImg" alt=""> -->
                 </div>
                 <div class="xdfw">
                   <p>{{dd.providerName}}</p>
@@ -76,42 +82,53 @@ export default {
     return {
       count: 1,
       data: "",
-      startDate:'',
-      endDate:'',
-      imgSrc: "http://123.58.241.146:8088/xinda/pic",
+      startDate: "",
+      da: "",
+      endDate: "",
+      // imgSrc: "http://123.58.241.146:8088/xinda/pic",
       disabledDate(time) {
         return time.getTime() > Date.now();
-      }
-    }
+      },
+      abc: [],
+      def:{},
+    };
+  },
+  computed: {
+    date() {}
   },
   created() {
-    this.ajax.post("/xinda-api/cart/list",
-     this.qs.stringify({
+    this.ajax
+      .post("/xinda-api/business-order/grid", this.qs.stringify({
 
-     }))
-     .then(data => { 
-      this.data = data.data.data;
-      console.log(data);
-    });
-
-    // this.ajax.post('/xinda-api/service-order/grid',
-    //   this.qs.stringify({
-    //     businessNo:1,
-    //     startTime:'2017-03-28',
-    //     endTime:'2017-03-28',
-    //     start:0,
-
-    //   })
-    // )
-    // .then((data)=>{
-    //   //  console.log(data);
-    // })
+      }))
+      .then(data => {
+        this.da = data.data.data;
+        for (let i in this.da) {
+          this.abc.push(this.da[i].businessNo);
+        }
+        console.log(this.abc)
+        for (let j in this.abc) {
+          this.ajax
+            .post(
+              "/xinda-api/service-order/grid",
+              this.qs.stringify({
+                businessNo: this.abc[j]
+              })
+            )
+            .then(data => {
+              // console.log('j===',j);
+              this.data = data.data.data;
+              this.def[this.abc[j]]=this.data;
+               console.log(1,this.def);
+            });
+        }
+      });
   }
 };
 </script>
 
 <style lang="less">
-.el-input--prefix .el-input__inner{
+.el-input--prefix .el-input__inner {
   padding: 0;
 }
 .el-input__inner {
@@ -187,7 +204,7 @@ export default {
     }
   }
   .list {
-    height: 404px;
+    // height: 404px;
     margin-top: 22px;
     ul {
       display: flex;

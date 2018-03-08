@@ -78,7 +78,7 @@ export default {
 .public{
   display: flex;
     width: 1200px;
-    height: 650px;
+    // height: 650px;
     margin: 26px auto;
 }
 .left{
