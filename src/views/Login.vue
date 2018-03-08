@@ -71,6 +71,12 @@ export default {
             this.$router.push({
               path: "/"
             });
+            this.ajax
+              .post("/xinda-api/cart/list", this.qs.stringify({}))
+              .then(data => {
+                console.log("购物车", data.data.data.length);
+                this.$parent.$parent.number = data.data.data.length;
+              });
           }
         });
     }

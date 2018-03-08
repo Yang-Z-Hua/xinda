@@ -34,7 +34,7 @@
             <div class="list" v-for="a in arr" :key="a.id">
               <img :src='imgSrc+a.productImg' alt="">
               <div class="zcfgs">
-                <ul>{{a.serviceInfo}}</ul>
+                <ul @click="xpxq">{{a.serviceInfo}}</ul>
                 <li>{{a.serviceName}}</li>
                 <li><span>{{a.providerName}}</span><span>{{a.regionName}}</span></li>
               </div>
@@ -132,6 +132,11 @@ export default {
     }
   },
   methods: {
+    xpxq() {
+      this.$router.push({
+        path: "/inner/shangpinxiangqing"
+      });
+    },
     gouwuche(id1) {
       this.ajax
         .post(
@@ -345,6 +350,7 @@ export default {
             margin-right: 12px;
           }
           .zcfgs ul {
+            cursor: pointer;
             font-weight: bold;
             width: 600px;
             overflow: hidden;
