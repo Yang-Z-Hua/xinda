@@ -108,7 +108,7 @@ export default {
             .then(data => {
               orderList[i].service = data.data.data;
               j++
-              if (i == orderList.length - 1) {
+              if (j == orderList.length ) {
                 this.da = orderList;
               }
             });
