@@ -1,44 +1,79 @@
 <template>
   <div id="app">
-
     <div class="head">
       <ul class="mmm">
         <div class="left">
-          <li>{{user}} 欢迎来到信达！</li>
-          <li>{{tuichu}}</li>
+          <li><router-link to="/inner/huiyuanzhongxin">{{user}}</router-link> 欢迎来到信达！</li>
+          <li @click="logOut">{{tuichu}}</li>
           <li><a href="#/outter/login">{{denglu}}</a></li>
           <li><a href="#/outter/register">{{ljzc}}</a></li>
         </div>
         <div class="right">
-          <ul>购物车<span>0</span>件</ul>
+          <router-link :class="sty" to="/inner/gouwuche">购物车<span>{{number}}</span>件</router-link>
           <li>服务商入口</li>
         </div>
       </ul>
     </div>
     <router-view></router-view>    
         <div class="foot">ⒸCopyright 2016北京信达科技有限公司 京ICP备 16011621号</div>  
-
   </div>
 </template>
 
 <script>
 export default {
   name: "App",
-  data(){
-    return{
-      user:'',
-      denglu:'登录',
-      ljzc:'立即注册',
-      tuichu:''
+  data() {
+    return {
+      user: "",
+      denglu: "登录",
+      ljzc: "立即注册",
+      tuichu: "",
+      number: "",
+      sty:'hide'
+    };
+  },
+  created() {
+    this.ajax
+      .post("/xinda-api/member/info", this.qs.stringify({}))
+      .then(data => {
+        if (data.data.data) {
+          this.user = data.data.data.cellphone;
+          (this.denglu = ""), (this.ljzc = ""), (this.tuichu = "[退出]");
+          this.sty='show'
+        }else{
+          this.sty='hide'
+        }
+      });
+    this.ajax.post("/xinda-api/cart/list", this.qs.stringify({})).then(data => {
+      console.log("购物车", data.data.data.length);
+      this.number = data.data.data.length;
+    });
+  },
+  methods: {
+    logOut() {
+      this.ajax
+        .post("/xinda-api/sso/logout", this.qs.stringify({}))
+        .then(data => {});
+      this.user = "";
+      this.tuichu = "";
+      this.denglu = "登录";
+      this.sty='hide';
+      this.ljzc = "立即注册";
+      this.$router.push({
+        path: "/"
+      });
     }
-
   }
-}
-
-
+};
 </script>
 
-<style>
+<style lang='less'>
+.show{
+  display: block
+}
+.hide{
+  display: none
+}
 * {
   padding: 0;
   margin: 0;
@@ -65,16 +100,29 @@ export default {
 .mmm .left li:nth-child(1) {
   color: black;
 }
+.mmm .left li:nth-child(2) {
+  cursor: pointer;
+}
 .mmm .left li {
   margin-right: 18px;
 }
 .mmm .right {
   display: flex;
   margin: 0 0 0 auto;
+  a {
+    color: black;
+    span {
+      color: #2693d4;
+      padding: 0 4px;
+    }
+  }
 }
 .mmm .right li {
   color: #2693d4;
   margin-left: 17px;
+}
+.mmm .right ul {
+  cursor: pointer;
 }
 .foot {
   height: 41px;
@@ -83,7 +131,7 @@ export default {
   line-height: 41px;
   font-size: 14px;
 }
-a{
+a {
   text-decoration: none;
   color: #2693d4;
 }

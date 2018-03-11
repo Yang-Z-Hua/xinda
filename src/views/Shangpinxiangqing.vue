@@ -45,7 +45,7 @@
           <li v-for="(val,num) in list" :key="num" @click="test(num)" :class="currentIndex==num?'c_1':'c_2'"><p>{{val}}</p></li>
         </ul>
         <ul class="provide_message">
-          <p v-for="(ser,number) in serve" :key="number">{{ser}}</p>
+          <p v-html="serve"></p>
         </ul>
         <div class="appraise">
             <ul class="parsent">
@@ -115,8 +115,8 @@ export default {
     }
   },
   created(){
-  this.ajax.post('/xinda-api/product/package/detail',this.qs.stringify({
-        sId:'this.$route.query.id'
+    this.ajax.post('/xinda-api/product/package/detail',this.qs.stringify({
+        sId:this.$route.query.id,
     }))
     .then((data)=>{
       this.arr = data.data.data;
@@ -126,8 +126,7 @@ export default {
       this.Price = this.arr.product.marketPrice;
       this.unit = this.arr.unit;
       this.provider = this.arr.provider.name;
-      this.serveold = this.arr.providerProduct.serviceContent.replace(/<p>/g,'');
-      this.serve = this.serveold.split('</p>')
+      this.serve = this.arr.providerProduct.serviceContent
     });
     this.ajax.post('/xinda-api/product/judge/detail',this.qs.stringify({
        serviceId:'efddc8a338944e998ff2a7142246362b',
@@ -141,7 +140,6 @@ export default {
       this.goodParsent = this.good*1/1*this.all;
       this.middleParsent = this.middle*1/1*this.all;
       this.badParsent = this.bad*1/1*this.all;
-      console.log(this.good)
     })
   },
   methods:{
@@ -326,7 +324,8 @@ export default {
     }
   }
   .provide_message{
-    height: 600px;
+    padding-bottom: 50px;
+    padding-top: 50px;
     border: 1px solid #ccc;
     border-top: none;
     display: flex;

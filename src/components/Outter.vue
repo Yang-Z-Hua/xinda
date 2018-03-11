@@ -22,19 +22,15 @@
 export default {
   name: "HelloWorld",
   data() {
-    return{
-      ask:'',
-      meth:'',
-      tb:'',
-      de:''
-    }
-  }, 
-  methods: {
-    
+    return {
+      ask: "",
+      meth: "",
+      tb: "",
+      de: ""
+    };
   },
-  computed: {
-
-  }
+  methods: {},
+  computed: {}
 };
 </script>
 
@@ -56,68 +52,71 @@ export default {
   height: 650px;
   background: #f5f5f5;
   overflow: hidden;
-  .whit{
+  .whit {
     width: 1200px;
     height: 435px;
     margin: 42px auto;
     background: white;
     display: flex;
-    .right{
+    .right {
       margin-top: 30px;
-      ul{
+      ul {
         margin-bottom: 15px;
-      };
-      ul:nth-child(2){
+      }
+      ul:nth-child(2) {
         color: #349ad7;
       }
-    };
-    .midd{
+    }
+    .midd {
       height: 260px;
       border-left: 1px solid #dadada;
       margin: 50px 168px;
     }
   }
 }
-.zj{
-    display:flex;
-    padding: 50px 0 0 145px;
-    .d2 input,.d3 input{
-      width: 172px;
-    };
-    .d2 img{
-      vertical-align: middle;
-      margin-left: 36px;
-      margin-top: -2px
-    }
-    .d3 span.qq{
-      border: 1px solid ;
-      color: #2693d4;
-      font-size: 18px;
-      padding: 4.5px 12px;
-      margin-left: 10px;
-      vertical-align: middle;
-      border-radius: 4px;
-    };
-    .d6{
-      font-size: 17px;
-      border: 1px solid ;
-      color: #2693d4;
-      width: 290px;
-      text-align: center;
-      line-height: 34px;
-      border-radius: 4px;
-    };
+.zj {
+  display: flex;
+  padding: 50px 0 0 145px;
+  .d2 input,
+  .d3 input {
+    width: 172px;
   }
- .zj input{
+  .d2 img {
+    vertical-align: middle;
+    margin-left: 36px;
+    margin-top: -2px;
+    cursor: pointer;
+  }
+  .d3 span.qq {
+    border: 1px solid;
+    color: #2693d4;
+    font-size: 18px;
+    padding: 4.5px 12px;
+    margin-left: 10px;
+    vertical-align: middle;
     border-radius: 4px;
-    outline: none;
-    border: 1px solid #cbcbcb;
-    height: 32px;
-    width: 280px;
-    margin-bottom:18px; 
-    padding-left: 10px;
   }
-  a{
-    text-decoration: none!important;
+  .d6 {
+    font-size: 17px;
+    border: 1px solid;
+    color: #2693d4;
+    width: 290px;
+    text-align: center;
+    line-height: 34px;
+    border-radius: 4px;
+    cursor: pointer;
   }
+}
+.zj input {
+  border-radius: 4px;
+  outline: none;
+  border: 1px solid #cbcbcb;
+  height: 32px;
+  width: 280px;
+  margin-bottom: 18px;
+  padding-left: 10px;
+}
+a {
+  text-decoration: none !important;
+}
 </style>

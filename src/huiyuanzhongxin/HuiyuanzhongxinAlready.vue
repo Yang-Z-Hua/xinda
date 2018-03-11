@@ -5,10 +5,10 @@
     </div>
     <div class="evaluate">
       <div class="evaluate-top">
-        <p class="sty">未评价</p>
-        <router-link to="/Huiyuanzhongxin/HuiyuanzhongxinAlready"  tag="div">
-          <p>已评价</p>
+        <router-link to="/Huiyuanzhongxin/HuiyuanzhongxinUser"  tag="div">               
+            <p>未评价</p>
         </router-link>
+        <p  class="st">已评价</p>
       </div>
       <div class="evaluate-xia">
         <div class="img">
@@ -21,9 +21,7 @@
           <p>购买内容：test</p>
         </div>
         <p>购买时间：2016-01-01 02:12:21</p>
-        <router-link to="/Huiyuanzhongxin/HuiyuanzhongxinEvaluate"  tag="div">
-          <span>去评价</span>
-        </router-link>
+        <span>已评价</span>
       </div>
     </div>
     <div class="molu">
@@ -41,30 +39,6 @@ export default {
     return {
       count:1,
     }
-  },
-  created() {
-    this.ajax.post("/xinda-api/service/judge/grid",
-      this.qs.stringify({
-        start:0,
-        limit:6,
-        status:2
-      }))
-      .then(data => { 
-      this.data = data.data.data;
-      console.log(data);
-    });
-    this.ajax.post("/xinda-api/service/judge/submit",     //评价
-      this.qs.stringify({
-        id:'f2332ef103c54c2db3f517119cde536e',
-        type:1,
-        score:5	,
-        content:'服务好，赞！',
-
-
-      }))
-      .then(data => { 
-        console.log(data)
-    })
   }
 }
 </script>
@@ -110,7 +84,7 @@ export default {
         font-size: 14px;
         cursor: pointer;
       }
-      .sty{
+      .st{
         background-color: #2693d4;
         color: #fff;
       }
@@ -152,13 +126,13 @@ export default {
         font-size: 14px;
       }
       span{
-        color: #2992d3;
-        border: 1px solid #2693d4;
+        color: #ffffff;
+        border: 1px solid #e9e9e9;
         border-radius: 5px;
         padding: 9px 29px;
         margin-left: 301px;
         font-size: 18px;
-        cursor:pointer;
+        background-color: #e9e9e9;
       }
     }
   }

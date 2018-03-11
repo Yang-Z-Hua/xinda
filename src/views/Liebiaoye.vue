@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="bt">首页/公司工商</div>
+    <div class="bt">首页/{{firstName}}</div>
     <div class="all">
       <div class="left">
         <div class="sh">
@@ -34,13 +34,16 @@
             <div class="list" v-for="a in arr" :key="a.id">
               <img :src='imgSrc+a.productImg' alt="">
               <div class="zcfgs">
-                <ul>{{a.serviceInfo}}</ul>
+                <ul @click="xpxq(a.id)">{{a.serviceInfo}}</ul>
                 <li>{{a.serviceName}}</li>
                 <li><span>{{a.providerName}}</span><span>{{a.regionName}}</span></li>
               </div>
               <div class="sizeal">
                 <ul>￥{{a.marketPrice}}</ul>
-                <li><span>立即购买</span><span>加入购物车</span></li>
+                <li>
+                  <span @mousedown="gm(a.id)" @mouseup="gm1" :class="ljgm==a.id?'down':''" @click="buy(a.id)">立即购买</span>
+                  <span @mousedown="gw(a.id)" @mouseup="gw1" :class="jrgwc==a.id?'down':''" @click="gouwuche(a.id)">加入购物车</span>
+                </li>
               </div>
             </div>
             <div class="tsnr" v-if="!arrLength">当前选项无内容</div>
@@ -100,7 +103,10 @@ export default {
       fyId: "",
       i: 0,
       nextTip: "",
-      prevTip: ""
+      prevTip: "",
+      firstName: "",
+      ljgm: "", //立即购买背景
+      jrgwc: "" //加入购物车背景
     };
   },
   created() {
@@ -111,6 +117,7 @@ export default {
         this.data1 = this.$route.query.id;
         this.id2 = this.$route.query.id2;
         this.id3 = this.$route.query.id3;
+        this.firstName = this.$route.query.firstName;
         this.code = this.$route.query.code;
         this.fwfl(this.data1);
       });
@@ -125,13 +132,61 @@ export default {
       this.id2 = this.$route.query.id2;
       this.id3 = this.$route.query.id3;
       this.code = this.$route.query.code;
+      this.firstName = this.$route.query.firstName;
       this.fwfl(this.data1);
     }
   },
   methods: {
+    gm(a){
+      this.ljgm=a;
+    },
+    gm1(){
+      this.ligm=''
+    },
+    gw(a){
+      this.jrgwc=a;
+    },
+    gw1(){
+      this.jrgwc=''
+    },
+    xpxq(a) {
+      this.$router.push({
+        path: "/inner/shangpinxiangqing",
+        query:{
+          id:a,
+          id1:this.$route.query.id
+        }
+      });
+    },
+    gouwuche(id1) {
+      this.ajax
+        .post(
+          "xinda-api/cart/add",
+          this.qs.stringify({
+            id: id1,
+            num: 1
+          })
+        )
+        .then(data => {});
+    },
+    buy(id1) {
+      this.ajax
+        .post(
+          "xinda-api/cart/add",
+          this.qs.stringify({
+            id: id1,
+            num: 1
+          })
+        )
+        .then(data => {
+          this.$router.push({
+            path: "/inner/gouwuche"
+          });
+        });
+    },
     next() {
       this.prevTip = 0;
-      if (this.arrLength<3) {
+      if (this.arrLength < 3) {
         this.nextTip = 1;
         return;
       } else {
@@ -208,8 +263,8 @@ export default {
         )
         .then(data => {
           this.arr = data.data.data;
+          console.log(this.arr)
           this.arrLength = this.arr.length;
-          console.log(data);
           this.id3 = undefined;
           this.code = undefined;
           this.id2 = undefined;
@@ -317,6 +372,7 @@ export default {
             margin-right: 12px;
           }
           .zcfgs ul {
+            cursor: pointer;
             font-weight: bold;
             width: 600px;
             overflow: hidden;
@@ -337,7 +393,20 @@ export default {
             font-size: 24px;
             text-align: center;
           }
+          .sizeal li span.down {
+            background: cornflowerblue;
+            cursor: pointer;
+            color: white;
+            font-size: 14px;
+            line-height: 1;
+            padding: 8px 17px;
+            margin-left: 11px;
+            border-radius: 2px;
+            display: inline-block;
+            margin-top: 25px;
+          }
           .sizeal li span {
+            cursor: pointer;
             color: white;
             background: #2693d4;
             font-size: 14px;
@@ -356,7 +425,7 @@ export default {
         color: red;
         line-height: 35px;
         position: absolute;
-        left:580px;
+        left: 580px;
       }
       position: relative;
       margin: 29px auto 202px;

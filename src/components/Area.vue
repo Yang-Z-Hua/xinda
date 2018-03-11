@@ -17,70 +17,75 @@
 </template>
 
 <script>
-import areasData from '../areasData';
+import areasData from "../areasData";
 export default {
-  name: 'HelloWorld',
-  data () {
+  name: "HelloWorld",
+  data() {
     return {
-      province:areasData[100000], //省份
-      city:null,
-      area:null,
-      provinceSelect:'0',//选中的省份
-      citySelect:'0',//选中的市
-      areaSelect:'0',//选中的区
-      style:'',
-      areaCheck:'',//地区提示码
+      province: areasData[100000], //省份
+      city: null,
+      area: null,
+      provinceSelect: "0", //选中的省份
+      citySelect: "0", //选中的市
+      areaSelect: "0", //选中的区
+      style: "",
+      areaCheck: "" //地区提示码
+    };
+  },
+  props: {
+    display: String,
+    are: String
+  },
+  created() {
+    this.style = this.display;
+  },
+  methods: {
+    provinceChange() {
+      this.city = areasData[this.provinceSelect];
+      this.citySelect = 0;
+      this.areaSelect = 0;
+      this.area = null;
+    },
+    children() {
+      this.areaCheck = this.are;
+    },
+    cityChange() {
+      this.area = areasData[this.citySelect];
+      this.areaSelect = 0;
+    },
+    areaChange() {
+      this.$emit("confirm", this.areaSelect);
     }
-  },
-  props:{
-      display:String,
-      are:String
-  },
-  created(){
-      this.style=this.display
-  },
-  methods:{
-    provinceChange(){
-      this.city=areasData[this.provinceSelect];
-      this.citySelect=0;
-      this.areaSelect=0;
-      this.area=null;
-    },
-    children(){
-      this.areaCheck=this.are
-    },
-    cityChange(){
-      this.area=areasData[this.citySelect];
-      this.areaSelect=0;
-    },
-    areaChange(){
-        this.$emit('confirm',this.areaSelect);
-    }
-  },
-}
+  }
+};
 </script>
 
 <style scoped lang='less'>
-    .big{
-        select{
-            width: 95px;
-            border-radius: 4px;
-            outline: none;
-            border: 1px solid #cbcbcb;
-            height: 34px;
-            margin-bottom:18px; 
-        };
-    }
-    .lby{
-        select{
-            width: 95px;
-            border-radius: 4px;
-            outline: none;
-            border: 1px solid #cbcbcb;
-            height: 25px;
-            margin-bottom:18px; 
-            margin: 8px 0 0 10px;
-        };
-    }
-    span{color: red}
+.big {
+  select {
+    width: 95px;
+    border-radius: 4px;
+    outline: none;
+    border: 1px solid #cbcbcb;
+    height: 34px;
+    margin-bottom: 18px;
+  }
+}
+.lby {
+  select {
+    width: 95px;
+    border-radius: 4px;
+    outline: none;
+    border: 1px solid #cbcbcb;
+    height: 25px;
+    margin-bottom: 18px;
+    margin: 8px 0 0 10px;
+  }
+}
+span {
+  color: red;
+}
+select {
+  cursor: pointer;
+}
 </style>

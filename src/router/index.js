@@ -1,75 +1,73 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Outter from '@/components/Outter'  
-import Login from '@/views/Login'  
-import Register from '@/views/Register'  
-import Inner from '@/components/Inner'  
-import Index from '@/views/Index'  
-import Forget from '@/views/Forget'  
-import Huiyuanzhongxin from '@/views/Huiyuanzhongxin'  
-import HuiyuanzhongxinIndex from '@/huiyuanzhongxin/HuiyuanzhongxinIndex'  
-import HuiyuanzhongxinForget from '@/huiyuanzhongxin/HuiyuanzhongxinForget'  
-import HuiyuanzhongxinAccount from '@/huiyuanzhongxin/HuiyuanzhongxinAccount'  
-import HuiyuanzhongxinUser from '@/huiyuanzhongxin/HuiyuanzhongxinUser'  
-import Dianpu from '@/views/Dianpu'  
-import Dianpushouye from '@/views/Dianpushouye'  
-import Dingdanxiangqing from '@/views/Dingdanxiangqing'  
-import Gouwuche from '@/views/Gouwuche'  
-import Jiamengwomen from '@/views/Jiamengwomen'  
-import Liebiaoye from '@/views/Liebiaoye'  
-import Shangpinxiangqing from '@/views/Shangpinxiangqing'  
-import Zhifuchenggong from '@/zhifu/Zhifuchenggong'  
-import Zhifushibai from '@/zhifu/Zhifushibai'  
-import Zhifu from '@/views/Zhifu'  
+import Outter from '@/components/Outter'
+import Login from '@/views/Login'
+import Register from '@/views/Register'
+import Inner from '@/components/Inner'
+import Index from '@/views/Index'
+import Forget from '@/views/Forget'
+import Huiyuanzhongxin from '@/views/Huiyuanzhongxin'
+import HuiyuanzhongxinIndex from '@/huiyuanzhongxin/HuiyuanzhongxinIndex'
+import HuiyuanzhongxinForget from '@/huiyuanzhongxin/HuiyuanzhongxinForget'
+import HuiyuanzhongxinAccount from '@/huiyuanzhongxin/HuiyuanzhongxinAccount'
+import HuiyuanzhongxinUser from '@/huiyuanzhongxin/HuiyuanzhongxinUser'
+import HuiyuanzhongxinAlready from '@/huiyuanzhongxin/HuiyuanzhongxinAlready'
+import HuiyuanzhongxinEvaluate from '@/huiyuanzhongxin/HuiyuanzhongxinEvaluate'
+import Dianpu from '@/views/Dianpu'
+import Dianpushouye from '@/views/Dianpushouye'
+import Dingdanxiangqing from '@/views/Dingdanxiangqing'
+import Gouwuche from '@/views/Gouwuche'
+import Jiamengwomen from '@/views/Jiamengwomen'
+import Liebiaoye from '@/views/Liebiaoye'
+import Shangpinxiangqing from '@/views/Shangpinxiangqing'
+import Zhifuchenggong from '@/zhifu/Zhifuchenggong'
+import Zhifushibai from '@/zhifu/Zhifushibai'
+import Zhifu from '@/views/Zhifu'
 
 Vue.use(Router)
 
 export default new Router({
-  routes: [
-    {
+  routes: [{
       path: '/outter',
       name: 'outter',
       component: Outter,
-      children:[
-        {
+      children: [{
           path: 'login',
           name: 'login',
-          component: Login    
+          component: Login
         },
         {
           path: 'register',
           name: 'register',
-          component: Register    
+          component: Register
         },
         {
           path: 'forget',
           name: 'forget',
-          component: Forget    
+          component: Forget
         },
-      ] 
+      ]
     },
     {
       path: '/inner',
       name: 'inner',
       component: Inner,
-      alias:'/',
-      children:[
-        {
+      alias: '/',
+      children: [{
           path: 'index',
-          alias:'',
+          alias: '',
           name: 'index',
           component: Index
         },
-        {   
+        {
           //会员中心
           path: 'huiyuanzhongxin',
           name: 'huiyuanzhongxin',
           component: Huiyuanzhongxin,
-          children:[
-            {
+          children: [{
               path: 'huiyuanzhongxinIndex',
               name: 'huiyuanzhongxinIndex',
-              alias:'',
+              alias: '',
               component: HuiyuanzhongxinIndex,
             },
             {
@@ -86,7 +84,18 @@ export default new Router({
               path: 'huiyuanzhongxinUser',
               name: 'huiyuanzhongxinUser',
               component: HuiyuanzhongxinUser,
-            }
+            },
+            {
+              path: 'huiyuanzhongxinAlready',
+              name: 'huiyuanzhongxinAlready',
+              component: HuiyuanzhongxinAlready,
+            },
+            {
+              path: 'HuiyuanzhongxinEvaluate',
+              name: 'HuiyuanzhongxinEvaluate',
+              component: HuiyuanzhongxinEvaluate,
+            },
+
           ]
         },
         {
@@ -128,8 +137,7 @@ export default new Router({
           path: 'zhifu',
           name: 'zhifu',
           component: Zhifu,
-          children:[
-            {
+          children: [{
               path: 'zhifuchenggong',
               name: 'zhifuchenggong',
               component: Zhifuchenggong
@@ -141,7 +149,7 @@ export default new Router({
             },
           ]
         },
-      ]  
+      ]
     },
   ]
 })

@@ -28,7 +28,7 @@
 <script>
 import areasData from "../areasData";
 import Area from "../components/Area";
-import md5 from 'md5';
+import md5 from "md5";
 export default {
   name: "HelloWorld",
   data() {
@@ -61,11 +61,9 @@ export default {
     this.$parent.meth = "立即登录";
     this.$parent.tb = "欢迎注册";
     this.$parent.de = "login";
-    console.log(md5(1111))
   },
   methods: {
     provinceChange() {
-      console.log(this.provinceSelect);
       this.city = areasData[this.provinceSelect];
       this.citySelect = 0;
       this.areaSelect = 0;
@@ -102,7 +100,6 @@ export default {
             })
           )
           .then(data => {
-            console.log(data);
             if (data.data.status == -1) {
               this.picTip = data.data.msg;
               this.yzmtg = 0;
@@ -147,12 +144,10 @@ export default {
                   })
                 )
                 .then(data => {
-                  console.log(data);
                   if (data.data.status < 0) {
                     this.phoneTip = data.data.msg;
                   } else {
                     this.phoneTip = "";
-                    console.log(this.areaNum)
                     // 注册提交接口
                     this.ajax
                       .post(
@@ -160,20 +155,12 @@ export default {
                         this.qs.stringify({
                           cellphone: this.phone,
                           smsType: 1,
-                          validCode:'111111',						
-                          password:this.pass, 
-                          regionId:this.areaNum
-
+                          validCode: "111111",
+                          password: md5(this.pass),
+                          regionId: this.areaNum
                         })
                       )
-                      .then(data => {
-                        console.log(data);
-                      });
-
-
-
-
-
+                      .then(data => {});
                   }
                 });
             }
@@ -194,6 +181,7 @@ div div ul.d3 {
   margin: 0 !important;
   span.qq {
     border: 1px solid !important;
+    cursor: pointer;
   }
 }
 span.tip {
