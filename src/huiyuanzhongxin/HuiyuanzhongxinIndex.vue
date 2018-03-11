@@ -5,8 +5,8 @@
     </div>
     <div class="order">
       <p>订单号：</p>
-      <input type="text" placeholder="请输入订单号搜索">
-      <li>搜索</li>
+      <input type="text" v-model="No" placeholder="请输入订单号搜索">
+      <li @click="search">搜索</li>
     </div>
     <div class="time">
       <p>创建时间：</p>
@@ -53,24 +53,23 @@
                 <p>￥{{dd.totalPrice}}.00</p>
               </div>
               <div class="ddzhuangt">
-                <p>等待买家付款</p>
+                <p>{{yfk}}</p>
               </div>
             </div>
-            
           </div>
           <div class="det-right">
             <div class="zhong">
               <p class="xg">付款</p>
-              <p class="scdd">删除订单</p>
+              <p class="scdd" @click="sc(aa.id)">删除订单</p>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="molu">
-      <span class="sy" v-on:click="count--">上一页</span>
+      <span class="sy" @click="prev" >上一页</span>
       <span class="noone">{{count}}</span>
-      <span class="sy" v-on:click="count++">下一页</span>
+      <p v-if="prevTip"></p><span @click="next" >下一页</span><p v-if="nextTip">xiayiye</p>
     </div>
   </div>
 </template>
@@ -80,22 +79,69 @@ export default {
   name: "HelloWorld",
   data() {
     return {
+      nextTip: "",
+      prevTip: "",
       count: 1,
+      startNum:0,
+      No:undefined,
       data: "",
       startDate: "",
       da: "",
       endDate: "",
+      yfk:'',
       // imgSrc: "http://123.58.241.146:8088/xinda/pic",
       disabledDate(time) {
         return time.getTime() > Date.now();
       }
     };
   },
-  created() {
-    this.ajax
-      .post("/xinda-api/business-order/grid", this.qs.stringify({}))
+  methods:{
+     next() {
+      this.prevTip = 0;
+      if (this.arrLength < 3) {
+        this.nextTip = 1;
+        return;
+      } else {
+        
+        this.startNum+=2;
+        this.xr(2)
+        
+      }
+    },
+    prev() {
+      this.nextTip = 0;
+      if (this.count == 1) {
+        this.prevTip = 1;
+        return;
+      }
+      this.startNum-=2;
+        this.xr(0)
+      
+    },
+     search(){
+       this.startNum=0;
+       this.count=1;
+      this.xr()
+    },
+    xr(i){
+      this.ajax
+      .post("/xinda-api/business-order/grid", this.qs.stringify({
+        limit:2,
+        start:this.startNum,
+        businessNo:this.No
+      }))
       .then(data => {
-        let orderList = data.data.data;
+        if(data.data.data.length==0){
+          return
+        }
+        if(i==2){
+          this.count++;
+        }
+        if(i==0){
+          this.count--;
+        }
+        let orderList = data.data.data;   
+        // console.log(data)    
         var j=0;
         for (let i in orderList) {
           this.ajax
@@ -106,14 +152,52 @@ export default {
               })
             )
             .then(data => {
+              // console.log(data)
               orderList[i].service = data.data.data;
               j++
               if (j == orderList.length ) {
                 this.da = orderList;
+              };
+              if(orderList[i].status == 1){
+                this.yfk = '等待买家付款'
+              }else {
+                this.yfk = '已付款'
               }
-            });
+          });
         }
-      });
+    });
+    },
+    scfw(){
+    this.ajax
+      .post(
+        "/xinda-api/business-order/grid",
+        this.qs.stringify({
+        
+        })
+      )
+      .then(data => {
+        console.log(2222,this.da)
+        this.orderList = data.data.data;
+      })
+    },
+    sc(id){
+      this.ajax
+      .post("/xinda-api/business-order/del",
+        this.qs.stringify({
+          id:id
+        })
+      )
+      .then(data => {
+        console.log(111111,data)
+        this.xr()
+        this.scfw() 
+      })
+    },
+   
+  },
+
+  created() {
+    this.xr()
   }
 };
 </script>
@@ -181,6 +265,7 @@ export default {
       border: 1px solid #2693d4;
       border-radius: 10%;
       margin-left: 10px;
+      cursor: pointer;
     }
   }
   .time {
@@ -311,6 +396,7 @@ export default {
             .scdd {
               color: red;
               margin-top: 7px;
+              cursor: pointer;
             }
           }
         }
