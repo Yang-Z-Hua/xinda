@@ -42,7 +42,7 @@
     <p class="goods_red">注：转账时请将订单编号备注在付款信息里：转账完成后，请通知客服</p>
     <div class="goods_jiesuan">
       <a class="goods_am">金额总计</a><a class="goods_shuzi">￥{{all}}.00</a>
-      <div class="goods_kuang"><a @click="chuxian" class="goods_end" href="javascript:void(0)">去结算</a></div>
+      <div class="goods_kuang"><a @click="chuxian" class="goods_end" :href="sdsd">去结算</a></div>
     </div>
     <div class="imgw1" v-show="pic">
       <a href="javascript:void(0)"  @click="X" class="guanbi">×</a>
@@ -72,7 +72,8 @@ export default {
       sd:'',
       createTime:'',
       pic:0,
-      iii:''
+      iii:'',
+      sdsd:'javascript:void(0)',
     }
   },
   methods:{
@@ -106,7 +107,7 @@ export default {
     }
   },
   sbank(){
-    this.iii = './static/yinhang.png'    
+    this.iii = './static/yinhang.png'
     },
   sxiane(){
     this.iii = './static/yinhang.png'    

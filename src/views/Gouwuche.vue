@@ -25,7 +25,7 @@
       <a class="goods_am">金额总计</a><a :class="goods_shuzi">￥{{total}}.00</a>
       <div class="sd">
         <div class="goods_kuang"><router-link to="/"  class="goods_end">继续购物</router-link></div>
-        <div class="goods_kuang"><a  @click="jiesuan" class="goods_end">去结算</a></div>
+        <div class="goods_kuang"><a  @click="jiesuan" class="goods_end" href="javascript:void(0)">去结算</a></div>
       </div>
     </div>
     <p class="shopping_remen">热门服务</p>
