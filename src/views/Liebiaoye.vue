@@ -137,24 +137,25 @@ export default {
     }
   },
   methods: {
-    gm(a){
-      this.ljgm=a;
+    gm(a) {
+      this.ljgm = a;
     },
-    gm1(){
-      this.ligm=''
+    gm1() {
+      this.ligm = "";
     },
-    gw(a){
-      this.jrgwc=a;
+    gw(a) {
+      this.jrgwc = a;
     },
-    gw1(){
-      this.jrgwc=''
+    gw1() {
+      this.jrgwc = "";
     },
     xpxq(a) {
       this.$router.push({
         path: "/inner/shangpinxiangqing",
-        query:{
-          id:a,
-          id1:this.$route.query.id
+        query: {
+          id: a,
+          id1: this.$route.query.id,
+          firstName:this.$route.query.firstName
         }
       });
     },
@@ -167,7 +168,14 @@ export default {
             num: 1
           })
         )
-        .then(data => {});
+        .then(data => {
+          this.ajax
+            .post("/xinda-api/cart/list", this.qs.stringify({}))
+            .then(data => {
+              this.$parent.$parent.number = data.data.data.length;
+              console.log();
+            });
+        });
     },
     buy(id1) {
       this.ajax
@@ -263,7 +271,7 @@ export default {
         )
         .then(data => {
           this.arr = data.data.data;
-          console.log(this.arr)
+          console.log(this.arr);
           this.arrLength = this.arr.length;
           this.id3 = undefined;
           this.code = undefined;
