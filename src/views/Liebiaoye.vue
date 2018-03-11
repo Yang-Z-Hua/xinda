@@ -34,13 +34,16 @@
             <div class="list" v-for="a in arr" :key="a.id">
               <img :src='imgSrc+a.productImg' alt="">
               <div class="zcfgs">
-                <ul @click="xpxq">{{a.serviceInfo}}</ul>
+                <ul @click="xpxq(a.id)">{{a.serviceInfo}}</ul>
                 <li>{{a.serviceName}}</li>
                 <li><span>{{a.providerName}}</span><span>{{a.regionName}}</span></li>
               </div>
               <div class="sizeal">
                 <ul>￥{{a.marketPrice}}</ul>
-                <li><span @click="buy(a.id)">立即购买</span><span @click="gouwuche(a.id)">加入购物车</span></li>
+                <li>
+                  <span @mousedown="gm(a.id)" @mouseup="gm1" :class="ljgm==a.id?'down':''" @click="buy(a.id)">立即购买</span>
+                  <span @mousedown="gw(a.id)" @mouseup="gw1" :class="jrgwc==a.id?'down':''" @click="gouwuche(a.id)">加入购物车</span>
+                </li>
               </div>
             </div>
             <div class="tsnr" v-if="!arrLength">当前选项无内容</div>
@@ -101,7 +104,9 @@ export default {
       i: 0,
       nextTip: "",
       prevTip: "",
-      firstName: ""
+      firstName: "",
+      ljgm: "", //立即购买背景
+      jrgwc: "" //加入购物车背景
     };
   },
   created() {
@@ -132,9 +137,25 @@ export default {
     }
   },
   methods: {
-    xpxq() {
+    gm(a){
+      this.ljgm=a;
+    },
+    gm1(){
+      this.ligm=''
+    },
+    gw(a){
+      this.jrgwc=a;
+    },
+    gw1(){
+      this.jrgwc=''
+    },
+    xpxq(a) {
       this.$router.push({
-        path: "/inner/shangpinxiangqing"
+        path: "/inner/shangpinxiangqing",
+        query:{
+          id:a,
+          id1:this.$route.query.id
+        }
       });
     },
     gouwuche(id1) {
@@ -242,6 +263,7 @@ export default {
         )
         .then(data => {
           this.arr = data.data.data;
+          console.log(this.arr)
           this.arrLength = this.arr.length;
           this.id3 = undefined;
           this.code = undefined;
@@ -370,6 +392,18 @@ export default {
             color: red;
             font-size: 24px;
             text-align: center;
+          }
+          .sizeal li span.down {
+            background: cornflowerblue;
+            cursor: pointer;
+            color: white;
+            font-size: 14px;
+            line-height: 1;
+            padding: 8px 17px;
+            margin-left: 11px;
+            border-radius: 2px;
+            display: inline-block;
+            margin-top: 25px;
           }
           .sizeal li span {
             cursor: pointer;
