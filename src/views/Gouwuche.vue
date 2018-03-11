@@ -103,6 +103,7 @@ export default {
         }))
         .then((data)=>{
           console.log(sd)
+          console.log(11,data)
         });
         this.key = 0;    
       }
