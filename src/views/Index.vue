@@ -111,7 +111,6 @@ export default {
     this.ajax.post('/xinda-api/product/style/list')
     .then((data)=>{
       this.arr1 = data.data.data;
-      console.log(data)
     })
   },
   
@@ -194,9 +193,12 @@ export default {
 .allproduct{
   width: 1200px;
   display: flex;
+  position: relative;
   .product_list{
     width: 200px;
     background-color: #1b2d43;
+    position: absolute;
+    z-index: 9;
     ul{
       padding: 18px 14px 18px;
       position: relative;
@@ -228,7 +230,6 @@ export default {
         height: 100%;
         background-color: red;
         position: absolute;
-        z-index: 9;
         top: 0;
         left: 200px;
         opacity: .4;
@@ -267,7 +268,7 @@ export default {
     }
   }
   .cycle{
-    width: 1000px;
+    width: 1200px;
     height: 400px;
   }
 }

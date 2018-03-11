@@ -4,7 +4,7 @@
       <li class="top"><p>首页/</p><p>{{title1}}</p></li>
       <div class="content">
         <ul class="left"><img :src="imgSrc+img" alt=""></ul>
-        <ul class="right">
+        <ul class="center">
           <li><h2>{{title1}}</h2></li>
           <li class="introduce"><p>{{info}}</p></li>
           <li class="price"><p>价格</p><span>￥{{Price}}</span><p>{{unit}}</p></li>
@@ -28,16 +28,60 @@
             <button class="but_2">加入购物车</button>
           </li>
         </ul>
+        <ul class="right">
+          <li class="first">
+            <h2>顶级服务商</h2>
+            <p>{{provider}}</p>
+            <button>马上咨询</button>
+          </li>
+          <li class="second">
+            <button>查看服务商</button>
+          </li>
+        </ul>
       </div>
       <img src="../assets/images/center.png" alt="" class="center">
       <div class="message">
         <ul class="m_title">
-          <li><p>服务内容</p></li>
-          <li><p>商品评价</p></li>
+          <li v-for="(val,num) in list" :key="num" @click="test(num)" :class="currentIndex==num?'c_1':'c_2'"><p>{{val}}</p></li>
         </ul>
-        <ul>
-          123
+        <ul class="provide_message">
+          <p v-for="(ser,number) in serve" :key="number">{{ser}}</p>
         </ul>
+        <div class="appraise">
+            <ul class="parsent">
+              <li class="good"><span>{{goodParsent}}%</span><p>好评 </p></li>
+              <div>
+                <li><p>好评（{{goodParsent}}%）</p></li>
+                <li><p>中评（{{middleParsent}}%）</p></li>
+                <li><p>差评（{{badParsent}}%）</p></li>
+              </div>
+              <li class="buy">
+                <p>客户印象</p>
+                <p>暂无已添加的印象标签</p>
+              </li>
+            </ul>
+            <ul class="word">
+              <li><p>全部评价（{{all}}）</p></li>
+              <li><p>好评（{{good}}）</p></li>
+              <li><p>中评（{{middle}}）</p></li>
+              <li><p>差评（{{bad}}）</p></li>
+            </ul>
+            <div class="in">
+              <ul>
+                <li class="appraise_title">
+                  <p>评价</p>
+                  <p>满意度</p>
+                  <p>用户</p>
+                </li>
+                <li class="button">
+                  <button disabled >上一页</button>
+                  <p>1</p>
+                  <button disabled >下一页</button>
+                </li>
+              </ul>
+              
+            </div>
+        </div>
       </div>
     </div>
   </div>
@@ -56,12 +100,23 @@ export default {
       info:'',
       Price:'',
       unit:'',
-      n:'1'
+      provider:'',
+      n:'1',
+      currentIndex:-1,
+      serve:'',
+      list:['服务内容','商品评价'],
+      all:'',
+      goodParsent:'',
+      middleParsent:'',
+      badParsent:'',
+      good:'',
+      middle:'',
+      bad:'',
     }
   },
   created(){
   this.ajax.post('/xinda-api/product/package/detail',this.qs.stringify({
-        sId:'0cb85ec6b63b41fc8aa07133b6144ea3'
+        sId:'this.$route.query.id'
     }))
     .then((data)=>{
       this.arr = data.data.data;
@@ -70,11 +125,29 @@ export default {
       this.info = this.arr.product.info;
       this.Price = this.arr.product.marketPrice;
       this.unit = this.arr.unit;
-      console.log(this.arr)
+      this.provider = this.arr.provider.name;
+      this.serveold = this.arr.providerProduct.serviceContent.replace(/<p>/g,'');
+      this.serve = this.serveold.split('</p>')
     });
+    this.ajax.post('/xinda-api/product/judge/detail',this.qs.stringify({
+       serviceId:'efddc8a338944e998ff2a7142246362b',
+    }))
+    .then((data)=>{
+      this.arr1 = data.data.data;
+      this.good = this.arr1.goodNum;
+      this.middle = this.arr1.midNum;
+      this.bad = this.arr1.badNum;
+      this.all = this.good+this.bad+this.middle;
+      this.goodParsent = this.good*1/1*this.all;
+      this.middleParsent = this.middle*1/1*this.all;
+      this.badParsent = this.bad*1/1*this.all;
+      console.log(this.good)
+    })
   },
   methods:{
-
+    test(num){
+      this.currentIndex = num;
+    }
   }
   
 }
@@ -102,9 +175,9 @@ export default {
       width: 525px;
       }
     }
-    .right{
+    .center{
       margin-left: 32px;
-      width: 387px;
+      width: 379px;
       p{
         font-size: 13px;
         color: #676767;
@@ -187,23 +260,182 @@ export default {
         }
       }
     }
+    .right{
+      width: 198px;
+      height: 232px;
+      border:1px solid #2693d4;
+      margin: 57px 0 0 54px;
+      .first{
+        width: 100%;
+        height: 158px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        font-size: 14px;
+        button{
+          width: 88px;
+          height: 22px;
+          outline: none;
+          border: 1px solid #2693d4;
+          color: #52a5db;
+          background-color: #fff;
+        }
+      }
+      .second{
+        width: 100%;
+        height: 74px;
+        background-color: #bdddf2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        button{
+          width: 110px;
+          height: 30px;
+          margin: auto;
+          border: none;
+          background-color: #2693d4;
+          color: #fff;
+        }
+      }
+    }
   }
 }
 .center{
   margin: 22px 0 38px;
 }
+.c_1{
+  background-color: #2693d4;
+  color:#fff;
+}
+// .c_2{
+//   background-color: #fff;
+// }
 .message{
   width: 1200px;
-  border: 1px solid #ccc;
+  
   .m_title{
     width: 100%;
     border-bottom: 1px solid #ccc;
     line-height: 41px;
     display: flex;
+     border: 1px solid #ccc;
     li{
       width: 135px;
       text-align: center;
     }
   }
+  .provide_message{
+    height: 600px;
+    border: 1px solid #ccc;
+    border-top: none;
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    color: #676767;
+    line-height: 30px;
+    margin-bottom: 69px;
+    p{
+      margin-left: 10px;
+    }
+  }
+  .appraise{
+      width: 100%;
+      .parsent{
+        width: 100%;
+        height: 120px;
+        border: 1px solid #ccc;
+        border-top: none;
+        display: flex;
+        align-items: center;
+        li{
+          display: flex;
+        }
+        .good{
+          color: #2693d4;
+          margin: 0 15px;
+          span{
+            font-size: 45px;
+            font-weight: bold;
+          }
+          p{
+            padding-top: 28px;
+            margin-left: 9px;
+          }
+        }
+        div{
+          line-height: 25px;
+          margin-left: 10px;
+        }
+        .buy{
+          height: 80px;
+          flex-direction: column;
+          margin-left: 500px;
+          border-left: 1px solid #ccc;
+          padding-left: 30px;
+          line-height: 27px;
+        }
+      }
+      .word{
+        width: 1200px;
+        height: 48px;
+        border-left: 1px solid #ccc;
+        border-right: 1px solid #ccc;
+        display: flex;
+        li{
+          line-height: 48px;
+          text-align: center;
+          width: 117px;
+          height: 48px;
+          border-right: 1px solid #ccc;
+        }
+      }
+      .in{
+        width: 1160px;
+        height: 500px;
+        border: 1px solid #ccc;
+        border-top: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        ul{
+          width: 1100px;
+          padding: 20px;
+          border-left: 1px solid #ccc;
+          display: flex;
+          flex-direction: column;
+        }
+        li{      
+          display: flex;
+          line-height: 35px;
+          justify-content: space-around;
+          margin-left: 10px;
+          
+          
+        }
+        .button{
+          justify-content: center;
+          text-align: center;
+          margin: 10px;
+          margin-top: 50px;
+          button{
+            width: 50px;
+            height: 30px;
+            outline: none;
+            border: 1px solid #ccc;
+            margin: 0 5px;
+          }
+           p{
+             width: 25px;
+             line-height: 25px;
+             border: 1px solid rgb(74, 177, 177);
+           }
+          }
+        .appraise_title{
+          border-bottom: 1px solid #ccc;
+        }
+      }
+    }
 }
 </style>
