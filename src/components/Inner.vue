@@ -55,6 +55,7 @@ export default {
       });
   },
   methods: {
+
     csfw() {
       this.$router.push({
         path: "/inner/liebiaoye",

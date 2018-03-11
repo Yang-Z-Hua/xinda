@@ -9,7 +9,7 @@
           <li><a href="#/outter/register">{{ljzc}}</a></li>
         </div>
         <div class="right">
-          <router-link to="/inner/gouwuche">购物车<span>{{number}}</span>件</router-link>
+          <router-link :class="sty" to="/inner/gouwuche">购物车<span>{{number}}</span>件</router-link>
           <li>服务商入口</li>
         </div>
       </ul>
@@ -28,11 +28,26 @@ export default {
       denglu: "登录",
       ljzc: "立即注册",
       tuichu: "",
-      number:''
+      number: "",
+      sty:'hide'
     };
   },
   created() {
-    
+    this.ajax
+      .post("/xinda-api/member/info", this.qs.stringify({}))
+      .then(data => {
+        if (data.data.data) {
+          this.user = data.data.data.cellphone;
+          (this.denglu = ""), (this.ljzc = ""), (this.tuichu = "[退出]");
+          this.sty='show'
+        }else{
+          this.sty='hide'
+        }
+      });
+    this.ajax.post("/xinda-api/cart/list", this.qs.stringify({})).then(data => {
+      console.log("购物车", data.data.data.length);
+      this.number = data.data.data.length;
+    });
   },
   methods: {
     logOut() {
@@ -42,6 +57,7 @@ export default {
       this.user = "";
       this.tuichu = "";
       this.denglu = "登录";
+      this.sty='hide';
       this.ljzc = "立即注册";
       this.$router.push({
         path: "/"
@@ -52,6 +68,12 @@ export default {
 </script>
 
 <style lang='less'>
+.show{
+  display: block
+}
+.hide{
+  display: none
+}
 * {
   padding: 0;
   margin: 0;

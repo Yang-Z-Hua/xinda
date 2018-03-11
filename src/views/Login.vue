@@ -11,12 +11,12 @@
           <span class="tip">{{passwordTip}}</span>
         </ul>
         <ul class="d2">
-          <input type="text"  placeholder="请输入验证码" v-model="yzm">
+          <input type="text"  placeholder="请输入验证码" v-model="yzm" @keypress="inpu">
           <img :src="png" v-on:click='cha'>
           <span class="tip">{{picTip}}</span>
         </ul>
         <ul class="d3"><input type="text"><router-link to='forget'>忘记密码？</router-link></ul>
-        <ul class="d6" @click="login">立即登录</ul>
+        <ul class="d6" @click="login" >立即登录</ul>
       </div>   
     </div>
 </template>
@@ -45,6 +45,11 @@ export default {
     };
   },
   methods: {
+    inpu(e){
+      if(e.keyCode==13){
+        this.login()
+      }
+    },
     cha() {
       this.png += " ";
     },
@@ -74,8 +79,8 @@ export default {
             this.ajax
               .post("/xinda-api/cart/list", this.qs.stringify({}))
               .then(data => {
-                console.log("购物车", data.data.data.length);
                 this.$parent.$parent.number = data.data.data.length;
+                this.$parent.$parent.sty='show'
               });
           }
         });
