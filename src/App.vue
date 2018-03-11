@@ -28,7 +28,7 @@ export default {
       denglu: "登录",
       ljzc: "立即注册",
       tuichu: "",
-      number: "",
+      number: "0",
       sty:'hide'
     };
   },
