@@ -2,7 +2,7 @@
   <div class="outer">
     <div class="allproduct">
       <div class="product_list">
-        <ul v-for="(a,index) in arr1" :key="index" @mouseover="show(index)">
+        <ul v-for="(a,index) in arr1" :key="index">
           <li class="title">
             <img src="../assets/images/tax.png" alt="">
             <p>{{a.name}}</p>
@@ -58,7 +58,7 @@
           <p class="product_title">{{a.serviceName.split('（')[0]}}</p>
           <li><p class="product_introduce">{{a.serviceInfo}}</p></li>
           <p class="product_price"><span>￥{{a.marketPrice}}</span>{{a.unit}}</p>
-          <button>查看详情</button>
+          <button @click="goods(a)">查看详情</button>
       </div>
       
     </div>
@@ -77,15 +77,30 @@
     </ul>
     <img src="../assets/images/approve.png" alt="" class="approve">
     <!-- 推荐服务商 -->
-    <ul class="product_star">
-      <p>推荐服务商</p>
-      <li class="triangle"></li>
-    </ul>
+    <ul class="recommend"> 
+      <li :class="choose1" @click="see1()"><p>推荐服务商</p><span v-show="q"></span></li>
+      <li :class="choose2" @click="see2()"><p>推荐服务</p><span v-show="w"></span></li>
+     </ul>
     <ul class="provider">
-      <img src="../assets/images/zanshi.png" alt="">
-      <img src="../assets/images/zanshi.png" alt="">
-      <img src="../assets/images/zanshi.png" alt="">
-      <img src="../assets/images/zanshi.png" alt="">
+      <div v-for="(d,check) in arr2" :key="check" @click="goShop(check)" v-show="e">
+        <li><img :src="imgSrc+d.providerImg" alt=""></li>
+        <h4>{{d.providerName}}</h4>
+        <p>服务指数：8.4</p>
+        <p>提供的服务</p>
+        <ul>
+          <li v-for="(type,under) in d.productTypes.split(',')" :key="under"><p>{{type}}</p></li>
+          <li class="more">更多产品</li>
+        </ul>
+      </div>
+    </ul>
+    <ul v-show="r" class="again">
+      <div v-for="(a,index) in arr.hq" :key="index">
+          <li class="img"><img :src="imgSrc+a.providerImg" alt=""></li>
+          <p class="product_title">{{a.serviceName.split('（')[0]}}</p>
+          <li><p class="product_introduce">{{a.providerName}}</p></li>
+          <p class="product_price"><span>￥{{a.marketPrice}}</span>{{a.unit}}</p>
+          <button @click="goods(a)">查看详情</button>
+      </div>
     </ul>
 
 
@@ -106,9 +121,16 @@ export default {
   created() {
     this.ajax.post("/xinda-api/recommend/list").then(data => {
       this.arr = data.data.data;
+      console.log(this.arr)
     });
     this.ajax.post("/xinda-api/product/style/list").then(data => {
       this.arr1 = data.data.data;
+    });
+    this.ajax.post("/xinda-api/provider/search-grid").then(data => {
+      this.arr2 = data.data.data;
+    });
+    this.ajax.post("/xinda-api/product/package/search-grid").then(data => {
+      this.arr3 = data.data.data;
     });
   },
 
@@ -118,6 +140,13 @@ export default {
       arr: "",
       arr1: "",
       arr2: "",
+      arr3: "",
+      q:1,
+      w:0,
+      e:1,
+      r:0,
+      choose1:'',
+      choose2:'yuan',
       imgSrc: "http://123.58.241.146:8088/xinda/pic",
       currentIndex: -1
     };
@@ -139,10 +168,6 @@ export default {
     });
   },
   methods: {
-    show(index) {},
-    // off:function(eve){
-    //   this.a = 0;
-    // },
     // firstGo(index){
     //   this.$router.push({
     //       path:'/inner/liebiaoye',
@@ -172,6 +197,39 @@ export default {
           id3: c.id
         }
       });
+    },
+    goShop(check){
+      this.$router.push({
+        path:'/inner/Dianpushouye',
+        query:{
+          id:this.arr2[check].id
+        }
+      })
+    },
+    goods(a){
+      this.$router.push({
+        path:'/inner/shangpinxiangqing',
+        query:{
+          id:a.id,
+          firstName:'zhuanli'
+        }
+      })
+    },
+    see1(){
+      this.q=1;
+      this.w=0;
+      this.e = 1;
+      this.r = 0;
+      this.choose1 = 'sty1';
+      this.choose2 = 'sty2';
+    },
+    see2(){
+      this.q=0;
+      this.w=1;
+      this.e=0;
+      this.r=1;
+      this.choose1 = 'sty2';
+      this.choose2 = 'sty1';
     }
   }
 };
@@ -252,8 +310,11 @@ export default {
             width: 900px;
           }
         }
-        // display: none;
+        display: none;
       }
+    }
+    ul:hover .message{
+      display: flex;
     }
     .list_bottom {
       padding: 18px 14px 19px;
@@ -268,6 +329,160 @@ export default {
   }
 }
 
+// 推荐服务商
+
+.recommend{
+  width: 1200px;
+  display: flex;
+  border-bottom: 1px solid #2693d4;
+  font-size: 14px;
+  color: #2393d3;
+  li{
+    position: relative;
+    cursor: pointer;
+    p{
+      margin-left: 10px;
+      line-height: 30px;
+    }
+
+    span{
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0px;
+      height: 0px;
+      border-left: 4px solid transparent;
+      border-top: none;
+      border-right: 4px solid transparent;
+      border-bottom: 5px solid #2393d3;
+    }
+  }
+  .yuan{
+    color: black;
+  }
+}
+
+.sty1{
+  color: #2393d3;
+}
+.sty2{
+  color: black;
+}
+
+.provider{
+  display: flex;
+  width: 1200px;
+  div{
+    width: 216px;
+    height: 396px;
+    border: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 25px;
+    margin: 20px 30px 0 0;
+    li{
+      height: 180px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      img{
+        width: 120px;
+        }
+    }
+    h5{
+      line-height: 40px;
+    }
+    p{
+      font-size: 14px;
+    }
+    ul{
+      margin-top: 30px;
+      width: 172px;
+      height: 83px;
+      display: flex;
+      flex-wrap: wrap;
+      overflow: hidden;
+      position: relative;
+      li{
+        margin: 6px 6px;
+        width: 74px;
+        height: 29px;
+        background-color: #ffecb7;
+        line-height: 74px;
+        font-size: 14px;
+      }
+      .more{
+        position: absolute;
+        right: 0px;
+        bottom: 0px;
+      }
+    }
+  }
+  div:hover{
+    box-shadow: 0 0 3px 2px rgb(238, 235, 235);
+  }
+}
+
+.again{
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  width: 1200px;
+    div {
+    width: 270px;
+    height: 462px;
+    border: 1px solid #e8e8e8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .img {
+      display: flex;
+      align-items: center;
+      height: 158px;
+      img {
+        width: 256px;
+      }
+    }
+    .product_title {
+      font-size: 16px;
+      font-weight: bold;
+      color: black;
+      margin-top: 20px;
+    }
+    li {
+      height: 70px;
+      margin-top: 14px;
+      .product_introduce {
+        font-size: 14px;
+      }
+    }
+
+    .product_price {
+      font-size: 14px;
+      color: #3d3d3d;
+      margin-top: 28px;
+      span {
+        font-size: 24px;
+        color: #2692d2;
+      }
+    }
+    button {
+      width: 157px;
+      height: 44px;
+      outline: none;
+      border: 2px solid #2693d4;
+      border-radius: 4px;
+      color: #2693d4;
+      font-size: 16px;
+      background-color: transparent;
+      margin-top: 36px;
+      cursor: pointer;
+    }
+  }
+}
+
 // 明星产品
 .product_star {
   margin-top: 45px;
@@ -278,6 +493,7 @@ export default {
   border-bottom: solid 2px #2393d3;
   p {
     margin-left: 10px;
+    color: #2393d3;
   }
   li {
     position: absolute;
@@ -358,7 +574,11 @@ export default {
       font-size: 16px;
       background-color: transparent;
       margin-top: 36px;
+      cursor: pointer;
     }
+  }
+  div:hover{
+    box-shadow: 0 0 3px 2px rgb(194, 239, 245);
   }
 }
 
@@ -393,14 +613,8 @@ export default {
 .approve {
   margin-top: 43px;
 }
-.provider {
-  width: 1200px;
-  display: flex;
-  margin-top: 48px;
-  img {
-    margin-right: 39px;
-  }
-}
+
+
 .partner {
   margin-top: 48px;
   margin-bottom: 100px;

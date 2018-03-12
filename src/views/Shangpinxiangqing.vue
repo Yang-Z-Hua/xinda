@@ -1,9 +1,18 @@
 <template>
   <div>
     <div class="outer">
-      <li class="top"><p>首页/</p><p>{{title1}}</p></li>
+      <li class="top"><p>首页/</p><p>{{lei}}</p></li>
+      
+      
+      <!-- 中间主要部分 -->
+
+
       <div class="content">
-        <ul class="left"><img :src="imgSrc+img" alt=""></ul>
+        <!-- 左部图片 -->
+        <ul class="left"><img :src="img" alt=""></ul>
+
+        <!-- 中间详细介绍 -->
+
         <ul class="center">
           <li><h2>{{title1}}</h2></li>
           <li class="introduce"><p>{{info}}</p></li>
@@ -11,7 +20,7 @@
           <div class="type">
             <ul><p>类型:</p></ul>
             <ul>
-              <li v-for="(a,index) in arr.serviceList" :key="index"><p>{{a.serviceName}}</p></li>
+              <li><p>{{lei}}</p></li>
             </ul>
           </div>
           <li class="area"><p>地区：</p><p>{{arr.providerRegionText}}</p></li>
@@ -28,6 +37,9 @@
             <button class="but_2">加入购物车</button>
           </li>
         </ul>
+
+        <!-- 右部信息框 -->
+
         <ul class="right">
           <li class="first">
             <h2>顶级服务商</h2>
@@ -39,21 +51,35 @@
           </li>
         </ul>
       </div>
-      <img src="../assets/images/center.png" alt="" class="center">
+
+      <!-- 中部广告 -->
+
+      <img src="../assets/images/center.png" alt="" class="guanggao">
+      
+      <!-- 下部评价及服务项 -->
+
       <div class="message">
+
+        <!-- 头部公告样式 -->
+
         <ul class="m_title">
-          <li v-for="(val,num) in list" :key="num" @click="test(num)" :class="currentIndex==num?'c_1':'c_2'"><p>{{val}}</p></li>
+          <li><p :class="changebg1" @click="bottom1()">服务内容</p><p :class="changebg2" @click="bottom2()">商品评价</p></li>
         </ul>
-        <ul class="provide_message">
+
+        <!-- 服务详情 -->
+        <ul class="provide_message" v-show="show">
           <p v-html="serve"></p>
         </ul>
-        <div class="appraise">
+
+        <!-- 详细评价 -->
+
+        <div class="appraise" v-show="disshow">
             <ul class="parsent">
               <li class="good"><span>{{goodParsent}}%</span><p>好评 </p></li>
               <div>
-                <li><p>好评（{{goodParsent}}%）</p></li>
-                <li><p>中评（{{middleParsent}}%）</p></li>
-                <li><p>差评（{{badParsent}}%）</p></li>
+                <li><p>好评（{{goodParsent}}%）</p><span></span></li>
+                <li><p>中评（{{middleParsent}}%）</p><span></span></li>
+                <li><p>差评（{{badParsent}}%）</p><span></span></li>
               </div>
               <li class="buy">
                 <p>客户印象</p>
@@ -78,8 +104,7 @@
                   <p>1</p>
                   <button disabled >下一页</button>
                 </li>
-              </ul>
-              
+              </ul>         
             </div>
         </div>
       </div>
@@ -104,7 +129,6 @@ export default {
       n:'1',
       currentIndex:-1,
       serve:'',
-      list:['服务内容','商品评价'],
       all:'',
       goodParsent:'',
       middleParsent:'',
@@ -112,21 +136,27 @@ export default {
       good:'',
       middle:'',
       bad:'',
+      show:true,
+      disshow:false,
+      changebg2:'',
+      changebg1:'num1'
     }
   },
   created(){
+    // this.lei = this.$route.query.firstName,
+    this.lei = '123'
     this.ajax.post('/xinda-api/product/package/detail',this.qs.stringify({
         sId:this.$route.query.id,
     }))
     .then((data)=>{
       this.arr = data.data.data;
       this.title1 = this.arr.product.name;
-      this.img = this.arr.product.img;
-      this.info = this.arr.product.info;
+      this.img = this.imgSrc+this.arr.product.img;
+      this.info = this.arr.provider.providerInfo;
       this.Price = this.arr.product.marketPrice;
       this.unit = this.arr.unit;
       this.provider = this.arr.provider.name;
-      this.serve = this.arr.providerProduct.serviceContent
+      this.serve = this.arr.providerProduct.serviceContent;
     });
     this.ajax.post('/xinda-api/product/judge/detail',this.qs.stringify({
        serviceId:'efddc8a338944e998ff2a7142246362b',
@@ -145,6 +175,18 @@ export default {
   methods:{
     test(num){
       this.currentIndex = num;
+    },
+    bottom1(eve){
+      this.show = true;
+      this.disshow = false;
+      this.changebg1 = 'num1';
+      this.changebg2 = 'num2';
+    },
+    bottom2(){
+      this.disshow = true;
+      this.changebg2 = 'num1';
+      this.changebg1 = 'num2';
+      this.show = false;
     }
   }
   
@@ -165,23 +207,36 @@ export default {
     margin: 14px 0 0 0;
     color: #686868;
   }
+
+  // 中间主要部分
   .content{
     width: 1200px;
     display: flex;
+
+    // 左部图片
+
     .left{
+      width: 525px;
       img{
       width: 525px;
       }
     }
+
+    // 中间详细介绍
+
     .center{
       margin-left: 32px;
       width: 379px;
+      h2{
+        line-height: 50px;
+      }
       p{
         font-size: 13px;
         color: #676767;
       }
       .introduce{
-        line-height: 50px;
+        line-height: 25px;
+        text-indent: 2em
       }
       .price{
         display: flex;
@@ -258,6 +313,9 @@ export default {
         }
       }
     }
+
+    // 右部信息框
+
     .right{
       width: 198px;
       height: 232px;
@@ -299,16 +357,13 @@ export default {
     }
   }
 }
-.center{
-  margin: 22px 0 38px;
+
+.guanggao{
+  margin: 20px 0;
 }
-.c_1{
-  background-color: #2693d4;
-  color:#fff;
-}
-// .c_2{
-//   background-color: #fff;
-// }
+
+// 下部评价及服务项
+
 .message{
   width: 1200px;
   
@@ -317,12 +372,29 @@ export default {
     border-bottom: 1px solid #ccc;
     line-height: 41px;
     display: flex;
-     border: 1px solid #ccc;
+    border: 1px solid #ccc;
+    background-color: rgb(240, 238, 238);
     li{
-      width: 135px;
+      display: flex;
       text-align: center;
+      p{
+        width: 135px;
+        cursor: pointer;
+      }
+      .num1{
+        background-color: #2693d4;
+        color: #fff;
+      }
+      .num2{
+        background-color: rgb(240, 238, 238);
+        color: black;
+      }
     }
   }
+
+  // 服务详情
+
+
   .provide_message{
     padding-bottom: 50px;
     padding-top: 50px;
@@ -338,6 +410,9 @@ export default {
       margin-left: 10px;
     }
   }
+
+  // 详细评价
+  
   .appraise{
       width: 100%;
       .parsent{
