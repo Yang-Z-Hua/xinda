@@ -16,16 +16,16 @@
         <img :src="'http://123.58.241.146:8088/xinda/pic'+item.providerImg" alt="">
         <li class="shopping_g">{{item.serviceName}}</li>
         <li>￥{{item.unitPrice}}</li>
-        <li class="jiajia"><a @click="key=1,--item.buyNum" href="javascript:void(0)">-</a>{{item.buyNum=item.buyNum>=1?item.buyNum:1}}<a @click="key=1,++item.buyNum" href="javascript:void(0)">+</a></li>
+        <li class="jiajia"><a @click="key=1,--item.buyNum" href="javascript:void(0)" class="asp">-</a>{{item.buyNum=item.buyNum>=1?item.buyNum:1}}<a @click="key=1,++item.buyNum" href="javascript:void(0)" class="asp">+</a></li>
         <li class="shopping_c1">￥{{item.unitPrice*item.buyNum}}</li>
-        <li @click="shopping_del(item.serviceId)" class="dell">删除</li>
+        <li @click="shopping_del(item.serviceId)" class="dell"><a href="javascript:void(0)">删除</a></li>
       </ul> 
     </div>
     <div class="goods_jiesuan">
       <a class="goods_am">金额总计</a><a :class="goods_shuzi">￥{{total}}.00</a>
       <div class="sd">
         <div class="goods_kuang"><router-link to="/"  class="goods_end">继续购物</router-link></div>
-        <div class="goods_kuang"><a  @click="jiesuan" class="goods_end">去结算</a></div>
+        <div class="goods_kuang"><a  @click="jiesuan" class="goods_end" href="javascript:void(0)">去结算</a></div>
       </div>
     </div>
     <p class="shopping_remen">热门服务</p>
@@ -103,9 +103,16 @@ export default {
         }))
         .then((data)=>{
           console.log(sd)
+          console.log(11,data)
         });
         this.key = 0;    
       }
+    }
+  },
+  watch:{
+    shopping_number1(n,o){
+      console.log('检测',n,o)
+      this.$parent.$parent.number = n;
     }
   },
   computed:{
@@ -168,7 +175,7 @@ export default {
     }
     li{
     margin: 23px 80px 10px 80px;
-    a{
+    .asp{
       background-color: #bdbdbd;
       font-size: 20px;
       font-weight: bold;

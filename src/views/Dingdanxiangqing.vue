@@ -26,24 +26,31 @@
     <p class="goods_one goods_noway">平台支付</p>
     <div class="goods_bb">    
       <div class="goods_box1">
-        <input type="radio" class="goods_d" name="fname">
+        <input type="radio" class="goods_d" name="fname" @click="sweixin">
         <img src="../assets/images/dingdan2.jpg" alt="" class="iimg2">        
       </div>
       <div class="goods_box1">
-        <input type="radio" class="goods_d" name="fname">
+        <input type="radio" class="goods_d" name="fname" @click="szhifubao">
         <img src="../assets/images/dingdan3.jpg" alt="" class="iimg2">        
       </div>
     </div>
     <a class="goods_one goods_zizhu">自助转账</a><a class="goods_xiaozi">因限额不能支付时，建议使用自助转账</a>
     <div class="goods_bank">
-      <input type="radio" class="goods_d goods_ds" name="fname">
+      <input type="radio" class="goods_d goods_ds" name="fname" @click="sxiane">
       <img src="../assets/images/dingdan.jpg" alt="" class="iimg3">              
     </div>
     <p class="goods_red">注：转账时请将订单编号备注在付款信息里：转账完成后，请通知客服</p>
     <div class="goods_jiesuan">
       <a class="goods_am">金额总计</a><a class="goods_shuzi">￥{{all}}.00</a>
-      <div class="goods_kuang"><a :href="asd" class="goods_end">去结算</a></div>
-    </div> 
+      <div class="goods_kuang"><a @click="chuxian" class="goods_end" :href="sdsd">去结算</a></div>
+    </div>
+    <div class="imgw1" v-show="pic">
+      <a href="javascript:void(0)"  @click="X" class="guanbi">×</a>
+      <img :src="iii" class="imgw">   
+      <p class="img_p">请使用扫一扫 进行扫码支付</p>
+      <div><router-link class="ak ak1" to="./zhifu/zhifuchenggong">已完成支付</router-link><router-link class="ak" href="javascript:void(0)" to="./zhifu/zhifushibai">支付遇到问题</router-link></div> 
+      <a class="img_p2" href="javascript:void(0)" @click="fanhui">返回重新选择支付方式</a>
+    </div>
   </div>
 </template>
 
@@ -64,6 +71,9 @@ export default {
       serviceOrderList:'',
       sd:'',
       createTime:'',
+      pic:0,
+      iii:'',
+      sdsd:'javascript:void(0)',
     }
   },
   methods:{
@@ -77,13 +87,30 @@ export default {
         var s = date.getSeconds();
         return Y+M+D+h+m+s;
     },
+  sweixin(){
+    this.iii = './static/weixin.jpg'
+  },
+  szhifubao(){
+    this.iii = './static/taobao.jpg'
+  },
+  X(){
+    this.pic  = 0    
+  },
+  fanhui(){
+    this.pic  = 0    
+  },
+  chuxian(){
+    if(this.iii){
+      this.pic  = 1
+    }else{
+      this.pic  = 0    
+    }
+  },
   sbank(){
-    this.ajax.post('/xinda-api/pay/china-pay',this.qs.stringify({
-      // businessNo:S1704040001075133085
-    }))
-    .then((data)=>{
-      console.log(data.data.data)
-    })
+    this.iii = './static/yinhang.png'
+    },
+  sxiane(){
+    this.iii = './static/yinhang.png'    
     }
   },
   created() {
@@ -226,5 +253,47 @@ a{
   text-align: center;
   line-height: 26px;
   display: block;
+}
+.imgw1{
+  width: 332px;
+  height: 364px;
+  position: absolute;
+  top: 605px;
+  left: 542px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px #a7a3a3;
+  .guanbi{
+    width: 332px;
+    height: 40px;
+    background-color: #f8f8f8;
+    display: block;
+    font-weight: bold;
+    font-size: 25px;
+    float: right;
+  }
+  .imgw{
+    width: 188px;
+    height: 188px;
+    margin: 19px 0 0 74px;
+ }
+  .img_p{
+    text-align: center;
+  }
+  .ak{
+    font-size: 12px;
+    padding: 5px 5px;
+    border: 1px solid #6fc2c6;
+    margin: 7px 13px 0 ;
+    display: inline-block;
+  }
+  .ak1{
+    margin-left: 72px;
+  }
+  .img_p2{
+    color: #4eb5ba;
+    margin-top: 20px;
+    text-align: center;
+    display: block;
+  }
 }
 </style>

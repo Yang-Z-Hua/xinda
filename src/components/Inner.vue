@@ -8,7 +8,13 @@
         </div>
         <div class="search">
           <div class="cp"><span>产品 |</span><span> 服务商</span></div>
-          <div class="mdd"><input placeholder="搜索您需要的服务或服务商" type="text"><span><img src="../assets/images/jj.png" alt=""></span></div>
+          <div class="mdd">
+            <input placeholder="搜索您需要的服务或服务商" list="dataList" type="text" v-model="searchFor">
+            <datalist id="dataList">
+              <option v-for="val in list" :key="val.id" :value="val.serviceName"></option>
+            </datalist>
+            <span @click="searchService"><img src="../assets/images/jj.png" alt=""></span>
+          </div>
           <div class="bott"><span>热门服务：</span><span>社保开户</span><span>公司注册</span></div>
         </div>
         <div class="phone">
@@ -20,8 +26,8 @@
         <li>全部产品</li>
         <li @click="csfw">财税服务</li>
         <li @click="gsgs">公司工商</li>
-        <li>加盟我们</li>
-        <li>店铺</li>
+        <li><router-link to="/inner/jiamengwomen">加盟我们</router-link></li>
+        <li><router-link to="/inner/dianpushouye">店铺</router-link></li>
       </div>
     </div>
     <router-view></router-view>
@@ -43,10 +49,23 @@ export default {
     return {
       msg: "Welcome to Your Vue.js App",
       data1: "",
-      data: ""
+      data: "",
+      list: "",
+      searchFor: ""
     };
   },
   created() {
+    this.ajax
+      .post(
+        "/xinda-api/product/package/search-grid",
+        this.qs.stringify({
+          searchName: this.searchFor
+        })
+      )
+      .then(data => {
+        console.log(data.data.data);
+        this.list = data.data.data;
+      });
     this.ajax
       .post("/xinda-api/product/style/list", this.qs.stringify({}))
       .then(data => {
@@ -55,7 +74,28 @@ export default {
       });
   },
   methods: {
-
+    searchService() {
+      this.ajax
+        .post(
+          "/xinda-api/product/package/search-grid",
+          this.qs.stringify({
+            searchName: this.searchFor
+          })
+        )
+        .then(data => {
+          console.log(data.data.data.length);
+          if (data.data.data.length == 1) {
+            this.$router.push({
+              path: "/inner/shangpinxiangqing",
+              query: {
+                id: data.data.data[0].id,
+              }
+            });
+          }else{
+            
+          }
+        });
+    },
     csfw() {
       this.$router.push({
         path: "/inner/liebiaoye",
@@ -152,6 +192,9 @@ export default {
     padding: 0 12px 4px;
     margin: 15px 0 0 100px;
     cursor: pointer;
+    a {
+      color: black;
+    }
   }
 }
 .foot-1 {

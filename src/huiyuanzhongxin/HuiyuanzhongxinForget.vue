@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       user:'',
-      old:6,
+      old:'',
       oldTip:'',
       new1:'',
       reNew1:'',
