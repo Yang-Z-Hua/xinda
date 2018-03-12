@@ -61,20 +61,24 @@ export default {
   },
   methods:{
     jiesuan(){
+    if(this.total !=0){
       this.ajax.post('/xinda-api/cart/submit',this.qs.stringify({	
 
-    }))
-    .then((data)=>{
-      console.log(data.data.data)
-      console.log(this.total)
-      this.$router.push({
-         path:'/dingdanxiangqing',
-         query:{
-           businessNo:data.data.data,
-           op:this.total
-         }
+      }))
+        .then((data)=>{
+        console.log(data.data.data)
+        console.log(this.total)
+        this.$router.push({
+          path:'/dingdanxiangqing',
+          query:{
+            businessNo:data.data.data,
+            op:this.total
+          }
+        })
       })
-    })
+      }else{
+        alert("请购买商品")
+      }
     },
     spxr(){
       this.ajax.post('/xinda-api/cart/list',this.qs.stringify({	
@@ -112,7 +116,9 @@ export default {
   watch:{
     shopping_number1(n,o){
       console.log('检测',n,o)
-      this.$parent.$parent.number = n;
+      if(n!=o){
+        this.$parent.$parent.number = n;
+      }
     }
   },
   computed:{
@@ -159,7 +165,7 @@ export default {
   }
 }
 .shopping_dianpu{
-  margin-left: 80px;
+  margin:18px 0 0 80px;
 }
 // 详情
 .shopping_details{
@@ -167,11 +173,11 @@ export default {
   width: 1205px;
   height: 78px;
   background-color: #f7f7f7;
-  margin: 36px 0 0 0;
+  margin: 18px 0 0 0;
     img{
       width: 124px;
       height: 57px;
-      margin-right: 50px
+      margin:10px 36px 0 9px;
     }
     li{
     margin: 23px 80px 10px 80px;
