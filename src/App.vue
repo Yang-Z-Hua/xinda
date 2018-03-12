@@ -24,12 +24,12 @@ export default {
   name: "App",
   data() {
     return {
-      user: "",
+      user: undefined,
       denglu: "登录",
       ljzc: "立即注册",
       tuichu: "",
       number: "0",
-      sty:'hide'
+      sty: "hide"
     };
   },
   created() {
@@ -39,9 +39,9 @@ export default {
         if (data.data.data) {
           this.user = data.data.data.cellphone;
           (this.denglu = ""), (this.ljzc = ""), (this.tuichu = "[退出]");
-          this.sty='show'
-        }else{
-          this.sty='hide'
+          this.sty = "show";
+        } else {
+          this.sty = "hide";
         }
       });
     this.ajax.post("/xinda-api/cart/list", this.qs.stringify({})).then(data => {
@@ -57,7 +57,7 @@ export default {
       this.user = "";
       this.tuichu = "";
       this.denglu = "登录";
-      this.sty='hide';
+      this.sty = "hide";
       this.ljzc = "立即注册";
       this.$router.push({
         path: "/"
@@ -68,71 +68,97 @@ export default {
 </script>
 
 <style lang='less'>
-.show{
-  display: block
-}
-.hide{
-  display: none
-}
-* {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-#app {
-  min-width: 1200px;
-}
-.head {
-  height: 35px;
-  background-color: #f2f2f2;
-  line-height: 35px;
-}
-.mmm {
-  width: 1200px;
-  margin: 0 auto;
-  font-size: 12px;
-  display: flex;
-}
-.mmm .left {
-  display: flex;
-  color: #2693d4;
-}
-.mmm .left li:nth-child(1) {
-  color: black;
-}
-.mmm .left li:nth-child(2) {
-  cursor: pointer;
-}
-.mmm .left li {
-  margin-right: 18px;
-}
-.mmm .right {
-  display: flex;
-  margin: 0 0 0 auto;
-  a {
+@media screen and (min-width: 768px) {
+  .show {
+    display: block;
+  }
+  .hide {
+    display: none;
+  }
+  * {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  #app {
+    min-width: 1200px;
+  }
+  .head {
+    height: 35px;
+    background-color: #f2f2f2;
+    line-height: 35px;
+  }
+  .mmm {
+    width: 1200px;
+    margin: 0 auto;
+    font-size: 12px;
+    display: flex;
+  }
+  .mmm .left {
+    display: flex;
+    color: #2693d4;
+  }
+  .mmm .left li:nth-child(1) {
     color: black;
-    span {
-      color: #2693d4;
-      padding: 0 4px;
+  }
+  .mmm .left li:nth-child(2) {
+    cursor: pointer;
+  }
+  .mmm .left li {
+    margin-right: 18px;
+  }
+  .mmm .right {
+    display: flex;
+    margin: 0 0 0 auto;
+    a {
+      color: black;
+      span {
+        color: #2693d4;
+        padding: 0 4px;
+      }
     }
   }
+  .mmm .right li {
+    color: #2693d4;
+    margin-left: 17px;
+  }
+  .mmm .right ul {
+    cursor: pointer;
+  }
+  .foot {
+    height: 41px;
+    background-color: #cbcccc;
+    text-align: center;
+    line-height: 41px;
+    font-size: 14px;
+  }
+  a {
+    text-decoration: none;
+    color: #2693d4;
+  }
 }
-.mmm .right li {
-  color: #2693d4;
-  margin-left: 17px;
-}
-.mmm .right ul {
-  cursor: pointer;
-}
-.foot {
-  height: 41px;
-  background-color: #cbcccc;
-  text-align: center;
-  line-height: 41px;
-  font-size: 14px;
-}
-a {
-  text-decoration: none;
-  color: #2693d4;
+@media screen and (max-width: 768px) {
+  .show {
+    display: block;
+  }
+  .hide {
+    display: none;
+  }
+  * {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  .head {
+    display: none
+  }
+  
+  .foot {
+    display: none;
+  }
+  a {
+    text-decoration: none;
+    color: #2693d4;
+  }
 }
 </style>
