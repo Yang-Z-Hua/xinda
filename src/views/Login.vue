@@ -15,7 +15,10 @@
           <img :src="png" v-on:click='cha'>
           <span class="tip">{{picTip}}</span>
         </ul>
-        <ul class="d3"><input type="text"><router-link to='forget'>忘记密码？</router-link></ul>
+        <ul class="d3">
+          <input type="text">
+          <router-link to='forget'>忘记密码？</router-link>
+        </ul>
         <ul class="d6" @click="login" >立即登录</ul>
       </div>   
     </div>
@@ -27,9 +30,11 @@ export default {
   name: "HelloWorld",
   created() {
     this.$parent.ask = "还没有账号？";
+    this.$parent.phoneTittle = "登录";
     this.$parent.meth = "立即注册";
     this.$parent.tb = "欢迎登录";
     this.$parent.de = "register";
+    console.log(this.$route.query.id);
   },
   data() {
     return {
@@ -45,9 +50,9 @@ export default {
     };
   },
   methods: {
-    inpu(e){
-      if(e.keyCode==13){
-        this.login()
+    inpu(e) {
+      if (e.keyCode == 13) {
+        this.login();
       }
     },
     cha() {
@@ -73,6 +78,15 @@ export default {
             this.$parent.$parent.denglu = "";
             this.$parent.$parent.ljzc = "";
             this.$parent.$parent.tuichu = "[退出]";
+            if (this.$route.query.id) {
+              this.$router.push({
+                path: "/inner/shangpinxiangqing",
+                query: {
+                  id: this.$route.query.id
+                }
+              });
+              return;
+            }
             this.$router.push({
               path: "/"
             });
@@ -80,7 +94,7 @@ export default {
               .post("/xinda-api/cart/list", this.qs.stringify({}))
               .then(data => {
                 this.$parent.$parent.number = data.data.data.length;
-                this.$parent.$parent.sty='show'
+                this.$parent.$parent.sty = "show";
               });
           }
         });
@@ -91,16 +105,26 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang='less'>
-div div ul.d3 input {
-  display: none !important;
-}
-div div ul.d3 {
-  margin: 0 0 20px 160px !important;
-  span {
-    border: none !important;
+@media screen and (max-width: 768px) {
+  div div ul.d3 {
+    display: none
+  }
+  .left li.ti {
+    color: red;
   }
 }
-.left li.ti {
-  color: red;
+@media screen and (min-width: 768px) {
+  div div ul.d3 input {
+    display: none !important;
+  }
+  div div ul.d3 {
+    margin: 0 0 20px 160px !important;
+    span {
+      border: none !important;
+    }
+  }
+  .left li.ti {
+    color: red;
+  }
 }
 </style>

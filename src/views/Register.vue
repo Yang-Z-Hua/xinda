@@ -3,18 +3,18 @@
       <div class="left">
         <ul class="d1">
           <input @input="checkphone" v-model="phone" type="text" placeholder='请输入手机号'>
-          <span class="tip">{{phoneTip}}</span>
         </ul>
+          <span class="tip">{{phoneTip}}</span>
         <ul class="d2">
           <input type="text" v-model="pic" placeholder="请输入验证码">
           <img :src="png" v-on:click='cha'>
-          <span class="tip">{{picTip}}</span>
         </ul>
+          <span class="tip">{{picTip}}</span>
         <ul class="d3">
           <input type="text" placeholder="请输入验证码" v-model="phoneyzm">
           <span class="qq" @click="hq">点击获取</span>
-          <span class="tip">{{yzmcw}}</span>
         </ul>
+          <span class="tip">{{yzmcw}}</span>
         <Area ref="c1" :are='aaaa' display='big' @confirm='chose'/>
         <ul class="d5">
           <input v-model="pass" type="text" placeholder="请设置密码">
@@ -59,6 +59,7 @@ export default {
   created() {
     this.$parent.ask = "已有账号？";
     this.$parent.meth = "立即登录";
+    this.$parent.phoneTittle = "注册";
     this.$parent.tb = "欢迎注册";
     this.$parent.de = "login";
   },
@@ -186,5 +187,7 @@ div div ul.d3 {
 }
 span.tip {
   color: red;
+  margin:-15px 0 10px 0;
+  display: block
 }
 </style>
