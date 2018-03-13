@@ -23,17 +23,18 @@
         </div>
         <div class="xia">
           <div class="head1">
-            <span>综合排序</span>
-            <span>价格</span>
+            <span @click="zh" :class="px1">综合排序<ul></ul></span>
+            <span @click="price" :class="px2">价格<ul></ul></span>
           </div>
           <div class="sp">
             <span>商品</span>
             <span>价格</span>
           </div>
           <div class="xq">
-            <div class="paixu">
-              <ul>默认排序</ul>
-              <ul>价格</ul>
+                               <!-- phone -->
+            <div class="paixu"> 
+              <ul @click="zh" :class="px1">默认排序</ul>
+              <ul @click="price" :class="px2">价格</ul>
             </div>
             <div class="list" v-for="a in arr" :key="a.id">
               <img :src='imgSrc+a.productImg' alt="">
@@ -47,7 +48,7 @@
                 <p>{{a.regionName}}</p>
               </div>
               <div class="sizeal">
-                <ul>￥{{a.marketPrice}}</ul>
+                <ul>￥{{a.price}}</ul>
                 <li>
                   <p :class="animi==a.id?'dong':''"></p>
                   <span @mousedown="gm(a.id)" @mouseup="gm1" :class="ljgm==a.id?'down':''" @click="buy(a.id)">立即购买</span>
@@ -61,10 +62,11 @@
         <div class="fanye">
           <span @click="prev" :class="shang1">上一页</span>
           <ul>{{number}}</ul>
-          <!-- <p v-if="prevTip">当前是第一页!!</p> -->
+          <p v-if="prevTip">当前是第一页!!</p>
           <span @click="next" :class="xia1">下一页</span>
-          <!-- <p v-if="nextTip">当前是最后一页!!</p> -->
+          <p v-if="nextTip">当前是最后一页!!</p>
         </div>
+        <div class="tip" v-if="prevTip||nextTip">没有更多了!!!</div>
       </div>
       <div class="right">
         <div>
@@ -117,12 +119,21 @@ export default {
       firstName: "",
       ljgm: "", //立即购买背景
       jrgwc: "", //加入购物车背景
-      animi: ""
+      animi: "",
+      px1: "click", //排序
+      px2: "", //排序
+      pxIndex: "",
+      key: 1,
+      fanye: 3
     };
   },
   created() {
+    console.log(window.innerWidth)
+    if(window.innerWidth<768){
+      this.fanye=5
+    }
     window.scrollTo(0, 0);
-    this.$parent.$parent.status='wait'
+    this.$parent.$parent.status = "wait";
     this.ajax
       .post("/xinda-api/product/style/list", this.qs.stringify({}))
       .then(data => {
@@ -133,7 +144,7 @@ export default {
         this.firstName = this.$route.query.firstName;
         this.code = this.$route.query.code;
         this.fwfl(this.data1);
-        this.$parent.$parent.status=''
+        this.$parent.$parent.status = "";
       });
     this.shang1 = "blue";
   },
@@ -148,7 +159,6 @@ export default {
       this.code = this.$route.query.code;
       this.firstName = this.$route.query.firstName;
       this.fwfl(this.data1);
-      console.log(this.$route.query.code)
       // if(this.$route.query.code==3){
       //   for( let i in this.$parent.arr){
       //     this.$parent.arr[i]=''
@@ -179,7 +189,6 @@ export default {
       });
     },
     gouwuche(id1) {
-      // console.log(1,id1)
       if (!this.$parent.$parent.user) {
         this.$router.push({
           path: "/outter/login",
@@ -236,13 +245,13 @@ export default {
     },
     next() {
       this.prevTip = 0;
-      if (this.arrLength < 3) {
+      if (this.arrLength < this.fanye) {
         this.nextTip = 1;
         return;
       } else {
-        this.num += 3;
+        this.num += this.fanye;
         this.number++;
-        this.chen(this.fyCode, this.fyId);
+        this.chen(this.fyCode, this.fyId, this.pxIndex);
         this.shang1 = "blue";
       }
     },
@@ -252,9 +261,9 @@ export default {
         this.prevTip = 1;
         return;
       }
-      this.num -= 3;
+      this.num -= this.fanye;
       (this.xia1 = "blue"), this.number--;
-      this.chen(this.fyCode, this.fyId);
+      this.chen(this.fyCode, this.fyId, this.pxIndex);
     },
     fwfl(a) {
       //就开始调用一次
@@ -278,9 +287,14 @@ export default {
       this.backgroundlx = "";
       this.type(index);
       this.background = index;
-      if (this.id3) {
+      if (this.id3 && this.key) {
+        this.key = 0;
         this.lxclick(this.id3);
+        this.id3 = "";
+        this.code = "";
+        this.id2 = "";
       } else {
+        this.code = code;
         this.chen(code, undefined);
       }
     },
@@ -293,31 +307,57 @@ export default {
       this.fyCode = undefined;
       this.backgroundlx = index;
       this.chen(0, index);
+      this.id3 = index;
+      this.id2 = "";
+      this.code = "";
     },
     type(a) {
       //产品类型列表
       var data = this.data.data.data[this.$route.query.id].itemList[a].itemList;
       this.sleType = data;
     },
-    chen(code, id) {
+    chen(code, id, sort1) {
       //产品服务列表
+      this.$parent.$parent.status='wait'
       this.ajax
         .post(
           "/xinda-api/product/package/grid",
           this.qs.stringify({
             start: this.num,
-            limit: 3,
+            limit: this.fanye,
             productTypeCode: code,
-            productId: id
+            productId: id,
+            sort: sort1
           })
         )
         .then(data => {
           this.arr = data.data.data;
           this.arrLength = this.arr.length;
-          this.id3 = undefined;
-          this.code = undefined;
-          this.id2 = undefined;
+          this.$parent.$parent.status=''
+          // this.id3 = undefined;
+          // this.code = undefined;
+          // this.id2 = undefined;
         });
+    },
+    zh() {
+      this.px1 = "click";
+      this.pxIndex = "";
+      this.px2 = "";
+      if (this.code) {
+        this.chen(this.code, undefined);
+      } else {
+        this.chen(undefined, this.id3);
+      }
+    },
+    price() {
+      this.pxIndex = 2;
+      this.px2 = "click";
+      this.px1 = "";
+      if (this.code) {
+        this.chen(this.code, undefined, this.pxIndex);
+      } else {
+        this.chen(undefined, this.id3, this.pxIndex);
+      }
     }
   }
 };
@@ -384,10 +424,25 @@ export default {
         .head1 {
           height: 41px;
           border-bottom: 1px solid #cccccc;
-          line-height: 41px;
+          // line-height: 41px;
           background: #f7f7f7;
           span {
             padding: 0 25px;
+            line-height: 41px;
+            height: 100%;
+            display: inline-block;
+            position: relative;
+            cursor: pointer;
+          }
+          .click {
+            background: #2693d4;
+            color: white;
+            ul {
+              left: 45%;
+              position: absolute;
+              border: 6px solid transparent;
+              border-top: 6px solid #2693d4;
+            }
           }
         }
         .sp {
@@ -455,18 +510,20 @@ export default {
             .sizeal li {
               position: relative;
             }
-            .sizeal li p.dong {
+            .sizeal li p {
+              position: absolute;
               top: 35px;
               right: 46px;
-              position: absolute;
               display: inline-block;
+              border-radius: 5px;
+              background-image: url("../assets/images/qwewe.png");
+              transition: transform 0.5s cubic-bezier(0.47, 0, 0.745, 0.715);
+            }
+            .sizeal li p.dong {
               width: 600px;
               height: 60px;
-              opacity: 0.8;
-              border-radius: 5px;
-              transition: transform 0.5s cubic-bezier(0.47, 0, 0.745, 0.715);
+              opacity: 0.7;
               transform: translate(375px, -540px);
-              background-image: url("../assets/images/qwewe.png");
             }
             .sizeal li span.down {
               background: cyan;
@@ -563,6 +620,7 @@ export default {
       .xia {
         margin-top: 25px;
         .head1 {
+          display: none;
           height: 41px;
           border-bottom: 1px solid #cccccc;
           line-height: 41px;
@@ -572,9 +630,9 @@ export default {
           }
         }
         .sp {
+          display: none;
           height: 50px;
           line-height: 50px;
-          display: flex;
           justify-content: space-between;
           border-bottom: 1px solid #cccccc;
           margin: 0 8px;
@@ -582,8 +640,13 @@ export default {
         }
         .xq {
           .paixu {
+            margin: 40px 0 30px;
             display: flex;
             justify-content: center;
+            .click {
+              background: #2693d4;
+              color: white;
+            }
             ul {
               border: 1px solid #2693d4;
               width: 112px;
@@ -598,9 +661,9 @@ export default {
             color: gainsboro;
           }
           .list {
-            margin-top: 10px;
+            margin: 10px;
             display: flex;
-            padding: 10px;
+            padding: 10px 0px;
             align-items: flex-start;
             border-bottom: 1px solid #cccccc;
             img {
@@ -652,13 +715,14 @@ export default {
       }
       .fanye {
         p {
+          display: none;
           color: red;
           line-height: 35px;
           position: absolute;
           left: 580px;
         }
         position: relative;
-        margin: 29px auto 202px;
+        margin: 29px auto 10px;
         display: flex;
         justify-content: center;
         font-size: 14px;
@@ -681,6 +745,10 @@ export default {
           padding: 10px 13px;
           margin: 0 6px;
         }
+      }
+      .tip{
+        color: red;
+        text-align: center
       }
     }
     .right {

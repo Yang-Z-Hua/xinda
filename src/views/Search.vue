@@ -467,6 +467,7 @@ export default {
       .xia {
         margin-top: 25px;
         .head1 {
+          display: none;
           height: 41px;
           border-bottom: 1px solid #cccccc;
           line-height: 41px;
@@ -476,9 +477,9 @@ export default {
           }
         }
         .sp {
+          display: none;
           height: 50px;
           line-height: 50px;
-          display: flex;
           justify-content: space-between;
           border-bottom: 1px solid #cccccc;
           margin: 0 8px;
