@@ -34,6 +34,7 @@
             <button @click="go(index)">进入店铺</button>
           </ul>
         </div>
+        <h1 :class="worryshow">未搜索到該店鋪</h1>
       </div>
     </div>
 
@@ -48,94 +49,128 @@
 </template>
 
 <script>
-import Area from '../components/Area'
+import Area from "../components/Area";
 export default {
-  name: 'HelloWorld',
-  data () {
+  name: "HelloWorld",
+  data() {
     return {
-      msg: 'Welcome to Your Vue.js App',
-      arr:'',
-      imgSrc:'http://123.58.241.146:8088/xinda/pic',
-      currentUnder:0,
-      currentUnder_1:0,
-      titleName:['所有','个人社保','代理记账','企业社保','公司变更','公司注册','审计报告','税务代办','专利申请','商标注册','审计报告'],
-      leiName:['综合排序','价格','接单数']
-    }
+      msg: "Welcome to Your Vue.js App",
+      arr: "",
+      imgSrc: "http://123.58.241.146:8088/xinda/pic",
+      currentUnder: 0,
+      currentUnder_1: 0,
+      titleName: [
+        "所有",
+        "个人社保",
+        "代理记账",
+        "企业社保",
+        "公司变更",
+        "公司注册",
+        "审计报告",
+        "税务代办",
+        "专利申请",
+        "商标注册",
+        "审计报告"
+      ],
+      leiName: ["综合排序", "价格", "接单数"],
+      worryshow :'no'
+    };
   },
   created() {
-    window.scrollTo(0,0),
-    this.ajax.post('/xinda-api/provider/grid')
-    .then((data)=>{
-      this.arr = data.data.data;
-      })
-    },
-  components:{
-    Area
-  },
-  methods:{
-    go(index){
-      // console.log(this.arr[url].id);
-      this.$router.push({
-        path:'/inner/Dianpushouye',
-        query:{
-          id:this.arr[index].id
-        }
-      })
-    },
-    test(under){
-      this.currentUnder = under;
-      if(under==0){
-        this.ajax.post('/xinda-api/provider/grid')
-        .then((data)=>{
-          this.arr=data.data.data;
-        })
-      } else{
-        this.ajax.post('/xinda-api/provider/grid',this.qs.stringify({productTypeCode:under}))
-        .then((data)=>{
-          this.arr=data.data.data;
-        })
-      }
-
-    },
-    close(value){
-      this.pio = value;
-      console.log(this.pio)
-    },
-    change(number){
-      this.currentUnder_1 = number;
-      if(number==0){
-        this.ajax.post('/xinda-api/provider/grid',this.qs.stringify({productTypeCode:this.currentUnder,sort:1}))
-        .then((data)=>{
-          this.arr=data.data.data;
-          console.log('店铺排序',this.dianpu); 
-        })
-      }
-      if(number==1){
-         this.ajax.post('/xinda-api/provider/grid',this.qs.stringify({productTypeCode:this.currentUnder,sort:2}))
-        .then((data)=>{
-          this.arr=data.data.data;
-          console.log('店铺排序',this.dianpu); 
-        })
-      }
-      if(number==2){
-         this.ajax.post('/xinda-api/provider/grid',this.qs.stringify({productTypeCode:this.currentUnder,sort:3}))
-        .then((data)=>{
-          this.arr=data.data.data;
-          console.log('店铺排序',this.dianpu); 
-        })
-      }
+    if (this.$route.query.all == 1) {
+      (this.$parent.$parent.status = "wait"),
+        window.scrollTo(0, 0),
+        this.ajax.post("/xinda-api/provider/grid").then(data => {
+          this.arr = data.data.data;
+          this.$parent.$parent.status = "";
+        });
+    }else if(this.$route.query.arr.length != 0){
+      this.arr = this.$route.query.arr;
+    }else if(this.$route.query.arr.length == 0){
+      this.worryshow = 'yes'
     }
   },
+
+  components: {
+    Area
+  },
+  methods: {
+    go(index) {
+      this.$router.push({
+        path: "/inner/Dianpushouye",
+        query: {
+          id: this.arr[index].id
+        }
+      });
+    },
+    test(under) {
+      this.currentUnder = under;
+      if (under == 0) {
+        this.ajax.post("/xinda-api/provider/grid").then(data => {
+          this.arr = data.data.data;
+        });
+      } else {
+        this.ajax
+          .post(
+            "/xinda-api/provider/grid",
+            this.qs.stringify({ productTypeCode: under })
+          )
+          .then(data => {
+            this.arr = data.data.data;
+          });
+      }
+    },
+    close(value) {
+      this.pio = value;
+      console.log(this.pio);
+    },
+    change(number) {
+      this.currentUnder_1 = number;
+      if (number == 0) {
+        this.ajax
+          .post(
+            "/xinda-api/provider/grid",
+            this.qs.stringify({ productTypeCode: this.currentUnder, sort: 1 })
+          )
+          .then(data => {
+            this.arr = data.data.data;
+            console.log("店铺排序", this.dianpu);
+          });
+      }
+      if (number == 1) {
+        this.ajax
+          .post(
+            "/xinda-api/provider/grid",
+            this.qs.stringify({ productTypeCode: this.currentUnder, sort: 2 })
+          )
+          .then(data => {
+            this.arr = data.data.data;
+            console.log("店铺排序", this.dianpu);
+          });
+      }
+      if (number == 2) {
+        this.ajax
+          .post(
+            "/xinda-api/provider/grid",
+            this.qs.stringify({ productTypeCode: this.currentUnder, sort: 3 })
+          )
+          .then(data => {
+            this.arr = data.data.data;
+            console.log("店铺排序", this.dianpu);
+          });
+      }
+    }
   }
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-.d4{
+.d4 {
   height: 42px;
   align-items: center;
   margin-left: 12px;
-  select{
+  select {
     width: 86px;
     height: 20px;
     border: 1px solid #ccc;
@@ -144,70 +179,69 @@ export default {
     margin-right: 9px;
   }
 }
-.outer1{
+.outer1 {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.home{
+.home {
   width: 1200px;
   font-size: 14px;
   line-height: 27px;
   color: #2a2a2a;
   margin-top: 19px;
 }
-.company{
+.company {
   width: 1199px;
   height: 86px;
   border-top: 1px solid #ccc;
   border-right: 1px solid #ccc;
   background-color: #f7f7f7;
-  ul{
+  ul {
     display: flex;
-    li{
+    li {
       height: 42px;
       border-left: 1px solid #ccc;
       border-bottom: 1px solid #ccc;
     }
-    .area{
+    .area {
       width: 98px;
       line-height: 42px;
       font-size: 16px;
       text-align: center;
       font-weight: bold;
     }
-    .kind{
+    .kind {
       width: 1099px;
     }
-    .kind_list{
+    .kind_list {
       font-size: 14px;
       color: #636363;
       line-height: 25px;
       text-align: center;
       display: flex;
       align-items: center;
-      p{
+      p {
         width: 80px;
         height: 25px;
         border-radius: 4px;
         cursor: pointer;
         margin-left: 12px;
       }
-      p:hover{
+      p:hover {
         background-color: #2693d4;
         color: #fff;
       }
-      
     }
   }
 }
-.sort{
+.sort {
   width: 1198px;
   height: 321px;
   border: 1px solid #ccc;
   margin-top: 24px;
   position: relative;
-  .top{
+  .top {
     position: absolute;
     top: -1px;
     left: -1px;
@@ -215,14 +249,14 @@ export default {
     height: 41px;
     border-bottom: 1px solid #ccc;
     display: flex;
-    li{
+    li {
       position: relative;
       width: 107px;
       line-height: 41px;
       text-align: center;
       cursor: pointer;
       font-size: 14px;
-      div{
+      div {
         width: 0;
         height: 0;
         position: absolute;
@@ -234,84 +268,84 @@ export default {
         border-bottom: none;
       }
     }
-    li:hover{
+    li:hover {
       background-color: #2693d4;
       color: #fff;
     }
-    .default{
-        background-color: #2693d4;
-        color: #fff;
-      }
+    .default {
+      background-color: #2693d4;
+      color: #fff;
+    }
   }
-  .shoplist{
+  .shoplist {
     width: 1198px;
     height: 279px;
     position: absolute;
     bottom: 0;
-    div{
+    div {
       float: left;
       margin: 13px;
       width: 568px;
       height: 250px;
       border: 1px solid #ccc;
       display: flex;
-      .left{
+      .left {
         width: 200px;
         height: 250px;
-        li{
+        li {
           width: 200px;
           text-align: center;
         }
-        .logo{
+        .logo {
           height: 170px;
           margin-top: 18px;
           display: flex;
           align-items: center;
           justify-content: center;
-          img{
+          img {
             width: 100px;
           }
         }
       }
-      .right{
+      .right {
         display: flex;
         flex-direction: column;
         width: 282px;
         margin-top: 20px;
-        h5{
+        h5 {
           line-height: 25px;
         }
-        li{
-          display: flex;        
+        li {
+          display: flex;
         }
-        .two{
-          display: flex;        
-          justify-content: space-between;            
-          }
-        span{
+        .two {
+          display: flex;
+          justify-content: space-between;
+        }
+        span {
           font-size: 12px;
           line-height: 25px;
           color: #ccc;
         }
-        p{
+        p {
           font-size: 14px;
           line-height: 30px;
         }
-        .service{
+        .service {
           color: #fff;
           line-height: 22px;
           display: flex;
           flex-wrap: wrap;
           width: 305px;
-          p{
-          background-color: #2393d3;
-          margin: 5px 4px 0 0;
-          padding: 0 7px;
-          border-radius: 4px;
-          font-size: 12px;
+          p {
+            background-color: #2393d3;
+            margin: 5px 4px 0 0;
+            padding: 0 7px;
+            border-radius: 4px;
+            font-size: 12px;
           }
         }
-        button{
+        button {
           width: 103px;
           height: 33px;
           border-radius: 3px;
@@ -326,14 +360,14 @@ export default {
     }
   }
 }
-.page{
+.page {
   width: 1200px;
   height: 36px;
   display: flex;
   justify-content: center;
   margin-top: 62px;
   margin-bottom: 148px;
-  button{
+  button {
     width: 68px;
     height: 36px;
     outline: none;
@@ -342,7 +376,7 @@ export default {
     color: #ccc;
     margin: 0 3px;
   }
-  li{
+  li {
     width: 37px;
     height: 34px;
     border: 1px solid #2693d4;
@@ -352,8 +386,21 @@ export default {
     margin: 0 3px;
   }
 }
-.style1{
+.style1 {
   background-color: #2393d3;
   color: #fff;
 }
+
+// 未搜索到顯示
+.no{
+  display: none;
+}
+.yes{
+  display: block;
+  width: 100%;
+  text-align: center;
+  line-height: 260px;
+  color: #ccc;
+}
+
 </style>

@@ -54,6 +54,13 @@
       <img src="../assets/images/u16.png" alt="">
     </div>
 
+
+    <!-- 微信端 -->
+    <div class="move_lead">
+
+    </div>
+
+
     <!-- 初创企业必备 -->
     <ul class="product_star">
       <p>初创企业必备</p>
@@ -62,10 +69,12 @@
     <div class="company">
       <div v-for="(a,index) in arr.hq" :key="index">
           <li class="img"><img :src="imgSrc+a.providerImg" alt=""></li>
-          <p class="product_title">{{a.serviceName.split('（')[0]}}</p>
-          <li><p class="product_introduce">{{a.serviceInfo}}</p></li>
-          <p class="product_price"><span>￥{{a.marketPrice}}</span>{{a.unit}}</p>
-          <button @click="goods(a)">查看详情</button>
+          <ul>
+            <p class="product_title">{{a.serviceName.split('（')[0]}}</p>
+            <li class="introduce_li"><p class="product_introduce">{{a.serviceInfo}}</p></li>
+            <p class="product_price"><span>￥{{a.marketPrice}}</span>{{a.unit}}</p>
+            <button @click="goods(a)">查看详情</button>
+          </ul>
       </div>
       
     </div>
@@ -75,7 +84,7 @@
       <li class="triangle"></li>
     </ul>
     <ul class="knowledge">
-      <li><img src="../assets/images/u82.png" alt="" class="u82"></li>
+      <li class="knowledge_1"><img src="../assets/images/u82.png" alt="" class="u82"></li>
       <li class="knowledge_2">
         <img src="../assets/images/u84.png" alt="" class="u84">
         <img src="../assets/images/u86.png" alt="" class="u86">
@@ -111,8 +120,14 @@
     </ul>
 
 
+  <!-- 微信端底部 -->
+  <div class="chat_bottom">
+    <img src="../assets/images/logo.jpg" alt="">
+    <p>一站式企业交易中心</p>
+  </div>
+
     <!-- 合作伙伴 -->
-    <ul class="product_star">
+    <ul class="product_star none">
       <p>合作伙伴</p>
       <li class="triangle"></li>
     </ul>
@@ -346,6 +361,8 @@ export default {
   }
 }
 
+
+
 // 推荐服务商
 
 .recommend{
@@ -559,6 +576,11 @@ export default {
         width: 150px;
       }
     }
+    ul{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
     .product_title {
       font-size: 16px;
       font-weight: bold;
@@ -638,7 +660,19 @@ export default {
   margin-top: 48px;
   margin-bottom: 100px;
 }
+
+// 微信需要大屏隐藏的部分=========================
+.move_lead{
+  display: none;
 }
+.chat_bottom{
+  display: none;
+}
+}
+
+// 分界线==============================
+
+
 @media screen and (max-width: 768px) {
   .small_top{
     display: flex;
@@ -665,11 +699,136 @@ export default {
       width: 100%;
       img{
         width: 100%;
+        height: 190px;
       }
     }
   }
-  .product_star{
+
+  // 微信中部
+.move_lead{
+  width: 100%;
+  height: 392px;
+}
+
+// 初创企业必备
+
+.company{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  div{
+    width: 90%;
+    height: 180px;
+    display: flex;
+    padding: 10px;
+    .img{
+      width: 40%;
+      border: 2px solid #ccc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    ul{
+      display: flex;
+      flex-direction: column;
+      width: 58%;
+      margin: 0 5px;
+      position: relative;
+      .product_title{
+        color: black;
+        font-size: 22px;
+        overflow:hidden;/*超出长度的文字隐藏*/  
+        text-overflow:ellipsis;/*文字隐藏以后添加省略号*/  
+        white-space:nowrap;
+    }
+    .product_title:hover{
+      overflow: visible; 
+    }
+    .introduce_li{
+      .product_introduce{
+        line-height: 30px;
+      }
+    }
+      
+      .product_price{
+        position: absolute;
+        bottom: 0;
+        span{
+          font-size: 26px;
+          color: red;
+        }
+      }
+      button{
+        display: none;
+      }
+    }
+    
+  }
+    // 明星产品推荐
+
+  .star_list{
     display: none;
   }
 }
+
+// 知识产权部分
+.knowledge{
+  .knowledge_1{
+    display: none;
+  }
+  .knowledge_2{
+    width: 100%;
+    .u84{
+      width: 49%;
+    }
+    .u86{
+      width: 49%;
+    }
+    .u88{
+      width: 100%;
+    }
+  }
+}
+
+// 微信端底部
+.chat_bottom{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  p{
+    font-size: 18px;
+    color: #ccc;
+  }
+}
+
+// 广告部分
+.approve{
+  display: none;
+}
+// 合作伙伴部分
+.partner{
+display: none;
+}
+// 推荐服务商
+.recommend{
+  display: none;
+}
+.provider{
+  display: none;
+}
+.again{
+  display: none;
+}
+.product_star{
+  display: none;
+}
+.star_list{
+  display: none;
+}
+}
+
+
+
 </style>
