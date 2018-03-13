@@ -37,7 +37,9 @@
               <ul @click="price" :class="px2">价格</ul>
             </div>
             <div class="list" v-for="a in arr" :key="a.id">
-              <img :src='imgSrc+a.productImg' alt="">
+              <!-- <img :src="img" alt=""> -->
+              <img :src='imgSrc+a.productImg' alt="" onerror='javascript:this.src=this.img;
+              console.log(this.src);this.onerror=null' >
               <div class="zcfgs">
                 <ul @click="xpxq(a.id)">{{a.serviceName}}</ul>
                 <li>{{a.serviceInfo}}</li>
@@ -89,7 +91,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import Area from "../components/Area.vue";
 export default {
@@ -98,6 +99,7 @@ export default {
     return {
       arr: "",
       imgSrc: "http://123.58.241.146:8088/xinda/pic",
+      img:require("../assets/images/zz.jpg"),
       number: "1",
       num: 0,
       sleType: "", //公司注册/变更
@@ -128,9 +130,9 @@ export default {
     };
   },
   created() {
-    console.log(window.innerWidth)
-    if(window.innerWidth<768){
-      this.fanye=5
+    // this.img=require("../assets/images/zz.jpg");
+    if (window.innerWidth < 768) {
+      this.fanye = 5;
     }
     window.scrollTo(0, 0);
     this.$parent.$parent.status = "wait";
@@ -318,7 +320,7 @@ export default {
     },
     chen(code, id, sort1) {
       //产品服务列表
-      this.$parent.$parent.status='wait'
+      this.$parent.$parent.status = "wait";
       this.ajax
         .post(
           "/xinda-api/product/package/grid",
@@ -331,12 +333,10 @@ export default {
           })
         )
         .then(data => {
+          console.log(data)
           this.arr = data.data.data;
           this.arrLength = this.arr.length;
-          this.$parent.$parent.status=''
-          // this.id3 = undefined;
-          // this.code = undefined;
-          // this.id2 = undefined;
+          this.$parent.$parent.status = "";
         });
     },
     zh() {
@@ -362,7 +362,6 @@ export default {
   }
 };
 </script>
-
 <style scoped lang='less'>
 @media screen and (min-width: 768px) {
   .bt {
@@ -746,9 +745,9 @@ export default {
           margin: 0 6px;
         }
       }
-      .tip{
+      .tip {
         color: red;
-        text-align: center
+        text-align: center;
       }
     }
     .right {

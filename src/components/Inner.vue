@@ -11,8 +11,8 @@
         </div>
         <div class="search">
           <div class="cp">
-            <span>产品 |</span>
-            <span> 服务商</span>
+            <span @click="bs(1)" :class="cpfw1">产品 |</span>
+            <span @click="bs(0)" :class="cpfw2"> 服务商</span>
         </div>
           <div class="mdd">
             <input placeholder="搜索您需要的服务或服务商" list="dataList" type="text" v-model="searchFor" @keypress="inpu">
@@ -40,7 +40,7 @@
           <router-link to="/inner/jiamengwomen">加盟我们</router-link>
         </li>
         <li :class="arr[3]" @click='qq(3)'>
-          <router-link to="/inner/dianpu">店铺</router-link>
+          <router-link to="{path:'/inner/dianpu',query:{all:1}}">店铺</router-link>
         </li>
       </div>
     </div>
@@ -66,24 +66,39 @@ export default {
       list: "",
       searchFor: "",
       arr: ["", "", "", ""],
+      cpfw1: "blue",
+      cpfw2: "",
+      i: 1
     };
   },
   created() {
-    this.$parent.status='wait'
-    this.ajax
-      .post(
-        "/xinda-api/product/package/search-grid",
-        this.qs.stringify({
-          searchName: this.searchFor
-        })
-      )
-      .then(data => {
-        this.$parent.status=''
-        // console.log(data.data.data);
-        this.list = data.data.data;
-      });
+    if (this.i) {
+      this.$parent.status = "wait";
+      this.ajax
+        .post(
+          "/xinda-api/product/package/search-grid",
+          this.qs.stringify({
+            searchName: this.searchFor
+          })
+        )
+        .then(data => {
+          this.$parent.status = "";
+          this.list = data.data.data;
+        });
+    }
   },
   methods: {
+    bs(i) {
+      if (i) {
+        this.cpfw1 = "blue";
+        this.cpfw2 = "";
+        this.i = 1;
+      } else {
+        this.cpfw2 = "blue";
+        this.cpfw1 = "";
+        this.i = 0;
+      }
+    },
     qq(i) {
       for (let j in this.arr) {
         this.arr[j] = "";
@@ -96,33 +111,68 @@ export default {
       }
     },
     searchService() {
-      this.$parent.status='wait'
-      this.ajax
-        .post(
-          "/xinda-api/product/package/search-grid",
-          this.qs.stringify({
-            searchName: this.searchFor
-          })
-        )
-        .then(data => {
-          this.$parent.status=''
-          console.log(data.data.data.length);
-          if (data.data.data.length == 1) {
-            this.$router.push({
-              path: "/inner/shangpinxiangqing",
-              query: {
-                id: data.data.data[0].id
-              }
-            });
-          } else {
-            this.$router.push({
-              path: "/inner/search",
-              query: {
-                searchName: this.searchFor
-              }
-            });
-          }
-        });
+      if (this.i) {
+        this.$parent.status = "wait";
+        this.ajax
+          .post(
+            "/xinda-api/product/package/search-grid",
+            this.qs.stringify({
+              searchName: this.searchFor
+            })
+          )
+          .then(data => {
+            this.$parent.status = "";
+            if (data.data.data.length == 1) {
+              this.$router.push({
+                path: "/inner/shangpinxiangqing",
+                query: {
+                  id: data.data.data[0].id
+                }
+              });
+            } else {
+              this.$router.push({
+                path: "/inner/search",
+                query: {
+                  searchName: this.searchFor
+                }
+              });
+            }
+          });
+      } else {
+        this.$parent.status = "wait";
+        this.ajax
+          .post(
+            "/xinda-api/provider/search-grid",
+            this.qs.stringify({
+              searchName: this.searchFor
+            })
+          )
+          .then(data => {
+            this.$parent.status = "";
+            console.log(111,data.data.data);
+             this.$router.push({
+                path: "/inner/dianpu",
+                query: {
+                  arr:data.data.data
+                }
+              });
+            // if (data.data.data.length == 1) {
+            //   this.$router.push({
+            //     path: "/inner/shangpinxiangqing",
+            //     query: {
+            //       id: data.data.data[0].id
+            //     }
+            //   });
+            // } else {
+            //   this.$router.push({
+            //     path: "/inner/search",
+            //     query: {
+            //       searchName: this.searchFor
+            //     }
+            //   });
+            // }
+          });
+      }
     },
     csfw(i) {
       for (let j in this.arr) {
@@ -197,6 +247,12 @@ export default {
       line-height: 1;
       .cp {
         font-size: 14px;
+        span {
+          cursor: pointer;
+        }
+        .blue {
+          color: #2693d4;
+        }
       }
       input {
         outline: none;
