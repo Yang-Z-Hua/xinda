@@ -1,5 +1,9 @@
 <template>
   <div class="outer">
+    <div class="small_top">
+      <ul>北京</ul>
+      <img src="../assets/images/logo.jpg" alt="">
+    </div>
     <div class="allproduct">
       <div class="product_list">
         <ul v-for="(a,index) in arr1" :key="index">
@@ -22,10 +26,13 @@
           <div class="swiper-container HM_lb">
               <div class="swiper-wrapper">
                   <div class="swiper-slide " style="width:100%">
-                      <img class="img-responsive" src="../assets/images/logo.jpg" alt="">
+                      <img class="img-responsive" src="../assets/images/cycle1.jpg" alt="">
                   </div>
                   <div class="swiper-slide " style="width:100%">
-                      <img class="img-responsive" src="../assets/images/logo.jpg" alt="">
+                      <img class="img-responsive" src="../assets/images/cycle2.jpg" alt="">
+                  </div>
+                  <div class="swiper-slide " style="width:100%">
+                      <img class="img-responsive" src="../assets/images/cycle3.jpg" alt="">
                   </div>
               </div>
         <!-- 如果需要分页器 -->
@@ -111,6 +118,7 @@
     </ul>
     <img src="../assets/images/zanshi2.png" alt="" class="partner">
   </div>
+
 </template>
 
 <script>
@@ -119,6 +127,7 @@ import "../assets/swiper.js";
 export default {
   name: "HelloWorld",
   created() {
+    window.scrollTo(0,0),
     this.ajax.post("/xinda-api/recommend/list").then(data => {
       this.arr = data.data.data;
       console.log(this.arr)
@@ -243,7 +252,11 @@ export default {
   flex-direction: column;
   align-items: center;
 }
-.allproduct {
+@media screen and (min-width: 768px) {
+  .small_top{
+    display: none;
+  }
+    .allproduct {
   width: 1200px;
   display: flex;
   position: relative;
@@ -326,6 +339,10 @@ export default {
   .cycle{
     width: 1200px;
     height: 400px;
+    img{
+      width: 1200px;
+      height: 420px;
+    }
   }
 }
 
@@ -440,9 +457,10 @@ export default {
     .img {
       display: flex;
       align-items: center;
+      justify-content: center;
       height: 158px;
       img {
-        width: 256px;
+        width: 150px;
       }
     }
     .product_title {
@@ -535,9 +553,10 @@ export default {
     .img {
       display: flex;
       align-items: center;
+      justify-content: center;
       height: 158px;
       img {
-        width: 256px;
+        width: 150px;
       }
     }
     .product_title {
@@ -618,5 +637,39 @@ export default {
 .partner {
   margin-top: 48px;
   margin-bottom: 100px;
+}
+}
+@media screen and (max-width: 768px) {
+  .small_top{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 72px;
+    position: relative;
+    ul{
+      position: absolute;
+      left: 0;
+      line-height: 72px;
+      font-size: 22px;
+    }
+    img{
+      height: 72px;
+    }
+  }
+  .allproduct{
+    width: 100%;
+    .product_list{
+      display: none;
+    }
+    .cycle{
+      width: 100%;
+      img{
+        width: 100%;
+      }
+    }
+  }
+  .product_star{
+    display: none;
+  }
 }
 </style>
