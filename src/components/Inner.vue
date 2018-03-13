@@ -34,12 +34,12 @@
       </div>
       <div class="xia">
         <li>全部产品</li>
-        <li @click="csfw">财税服务</li>
-        <li @click="gsgs">公司工商</li>
-        <li>
+        <li :class="arr[0]" @click="csfw(0)">财税服务</li>
+        <li :class="arr[1]" @click="gsgs(1)">公司工商</li>
+        <li :class="arr[2]" @click='qq(2)'>
           <router-link to="/inner/jiamengwomen">加盟我们</router-link>
         </li>
-        <li>
+        <li :class="arr[3]" @click='qq(3)'>
           <router-link to="/inner/dianpu">店铺</router-link>
         </li>
       </div>
@@ -65,7 +65,8 @@ export default {
       data1: "",
       data: "",
       list: "",
-      searchFor: ""
+      searchFor: "",
+      arr:['','','',''],
     };
   },
   created() {
@@ -88,6 +89,12 @@ export default {
       });
   },
   methods: {
+    qq(i){
+      for(let j in this.arr){
+        this.arr[j]=''
+      }
+      this.arr[i]='bian'
+    },
     searchService() {
       this.ajax
         .post(
@@ -109,7 +116,11 @@ export default {
           }
         });
     },
-    csfw() {
+    csfw(i) {
+      for(let j in this.arr){
+        this.arr[j]=''
+      }
+      this.arr[i]='bian';
       this.$router.push({
         path: "/inner/liebiaoye",
         query: {
@@ -121,7 +132,11 @@ export default {
         }
       });
     },
-    gsgs() {
+    gsgs(i) {
+      for(let j in this.arr){
+        this.arr[j]=''
+      }
+      this.arr[i]='bian';
       this.$router.push({
         path: "/inner/liebiaoye",
         query: {
@@ -129,7 +144,8 @@ export default {
           id3: undefined,
           id2: undefined,
           firstName: "公司工商",
-          code: 4
+          code: 4,
+          
         }
       });
     }
@@ -151,7 +167,7 @@ export default {
 @media screen and (min-width: 768px) {
   .head-1 {
     width: 1200px;
-    height: 150px;
+    height: 148px;
     margin: 0 auto;
     border-bottom: 1px solid #2693d4;
   }
@@ -212,11 +228,22 @@ export default {
     li {
       font-size: 18px;
       color: #555555;
-      padding: 0 12px 4px;
-      margin: 15px 0 0 100px;
+      padding: 4px 20px 4px;
+      margin: 15px 0 0 84px;
       cursor: pointer;
       a {
         color: black;
+      }
+    };
+    li:nth-child(1):hover{
+      color: white;
+      background: #2693d4;
+    }
+    .bian{
+      color: white;
+      background: #2693d4;
+      a{
+        color: white;
       }
     }
   }

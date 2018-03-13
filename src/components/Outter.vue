@@ -48,6 +48,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style  lang='less'>
 @media screen and (min-width: 768px) {
+  .db{
+    display: none
+  }
   .head-2 {
     width: 1200px;
     margin: 25px auto;
@@ -70,6 +73,9 @@ export default {
       margin: 42px auto;
       background: white;
       display: flex;
+      .bt {
+        display: none;
+      }
       .right {
         margin-top: 30px;
         ul {
@@ -136,7 +142,7 @@ export default {
   .head-2 {
     display: none;
   }
-   .db {
+  .db {
     background: #4d4d4d;
     height: 79px;
     width: 100% !important;
@@ -146,20 +152,19 @@ export default {
     line-height: 79px;
     padding: 0 20px;
     box-sizing: border-box;
-    ul:nth-child(2){
-      margin:0 0 0 auto;
+    ul:nth-child(2) {
+      margin: 0 0 0 auto;
       background: #2693d4;
       height: 50px;
       line-height: 50px;
       padding: 0 30px;
       margin-top: 15px;
-      a{
-        color: white
+      a {
+        color: white;
       }
     }
   }
   .middl-2 {
-   
     height: 100vh;
     background: #f8f8f8;
     overflow: hidden;

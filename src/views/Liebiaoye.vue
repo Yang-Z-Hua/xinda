@@ -22,15 +22,19 @@
           </ul>
         </div>
         <div class="xia">
-          <!-- <div class="head1">
+          <div class="head1">
             <span>综合排序</span>
             <span>价格</span>
           </div>
           <div class="sp">
             <span>商品</span>
             <span>价格</span>
-          </div> -->
+          </div>
           <div class="xq">
+            <div class="paixu">
+              <ul>默认排序</ul>
+              <ul>价格</ul>
+            </div>
             <div class="list" v-for="a in arr" :key="a.id">
               <img :src='imgSrc+a.productImg' alt="">
               <div class="zcfgs">
@@ -142,6 +146,13 @@ export default {
       this.code = this.$route.query.code;
       this.firstName = this.$route.query.firstName;
       this.fwfl(this.data1);
+      console.log(this.$route.query.code)
+      // if(this.$route.query.code==3){
+      //   for( let i in this.$parent.arr){
+      //     this.$parent.arr[i]=''
+      //     //?????????????
+      //   }
+      // }
     }
   },
   methods: {
@@ -388,6 +399,9 @@ export default {
         }
         .xq {
           margin: 0 8px;
+          .paixu {
+            display: none;
+          }
           .tsnr {
             text-align: center;
             font-size: 40px;
@@ -405,9 +419,9 @@ export default {
               border: 1px solid #cccccc;
               margin-right: 12px;
             }
-            .zcfgs{
-              p{
-                display: none
+            .zcfgs {
+              p {
+                display: none;
               }
             }
             .zcfgs ul {
@@ -565,6 +579,16 @@ export default {
           padding: 0 30px;
         }
         .xq {
+          .paixu {
+            display: flex;
+            justify-content: center;
+            ul {
+              border: 1px solid #2693d4;
+              width: 112px;
+              text-align: center;
+              line-height: 35px;
+            }
+          }
           .tsnr {
             text-align: center;
             font-size: 40px;
@@ -574,7 +598,7 @@ export default {
           .list {
             margin-top: 10px;
             display: flex;
-            padding: 10px ;
+            padding: 10px;
             align-items: flex-start;
             border-bottom: 1px solid #cccccc;
             img {
@@ -585,7 +609,7 @@ export default {
             }
             .zcfgs {
               width: 240px;
-              p{
+              p {
                 font-size: 12px;
               }
             }
@@ -609,14 +633,14 @@ export default {
               white-space: nowrap;
               text-overflow: ellipsis;
             }
-            .zcfgs li:nth-child(2){
-              display: none
+            .zcfgs li:nth-child(2) {
+              display: none;
             }
             .sizeal ul {
               color: red;
               font-size: 12px;
               text-align: center;
-              margin: 45px 10px 0 5px
+              margin: 45px 10px 0 5px;
             }
             .sizeal li {
               display: none;
