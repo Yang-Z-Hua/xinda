@@ -78,7 +78,7 @@ export default {
         })
       )
       .then(data => {
-        console.log(data.data.data);
+        // console.log(data.data.data);
         this.list = data.data.data;
       });
     this.ajax

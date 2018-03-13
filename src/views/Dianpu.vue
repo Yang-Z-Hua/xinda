@@ -4,30 +4,18 @@
     <div class="company">
       <ul>
         <li class="area">服务区域</li>
-        <li class="kind"><Area></Area></li>
+        <li class="kind"><Area @confirm="close"></Area></li>
       </ul>
       <ul>
         <li class="area">产品类型</li>
         <li class="kind kind_list">
-          <p>所有</p>
-          <p>专利申请</p>
-          <p>版权保护</p>
-          <p>商标注册</p>
-          <p>代理记账</p>
-          <p>公司注册</p>
-          <p>企业社保</p>
-          <p>公司变更</p>
-          <p>税务代办</p>
-          <p>个人社保</p>
-          <p>审计报告</p>
+          <p v-for="(name,under) in titleName" :key="under" @click="test(under)" :class="currentUnder==under?'style1':''">{{name}}</p>
         </li>
       </ul>
     </div>
     <div class="sort">
       <ul class="top">
-        <li class="default"><p>综合排序</p><div v-show="a"></div></li>
-        <li><p>价格</p><div v-show="b"></div></li>
-        <li><p>接单数</p><div v-show="c"></div></li>
+        <li v-for="(i,number) in leiName" :key="number" @click="change(number)" :class="currentUnder_1==number?'default':''"><p>{{i}}</p></li>
       </ul>
       <div class="shoplist">
         <div v-for="(a,index) in arr" :key="index">
@@ -39,7 +27,7 @@
             <h5>{{a.providerName}}</h5>
             <li><span>信誉</span></li>
             <li><span>{{a.regionName}}</span></li>
-            <li><p>累计客户服务次数：{{a.orderNum}}</p><p>好评率：{{a.goodJudge/a.totalJudge*100}}%</p></li>
+            <li class="two"><p>累计客户服务次数：{{a.orderNum}}</p><p>好评率：{{a.goodJudge*100/4*a.totalJudge}}%</p></li>
             <li class="service">
               <p v-for="b in a.productTypes.split(',')" :key="b">{{b}}</p>
             </li>
@@ -68,12 +56,14 @@ export default {
       msg: 'Welcome to Your Vue.js App',
       arr:'',
       imgSrc:'http://123.58.241.146:8088/xinda/pic',
-      a:1,
-      b:0,
-      c:0,
+      currentUnder:0,
+      currentUnder_1:0,
+      titleName:['所有','个人社保','代理记账','企业社保','公司变更','公司注册','审计报告','税务代办','专利申请','商标注册','审计报告'],
+      leiName:['综合排序','价格','接单数']
     }
   },
   created() {
+    window.scrollTo(0,0),
     this.ajax.post('/xinda-api/provider/grid')
     .then((data)=>{
       this.arr = data.data.data;
@@ -91,9 +81,52 @@ export default {
           id:this.arr[index].id
         }
       })
+    },
+    test(under){
+      this.currentUnder = under;
+      if(under==0){
+        this.ajax.post('/xinda-api/provider/grid')
+        .then((data)=>{
+          this.arr=data.data.data;
+        })
+      } else{
+        this.ajax.post('/xinda-api/provider/grid',this.qs.stringify({productTypeCode:under}))
+        .then((data)=>{
+          this.arr=data.data.data;
+        })
+      }
+
+    },
+    close(value){
+      this.pio = value;
+      console.log(this.pio)
+    },
+    change(number){
+      this.currentUnder_1 = number;
+      if(number==0){
+        this.ajax.post('/xinda-api/provider/grid',this.qs.stringify({productTypeCode:this.currentUnder,sort:1}))
+        .then((data)=>{
+          this.arr=data.data.data;
+          console.log('店铺排序',this.dianpu); 
+        })
+      }
+      if(number==1){
+         this.ajax.post('/xinda-api/provider/grid',this.qs.stringify({productTypeCode:this.currentUnder,sort:2}))
+        .then((data)=>{
+          this.arr=data.data.data;
+          console.log('店铺排序',this.dianpu); 
+        })
+      }
+      if(number==2){
+         this.ajax.post('/xinda-api/provider/grid',this.qs.stringify({productTypeCode:this.currentUnder,sort:3}))
+        .then((data)=>{
+          this.arr=data.data.data;
+          console.log('店铺排序',this.dianpu); 
+        })
+      }
     }
+  },
   }
-}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -213,12 +246,11 @@ export default {
   .shoplist{
     width: 1198px;
     height: 279px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
     position: absolute;
     bottom: 0;
     div{
+      float: left;
+      margin: 13px;
       width: 568px;
       height: 250px;
       border: 1px solid #ccc;
@@ -244,14 +276,18 @@ export default {
       .right{
         display: flex;
         flex-direction: column;
-        width: 268px;
+        width: 282px;
         margin-top: 20px;
         h5{
           line-height: 25px;
         }
         li{
-          display: flex;
+          display: flex;        
         }
+        .two{
+          display: flex;        
+          justify-content: space-between;            
+          }
         span{
           font-size: 12px;
           line-height: 25px;
@@ -315,5 +351,9 @@ export default {
     color: #2393d3;
     margin: 0 3px;
   }
+}
+.style1{
+  background-color: #2393d3;
+  color: #fff;
 }
 </style>

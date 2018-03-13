@@ -139,12 +139,12 @@ export default {
       show:true,
       disshow:false,
       changebg2:'',
-      changebg1:'num1'
+      changebg1:'num1',
+      lei:''
     }
   },
   created(){
-    // this.lei = this.$route.query.firstName,
-    this.lei = '123'
+    window.scrollTo(0,0),
     this.ajax.post('/xinda-api/product/package/detail',this.qs.stringify({
         sId:this.$route.query.id,
     }))
@@ -157,7 +157,9 @@ export default {
       this.unit = this.arr.unit;
       this.provider = this.arr.provider.name;
       this.serve = this.arr.providerProduct.serviceContent;
+      this.send(this.title1);
     });
+    
     this.ajax.post('/xinda-api/product/judge/detail',this.qs.stringify({
        serviceId:'efddc8a338944e998ff2a7142246362b',
     }))
@@ -170,8 +172,10 @@ export default {
       this.goodParsent = this.good*1/1*this.all;
       this.middleParsent = this.middle*1/1*this.all;
       this.badParsent = this.bad*1/1*this.all;
+      
     })
   },
+  
   methods:{
     test(num){
       this.currentIndex = num;
@@ -187,6 +191,28 @@ export default {
       this.changebg2 = 'num1';
       this.changebg1 = 'num2';
       this.show = false;
+    },
+    
+    send(back){
+      this.ajax.post('/xinda-api/product/style/list')
+    .then((data)=>{
+      var da = data.data.data;
+      var x='';
+      var y='';
+      var z='';
+      for(x in da){
+          for(y in da[x].itemList){
+            var erji = da[x].itemList[y];
+            for(z in erji.itemList){
+              if(erji.itemList[z].name == back){
+                this.lei = da[x].name;
+              }
+            }
+          
+          }
+        }
+    })
+      
     }
   }
   
