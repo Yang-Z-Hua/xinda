@@ -15,7 +15,7 @@
             <span> 服务商</span>
         </div>
           <div class="mdd">
-            <input placeholder="搜索您需要的服务或服务商" list="dataList" type="text" v-model="searchFor">
+            <input placeholder="搜索您需要的服务或服务商" list="dataList" type="text" v-model="searchFor" @keypress="inpu">
             <datalist id="dataList">
               <option v-for="val in list" :key="val.id" :value="val.serviceName"></option>
             </datalist>
@@ -66,7 +66,7 @@ export default {
       data: "",
       list: "",
       searchFor: "",
-      arr:['','','',''],
+      arr: ["", "", "", ""]
     };
   },
   created() {
@@ -89,11 +89,16 @@ export default {
       });
   },
   methods: {
-    qq(i){
-      for(let j in this.arr){
-        this.arr[j]=''
+    qq(i) {
+      for (let j in this.arr) {
+        this.arr[j] = "";
       }
-      this.arr[i]='bian'
+      this.arr[i] = "bian";
+    },
+    inpu(e) {
+      if (e.keyCode == 13) {
+        this.searchService();
+      }
     },
     searchService() {
       this.ajax
@@ -113,14 +118,20 @@ export default {
               }
             });
           } else {
+            this.$router.push({
+              path: "/inner/search",
+              query: {
+                searchName: this.searchFor
+              }
+            });
           }
         });
     },
     csfw(i) {
-      for(let j in this.arr){
-        this.arr[j]=''
+      for (let j in this.arr) {
+        this.arr[j] = "";
       }
-      this.arr[i]='bian';
+      this.arr[i] = "bian";
       this.$router.push({
         path: "/inner/liebiaoye",
         query: {
@@ -133,10 +144,10 @@ export default {
       });
     },
     gsgs(i) {
-      for(let j in this.arr){
-        this.arr[j]=''
+      for (let j in this.arr) {
+        this.arr[j] = "";
       }
-      this.arr[i]='bian';
+      this.arr[i] = "bian";
       this.$router.push({
         path: "/inner/liebiaoye",
         query: {
@@ -144,8 +155,7 @@ export default {
           id3: undefined,
           id2: undefined,
           firstName: "公司工商",
-          code: 4,
-          
+          code: 4
         }
       });
     }
@@ -157,12 +167,11 @@ export default {
 <style scoped lang='less'>
 @media screen and (max-width: 768px) {
   .head-1 {
-    display: none
+    display: none;
   }
   .foot-1 {
-    display: none
+    display: none;
   }
-  
 }
 @media screen and (min-width: 768px) {
   .head-1 {
@@ -234,15 +243,15 @@ export default {
       a {
         color: black;
       }
-    };
-    li:nth-child(1):hover{
+    }
+    li:nth-child(1):hover {
       color: white;
       background: #2693d4;
     }
-    .bian{
+    .bian {
       color: white;
       background: #2693d4;
-      a{
+      a {
         color: white;
       }
     }

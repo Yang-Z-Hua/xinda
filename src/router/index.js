@@ -23,6 +23,7 @@ import Shangpinxiangqing from '@/views/Shangpinxiangqing'
 import Zhifuchenggong from '@/zhifu/Zhifuchenggong'
 import Zhifushibai from '@/zhifu/Zhifushibai'
 import Zhifu from '@/views/Zhifu'
+import Search from '@/views/Search'
 
 Vue.use(Router)
 
@@ -127,6 +128,11 @@ export default new Router({
           path: 'liebiaoye',
           name: 'liebiaoye',
           component: Liebiaoye
+        },
+        {
+          path: 'search',
+          name: 'search',
+          component: Search
         },
         {
           path: 'shangpinxiangqing',
