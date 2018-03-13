@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :class="status">
     <div class="head">
       <ul class="mmm">
         <div class="left">
@@ -29,7 +29,9 @@ export default {
       ljzc: "立即注册",
       tuichu: "",
       number: "0",
-      sty: "hide"
+      sty: "hide",
+      status:''
+
     };
   },
   created() {
@@ -68,6 +70,9 @@ export default {
 </script>
 
 <style lang='less'>
+.wait{
+  cursor: wait!important
+}
 @media screen and (min-width: 768px) {
   .show {
     display: block;

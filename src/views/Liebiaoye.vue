@@ -122,6 +122,7 @@ export default {
   },
   created() {
     window.scrollTo(0, 0);
+    this.$parent.$parent.status='wait'
     this.ajax
       .post("/xinda-api/product/style/list", this.qs.stringify({}))
       .then(data => {
@@ -132,6 +133,7 @@ export default {
         this.firstName = this.$route.query.firstName;
         this.code = this.$route.query.code;
         this.fwfl(this.data1);
+        this.$parent.$parent.status=''
       });
     this.shang1 = "blue";
   },

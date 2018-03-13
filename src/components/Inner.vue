@@ -62,14 +62,14 @@ export default {
   data() {
     return {
       msg: "Welcome to Your Vue.js App",
-      data1: "",
       data: "",
       list: "",
       searchFor: "",
-      arr: ["", "", "", ""]
+      arr: ["", "", "", ""],
     };
   },
   created() {
+    this.$parent.status='wait'
     this.ajax
       .post(
         "/xinda-api/product/package/search-grid",
@@ -78,14 +78,9 @@ export default {
         })
       )
       .then(data => {
+        this.$parent.status=''
         // console.log(data.data.data);
         this.list = data.data.data;
-      });
-    this.ajax
-      .post("/xinda-api/product/style/list", this.qs.stringify({}))
-      .then(data => {
-        this.data1 = data.data.data;
-        this.data1 = "2e110f0df53243c197fede52fba8e5d0";
       });
   },
   methods: {
@@ -101,6 +96,7 @@ export default {
       }
     },
     searchService() {
+      this.$parent.status='wait'
       this.ajax
         .post(
           "/xinda-api/product/package/search-grid",
@@ -109,6 +105,7 @@ export default {
           })
         )
         .then(data => {
+          this.$parent.status=''
           console.log(data.data.data.length);
           if (data.data.data.length == 1) {
             this.$router.push({
@@ -164,7 +161,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang='less'>
+<style  lang='less'>
 @media screen and (max-width: 768px) {
   .head-1 {
     display: none;
