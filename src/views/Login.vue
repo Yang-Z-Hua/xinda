@@ -35,6 +35,7 @@ export default {
     this.$parent.tb = "欢迎登录";
     this.$parent.de = "register";
     console.log(this.$route.query.id);
+    this.$parent.$parent.status = "wait1";
   },
   data() {
     return {

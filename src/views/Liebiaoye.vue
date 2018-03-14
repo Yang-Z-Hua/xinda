@@ -38,8 +38,7 @@
             </div>
             <div class="list" v-for="a in arr" :key="a.id">
               <!-- <img :src="img" alt=""> -->
-              <img :src='imgSrc+a.productImg' alt="" onerror='javascript:this.src=this.img;
-              console.log(this.src);this.onerror=null' >
+              <img :src='imgSrc+a.productImg' alt="" @error='defaultImg' >
               <div class="zcfgs">
                 <ul @click="xpxq(a.id)">{{a.serviceName}}</ul>
                 <li>{{a.serviceInfo}}</li>
@@ -93,13 +92,14 @@
 </template>
 <script>
 import Area from "../components/Area.vue";
+const defaultImgUrl = require("../assets/images/zz.jpg");
 export default {
   name: "HelloWorld",
   data() {
     return {
       arr: "",
       imgSrc: "http://123.58.241.146:8088/xinda/pic",
-      img:require("../assets/images/zz.jpg"),
+      img: require("../assets/images/zz.jpg"),
       number: "1",
       num: 0,
       sleType: "", //公司注册/变更
@@ -130,7 +130,6 @@ export default {
     };
   },
   created() {
-    // this.img=require("../assets/images/zz.jpg");
     if (window.innerWidth < 768) {
       this.fanye = 5;
     }
@@ -146,7 +145,7 @@ export default {
         this.firstName = this.$route.query.firstName;
         this.code = this.$route.query.code;
         this.fwfl(this.data1);
-        this.$parent.$parent.status = "";
+        this.$parent.$parent.status = "wait1";
       });
     this.shang1 = "blue";
   },
@@ -155,6 +154,7 @@ export default {
   },
   watch: {
     $route() {
+      this.key = 1;
       this.data1 = this.$route.query.id;
       this.id2 = this.$route.query.id2;
       this.id3 = this.$route.query.id3;
@@ -170,6 +170,10 @@ export default {
     }
   },
   methods: {
+    defaultImg(e) {
+      console.log("run in this");
+      e.target.src = defaultImgUrl;
+    },
     gm(a) {
       this.ljgm = a;
     },
@@ -183,6 +187,7 @@ export default {
       this.jrgwc = "";
     },
     xpxq(a) {
+      this.$parent.$parent.status = "wait";
       this.$router.push({
         path: "/inner/shangpinxiangqing",
         query: {
@@ -192,6 +197,7 @@ export default {
     },
     gouwuche(id1) {
       if (!this.$parent.$parent.user) {
+        this.$parent.$parent.status = "wait";
         this.$router.push({
           path: "/outter/login",
           query: {
@@ -223,6 +229,7 @@ export default {
     },
     buy(id1) {
       if (!this.$parent.$parent.user) {
+        this.$parent.$parent.status = "wait";
         this.$router.push({
           path: "/outter/login",
           query: {
@@ -280,6 +287,7 @@ export default {
       }
     },
     fwflClick(index, code) {
+      this.$parent.$parent.status = "Lwait";
       this.nextTip = 0;
       this.prevTip = 0;
       this.number = 1;
@@ -297,10 +305,11 @@ export default {
         this.id2 = "";
       } else {
         this.code = code;
-        this.chen(code, undefined);
+        this.chen(code, undefined, this.pxIndex);
       }
     },
     lxclick(index) {
+      this.$parent.$parent.status = "Lwait";
       this.nextTip = 0;
       this.prevTip = 0;
       this.number = 1;
@@ -308,7 +317,7 @@ export default {
       this.fyId = index;
       this.fyCode = undefined;
       this.backgroundlx = index;
-      this.chen(0, index);
+      this.chen(0, index, this.pxIndex);
       this.id3 = index;
       this.id2 = "";
       this.code = "";
@@ -320,7 +329,6 @@ export default {
     },
     chen(code, id, sort1) {
       //产品服务列表
-      this.$parent.$parent.status = "wait";
       this.ajax
         .post(
           "/xinda-api/product/package/grid",
@@ -333,10 +341,10 @@ export default {
           })
         )
         .then(data => {
-          console.log(data)
+          console.log(data);
           this.arr = data.data.data;
           this.arrLength = this.arr.length;
-          this.$parent.$parent.status = "";
+          this.$parent.$parent.status = "wait1";
         });
     },
     zh() {

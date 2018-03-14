@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="status">
+  <div id="app" @scroll="wait()">
     <div class="head">
       <ul class="mmm">
         <div class="left">
@@ -15,7 +15,11 @@
       </ul>
     </div>
     <router-view></router-view>    
-        <div class="foot">ⒸCopyright 2016北京信达科技有限公司 京ICP备 16011621号</div>  
+    <div class="foot">ⒸCopyright 2016北京信达科技有限公司 京ICP备 16011621号</div>  
+    <div :class="status">
+      <img src="../src/assets/images/wait.jpg" alt="">
+      <ul>正在加载，请稍等....</ul>
+    </div>
   </div>
 </template>
 
@@ -30,11 +34,11 @@ export default {
       tuichu: "",
       number: "0",
       sty: "hide",
-      status:''
-
+      status: ""
     };
   },
   created() {
+    // window.onscroll=this.wait;
     this.ajax
       .post("/xinda-api/member/info", this.qs.stringify({}))
       .then(data => {
@@ -52,6 +56,9 @@ export default {
     });
   },
   methods: {
+    wait() {
+      window.scrollTo(0, 0);
+    },
     logOut() {
       this.ajax
         .post("/xinda-api/sso/logout", this.qs.stringify({}))
@@ -70,8 +77,45 @@ export default {
 </script>
 
 <style lang='less'>
-.wait{
-  cursor: wait!important
+.wait1 {
+  display: none;
+}
+.Lwait {
+  cursor: wait !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  // background-color: w;
+  ul {
+    display: none;
+  }
+  img {
+    display: none;
+  }
+}
+.wait {
+  cursor: wait !important;
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: white;
+  z-index: 12;
+  opacity: 0.8;
+  ul {
+    text-align: center;
+  }
+  img {
+    // position: absolute;
+    // top: 30%;
+    // left: 50%;
+    display: block;
+    margin: 40vh auto 0;
+  }
 }
 @media screen and (min-width: 768px) {
   .show {
@@ -155,9 +199,9 @@ export default {
     list-style: none;
   }
   .head {
-    display: none
+    display: none;
   }
-  
+
   .foot {
     display: none;
   }

@@ -33,14 +33,35 @@
         </div>
       </div>
       <div class="xia">
-        <li>全部产品</li>
+        <li>全部产品
+        <div class="allproduct">
+          <div class="product_list">
+            <ul v-for="(a,index) in arr1" :key="index">
+              <li class="title">
+                <img src="../assets/images/tax.png" alt="">
+                <p>{{a.name}}</p>
+              </li>
+              <li class="example">
+                <a v-for="(b,key1) in arr1[index].itemList" :key="key1" @click="secondGo(a,b,index)">{{b.name}}</a>
+              </li>
+              <li class="message">
+                <div v-for="(b,key1) in arr1[index].itemList" :key="key1">
+                  <li class="secondTitle"><p>{{b.name}}></p></li>
+                  <li class="thirdTitle"><a v-for="(c,key2) in arr1[index].itemList[key1].itemList" :key="key2" @click="thirdGo(a,c,index,b)">{{c.name}}</a></li>            
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        </li>
         <li :class="arr[0]" @click="csfw(0)">财税服务</li>
         <li :class="arr[1]" @click="gsgs(1)">公司工商</li>
         <li :class="arr[2]" @click='qq(2)'>
           <router-link to="/inner/jiamengwomen">加盟我们</router-link>
         </li>
         <li :class="arr[3]" @click='qq(3)'>
-          <router-link to="{path:'/inner/dianpu',query:{all:1}}">店铺</router-link>
+          <router-link :to="{path:'/inner/dianpu',query:{all:1}}">店铺</router-link>
         </li>
       </div>
     </div>
@@ -68,32 +89,64 @@ export default {
       arr: ["", "", "", ""],
       cpfw1: "blue",
       cpfw2: "",
-      i: 1
+      i: 1,
+      arr1: ""
     };
   },
   created() {
+    this.ajax.post("/xinda-api/product/style/list").then(data => {
+      this.arr1 = data.data.data;
+    });
     if (this.i) {
+      this.chen("/xinda-api/product/package/search-grid");
+    }
+  },
+  methods: {
+    secondGo(a, b, index) {
+      this.$router.push({
+        path: "/inner/liebiaoye",
+        query: {
+          firstName: a.name,
+          id: index,
+          id2: b.id,
+          code: b.code
+        }
+      });
+    },
+    thirdGo(a, c, index, b) {
+      this.$router.push({
+        path: "/inner/liebiaoye",
+        query: {
+          firstName: a.name,
+          id: index,
+          id2: b.id,
+          id3: c.id
+        }
+      });
+    },
+    chen(a) {
       this.$parent.status = "wait";
       this.ajax
         .post(
-          "/xinda-api/product/package/search-grid",
+          a,
           this.qs.stringify({
             searchName: this.searchFor
           })
         )
         .then(data => {
-          this.$parent.status = "";
+          this.$parent.status = "wait1";
           this.list = data.data.data;
+          console.log(this.list);
         });
-    }
-  },
-  methods: {
+    },
     bs(i) {
       if (i) {
+        this.chen("/xinda-api/product/package/search-grid");
         this.cpfw1 = "blue";
         this.cpfw2 = "";
         this.i = 1;
       } else {
+        this.list = ["大唐", "云智慧"];
         this.cpfw2 = "blue";
         this.cpfw1 = "";
         this.i = 0;
@@ -121,7 +174,7 @@ export default {
             })
           )
           .then(data => {
-            this.$parent.status = "";
+            this.$parent.status = "wait1";
             if (data.data.data.length == 1) {
               this.$router.push({
                 path: "/inner/shangpinxiangqing",
@@ -148,29 +201,14 @@ export default {
             })
           )
           .then(data => {
-            this.$parent.status = "";
-            console.log(111,data.data.data);
-             this.$router.push({
-                path: "/inner/dianpu",
-                query: {
-                  arr:data.data.data
-                }
-              });
-            // if (data.data.data.length == 1) {
-            //   this.$router.push({
-            //     path: "/inner/shangpinxiangqing",
-            //     query: {
-            //       id: data.data.data[0].id
-            //     }
-            //   });
-            // } else {
-            //   this.$router.push({
-            //     path: "/inner/search",
-            //     query: {
-            //       searchName: this.searchFor
-            //     }
-            //   });
-            // }
+            this.$parent.status = "wait1";
+            console.log(111, data.data.data);
+            this.$router.push({
+              path: "/inner/dianpu",
+              query: {
+                arr: data.data.data
+              }
+            });
           });
       }
     },
@@ -263,6 +301,7 @@ export default {
         padding-left: 10px;
       }
       .mdd span {
+        cursor: pointer;
         display: inline-block;
         width: 100px;
         height: 41px;
@@ -286,8 +325,104 @@ export default {
     }
   }
   .head-1 .xia {
+    .allproduct {
+      display: none;
+      width: 1000px;
+      // display: flex;
+      position: absolute;
+      top: 32px;
+      left: 0;
+      .product_list {
+        width: 200px;
+        background-color: #1b2d43;
+        position: absolute;
+        z-index: 9;
+        ul {
+          padding: 18px 14px 18px;
+          position: relative;
+          p {
+            color: #d5d7d9;
+            margin: 0 9px;
+          }
+          a {
+            color: #d5d7d9;
+            margin: 0 2px 0 18px;
+            text-decoration: none;
+            cursor: pointer;
+          }
+          li {
+            display: flex;
+            flex-wrap: wrap;
+          }
+          .title {
+            line-height: 26px;
+            font-size: 16px;
+          }
+          .example {
+            line-height: 28px;
+            font-size: 14px;
+            padding-left: 17px;
+          }
+          .message {
+            width: 916px;
+            // height: 100%;
+            background-color: #2693d4;
+            opacity: 0.9;
+            position: absolute;
+            top: 0;
+            a {
+              color: white;
+            }
+            a:hover {
+              color: black;
+            }
+            left: 200px;
+            // opacity: 0.4;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            font-size: 16px;
+            a {
+              border-left: 1px solid #ccc;
+              padding: 0 5px 0 10px;
+              margin: 10px 0;
+            }
+            div {
+              width: 800px;
+              display: flex;
+              line-height: 17px;
+              li {
+                display: flex;
+                flex-wrap: wrap;
+              }
+              .secondTitle {
+                width: 120px;
+                padding-top: 10px;
+                p {
+                  color: white;
+                }
+              }
+              .thirdTitle {
+                width: 900px;
+              }
+            }
+            display: none;
+          }
+        }
+        ul:hover .message {
+          display: flex;
+        }
+        .list_bottom {
+          padding: 18px 14px 19px;
+        }
+        ul:hover {
+          background-color: #2693d4;
+        }
+      }
+    }
     display: flex;
-    li {
+    position: relative;
+    > li {
       font-size: 18px;
       color: #555555;
       padding: 4px 20px 4px;
@@ -297,9 +432,15 @@ export default {
         color: black;
       }
     }
+    li:nth-child(1) {
+      position: relative;
+    }
     li:nth-child(1):hover {
       color: white;
       background: #2693d4;
+      .allproduct {
+        display: block;
+      }
     }
     .bian {
       color: white;

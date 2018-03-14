@@ -5,7 +5,7 @@
       <img src="../assets/images/logo.jpg" alt="">
     </div>
     <div class="allproduct">
-      <div class="product_list">
+      <!-- <div class="product_list">
         <ul v-for="(a,index) in arr1" :key="index">
           <li class="title">
             <img src="../assets/images/tax.png" alt="">
@@ -21,7 +21,7 @@
             </div>
           </li>
         </ul>
-      </div>
+      </div> -->
       <div class="cycle">
           <div class="swiper-container HM_lb">
               <div class="swiper-wrapper">
@@ -39,7 +39,6 @@
           <div class="swiper-pagination"></div>
           </div>
       </div>
-        
     </div>
 
     <!-- 明星产品推荐 -->
@@ -147,9 +146,9 @@ export default {
       this.arr = data.data.data;
       console.log(this.arr)
     });
-    this.ajax.post("/xinda-api/product/style/list").then(data => {
-      this.arr1 = data.data.data;
-    });
+    // this.ajax.post("/xinda-api/product/style/list").then(data => {
+    //   this.arr1 = data.data.data;
+    // });
     this.ajax.post("/xinda-api/provider/search-grid").then(data => {
       this.arr2 = data.data.data;
     });
@@ -200,28 +199,28 @@ export default {
     //       }
     //     })
     // },
-    secondGo(a, b, index) {
-      this.$router.push({
-        path: "/inner/liebiaoye",
-        query: {
-          firstName: a.name,
-          id: index,
-          id2: b.id,
-          code: b.code
-        }
-      });
-    },
-    thirdGo(a, c, index, b) {
-      this.$router.push({
-        path: "/inner/liebiaoye",
-        query: {
-          firstName: a.name,
-          id: index,
-          id2: b.id,
-          id3: c.id
-        }
-      });
-    },
+    // secondGo(a, b, index) {
+    //   this.$router.push({
+    //     path: "/inner/liebiaoye",
+    //     query: {
+    //       firstName: a.name,
+    //       id: index,
+    //       id2: b.id,
+    //       code: b.code
+    //     }
+    //   });
+    // },
+    // thirdGo(a, c, index, b) {
+    //   this.$router.push({
+    //     path: "/inner/liebiaoye",
+    //     query: {
+    //       firstName: a.name,
+    //       id: index,
+    //       id2: b.id,
+    //       id3: c.id
+    //     }
+    //   });
+    // },
     goShop(check){
       this.$router.push({
         path:'/inner/Dianpushouye',
