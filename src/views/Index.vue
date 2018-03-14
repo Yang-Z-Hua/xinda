@@ -191,36 +191,6 @@ export default {
     });
   },
   methods: {
-    // firstGo(index){
-    //   this.$router.push({
-    //       path:'/inner/liebiaoye',
-    //       query:{
-    //         id:this.arr1[index].id
-    //       }
-    //     })
-    // },
-    // secondGo(a, b, index) {
-    //   this.$router.push({
-    //     path: "/inner/liebiaoye",
-    //     query: {
-    //       firstName: a.name,
-    //       id: index,
-    //       id2: b.id,
-    //       code: b.code
-    //     }
-    //   });
-    // },
-    // thirdGo(a, c, index, b) {
-    //   this.$router.push({
-    //     path: "/inner/liebiaoye",
-    //     query: {
-    //       firstName: a.name,
-    //       id: index,
-    //       id2: b.id,
-    //       id3: c.id
-    //     }
-    //   });
-    // },
     goShop(check){
       this.$router.push({
         path:'/inner/Dianpushouye',

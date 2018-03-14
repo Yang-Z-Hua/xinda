@@ -60,6 +60,7 @@ export default {
       window.scrollTo(0, 0);
     },
     logOut() {
+      this.status = "wait";
       this.ajax
         .post("/xinda-api/sso/logout", this.qs.stringify({}))
         .then(data => {});
