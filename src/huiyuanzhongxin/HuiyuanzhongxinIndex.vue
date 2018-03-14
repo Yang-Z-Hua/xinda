@@ -1,6 +1,7 @@
 <template>
   <div class="right">
     <div class="right-top">
+      <span>{{xy}}</span>
       <p>我的订单</p>
     </div>
     <div class="order">
@@ -24,11 +25,15 @@
       </ul>
       <div class="list-top"  v-for="aa in da" :key="aa.id">
         <div class="order-time">
-          <p>订单号：</p>
-          <span>{{aa.businessNo}}</span>
-          <p>下单时间：</p>
-          <span>{{new Date(aa.createTime).getFullYear()+'-'+
-                  new Date(aa.createTime).getMonth()+'-'+
+          <div>
+            <p>订单号：</p>
+            <span>{{aa.businessNo}}</span>
+          </div>
+          <p class="dengdai">{{yfk}}</p>
+          <p class="xiadan">下单时间：</p>
+          <span class="xiadan">{{
+                  new Date(aa.createTime).getFullYear()+'-'+
+                  (new Date(aa.createTime).getMonth()+1)+'-'+
                   new Date(aa.createTime).getDate()+' '+
                   new Date(aa.createTime).getHours()+':'+
                   new Date(aa.createTime).getMinutes()+':'+
@@ -43,12 +48,28 @@
                   <!-- <img :src="imgSrc+dd.providerImg" alt=""> -->
                 </div>
                 <div class="xdfw">
-                  <p>{{dd.providerName}}</p>
-                  <p>{{dd.serviceName}}</p>
+                  <p class="prov">{{dd.providerName}}</p>
+                  <p class="baogao">{{dd.serviceName}}</p>
+                  <span class="xiadan">下单时间：</span>
+                  <span class="xiadan">{{
+                          new Date(aa.createTime).getFullYear()+'-'+
+                          (new Date(aa.createTime).getMonth()+1)+'-'+
+                          new Date(aa.createTime).getDate()+' '+
+                          new Date(aa.createTime).getHours()+':'+
+                          new Date(aa.createTime).getMinutes()+':'+
+                          new Date(aa.createTime).getSeconds()
+                  }}</span>
+                  <div class="pl">
+                    <span class="yuan">￥{{dd.unitPrice}}</span>
+                    <span>元</span>
+                    <span class="xone">x{{dd.buyNum}}</span>
+                  </div>
                 </div>
-                <p>￥{{dd.unitPrice}}.00</p>
-                <span class="one">{{dd.buyNum}}</span>
-              </div>
+                <div class="price">
+                    <span>￥{{dd.unitPrice}}.00</span>
+                  <span class="one">{{dd.buyNum}}</span>
+                </div>
+              </div> 
               <div class="zongjia">
                 <p>￥{{dd.totalPrice}}.00</p>
               </div>
@@ -59,13 +80,27 @@
           </div>
           <div class="det-right">
             <div class="zhong">
-              <p class="xg">付款</p>
+              <p class="xg" @click="fukuan(aa.businessNo,aa.totalPrice)">付款</p>
               <p class="scdd" @click="sc(aa.id)">删除订单</p>
             </div>
           </div>
+          <div class="fksc">
+            <div class="zongqian">
+              <span>合计 :</span>
+              <span class="aato">￥{{aa.totalPrice}}</span>
+            </div>
+            <div class="ddfk">
+              <span class="aato"   @click="sc(aa.id)">删除订单</span>
+              <span class="fuk" @click="fukuan(aa.businessNo,aa.totalPrice)">付款</span>
+            </div>
+          </div>
+          <div class="dicolor"></div>
         </div>
       </div>
     </div>
+    <!-- <div class="meidd" v-if="mnr">
+      <span>还没有订单！</span>
+    </div> -->
     <div class="molu">
       <span class="sy" @click="prev" >上一页</span>
       <span class="noone">{{count}}</span>
@@ -79,15 +114,17 @@ export default {
   name: "HelloWorld",
   data() {
     return {
+      // mnr:true,
+      xy:"<",
       nextTip: "",
       prevTip: "",
       count: 1,
       startNum:0,
       No:undefined,
       data: "",
-      startDate: "",
+      startDate: undefined,
       da: "",
-      endDate: "",
+      endDate:undefined,
       yfk:'',
       // imgSrc: "http://123.58.241.146:8088/xinda/pic",
       disabledDate(time) {
@@ -96,13 +133,22 @@ export default {
     };
   },
   methods:{
+    fukuan(asd,mmm){
+      // console.log(asd,mmm)
+      this.$router.push({
+        path:'/dingdanxiangqing',
+        query:{
+        businessNo:asd,
+        op:mmm
+        }
+      })
+    },
      next() {
       this.prevTip = 0;
       if (this.arrLength < 3) {
         this.nextTip = 1;
         return;
       } else {
-        
         this.startNum+=2;
         this.xr(2)
         
@@ -116,7 +162,6 @@ export default {
       }
       this.startNum-=2;
         this.xr(0)
-      
     },
      search(){
        this.startNum=0;
@@ -128,11 +173,18 @@ export default {
       .post("/xinda-api/business-order/grid", this.qs.stringify({
         limit:2,
         start:this.startNum,
-        businessNo:this.No
+        businessNo:this.No,
+        // startTime:this.startDate,
+        // endTime:this.endDate
       }))
       .then(data => {
-        if(data.data.data.length==0){
+        console.log(data)
+        if(data.data.data.length == 0){
+          this.da ='';
+          // this.mnr = this.mnr;
           return
+        }else{
+          // this.mnr = !this.mnr
         }
         if(i==2){
           this.count++;
@@ -141,7 +193,6 @@ export default {
           this.count--;
         }
         let orderList = data.data.data;   
-        // console.log(data)    
         var j=0;
         for (let i in orderList) {
           this.ajax
@@ -152,10 +203,10 @@ export default {
               })
             )
             .then(data => {
-              // console.log(data)
+              console.log(data)
               orderList[i].service = data.data.data;
               j++
-              if (j == orderList.length ) {
+              if (j == orderList.length) {
                 this.da = orderList;
               };
               if(orderList[i].status == 1){
@@ -167,19 +218,6 @@ export default {
         }
     });
     },
-    scfw(){
-    this.ajax
-      .post(
-        "/xinda-api/business-order/grid",
-        this.qs.stringify({
-        
-        })
-      )
-      .then(data => {
-        console.log(2222,this.da)
-        this.orderList = data.data.data;
-      })
-    },
     sc(id){
       this.ajax
       .post("/xinda-api/business-order/del",
@@ -190,12 +228,9 @@ export default {
       .then(data => {
         console.log(111111,data)
         this.xr()
-        this.scfw() 
       })
     },
-   
   },
-
   created() {
     this.xr()
   }
@@ -219,211 +254,400 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-* {
-  margin: 0;
-  padding: 0;
-}
-.right {
-  width: 936px;
-  display: inline-block;
-  margin: 36px 0 0 22px;
-  .right-top {
-    width: 875px;
-    height: 21px;
-    border-bottom: 2px solid #f7f7f7;
-    p {
+@media (max-width:768px){
+  * {margin: 0;padding: 0;}
+    .right {
+      width: 100%;
       display: inline-block;
-      padding: 0 29px 7px;
-      font-size: 14px;
-      line-height: 14px;
-      color: #52a3da;
-      border-bottom: 2px solid #2693d4;
-      z-index: 2;
-      position: absolute;
-      margin-left: 9px;
-    }
-  }
-  .order {
-    margin: 22px 0 0 2px;
-    height: 26px;
-    p {
-      font-size: 14px;
-      display: inline-block;
-    }
-    input {
-      width: 261px;
-      height: 21px;
-      margin-left: 13px;
-    }
-    li {
-      display: inline-block;
-      list-style: none;
-      padding: 5px 20px;
-      color: #52a3da;
-      font-size: 13px;
-      line-height: 13px;
-      border: 1px solid #2693d4;
-      border-radius: 10%;
-      margin-left: 10px;
-      cursor: pointer;
-    }
-  }
-  .time {
-    margin: 22px 0 0 2px;
-    height: 26px;
-    p {
-      display: inline-block;
-      font-size: 14px;
-    }
-    .rili {
-      width: 111px;
-    }
-  }
-  .list {
-    // height: 404px;
-    margin-top: 22px;
-    ul {
-      display: flex;
-      height: 34px;
-      background-color: #f7f7f7;
-      align-items: center;
-      li {
-        font-size: 12px;
-        font-weight: bold;
-      }
-      .sp {
-        margin-left: 37px;
-      }
-      .dj {
-        margin-left: 275px;
-      }
-      .sl {
-        margin-left: 89px;
-      }
-      .zje {
-        margin-left: 89px;
-      }
-      .zt {
-        margin-left: 93px;
-      }
-      .cz {
-        margin-left: 86px;
-      }
-    }
-    .list-top {
-      // height: 172px;
-      margin-top: 10px;
-      border: 1px solid #e8e8e8;
-      .order-time {
-        height: 37px;
-        display: flex;
-        background-color: #f7f7f7;
-        font-size: 12px;
-        align-items: center;
-        p {
-          display: inline-block;
-          margin-left: 23px;
-        }
-      }
-      .details {
-        // height: 134px;
-        display: flex;
-        .det-left {
-          // height: 134px;
-          width: 815px;
-          font-size: 12px;
-          border-right: 1px solid #e8e8e8;
-          .manei {
-            height: 67px;
-            display: flex;
-            border-top: 1px solid #e8e8e8;
-            .zuo {
-              width: 533px;
-              // height: 67px;
-              display: flex;
-              align-items: center;
-              border-right: 1px solid #e8e8e8;
-              .img {
-                width: 48px;
-                margin-left: 12px;
-                overflow: hidden;
-              }
-              .xdfw {
-                margin-left: 11px;
-                width: 279px;
-              }
-              .one {
-                margin-left: 83px;
-              }
-            }
-            .zongjia {
-              width: 138px;
-              border-right: 1px solid #e8e8e8;
-              color: #53a4db;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-            }
-            .ddzhuangt {
-              width: 142px;
-              color: #53a4db;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-            }
-          }
-          .mn-bot {
-            border-top: 1px solid #e8e8e8;
-          }
-        }
-        .det-right {
-          width: 118px;
-          font-size: 14px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          border-top: 1px solid #e8e8e8;
-          .zhong {
-            width: 56px;
-            height: 45px;
-            .xg {
-              display: inline-block;
-              padding: 0 13px;
-              color: #52a3da;
-              border: 1px solid #2693d4;
-              border-radius: 10%;
-            }
-            .scdd {
-              color: red;
-              margin-top: 7px;
-              cursor: pointer;
-            }
-          }
-        }
-      }
-    }
-  }
-  .molu {
-    display: flex;
-    justify-content: center;
-    margin-top: 37px;
-    span {
-      border: 1px solid #cccccc;
-      width: 66px;
-      height: 34px;
-      display: flex;
+    .right-top {
+      height: 40px;
+      display:-webkit-box;
       justify-content: center;
       align-items: center;
-      color: #cccccc;
+      background-color: #e5e5e5;
+      p {
+        display: inline-block;
+        font-size: 14px;
+        line-height: 14px;
+      }
+      span{
+          font-size: 30px;
+          position: absolute;
+          margin-left: 5px;
+      }
     }
-    .sy {
-      cursor: pointer;
+    .order {
+      display:none;
     }
-    .noone {
-      width: 37px;
-      margin: 0 6px;
-      border: 1px solid #2693d4;
-      color: #2693d4;
+    .time {
+     display: none;
+    }
+    .list {
+      width:100%;
+      ul {
+        display:none;
+      }
+      .list-top {
+        // display: none;
+        .order-time {
+          height: 37px;
+          display: flex;
+          justify-content: space-between;
+          font-size: 12px;
+          align-items: center;
+          .dengdai{
+            margin-right:10px;
+          }
+          p {
+            display: inline-block;
+            margin-left: 10px;
+          }
+          .xiadan{
+            display:none;
+          }
+        }
+        .details {
+          // display: flex;
+          .fksc{
+            display:flex;
+            font-size:14px;
+            justify-content: space-between;
+            height:30px;
+            align-items: center;
+            .zongqian{
+               margin-left: 10px;
+            }
+            .aato{
+              color:red;
+              margin-right:20px;
+            }
+            .ddfk{
+              margin-right:20px;
+              .fuk{
+                  padding: 5px 15px;
+                  background-color: #2693d4;
+                  color: #fff;
+              }
+            }
+          }
+          .dicolor{
+            height: 20px;
+            background-color:#f8f8f8;
+            margin-top:5px;
+          }
+          .det-left {
+            width: 100%;
+            font-size:12px;
+            .manei {
+              height:105px;
+              .zuo {
+                width: 100%;
+                height: 100px;
+                background-color:#f8f8f8;
+                display: flex;
+                align-items: center;
+                .price{
+                  display:none;
+                }
+                .img {
+                  width: 48px;
+                  margin-left: 12px;
+                  overflow: hidden;
+                }
+                .xdfw {
+                  margin-left: 10px;
+                  width: 100%;
+                  .baogao{
+                    font-size:14px;
+                  }
+                  .prov{
+                    display:none;
+                  }
+                  .pl{
+                    margin-top:10px;
+                    font-size:14px;
+                     .yuan{
+                      color:red;
+                    }
+                    .xone{
+                      margin-left:10px;
+                    }
+                  }
+                }
+                .one {
+                  margin-left: 15px;
+                }
+              }
+              .zongjia {
+                display:none;
+              }
+              .ddzhuangt {
+                display:none;
+              }
+            }
+            .mn-bot {
+              // border-top: 1px solid #e8e8e8;
+            }
+          }
+          .det-right {
+            display: none;
+          }
+        }
+      }
+    }
+    .molu {
+      display: flex;
+      justify-content: center;
+      margin-top: 37px;
+      span {
+        border: 1px solid #cccccc;
+        width: 66px;
+        height: 34px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #cccccc;
+      }
+      .sy {
+        cursor: pointer;
+      }
+      .noone {
+        width: 37px;
+        margin: 0 6px;
+        border: 1px solid #2693d4;
+        color: #2693d4;
+      }
+    }
+  }
+}
+@media(min-width:768px){
+  * {margin: 0;padding: 0;}
+  .right {
+    width: 936px;
+    display: inline-block;
+    margin: 36px 0 0 22px;
+    .meidd{
+        width: 934px;
+        height: 320px;
+        margin-top: 22px;
+        background-color:#f9f9f9;
+        display: flex;
+        justify-content:center;
+        align-items: center;
+        span{
+          color:#dfd7d7;
+          font-size:50px;
+        }
+      }
+    .right-top {
+      width: 875px;
+      height: 21px;
+      border-bottom: 2px solid #f7f7f7;
+      span{
+        display:none;
+      }
+      p {
+        display: inline-block;
+        padding: 0 29px 7px;
+        font-size: 14px;
+        line-height: 14px;
+        color: #52a3da;
+        border-bottom: 2px solid #2693d4;
+        z-index: 2;
+        position: absolute;
+        margin-left: 9px;
+      }
+    }
+    .order {
+      margin: 22px 0 0 2px;
+      height: 26px;
+      p {
+        font-size: 14px;
+        display: inline-block;
+      }
+      input {
+        width: 261px;
+        height: 21px;
+        margin-left: 13px;
+      }
+      li {
+        display: inline-block;
+        list-style: none;
+        padding: 5px 20px;
+        color: #52a3da;
+        font-size: 13px;
+        line-height: 13px;
+        border: 1px solid #2693d4;
+        border-radius: 10%;
+        margin-left: 10px;
+        cursor: pointer;
+      }
+    }
+    .time {
+      margin: 22px 0 0 2px;
+      height: 26px;
+      p {
+        display: inline-block;
+        font-size: 14px;
+      }
+      .rili {
+        width: 111px;
+      }
+    }
+    .list {
+      margin-top: 22px;
+      ul {
+        display: flex;
+        height: 34px;
+        background-color: #f7f7f7;
+        align-items: center;
+        li {
+          font-size: 12px;
+          font-weight: bold;
+        }
+        .sp {
+          margin-left: 37px;
+        }
+        .dj {
+          margin-left: 275px;
+        }
+        .sl {
+          margin-left: 89px;
+        }
+        .zje {
+          margin-left: 89px;
+        }
+        .zt {
+          margin-left: 93px;
+        }
+        .cz {
+          margin-left: 86px;
+        }
+      }
+      .list-top {
+        margin-top: 10px;
+        border: 1px solid #e8e8e8;
+        .order-time {
+          height: 37px;
+          display: flex;
+          background-color: #f7f7f7;
+          font-size: 12px;
+          align-items: center;
+          .dengdai{
+            display:none;
+          }
+          p {
+            display: inline-block;
+            margin-left: 23px;
+          }
+        }
+        .details {
+          display: flex;
+          .fksc{
+            display: none;
+          }
+          .dicolor{
+            display:none;
+          }
+          .det-left {
+            width: 815px;
+            font-size: 12px;
+            border-right: 1px solid #e8e8e8;
+            .manei {
+              height: 67px;
+              display: flex;
+              border-top: 1px solid #e8e8e8;
+              .zuo {
+                width: 533px;
+                display: flex;
+                align-items: center;
+                border-right: 1px solid #e8e8e8;
+                .img {
+                  width: 48px;
+                  margin-left: 12px;
+                  overflow: hidden;
+                }
+                .xdfw {
+                  margin-left: 11px;
+                  width: 279px;
+                  span{
+                    display: none;
+                  }
+                }
+                .one {
+                  margin-left: 83px;
+                }
+              }
+              .zongjia {
+                width: 138px;
+                border-right: 1px solid #e8e8e8;
+                color: #53a4db;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              }
+              .ddzhuangt {
+                width: 142px;
+                color: #53a4db;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              }
+            }
+            .mn-bot {
+              border-top: 1px solid #e8e8e8;
+            }
+          }
+          .det-right {
+            width: 118px;
+            font-size: 14px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-top: 1px solid #e8e8e8;
+            .zhong {
+              width: 56px;
+              height: 45px;
+              .xg {
+                display: inline-block;
+                padding: 0 13px;
+                color: #52a3da;
+                border: 1px solid #2693d4;
+                border-radius: 10%;
+                cursor: pointer;
+              }
+              .scdd {
+                color: red;
+                margin-top: 7px;
+                cursor: pointer;
+              }
+            }
+          }
+        }
+      }
+    }
+    .molu {
+      display: flex;
+      justify-content: center;
+      margin-top: 37px;
+      span {
+        border: 1px solid #cccccc;
+        width: 66px;
+        height: 34px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #cccccc;
+      }
+      .sy {
+        cursor: pointer;
+      }
+      .noone {
+        width: 37px;
+        margin: 0 6px;
+        border: 1px solid #2693d4;
+        color: #2693d4;
+      }
     }
   }
 }

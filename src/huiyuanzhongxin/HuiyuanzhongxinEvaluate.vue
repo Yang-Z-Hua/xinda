@@ -70,85 +70,90 @@ export default {
 </script>
 
 <style scoped lang="less">
-*{margin: 0;padding: 0;}
-.right{
-  width: 936px;
-  display: inline-block;
-  margin: 36px 0 0 8px;
-  .right-top{
-    width: 875px;
-    height: 21px;
-    margin-left: 14px;
-    border-bottom: 2px solid #f7f7f7;
-    p{
-      display: inline-block;
-      padding:  0 29px 7px;
-      font-size: 14px;
-      line-height: 14px;
-      color: #52a3da;
-      border-bottom:2px solid #2693d4;
-      z-index: 2;
-      position: absolute;
-      margin-left: 9px;
-    }
-  }
-  .right-di{
-    margin: 22px 0 0 44px;
-    font-size: 14px;
-    .zuo{
-        display:inline-flex;
-        width: 215px;
-    }
-    .pingjia{
-        margin-top: 35px;
-        display: flex;
-        align-items: center;
-        input{
-            margin-left: 30px;
-        }
-    }
-    .pingfen{
-        margin-top: 35px;
-        display: flex;
-        align-items: center;
-        .wuxing{
-            margin-left: 30px;
-        }
-    }
-    .ganshou{
-        margin-top: 35px;
-        display: flex;
-        textarea{
-            width: 715px;
-            height: 140px;
-            border: 1px solid;
-            margin-left: 35px;
-        }
-    }
-    .tijiao{
-        margin: 20px 0 0 645px;
+@media (max-width:768px){
+  
+}
+@media(min-width:768px){
+    *{margin: 0;padding: 0;}
+    .right{
+    width: 936px;
+    display: inline-block;
+    margin: 36px 0 0 8px;
+    .right-top{
+        width: 875px;
+        height: 21px;
+        margin-left: 14px;
+        border-bottom: 2px solid #f7f7f7;
+        p{
         display: inline-block;
-        color: #fff;
-        padding: 10px 60px;
-        border-radius: 5px;
-        background-color: #2693d4;
+        padding:  0 29px 7px;
+        font-size: 14px;
+        line-height: 14px;
+        color: #52a3da;
+        border-bottom:2px solid #2693d4;
+        z-index: 2;
+        position: absolute;
+        margin-left: 9px;
+        }
     }
-  }
-}
-.all>input{
-    opacity:0;
-    position:absolute;
-    width:2em;
-    height:3em;
-}
-.all>span{
-    font-size:2em;
-    color:gold;
-}
-.all>input:checked~span{
-    color:#666;
-}
-.all>input:checked+span{
-    color:gold;
+    .right-di{
+        margin: 22px 0 0 44px;
+        font-size: 14px;
+        .zuo{
+            display:inline-flex;
+            width: 215px;
+        }
+        .pingjia{
+            margin-top: 35px;
+            display: flex;
+            align-items: center;
+            input{
+                margin-left: 30px;
+            }
+        }
+        .pingfen{
+            margin-top: 35px;
+            display: flex;
+            align-items: center;
+            .wuxing{
+                margin-left: 30px;
+            }
+        }
+        .ganshou{
+            margin-top: 35px;
+            display: flex;
+            textarea{
+                width: 715px;
+                height: 140px;
+                border: 1px solid;
+                margin-left: 35px;
+            }
+        }
+        .tijiao{
+            margin: 20px 0 0 645px;
+            display: inline-block;
+            color: #fff;
+            padding: 10px 60px;
+            border-radius: 5px;
+            background-color: #2693d4;
+        }
+    }
+    }
+    .all>input{
+        opacity:0;
+        position:absolute;
+        width:2em;
+        height:3em;
+    }
+    .all>span{
+        font-size:2em;
+        color:gold;
+    }
+    .all>input:checked~span{
+        color:#666;
+    }
+    .all>input:checked+span{
+        color:gold;
+    }
 }
 </style>

@@ -4,12 +4,12 @@
       <div class="top">
         <p>首页</p>
         <p>/</p>
-        <p>公司工商</p>
+        <p>个人主页</p>
       </div>
       <div class="middle">
         <div class="middle-top">
           <div><img src="../assets/images/u5086.png" alt=""></div>
-          <p>12345678901</p>
+          <p>{{sjh}}</p>
         </div>
         <div class="bottom">
           <router-link to="/Huiyuanzhongxin/Huiyuanzhongxinindex" tag="div">
@@ -46,7 +46,8 @@ export default {
     return {
     sty:'dd',
     styl:'pj',
-    style:'pj'
+    style:'pj',
+    sjh:'',
     }
   },
   methods:{
@@ -66,8 +67,13 @@ export default {
          this.styl = 'pj'
      }
   },
-  computed:{
-    
+  created(){
+     this.ajax
+      .post("/xinda-api/member/info", this.qs.stringify({}))
+      .then(data => {
+// console.log(data.data.data)       
+    this.sjh=data.data.data.cellphone
+      });
   }
 }
 </script>
@@ -75,71 +81,140 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-.public{
-  display: flex;
-    width: 1200px;
-    // height: 650px;
-    margin: 26px auto;
-}
-.left{
-  display:inline-block;
-  width: 244px;
-  height:552px;
-}
-.top{
-  line-height: 14px;
-  font-size:14px;
-  p{
-    display: inline-block;
+@media (max-width:768px){
+ .public{
+    display: flex;
+      // width: 1200px;
+      // height: 650px;
+      // margin: 26px auto;
+  }
+  .left{
+    display: none;
+  }
+  .top{
+    line-height: 14px;
+    font-size:14px;
+    p{
+      display: inline-block;
+    }
+  }
+  .middle{
+      width: 242px;
+      height:526px;
+      margin: 13px 0 0 2px;
+      .middle-top{
+        height:141px;
+        background-color: #e9e9e9;
+        div{
+            text-align: center;
+          img{
+            width: 100px;
+            height:100px;
+            margin-top: 9px;
+          }
+        }
+        p{
+          text-align: center;
+        }
+      }
+      .bottom{
+        height: 376px;
+        margin-top: 9px;
+        background-color: #f7f7f7;
+        div{
+          height: 50px;
+          text-align: center;
+          line-height: 50px;
+          p{
+            font-size: 17px;
+            line-height: 17px;
+            display: inline-block;
+            vertical-align: middle;
+            color: black;
+            cursor:pointer;
+          }
+          img{
+            width: 22px;
+            height: 22px;
+            vertical-align: middle;
+          }
+        } 
+      }
+  }
+  .pj{
+    background-color:#f7f7f7;
+  } 
+  .dd{
+    background-color:#e9e9e9;
   }
 }
-.middle{
-    width: 242px;
-    height:526px;
-    margin: 13px 0 0 2px;
-    .middle-top{
-      height:141px;
-      background-color: #e9e9e9;
-      div{
-          text-align: center;
-         img{
-          width: 100px;
-          height:100px;
-          margin-top: 9px;
-        }
-      }
-      p{
-        text-align: center;
-      }
+@media(min-width:768px){
+  .public{
+    display: flex;
+      width: 1200px;
+      // height: 650px;
+      margin: 26px auto;
+  }
+  .left{
+    display:inline-block;
+    width: 244px;
+    height:552px;
+  }
+  .top{
+    line-height: 14px;
+    font-size:14px;
+    p{
+      display: inline-block;
     }
-    .bottom{
-      height: 376px;
-      margin-top: 9px;
-      background-color: #f7f7f7;
-      div{
-        height: 50px;
-        text-align: center;
-        line-height: 50px;
+  }
+  .middle{
+      width: 242px;
+      height:526px;
+      margin: 13px 0 0 2px;
+      .middle-top{
+        height:141px;
+        background-color: #e9e9e9;
+        div{
+            text-align: center;
+          img{
+            width: 100px;
+            height:100px;
+            margin-top: 9px;
+          }
+        }
         p{
-          font-size: 17px;
-          line-height: 17px;
-          display: inline-block;
-          vertical-align: middle;
-          color: black;
-          cursor:pointer;
+          text-align: center;
         }
-        img{
-          width: 22px;
-          height: 22px;
-          vertical-align: middle;
-        }
-      } 
-    }
-}
-.pj{
-  background-color:#f7f7f7;
-} 
-.dd{
-  background-color:#e9e9e9;
+      }
+      .bottom{
+        height: 376px;
+        margin-top: 9px;
+        background-color: #f7f7f7;
+        div{
+          height: 50px;
+          text-align: center;
+          line-height: 50px;
+          p{
+            font-size: 17px;
+            line-height: 17px;
+            display: inline-block;
+            vertical-align: middle;
+            color: black;
+            cursor:pointer;
+          }
+          img{
+            width: 22px;
+            height: 22px;
+            vertical-align: middle;
+          }
+        } 
+      }
+  }
+  .pj{
+    background-color:#f7f7f7;
+  } 
+  .dd{
+    background-color:#e9e9e9;
+  }
 }
 </style>

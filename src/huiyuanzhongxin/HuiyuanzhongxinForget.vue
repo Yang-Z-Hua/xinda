@@ -70,76 +70,81 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-* {
-  margin: 0;
-  padding: 0;
+@media (max-width:768px){
+  
 }
-.tip{
-  color: red;
-  line-height: 25px;
-  margin-left: 10px
-}
-.right {
-  width: 936px;
-  display: inline-block;
-  margin: 36px 0 0 22px;
-  font-size: 14px;
-  .right-top {
-    width: 875px;
-    height: 21px;
-    border-bottom: 2px solid #f7f7f7;
-    .wddd {
-      display: inline-block;
-      padding: 0 29px 7px;
-      font-size: 14px;
-      line-height: 14px;
-      z-index: 2;
-      position: absolute;
-      margin-left: 9px;
-    }
-    .xgmm {
-      display: inline-block;
-      padding: 0 29px 7px;
-      font-size: 14px;
-      line-height: 14px;
-      color: #52a3da;
-      border-bottom: 2px solid #2693d4;
-      z-index: 2;
-      position: absolute;
-      margin-left: 135px;
-    }
+@media(min-width:768px){
+  * {
+    margin: 0;
+    padding: 0;
   }
-  .password {
-    margin-top: 37px;
-    input {
-      height: 23px;
-    }
-    .jmm {
-      display: flex;
-      input {
-        margin-left: 85px;
+  .tip{
+    color: red;
+    line-height: 25px;
+    margin-left: 10px
+  }
+  .right {
+    width: 936px;
+    display: inline-block;
+    margin: 36px 0 0 22px;
+    font-size: 14px;
+    .right-top {
+      width: 875px;
+      height: 21px;
+      border-bottom: 2px solid #f7f7f7;
+      .wddd {
+        display: inline-block;
+        padding: 0 29px 7px;
+        font-size: 14px;
+        line-height: 14px;
+        z-index: 2;
+        position: absolute;
+        margin-left: 9px;
+      }
+      .xgmm {
+        display: inline-block;
+        padding: 0 29px 7px;
+        font-size: 14px;
+        line-height: 14px;
+        color: #52a3da;
+        border-bottom: 2px solid #2693d4;
+        z-index: 2;
+        position: absolute;
+        margin-left: 135px;
       }
     }
-    .xmm {
-      display: flex;
-      margin: 20px 0;
+    .password {
+      margin-top: 37px;
       input {
-        margin-left: 85px;
+        height: 23px;
       }
-    }
-    .zcsr {
-      display: flex;
-      input {
-        margin-left: 29px;
+      .jmm {
+        display: flex;
+        input {
+          margin-left: 85px;
+        }
       }
-    }
-    .baocun {
-      margin: 29px 0 0 143px;
-      display: inline-block;
-      padding: 5px 20px;
-      color: #2992d3;
-      border: 1px solid #2693d4;
-      border-radius: 10%;
+      .xmm {
+        display: flex;
+        margin: 20px 0;
+        input {
+          margin-left: 85px;
+        }
+      }
+      .zcsr {
+        display: flex;
+        input {
+          margin-left: 29px;
+        }
+      }
+      .baocun {
+        margin: 29px 0 0 143px;
+        display: inline-block;
+        padding: 5px 20px;
+        color: #2992d3;
+        border: 1px solid #2693d4;
+        border-radius: 10%;
+      }
     }
   }
 }
