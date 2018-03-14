@@ -17,7 +17,7 @@
     <router-view></router-view>    
     <div class="foot">ⒸCopyright 2016北京信达科技有限公司 京ICP备 16011621号</div>  
     <div :class="status">
-      <img src="../src/assets/images/wait.jpg" alt="">
+      <img src="../src/assets/images/logoxz_01.png" alt="">
       <ul>正在加载，请稍等....</ul>
     </div>
   </div>
@@ -111,11 +111,17 @@ export default {
     text-align: center;
   }
   img {
-    // position: absolute;
-    // top: 30%;
-    // left: 50%;
     display: block;
-    margin: 40vh auto 0;
+    margin: 40vh auto 5px;
+    animation: chen 1s linear infinite;
+  }
+  @keyframes chen {
+    form {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
 }
 @media screen and (min-width: 768px) {
