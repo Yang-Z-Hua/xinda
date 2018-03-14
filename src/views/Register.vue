@@ -78,9 +78,11 @@ export default {
       this.areaSelect = 0;
     },
     cha() {
+      // 验证码重载
       this.png += " ";
     },
     checkphone() {
+      // 加测手机号
       var a = /1\d{10}/;
       if (!a.test(this.phone)) {
         this.phoneTip = "手机号错误！";
@@ -90,6 +92,7 @@ export default {
       }
     },
     hq() {
+      // 获取手机验证码
       if (this.checkphone()) {
         this.ajax
           .post(

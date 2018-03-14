@@ -131,6 +131,7 @@ export default {
   },
   created() {
     if (window.innerWidth < 768) {
+      // 检测是手机还是pc
       this.fanye = 5;
     }
     window.scrollTo(0, 0);
@@ -154,7 +155,7 @@ export default {
   },
   watch: {
     $route() {
-      this.key = 1;
+      this.key = 1; //点击全部里边的三级分类
       this.data1 = this.$route.query.id;
       this.id2 = this.$route.query.id2;
       this.id3 = this.$route.query.id3;
@@ -171,22 +172,28 @@ export default {
   },
   methods: {
     defaultImg(e) {
+      // 错误图片的代替
       console.log("run in this");
       e.target.src = defaultImgUrl;
     },
     gm(a) {
+      //立即购买摁下背景
       this.ljgm = a;
     },
     gm1() {
+      //立即购买抬起背景
       this.ligm = "";
     },
     gw(a) {
+      //加入购物车摁下背景
       this.jrgwc = a;
     },
     gw1() {
+      //加入购物车抬起背景
       this.jrgwc = "";
     },
     xpxq(a) {
+      // 点击商品标题
       this.$parent.$parent.status = "wait";
       this.$router.push({
         path: "/inner/shangpinxiangqing",
@@ -196,7 +203,9 @@ export default {
       });
     },
     gouwuche(id1) {
+      // 加入购物车
       if (!this.$parent.$parent.user) {
+        // 未登录的话需要登录
         this.$parent.$parent.status = "wait";
         this.$router.push({
           path: "/outter/login",
@@ -211,6 +220,7 @@ export default {
       setTimeout(function() {
         qq.animi = "dd";
       }, 500);
+      // 添加到购物车并且修改右上角购物车数量
       this.ajax
         .post(
           "xinda-api/cart/add",
@@ -228,7 +238,9 @@ export default {
         });
     },
     buy(id1) {
+      // 立即购买
       if (!this.$parent.$parent.user) {
+        // 检测是否登录
         this.$parent.$parent.status = "wait";
         this.$router.push({
           path: "/outter/login",
@@ -253,6 +265,7 @@ export default {
         });
     },
     next() {
+      // 下一页
       this.prevTip = 0;
       if (this.arrLength < this.fanye) {
         this.nextTip = 1;
@@ -265,6 +278,7 @@ export default {
       }
     },
     prev() {
+      //上一页
       this.nextTip = 0;
       if (this.number == 1) {
         this.prevTip = 1;
@@ -287,6 +301,7 @@ export default {
       }
     },
     fwflClick(index, code) {
+      // 点击二级标题
       this.$parent.$parent.status = "Lwait";
       this.nextTip = 0;
       this.prevTip = 0;
@@ -309,6 +324,7 @@ export default {
       }
     },
     lxclick(index) {
+      // 点击三级标题
       this.$parent.$parent.status = "Lwait";
       this.nextTip = 0;
       this.prevTip = 0;
@@ -341,13 +357,13 @@ export default {
           })
         )
         .then(data => {
-          console.log(data);
           this.arr = data.data.data;
           this.arrLength = this.arr.length;
           this.$parent.$parent.status = "wait1";
         });
     },
     zh() {
+      // 综合排序
       this.px1 = "click";
       this.pxIndex = "";
       this.px2 = "";
@@ -358,6 +374,7 @@ export default {
       }
     },
     price() {
+      // 价格排序
       this.pxIndex = 2;
       this.px2 = "click";
       this.px1 = "";

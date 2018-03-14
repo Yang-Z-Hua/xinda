@@ -42,6 +42,7 @@ export default {
     this.ajax
       .post("/xinda-api/member/info", this.qs.stringify({}))
       .then(data => {
+        //判断是否登录
         if (data.data.data) {
           this.user = data.data.data.cellphone;
           (this.denglu = ""), (this.ljzc = ""), (this.tuichu = "[退出]");
@@ -51,7 +52,7 @@ export default {
         }
       });
     this.ajax.post("/xinda-api/cart/list", this.qs.stringify({})).then(data => {
-      console.log("购物车", data.data.data.length);
+      //初始化右上角购物车件数
       this.number = data.data.data.length;
     });
   },
@@ -60,6 +61,7 @@ export default {
       window.scrollTo(0, 0);
     },
     logOut() {
+      //退出登录
       this.status = "wait";
       this.ajax
         .post("/xinda-api/sso/logout", this.qs.stringify({}))
@@ -88,7 +90,6 @@ export default {
   left: 0;
   width: 100vw;
   height: 100vh;
-  // background-color: w;
   ul {
     display: none;
   }
@@ -106,7 +107,7 @@ export default {
   height: 100vh;
   background: white;
   z-index: 12;
-  opacity: 0.8;
+  opacity: 0.9;
   ul {
     text-align: center;
   }

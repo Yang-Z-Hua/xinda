@@ -40,8 +40,6 @@ export default {
       phoneTittle: ""
     };
   },
-  methods: {},
-  computed: {}
 };
 </script>
 

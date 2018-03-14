@@ -140,31 +140,35 @@ export default {
         });
     },
     bs(i) {
+      //搜索服务商或者产品
       if (i) {
         this.chen("/xinda-api/product/package/search-grid");
         this.cpfw1 = "blue";
         this.cpfw2 = "";
         this.i = 1;
       } else {
-        this.list = ["大唐", "云智慧"];
+        this.list = [{ serviceName: "大唐" }, { serviceName: "云智慧" }];
         this.cpfw2 = "blue";
         this.cpfw1 = "";
         this.i = 0;
       }
     },
     qq(i) {
+      //  加盟我们、店铺点击变色
       for (let j in this.arr) {
         this.arr[j] = "";
       }
       this.arr[i] = "bian";
     },
     inpu(e) {
+      //搜索框加入摁回车键搜索功能
       if (e.keyCode == 13) {
         this.searchService();
       }
     },
     searchService() {
       if (this.i) {
+        //搜索产品走这一步，默认搜索产品
         this.$parent.status = "wait";
         this.ajax
           .post(
@@ -176,6 +180,7 @@ export default {
           .then(data => {
             this.$parent.status = "wait1";
             if (data.data.data.length == 1) {
+              //一件产品跳到商品详情
               this.$router.push({
                 path: "/inner/shangpinxiangqing",
                 query: {
@@ -183,6 +188,7 @@ export default {
                 }
               });
             } else {
+              //多件产品跳到列表页
               this.$router.push({
                 path: "/inner/search",
                 query: {
@@ -192,6 +198,7 @@ export default {
             }
           });
       } else {
+        //搜索服务商
         this.$parent.status = "wait";
         this.ajax
           .post(
@@ -213,6 +220,7 @@ export default {
       }
     },
     csfw(i) {
+      //点击财税服务
       for (let j in this.arr) {
         this.arr[j] = "";
       }
@@ -229,6 +237,7 @@ export default {
       });
     },
     gsgs(i) {
+      //点击公司工商
       for (let j in this.arr) {
         this.arr[j] = "";
       }
