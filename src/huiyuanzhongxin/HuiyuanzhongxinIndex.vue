@@ -238,7 +238,7 @@ export default {
     this.xr();
     if (!this.$parent.$parent.$parent.user) {
       this.$router.push({
-        path: "inner/shoujihuiyuanzhongxin",
+        path: "/inner/shoujihuiyuanzhongxin",
       });
     }
   }
