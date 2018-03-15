@@ -34,11 +34,11 @@ export default {
       tuichu: "",
       number: "0",
       sty: "hide",
-      status: ""
+      status: "",
+      scroll:''
     };
   },
   created() {
-    // window.onscroll=this.wait;
     this.ajax
       .post("/xinda-api/member/info", this.qs.stringify({}))
       .then(data => {
@@ -57,9 +57,6 @@ export default {
     });
   },
   methods: {
-    wait() {
-      window.scrollTo(0, 0);
-    },
     logOut() {
       //退出登录
       this.status = "wait";
