@@ -115,43 +115,42 @@ export default {
   data() {
     return {
       // mnr:true,
-      xy:"<",
+      xy: "<",
       nextTip: "",
       prevTip: "",
       count: 1,
-      startNum:0,
-      No:undefined,
+      startNum: 0,
+      No: undefined,
       data: "",
       startDate: undefined,
       da: "",
-      endDate:undefined,
-      yfk:'',
+      endDate: undefined,
+      yfk: "",
       // imgSrc: "http://123.58.241.146:8088/xinda/pic",
       disabledDate(time) {
         return time.getTime() > Date.now();
       }
     };
   },
-  methods:{
-    fukuan(asd,mmm){
+  methods: {
+    fukuan(asd, mmm) {
       // console.log(asd,mmm)
       this.$router.push({
-        path:'/dingdanxiangqing',
-        query:{
-        businessNo:asd,
-        op:mmm
+        path: "/dingdanxiangqing",
+        query: {
+          businessNo: asd,
+          op: mmm
         }
-      })
+      });
     },
-     next() {
+    next() {
       this.prevTip = 0;
       if (this.arrLength < 3) {
         this.nextTip = 1;
         return;
       } else {
-        this.startNum+=2;
-        this.xr(2)
-        
+        this.startNum += 2;
+        this.xr(2);
       }
     },
     prev() {
@@ -160,79 +159,88 @@ export default {
         this.prevTip = 1;
         return;
       }
-      this.startNum-=2;
-        this.xr(0)
+      this.startNum -= 2;
+      this.xr(0);
     },
-     search(){
-       this.startNum=0;
-       this.count=1;
-      this.xr()
+    search() {
+      this.startNum = 0;
+      this.count = 1;
+      this.xr();
     },
-    xr(i){
+    xr(i) {
       this.ajax
-      .post("/xinda-api/business-order/grid", this.qs.stringify({
-        limit:2,
-        start:this.startNum,
-        businessNo:this.No,
-        // startTime:this.startDate,
-        // endTime:this.endDate
-      }))
-      .then(data => {
-        console.log(data)
-        if(data.data.data.length == 0){
-          this.da ='';
-          // this.mnr = this.mnr;
-          return
-        }else{
-          // this.mnr = !this.mnr
-        }
-        if(i==2){
-          this.count++;
-        }
-        if(i==0){
-          this.count--;
-        }
-        let orderList = data.data.data;   
-        var j=0;
-        for (let i in orderList) {
-          this.ajax
-            .post(
-              "/xinda-api/service-order/grid",
-              this.qs.stringify({
-                businessNo: orderList[i].businessNo
-              })
-            )
-            .then(data => {
-              console.log(data)
-              orderList[i].service = data.data.data;
-              j++
-              if (j == orderList.length) {
-                this.da = orderList;
-              };
-              if(orderList[i].status == 1){
-                this.yfk = '等待买家付款'
-              }else {
-                this.yfk = '已付款'
-              }
-          });
-        }
-    });
+        .post(
+          "/xinda-api/business-order/grid",
+          this.qs.stringify({
+            limit: 2,
+            start: this.startNum,
+            businessNo: this.No
+            // startTime:this.startDate,
+            // endTime:this.endDate
+          })
+        )
+        .then(data => {
+          console.log(data);
+          if (data.data.data.length == 0) {
+            this.da = "";
+            // this.mnr = this.mnr;
+            return;
+          } else {
+            // this.mnr = !this.mnr
+          }
+          if (i == 2) {
+            this.count++;
+          }
+          if (i == 0) {
+            this.count--;
+          }
+          let orderList = data.data.data;
+          var j = 0;
+          for (let i in orderList) {
+            this.ajax
+              .post(
+                "/xinda-api/service-order/grid",
+                this.qs.stringify({
+                  businessNo: orderList[i].businessNo
+                })
+              )
+              .then(data => {
+                console.log(data);
+                orderList[i].service = data.data.data;
+                j++;
+                if (j == orderList.length) {
+                  this.da = orderList;
+                }
+                if (orderList[i].status == 1) {
+                  this.yfk = "等待买家付款";
+                } else {
+                  this.yfk = "已付款";
+                }
+              });
+          }
+        });
     },
-    sc(id){
+    sc(id) {
       this.ajax
-      .post("/xinda-api/business-order/del",
-        this.qs.stringify({
-          id:id
-        })
-      )
-      .then(data => {
-        console.log(111111,data)
-        this.xr()
-      })
-    },
+        .post(
+          "/xinda-api/business-order/del",
+          this.qs.stringify({
+            id: id
+          })
+        )
+        .then(data => {
+          console.log(111111, data);
+          this.xr();
+        });
+    }
   },
   created() {
-    this.xr()
+    this.xr();
+    if (!this.$parent.$parent.$parent.user) {
+      this.$router.push({
+        path: "inner/shoujihuiyuanzhongxin",
+      });
+    }
   }
 };
 </script>
@@ -254,14 +262,17 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-@media (max-width:768px){
-  * {margin: 0;padding: 0;}
-    .right {
-      width: 100%;
-      display: inline-block;
+@media (max-width: 768px) {
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  .right {
+    width: 100%;
+    display: inline-block;
     .right-top {
       height: 40px;
-      display:-webkit-box;
+      display: -webkit-box;
       justify-content: center;
       align-items: center;
       background-color: #e5e5e5;
@@ -270,22 +281,22 @@ export default {
         font-size: 14px;
         line-height: 14px;
       }
-      span{
-          font-size: 30px;
-          position: absolute;
-          margin-left: 5px;
+      span {
+        font-size: 30px;
+        position: absolute;
+        margin-left: 5px;
       }
     }
     .order {
-      display:none;
+      display: none;
     }
     .time {
-     display: none;
+      display: none;
     }
     .list {
-      width:100%;
+      width: 100%;
       ul {
-        display:none;
+        display: none;
       }
       .list-top {
         // display: none;
@@ -295,59 +306,59 @@ export default {
           justify-content: space-between;
           font-size: 12px;
           align-items: center;
-          .dengdai{
-            margin-right:10px;
+          .dengdai {
+            margin-right: 10px;
           }
           p {
             display: inline-block;
             margin-left: 10px;
           }
-          .xiadan{
-            display:none;
+          .xiadan {
+            display: none;
           }
         }
         .details {
           // display: flex;
-          .fksc{
-            display:flex;
-            font-size:14px;
+          .fksc {
+            display: flex;
+            font-size: 14px;
             justify-content: space-between;
-            height:30px;
+            height: 30px;
             align-items: center;
-            .zongqian{
-               margin-left: 10px;
+            .zongqian {
+              margin-left: 10px;
             }
-            .aato{
-              color:red;
-              margin-right:20px;
+            .aato {
+              color: red;
+              margin-right: 20px;
             }
-            .ddfk{
-              margin-right:20px;
-              .fuk{
-                  padding: 5px 15px;
-                  background-color: #2693d4;
-                  color: #fff;
+            .ddfk {
+              margin-right: 20px;
+              .fuk {
+                padding: 5px 15px;
+                background-color: #2693d4;
+                color: #fff;
               }
             }
           }
-          .dicolor{
+          .dicolor {
             height: 20px;
-            background-color:#f8f8f8;
-            margin-top:5px;
+            background-color: #f8f8f8;
+            margin-top: 5px;
           }
           .det-left {
             width: 100%;
-            font-size:12px;
+            font-size: 12px;
             .manei {
-              height:105px;
+              height: 105px;
               .zuo {
                 width: 100%;
                 height: 100px;
-                background-color:#f8f8f8;
+                background-color: #f8f8f8;
                 display: flex;
                 align-items: center;
-                .price{
-                  display:none;
+                .price {
+                  display: none;
                 }
                 .img {
                   width: 48px;
@@ -357,20 +368,20 @@ export default {
                 .xdfw {
                   margin-left: 10px;
                   width: 100%;
-                  .baogao{
-                    font-size:14px;
+                  .baogao {
+                    font-size: 14px;
                   }
-                  .prov{
-                    display:none;
+                  .prov {
+                    display: none;
                   }
-                  .pl{
-                    margin-top:10px;
-                    font-size:14px;
-                     .yuan{
-                      color:red;
+                  .pl {
+                    margin-top: 10px;
+                    font-size: 14px;
+                    .yuan {
+                      color: red;
                     }
-                    .xone{
-                      margin-left:10px;
+                    .xone {
+                      margin-left: 10px;
                     }
                   }
                 }
@@ -379,10 +390,10 @@ export default {
                 }
               }
               .zongjia {
-                display:none;
+                display: none;
               }
               .ddzhuangt {
-                display:none;
+                display: none;
               }
             }
             .mn-bot {
@@ -420,31 +431,34 @@ export default {
     }
   }
 }
-@media(min-width:768px){
-  * {margin: 0;padding: 0;}
+@media (min-width: 768px) {
+  * {
+    margin: 0;
+    padding: 0;
+  }
   .right {
     width: 936px;
     display: inline-block;
     margin: 36px 0 0 22px;
-    .meidd{
-        width: 934px;
-        height: 320px;
-        margin-top: 22px;
-        background-color:#f9f9f9;
-        display: flex;
-        justify-content:center;
-        align-items: center;
-        span{
-          color:#dfd7d7;
-          font-size:50px;
-        }
+    .meidd {
+      width: 934px;
+      height: 320px;
+      margin-top: 22px;
+      background-color: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      span {
+        color: #dfd7d7;
+        font-size: 50px;
       }
+    }
     .right-top {
       width: 875px;
       height: 21px;
       border-bottom: 2px solid #f7f7f7;
-      span{
-        display:none;
+      span {
+        display: none;
       }
       p {
         display: inline-block;
@@ -533,8 +547,8 @@ export default {
           background-color: #f7f7f7;
           font-size: 12px;
           align-items: center;
-          .dengdai{
-            display:none;
+          .dengdai {
+            display: none;
           }
           p {
             display: inline-block;
@@ -543,11 +557,11 @@ export default {
         }
         .details {
           display: flex;
-          .fksc{
+          .fksc {
             display: none;
           }
-          .dicolor{
-            display:none;
+          .dicolor {
+            display: none;
           }
           .det-left {
             width: 815px;
@@ -570,7 +584,7 @@ export default {
                 .xdfw {
                   margin-left: 11px;
                   width: 279px;
-                  span{
+                  span {
                     display: none;
                   }
                 }
