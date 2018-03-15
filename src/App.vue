@@ -15,6 +15,27 @@
       </ul>
     </div>
     <router-view></router-view>    
+    <!-- 手机端公共底部 -->
+    <div class="phonePub">
+      <div :class="cl[0]" @click="bs(0)">
+        <img src="../src/assets/images/home.png" alt="">
+        <ul>首页</ul>
+      </div>
+      <div :class="cl[1]" @click="bs(1)">
+        <img src="../src/assets/images/dp.png" alt="">
+        <ul>店铺</ul>
+      </div>
+      <div :class="cl[2]" @click="bs(2)">
+        <img src="../src/assets/images/gwc.png" alt="">
+        <ul>购物车</ul>
+      </div>
+      <div :class="cl[3]" @click="bs(3)">
+        <img src="../src/assets/images/my.png" alt="">
+        <ul>我的</ul>
+      </div>
+      
+    </div>
+    <!-- pc公共底部 -->
     <div class="foot">ⒸCopyright 2016北京信达科技有限公司 京ICP备 16011621号</div>  
     <div :class="status">
       <img src="../src/assets/images/logoxz_01.png" alt="">
@@ -35,7 +56,8 @@ export default {
       number: "0",
       sty: "hide",
       status: "",
-      scroll:''
+      scroll: "",
+      cl: ["", "", "", ""]
     };
   },
   created() {
@@ -57,6 +79,43 @@ export default {
     });
   },
   methods: {
+    bs(a) {
+      switch (a) {
+        case 0: {
+          this.$router.push({
+            path: "/inner/index",
+          });
+          break;
+        }
+        case 1: {
+          this.$router.push({
+            path: "/inner/dianpu",
+            query:{
+              all:1,
+            }
+          });
+          break;
+        }
+        case 2: {
+          this.$router.push({
+            path: "/inner/gouwuche",
+          });
+          break;
+        }
+        case 3: {
+          this.$router.push({
+            path: "/inner/huiyuanzhongxin/huiyuanzhongxinindex",
+          });
+          break;
+        }
+      }
+      this.cl = ["", "", "", ""];
+      for (let i in this.cl) {
+        this.cl[i] = " ";
+        this.cl[a] = "cl";
+      }
+      console.log(this.cl);
+    },
     logOut() {
       //退出登录
       this.status = "wait";
@@ -192,6 +251,9 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
+  #app {
+    padding-bottom: 90px;
+  }
   .show {
     display: block;
   }
@@ -213,6 +275,29 @@ export default {
   a {
     text-decoration: none;
     color: #2693d4;
+  }
+  .phonePub {
+    width: 100vw;
+    position: fixed;
+    bottom: 0;
+    height: 70px;
+    border-top: 1px solid #e0e0e0;
+    background: #ffffff;
+    display: flex;
+    justify-content: space-around;
+    .cl {
+      color: #2694d3;
+      img {
+        top: 90px;
+        filter: drop-shadow(0 -90px 0px #2694d3);
+      }
+    }
+    img {
+      width: 25px;
+      display: block;
+      margin: 10px auto 4px;
+      position: relative;
+    }
   }
 }
 </style>

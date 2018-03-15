@@ -33,8 +33,8 @@
         </div>
       </div>
       <div class="xia">
-        <li>全部产品
-        <div class="allproduct">
+        <li @mouseover="blo">全部产品
+        <div :class="allproduct">
           <div class="product_list">
             <ul v-for="(a,index) in arr1" :key="index">
               <li class="title">
@@ -90,7 +90,8 @@ export default {
       cpfw1: "blue",
       cpfw2: "",
       i: 1,
-      arr1: ""
+      arr1: "",
+      allproduct: "allproduct"
     };
   },
   created() {
@@ -102,7 +103,11 @@ export default {
     }
   },
   methods: {
+    blo() {
+      this.allproduct = "allproduct";
+    },
     secondGo(a, b, index) {
+      this.allproduct = "allproduct1";
       this.$router.push({
         path: "/inner/liebiaoye",
         query: {
@@ -114,6 +119,7 @@ export default {
       });
     },
     thirdGo(a, c, index, b) {
+      this.allproduct = "allproduct1";
       this.$router.push({
         path: "/inner/liebiaoye",
         query: {
@@ -200,6 +206,9 @@ export default {
       } else {
         //搜索服务商
         this.$parent.status = "wait";
+        window.onscroll = function() {
+          window.scrollTo(0, 0);
+        };
         this.ajax
           .post(
             "/xinda-api/provider/search-grid",
@@ -209,6 +218,7 @@ export default {
           )
           .then(data => {
             this.$parent.status = "wait1";
+            window.onscroll = function() {};
             console.log(111, data.data.data);
             this.$router.push({
               path: "/inner/dianpu",
@@ -428,6 +438,9 @@ export default {
           background-color: #2693d4;
         }
       }
+    }
+    .allproduct1 {
+      display: none;
     }
     display: flex;
     position: relative;

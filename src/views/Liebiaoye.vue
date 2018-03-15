@@ -136,7 +136,6 @@ export default {
     }
     window.scrollTo(0, 0);
     this.$parent.$parent.status = "wait";
-    // window.onscroll=function(){window.scrollTo(0, 0);}
     this.ajax
       .post("/xinda-api/product/style/list", this.qs.stringify({}))
       .then(data => {
