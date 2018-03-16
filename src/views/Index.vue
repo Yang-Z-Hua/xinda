@@ -5,23 +5,6 @@
       <img src="../assets/images/logo.jpg" alt="">
     </div>
     <div class="allproduct">
-      <!-- <div class="product_list">
-        <ul v-for="(a,index) in arr1" :key="index">
-          <li class="title">
-            <img src="../assets/images/tax.png" alt="">
-            <p>{{a.name}}</p>
-          </li>
-          <li class="example">
-            <a v-for="(b,key1) in arr1[index].itemList" :key="key1" @click="secondGo(a,b,index)">{{b.name}}</a>
-          </li>
-          <li class="message">
-            <div v-for="(b,key1) in arr1[index].itemList" :key="key1">
-              <li class="secondTitle"><p>{{b.name}}></p></li>
-              <li class="thirdTitle"><a v-for="(c,key2) in arr1[index].itemList[key1].itemList" :key="key2" @click="thirdGo(a,c,index,b)">{{c.name}}</a></li>            
-            </div>
-          </li>
-        </ul>
-      </div> -->
       <div class="cycle">
           <div class="swiper-container HM_lb">
               <div class="swiper-wrapper">

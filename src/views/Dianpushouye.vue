@@ -5,7 +5,7 @@
       <img :src="imgSrc+arr.providerImg" alt="">
       <li>
         <h2>{{arr.name}}</h2>
-        <p>{{arr.regionName}}</p>
+        <p class="adress">{{arr.regionName}}</p>
       </li>
     </div>
     <div class="content">
@@ -29,6 +29,39 @@
           </li>
         </ul>  
         <ul class="bottom">
+
+          <!-- 微信端======================================== -->
+          <div class="weichat_searve">
+            <p>所有服务</p>
+            <div></div>
+          </div>
+          <div class="weichat_list">
+            <div v-for="(four,underNum) in data_1" :key="underNum" class="weichat_goos_list">
+              <div class="left"><img :src="imgSrc+four.productImg" alt="" @click="go_shopping(four)"></div>
+              <div class="right">
+                <p class="service_t" @click="go_shopping(four)">{{four.serviceName.split('（')[0]}}</p>
+                <p class="service_i">{{four.serviceInfo}}</p>
+                <li>
+                  <img src="../assets/images/adress.png" alt="">
+                  <p>{{four.regionName.split('-')[1]}} {{four.regionName.split('-')[2]}}</p>
+                  <span>￥ {{four.price}}.00 </span>
+                  <p>{{four.unit}}</p>
+                </li>
+              </div>
+            </div>
+          </div>
+   <!-- 微信端最底部======================================== -->
+          <div class="weichat_bottom_title">
+            <li>
+              
+            </li>
+            <li></li>
+            <li></li>
+            <li></li>
+          </div>
+
+
+          <!-- 客户端 -->
           <li :class="bot_1">
             <div>
               <li class="service_title"><h2>服务内容</h2></li>
@@ -37,10 +70,10 @@
                   <h4>{{inn.serviceName}}</h4>
                   <img src="../assets/images/biaoqian.png" alt="">
                   <p class="longword">{{inn.serviceInfo}}</p>
-                  <p>銷量：</p>
+                  <p class="sale">銷量：</p>
                   <h1>￥   {{inn.price}}.00</h1>
-                  <div>
-                    <p>原痂：{{inn.marketPrice}}.00</p>
+                  <div class="oldprice">
+                    <p>原价{{inn.marketPrice}}.00</p>
                     <li></li>
                     <p class="look" @click="more(inn)">查看详情》</p>
                   </div>
@@ -108,6 +141,7 @@ export default {
       array: [],
       data_1: "",
       data_2: "",
+      data_wei: "",
       imgSrc: "http://123.58.241.146:8088/xinda/pic",
       change1: "style1",
       change2: "",
@@ -119,11 +153,12 @@ export default {
     };
   },
   methods: {
-    more(inn){
+    more(inn) {
       this.$router.push({
         path: "/inner/Shangpinxiangqing",
         query: {
-          id: inn.id
+          id: inn.id,
+          newPrice:inn.price
         }
       });
     },
@@ -293,6 +328,14 @@ export default {
             }
           });
       }
+    },
+    go_shopping(four){
+      this.$router.push({
+        path: "/inner/Shangpinxiangqing",
+        query: {
+          id: four.id
+        }
+      });
     }
   }
 };
@@ -305,212 +348,360 @@ export default {
   flex-direction: column;
   align-items: center;
 }
-.top {
-  width: 1200px;
-  height: 179px;
-  border: 1px solid #e9e9e9;
-  margin-top: 7px;
-  display: flex;
-  align-items: center;
-  img {
-    height: 60px;
-    margin-left: 62px;
-  }
-  p {
-    font-size: 14px;
-    color: #676767;
-    margin-top: 16px;
-  }
-  li {
-    margin-left: 30px;
-  }
-}
-.content {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 24px;
-  margin-bottom: 80px;
-  position: relative;
-  .left {
-    width: 300px;
-    height: 583px;
+
+// PC端
+@media screen and (min-width: 768px) {
+  .top {
+    width: 1200px;
+    height: 179px;
     border: 1px solid #e9e9e9;
-    h3 {
-      line-height: 51px;
-      margin-left: 8px;
+    margin-top: 7px;
+    display: flex;
+    align-items: center;
+    img {
+      height: 60px;
+      margin-left: 62px;
     }
     p {
-      line-height: 23px;
-      font-size: 12px;
+      font-size: 14px;
       color: #676767;
-      margin: 22px 26px;
+      margin-top: 16px;
     }
     li {
-      width: 300px;
-      height: 251px;
-      border-top: 1px solid #e9e9e9;
-      position: absolute;
-      bottom: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      margin-left: 30px;
     }
   }
-  .right {
-    width: 875px;
-    height: 583px;
-    .top_list {
-      width: 100%;
-      height: 39px;
+  .content {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24px;
+    margin-bottom: 80px;
+    position: relative;
+    .left {
+      width: 300px;
+      height: 583px;
       border: 1px solid #e9e9e9;
+      h3 {
+        line-height: 51px;
+        margin-left: 8px;
+      }
+      p {
+        line-height: 23px;
+        font-size: 12px;
+        color: #676767;
+        margin: 22px 26px;
+      }
+      li {
+        width: 300px;
+        height: 251px;
+        border-top: 1px solid #e9e9e9;
+        position: absolute;
+        bottom: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+    .right {
+      width: 875px;
+      height: 583px;
+      .top_list {
+        width: 100%;
+        height: 39px;
+        border: 1px solid #e9e9e9;
+        display: flex;
+        li {
+          line-height: 39px;
+          width: 100px;
+          text-align: center;
+          margin: 0 10px;
+          cursor: pointer;
+        }
+      }
+
+      .bottom {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #e9e9e9;
+        li {
+          width: 100%;
+          height: 542px;
+          div {
+            width: 100%;
+            img {
+              width: 198px;
+            }
+            ul {
+              height: 447px;
+              display: flex;
+              flex-wrap: wrap;
+              p {
+                font-size: 14px;
+                line-height: 35px;
+                color: #3f3f3f;
+              }
+              .serve_introduce {
+                margin: 15px 5px 0;
+                width: 251px;
+                height: 171px;
+                border: 1px solid #ccc;
+                display: flex;
+                flex-direction: column;
+                padding: 14px;
+                h4 {
+                  margin: 5px 0 9px 0;
+                  overflow: hidden; /*超出长度的文字隐藏*/
+                  text-overflow: ellipsis; /*文字隐藏以后添加省略号*/
+                  white-space: nowrap;
+                }
+                .longword {
+                  overflow: hidden; /*超出长度的文字隐藏*/
+                  text-overflow: ellipsis; /*文字隐藏以后添加省略号*/
+                  white-space: nowrap;
+                }
+                div {
+                  width: 100%;
+                  height: 18px;
+                  line-height: 18px;
+                  padding: 0;
+                  display: flex;
+                  justify-content: space-between;
+                  position: relative;
+                  li {
+                    width: 118px;
+                    height: 1px;
+                    border-top: 1px solid #6a423a;
+                    position: absolute;
+                    bottom: 0;
+                  }
+                  p {
+                    font-size: 14px;
+                    color: #3f3f3f;
+                  }
+
+                  .look {
+                    cursor: pointer;
+                    color: #74b3de;
+                  }
+                }
+              }
+              h1 {
+                width: 256px;
+                color: #2693d4;
+                line-height: 40px;
+              }
+            }
+          }
+          h3 {
+            width: 875px;
+            line-height: 50px;
+          }
+        }
+        .service_title {
+          width: 100%;
+          height: 93px;
+          border: 1px solid #e9e9e9;
+          line-height: 93px;
+          text-align: center;
+        }
+        .weichat_searve {
+          display: none;
+        }
+        .weichat_list {
+          display: none;
+        }
+        .weichat_bottom_title{
+          display: none;
+        }
+      }
+    }
+  }
+  .style1 {
+    color: #74b3df;
+    border-bottom: 2px solid #2693d4;
+  }
+  .style2 {
+    color: black;
+    border-bottom: 2px solid #fff;
+  }
+  .style3 {
+    display: none;
+  }
+  .style4 {
+    display: flex;
+  }
+  .bot_1 {
+    display: flex;
+    justify-content: flex-end;
+    button {
+      padding: 8px 10px;
+      font-size: 13px;
+      border: 1px solid #ccc;
+      background-color: #f4f4f4;
+      margin: 5px 3px;
+      outline: none;
+      cursor: pointer;
+    }
+    ul {
       display: flex;
       li {
-        line-height: 39px;
-        width: 100px;
+        width: 37px;
+        height: 34px;
+        border: 1px solid #ccc;
+        font-size: 13px;
+        line-height: 34px;
         text-align: center;
-        margin: 0 10px;
+        margin: 5px 3px;
+        background-color: #f4f4f4;
         cursor: pointer;
       }
     }
+  }
+  .chooseIt {
+    background-color: #bcdff3;
+    color: #2891d3;
+  }
+  .noclick {
+    color: grey;
+    outline: none;
+    cursor: crosshair;
+  }
+}
 
-    .bottom {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: 1px solid #e9e9e9;
-      li {
-        width: 100%;
-        height: 542px;
-        div {
+// =========================================以下是微信端
+@media screen and (max-width: 768px) {
+  .top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: none;
+    img {
+      width: 100px;
+      margin: 80px 0 30px;
+    }
+    .adress {
+      display: none;
+    }
+  }
+  .content {
+    .left {
+      h3 {
+        display: none;
+      }
+      p {
+        font-size: 15px;
+        margin: 30px 10px;
+        line-height: 20px;
+        text-indent: 2em;
+      }
+      img {
+        display: none;
+      }
+    }
+    .right {
+      .top_list {
+        display: none;
+      }
+      .bottom {
+        .service_title {
+          display: none;
+        }
+        .weichat_searve {
           width: 100%;
-          img {
-            width: 198px;
+          display: block;
+          position: relative;
+          border-bottom: 2px solid #2393d3;
+          line-height: 35px;
+          margin-top: 10px;
+          font-size: 18px;
+          p {
+            margin-left: 2%;
           }
-          ul {
-            height: 447px;
+          div {
+            position: absolute;
+            left: 8%;
+            bottom: 0px;
+            width: 0px;
+            height: 0px;
+            border-left: 2px solid transparent;
+            border-top: none;
+            border-right: 2px solid transparent;
+            border-bottom: 2px solid #2393d3;
+          }
+        }
+        .weichat_list {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          .weichat_goos_list {
+            width: 100%;
             display: flex;
-            flex-wrap: wrap;
-            p {
-              font-size: 14px;
-              line-height: 35px;
-              color: #3f3f3f;
+            margin: 10px 5px;
+            border-bottom: 1px solid #ccc;
+            padding: 2% 2%;
+            .left {
+              width: 30%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              padding: 2%;
+              img {
+                display: block;
+                width: 90%;
+                height: 100%;
+                border: 2px solid #e3e3e3;
+              }
             }
-            .serve_introduce {
-              margin: 15px 5px 0;
-              width: 251px;
-              height: 171px;
-              border: 1px solid #ccc;
+            .right {
               display: flex;
               flex-direction: column;
-              padding: 14px;
-              h4 {
-                margin: 5px 0 9px 0;
-                overflow: hidden; /*超出长度的文字隐藏*/
-                text-overflow: ellipsis; /*文字隐藏以后添加省略号*/
-                white-space: nowrap;
-              }
-              .longword {
-                overflow: hidden; /*超出长度的文字隐藏*/
-                text-overflow: ellipsis; /*文字隐藏以后添加省略号*/
-                white-space: nowrap;
-              }
-              div {
+              font-size: 14px;
+              width: 60%;
+              position: relative;
+              .service_t {
+                font-size: 16px;
+                line-height: 28px;
                 width: 100%;
-                height: 18px;
-                line-height: 18px;
-                padding: 0;
+              }
+              .service_i{
+                line-height: 20px;
+                width: 100%;
+                height: 90px;
+                
+              }
+              li {
+                width: 100%;
                 display: flex;
-                justify-content: space-between;
-                position: relative;
-                li {
-                  width: 118px;
-                  height: 1px;
-                  border-top: 1px solid #6a423a;
-                  position: absolute;
-                  bottom: 0;
+                font-size: 12px;
+                position: absolute;
+                bottom: 4%;
+                line-height: 16px;
+                img{
+                  width: 8px;
+                  height: 12px;
+                  margin: 1%;
                 }
-                p {
-                  font-size: 14px;
-                  color: #3f3f3f;
-                }
-
-                .look {
-                  cursor: pointer;
-                  color: #74b3de;
+                span{
+                  margin: 0 0 0 10%;
+                  color: red;
+                  font-size: 18px;
+                  font-weight: bold;
                 }
               }
-            }
-            h1 {
-              width: 256px;
-              color: #2693d4;
-              line-height: 40px;
             }
           }
         }
-        h3 {
-          width: 875px;
-          line-height: 50px;
+        li {
+          display: none;
         }
       }
-      .service_title {
-        width: 100%;
-        height: 93px;
-        border: 1px solid #e9e9e9;
-        line-height: 93px;
-        text-align: center;
-      }
     }
   }
-}
-.style1 {
-  color: #74b3df;
-  border-bottom: 2px solid #2693d4;
-}
-.style2 {
-  color: black;
-  border-bottom: 2px solid #fff;
-}
-.style3 {
-  display: none;
-}
-.style4 {
-  display: flex;
-}
-.bot_1 {
-  display: flex;
-  justify-content: flex-end;
-  button {
-    padding: 8px 10px;
-    font-size: 13px;
-    border: 1px solid #ccc;
-    background-color: #f4f4f4;
-    margin: 5px 3px;
-    outline: none;
-    cursor: pointer;
+  .bot_1 {
+    display: none;
   }
-  ul {
-    display: flex;
-    li {
-      width: 37px;
-      height: 34px;
-      border: 1px solid #ccc;
-      font-size: 13px;
-      line-height: 34px;
-      text-align: center;
-      margin: 5px 3px;
-      background-color: #f4f4f4;
-      cursor: pointer;
-    }
-  }
-}
-.chooseIt {
-  background-color: #bcdff3;
-  color: #2891d3;
-}
-.noclick {
-  color: grey;
-  outline: none;
-  cursor: crosshair;
 }
 </style>
