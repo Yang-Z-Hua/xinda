@@ -30,13 +30,16 @@ import md5 from "md5";
 export default {
   name: "HelloWorld",
   created() {
+    this.$parent.$parent.status='wait'
     this.$parent.ask = "还没有账号？";
     this.$parent.phoneTittle = "登录";
     this.$parent.meth = "立即注册";
     this.$parent.tb = "欢迎登录";
     this.$parent.de = "register";
     console.log(this.$route.query.id);
-    this.$parent.$parent.status = "wait1";
+    var a=this;
+    setTimeout(function(){a.$parent.$parent.status = "wait1";},200)
+    
   },
   data() {
     return {

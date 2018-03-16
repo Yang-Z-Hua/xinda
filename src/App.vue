@@ -270,7 +270,7 @@ export default {
     cursor: wait !important;
     display: block;
     position: fixed;
-    top: 0;
+    top: -70px;
     left: 0;
     width: 100vw;
     height: 100vh;
@@ -282,7 +282,7 @@ export default {
     }
     img {
       display: block;
-      margin: 40vh auto 5px;
+      margin: 50vh auto 5px;
       animation: chen 1s linear infinite;
     }
     @keyframes chen {

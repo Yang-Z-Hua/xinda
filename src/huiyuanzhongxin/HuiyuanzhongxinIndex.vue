@@ -186,6 +186,9 @@ export default {
     },
     xr(i) {
       this.$parent.$parent.$parent.status = "Lwait";
+      if(window.innerWidth < 768){
+         this.$parent.$parent.$parent.status = "wait";
+      }
       if(i=='csh'){
         this.$parent.$parent.$parent.status = "wait";
       }
