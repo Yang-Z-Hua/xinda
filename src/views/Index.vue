@@ -1,7 +1,11 @@
 <template>
   <div class="outer">
     <div class="small_top">
-      <ul>北京</ul>
+      <ul>
+        <select name="北京市" id="">
+          <option value="北京市">北京市</option>
+        </select>
+      </ul>
       <img src="../assets/images/logo.jpg" alt="">
     </div>
     <div class="allproduct">
@@ -25,7 +29,7 @@
     </div>
 
     <!-- 明星产品推荐 -->
-    <ul class="product_star">
+    <ul class="product_star none">
       <p>明星产品推荐</p>
       <li class="triangle"></li>
     </ul>
@@ -66,39 +70,131 @@
 
     <!-- 微信端 -->
     <div class="move_lead">
-
-    </div>
-
-    <!-- 初创企业必备 -->
-    <ul class="product_star">
-      <p>初创企业必备</p>
-      <li class="triangle"></li>
-    </ul>
-    <div class="company">
-      <div v-for="(a,index) in arr.hq" :key="index">
-          <li class="img"><img :src="imgSrc+a.providerImg" alt=""></li>
-          <ul>
-            <p class="product_title">{{a.serviceName.split('（')[0]}}</p>
-            <li class="introduce_li"><p class="product_introduce">{{a.serviceInfo}}</p></li>
-            <p class="product_price"><span>￥{{a.marketPrice}}</span>{{a.unit}}</p>
-            <button @click="goods(a)">查看详情</button>
-          </ul>
-      </div>
-      
-    </div>
-    <!-- 知识产权 -->
-    <ul class="product_star">
-      <p>知识产权</p>
-      <li class="triangle"></li>
-    </ul>
-    <ul class="knowledge">
-      <li class="knowledge_1"><img src="../assets/images/u82.png" alt="" class="u82"></li>
-      <li class="knowledge_2">
-        <img src="../assets/images/u84.png" alt="" class="u84">
-        <img src="../assets/images/u86.png" alt="" class="u86">
-        <img src="../assets/images/aaa.png" alt="" class="u88">
+      <li>
+        <router-link :to='{path:"/inner/liebiaoye",query:{
+          id: "2e110f0df53243c197fede52fba8e5d0",
+          firstName: "财税服务",
+          code: 3
+          }}'>
+        <img src="../assets/images/caishui.png" alt="">
+      </router-link>       
+        <p>财税服务</p>
       </li>
-    </ul>
+      <li>
+        <router-link :to='{path:"/inner/liebiaoye",query:{
+          id: "5af629246fa34f6f8d49758c6a7b25f1",
+          firstName: "公司工商",
+          code: 4,
+          }}'>
+        <img src="../assets/images/company.png" alt="">
+      </router-link>       
+        <p>开公司</p>
+      </li>
+      <li>
+        <router-link :to='{path:"/inner/liebiaoye",query:{
+          id: "5af629246fa34f6f8d49758c6a7b25f1",
+          firstName: "公司工商",
+          code: 5,
+          }}'>
+        <img src="../assets/images/biangeng.png" alt="">
+      </router-link>        
+        <p>公司变更</p>
+      </li>
+      <li>
+        <router-link :to='{path:"/inner/liebiaoye",query:{
+          id: "cc7eb9bbd40f4b0e9f31c8cbcb903a59",
+          firstName: "社保代理",
+          code: 7,
+          }}'>
+        <img src="../assets/images/gebao.png" alt="">
+      </router-link>     
+        <p>个人社保</p>
+      </li>
+      <li>
+        <router-link :to='{path:"/inner/liebiaoye",query:{
+          id: "cc7eb9bbd40f4b0e9f31c8cbcb903a59",
+          firstName: "社保代理",
+          code: 6,
+          }}'>
+        <img src="../assets/images/gongbao.png" alt="">
+      </router-link>     
+        <p>公司社保</p>
+      </li>
+      <li>
+        <router-link :to='{path:"/inner/liebiaoye",query:{
+          id: "1eff122d06604fc1aadf9e7acefba21a",
+          firstName: "知识产权",
+          code: 10,
+          }}'>
+        <img src="../assets/images/zhishi.png" alt="">
+      </router-link> 
+        <p>知识产权</p>
+      </li>
+      <li>
+        <router-link :to='{path:"/chanpinfenlei"}'>
+        <img src="../assets/images/all.png" alt="">
+      </router-link>      
+        <p>全部服务</p>
+      </li>
+    </div>
+    <div class="weichat_use">
+      <!-- 初创企业必备 -->
+      <div>
+      <ul class="product_star">
+        <p>初创企业必备</p>
+        <li class="triangle1"></li>
+      </ul>
+      <div class="company">
+        <div v-for="(a,index) in arr.hq" :key="index">
+            <li class="img"><img :src="imgSrc+a.providerImg" alt="" @click="goods(a)"></li>
+            <ul>
+              <p class="product_title">{{a.serviceName.split('（')[0]}}</p>
+              <li class="introduce_li"><p class="product_introduce">{{a.serviceInfo}}</p></li>
+              <p class="product_price"><span>￥{{a.price}}</span>{{a.unit}}</p>
+              <button @click="goods(a)">查看详情</button>
+            </ul>
+        </div>      
+      </div>
+      </div>
+      <!-- 知识产权 -->
+      <div>
+      <ul class="product_star">
+        <p>知识产权</p>
+        <li class="triangle2"></li>
+      </ul>
+      <ul class="knowledge">
+        <li class="knowledge_1">
+          <img src="../assets/images/u82.png" alt="" class="u82">
+          <span class="jia1" @click="jia1()"></span>
+          <span class="jia2" @click="jia2()"></span>
+          <span class="jia3" @click="jia3()"></span>
+          </li>
+        <li class="knowledge_2">
+          <router-link :to='{path:"/inner/liebiaoye",query:{
+          id: "1eff122d06604fc1aadf9e7acefba21a",
+          firstName: "知识产权",
+          code: 8,
+          }}'>
+          <img src="../assets/images/u84.png" alt="" class="u84">
+      </router-link>
+      <router-link :to='{path:"/inner/liebiaoye",query:{
+          id: "1eff122d06604fc1aadf9e7acefba21a",
+          firstName: "知识产权",
+          code: 9,
+          }}'>
+          <img src="../assets/images/u86.png" alt="" class="u86">
+      </router-link>
+      <router-link :to='{path:"/inner/liebiaoye",query:{
+          id: "1eff122d06604fc1aadf9e7acefba21a",
+          firstName: "知识产权",
+          code: 9,
+          }}'>
+          <img src="../assets/images/aaa.png" alt="" class="u88">
+      </router-link>
+        </li>
+      </ul>
+      </div>
+    </div>
     <img src="../assets/images/approve.png" alt="" class="approve">
     <!-- 推荐服务商 -->
     <ul class="recommend"> 
@@ -152,15 +248,13 @@ export default {
   created() {
     var a = 1;
     // window.scrollTo(0, 0);
-    var rf=this;
+    var rf = this;
     document.onscroll = function() {
-      console.log('this',this)
       if (a) {
         a = 0;
         rf.ajax.post("/xinda-api/recommend/list").then(data => {
           rf.$parent.$parent.status = "wait1";
           rf.arr = data.data.data;
-          console.log(rf.arr);
         });
         rf.ajax.post("/xinda-api/provider/search-grid").then(data => {
           rf.arr2 = data.data.data;
@@ -171,6 +265,13 @@ export default {
       }
     };
     // this.$parent.$parent.status = "wait";
+    this.ajax
+      .post(
+        "/xinda-api/product/style/list"
+      )
+      .then(data => {
+        console.log(data)
+      });
   },
 
   data() {
@@ -220,7 +321,7 @@ export default {
         path: "/inner/shangpinxiangqing",
         query: {
           id: a.id,
-          firstName: "zhuanli"
+          newPrice: a.price
         }
       });
     },
@@ -239,7 +340,40 @@ export default {
       this.r = 1;
       this.choose1 = "sty2";
       this.choose2 = "sty1";
-    }
+    },
+    jia1(){
+      this.$router.push({
+        path: "/inner/liebiaoye",
+        query: {
+          id: "1eff122d06604fc1aadf9e7acefba21a",
+          id2: "93bfade97b784891847995255419cbaa",
+          firstName: "知识产权",
+          code: 8,
+        }
+      });
+    },
+    jia2(){
+      this.$router.push({
+        path: "/inner/liebiaoye",
+        query: {
+          id: "1eff122d06604fc1aadf9e7acefba21a",
+          id2: "9ff92f92fd614049a45f34c0d003eaa4",
+          firstName: "知识产权",
+          code: 9,
+        }
+      });
+    },
+    jia3(){
+      this.$router.push({
+        path: "/inner/liebiaoye",
+        query: {
+          id: "1eff122d06604fc1aadf9e7acefba21a",
+          id2: "6e129158ea5544ebac88cd6804e3aa65",
+          firstName: "知识产权",
+          code: 10,
+        }
+      });
+    },
   }
 };
 </script>
@@ -537,6 +671,9 @@ export default {
       height: 382px;
     }
   }
+  .move_lead {
+    display: none;
+  }
   .company {
     width: 1200px;
     height: 464px;
@@ -614,6 +751,25 @@ export default {
     height: 482px;
     display: flex;
     justify-content: space-between;
+    .knowledge_1 {
+      position: relative;
+      span {
+        width: 60px;
+        height: 18px;
+        position: absolute;
+        cursor: pointer;
+        right: 130px;
+      }
+      .jia1 {
+        top: 36px;
+      }
+      .jia2 {
+        top: 65px;
+      }
+      .jia3 {
+        top: 94px;
+      }
+    }
     .knowledge_2 {
       width: 850px;
       height: 482px;
@@ -660,16 +816,21 @@ export default {
     display: flex;
     justify-content: center;
     width: 100%;
-    height: 72px;
+    height: 40px;
     position: relative;
+    margin: 15px 0;
     ul {
       position: absolute;
       left: 0;
-      line-height: 72px;
-      font-size: 22px;
+      top: 5px;
+      select {
+        border: none;
+        outline: none;
+        font-size: 16px;
+      }
     }
     img {
-      height: 72px;
+      width: 85px;
     }
   }
   .allproduct {
@@ -689,11 +850,61 @@ export default {
   // 微信中部
   .move_lead {
     width: 100%;
-    height: 392px;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px 0;
+    li {
+      width: 23%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 1%;
+      font-size: 18px;
+      a {
+        width: 90%;
+        img {
+          width: 100%;
+        }
+      }
+      p {
+        line-height: 26px;
+      }
+    }
   }
 
   // 初创企业必备
 
+  .weichat_use {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .product_star {
+    width: 100%;
+    border-bottom: 1px solid #2693d4;
+    position: relative;
+    margin-top: 10px;
+    p {
+      font-size: 18px;
+      margin: 5px 10px;
+    }
+    li {
+      position: absolute;
+      bottom: 0;
+      width: 0px;
+      height: 0px;
+      border-left: 3px solid transparent;
+      border-top: none;
+      border-right: 3px solid transparent;
+      border-bottom: 3px solid #2393d3;
+    }
+    .triangle2 {
+      left: 42px;
+    }
+    .triangle1 {
+      left: 60px;
+    }
+  }
   .company {
     display: flex;
     flex-direction: column;
@@ -701,25 +912,30 @@ export default {
     width: 100%;
     div {
       width: 90%;
-      height: 180px;
+      height: 140px;
       display: flex;
       padding: 10px;
+      border-bottom: 1px solid #ccc;
       .img {
-        width: 40%;
+        width: 32%;
+        height: 130px;
         border: 2px solid #ccc;
         display: flex;
         justify-content: center;
         align-items: center;
+        img {
+          width: 100%;
+        }
       }
       ul {
         display: flex;
         flex-direction: column;
         width: 58%;
-        margin: 0 5px;
+        margin: 0 10px;
         position: relative;
         .product_title {
           color: black;
-          font-size: 22px;
+          font-size: 20px;
           overflow: hidden; /*超出长度的文字隐藏*/
           text-overflow: ellipsis; /*文字隐藏以后添加省略号*/
           white-space: nowrap;
@@ -729,15 +945,16 @@ export default {
         }
         .introduce_li {
           .product_introduce {
-            line-height: 30px;
+            line-height: 20px;
+            font-size: 14px;
           }
         }
 
         .product_price {
           position: absolute;
-          bottom: 0;
+          bottom: 4px;
           span {
-            font-size: 26px;
+            font-size: 22px;
             color: red;
           }
         }
@@ -760,14 +977,17 @@ export default {
     }
     .knowledge_2 {
       width: 100%;
+      img {
+        margin: 1%;
+      }
       .u84 {
-        width: 49%;
+        width: 46%;
       }
       .u86 {
-        width: 49%;
+        width: 46%;
       }
       .u88 {
-        width: 100%;
+        width: 96%;
       }
     }
   }
@@ -778,6 +998,10 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 15px;
+    img {
+      width: 85px;
+    }
     p {
       font-size: 18px;
       color: #ccc;
@@ -802,10 +1026,10 @@ export default {
   .again {
     display: none;
   }
-  .product_star {
+  .star_list {
     display: none;
   }
-  .star_list {
+  .none {
     display: none;
   }
 }

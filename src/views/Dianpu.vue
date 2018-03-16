@@ -467,7 +467,7 @@ export default {
       width: 358px;
       border:1px solid #2693d4;
       border-radius: 4px;
-      margin: 20px 0;
+      margin:0 0 20px 0;
       li{
         width: 50%;
         text-align: center;
