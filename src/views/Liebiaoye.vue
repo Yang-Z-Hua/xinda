@@ -100,7 +100,7 @@ export default {
       arr: "",
       imgSrc: "http://123.58.241.146:8088/xinda/pic",
       img: require("../assets/images/zz.jpg"),
-      number: "1",
+      number: 1,
       num: 0,
       sleType: "", //公司注册/变更
       shang1: "grey",
@@ -126,7 +126,8 @@ export default {
       px2: "", //排序
       pxIndex: "",
       key: 1,
-      fanye: 3
+      fanye: 3,
+      sx: "dede" //上一页下一页标志
     };
   },
   created() {
@@ -139,7 +140,6 @@ export default {
     this.ajax
       .post("/xinda-api/product/style/list", this.qs.stringify({}))
       .then(data => {
-        console.log('!!',data)
         this.data = data;
         this.data1 = this.$route.query.id;
         this.id2 = this.$route.query.id2;
@@ -167,7 +167,6 @@ export default {
   methods: {
     defaultImg(e) {
       // 错误图片的代替
-      console.log("run in this");
       e.target.src = defaultImgUrl;
     },
     gm(a) {
@@ -260,26 +259,27 @@ export default {
     },
     next() {
       // 下一页
+      this.sx = 1;
       this.prevTip = 0;
-      if (this.arrLength < this.fanye) {
-        this.nextTip = 1;
-        return;
-      } else {
-        this.num += this.fanye;
-        this.number++;
-        this.chen(this.fyCode, this.fyId, this.pxIndex);
-        this.shang1 = "blue";
-      }
+      // if (this.arrLength < this.fanye) {
+      //   this.nextTip = 1;
+      //   return;
+      // } else {
+      this.num += this.fanye;
+      //   this.number++;
+      this.chen(this.fyCode, this.fyId, this.pxIndex);
+      // }
     },
     prev() {
       //上一页
+      this.sx = 0;
       this.nextTip = 0;
-      if (this.number == 1) {
-        this.prevTip = 1;
-        return;
-      }
+      // if (this.number == 1) {
+      //   this.prevTip = 1;
+      //   return;
+      // }
       this.num -= this.fanye;
-      (this.xia1 = "blue"), this.number--;
+      // (this.xia1 = "blue"), this.number--;
       this.chen(this.fyCode, this.fyId, this.pxIndex);
     },
     fwfl(a) {
@@ -352,6 +352,30 @@ export default {
           })
         )
         .then(data => {
+          console.log(0, data.data.data.length);
+          if (this.sx == 1) {
+            this.sx = 'wqwq';
+            if (data.data.data.length == 0) {
+              this.nextTip = 1;
+              this.$parent.$parent.status = "wait1";
+              this.num -= this.fanye;
+              return;
+            } else {
+              this.number += 1;
+              console.log("number", this.number);
+            }
+          }
+          if (this.sx == 0) {
+            this.sx = 'wqwq';
+            if (this.number == 1) {
+              this.prevTip = 1;
+              this.$parent.$parent.status = "wait1";
+              this.num += this.fanye;
+              return;
+            } else {
+              this.number--;
+            }
+          }
           this.arr = data.data.data;
           this.arrLength = this.arr.length;
           this.$parent.$parent.status = "wait1";

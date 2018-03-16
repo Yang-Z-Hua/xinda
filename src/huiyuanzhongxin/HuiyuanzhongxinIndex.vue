@@ -93,6 +93,7 @@
             </div>
           </div>
           <div class="det-right">
+            <!-- PC -->
             <div class="zhong">
               <p class="xg" @click="fukuan(aa.businessNo,aa.totalPrice)">付款</p>
               <p class="scdd" @click="sc(aa.id)">删除订单</p>
@@ -104,6 +105,7 @@
               <span class="aato">￥{{aa.totalPrice}}</span>
             </div>
             <div class="ddfk">
+              <!-- 手机 -->
               <span class="aato" @click="shanc(aa.id)" >删除订单</span>
               <span class="fuk" @click="fukuan(aa.businessNo,aa.totalPrice)">付款</span>
             </div>
@@ -112,10 +114,10 @@
         </div>
       </div>
     </div>
-    <!-- <div class="meidd" v-if="mnr">
+    <div class="meidd" v-if="mnr">
       <span>还没有订单！</span>
-    </div> -->
-    <div class="molu">
+    </div>
+    <div class="molu" v-if="!mnr">
       <span class="sy" @click="prev" >上一页</span>
       <span class="noone">{{count}}</span>
       <p v-if="prevTip"></p><span class="sy" @click="next" >下一页</span><p v-if="nextTip">xiayiye</p>
@@ -128,7 +130,7 @@ export default {
   name: "HelloWorld",
   data() {
     return {
-      // mnr:true,
+      mnr:false,
       qrsc:false,
       xy: "<",
       nextTip: "",
@@ -150,7 +152,6 @@ export default {
   },
   methods: {
     fukuan(asd, mmm) {
-      // console.log(asd,mmm)
       this.$router.push({
         path: "/dingdanxiangqing",
         query: {
@@ -192,21 +193,25 @@ export default {
             limit: 2,
             start: this.startNum,
             businessNo: this.No
-            // startTime:this.startDate,
-            // endTime:this.endDate
           })
         )
         .then(data => {
-          console.log(data);
           if (data.data.data.length == 0) {
-            console.log(data.data.data.length)
-            this.$parent.$parent.$parent.status='wait1'
-            // this.da = "";
-            // this.mnr = this.mnr;
+            this.$parent.$parent.$parent.status='wait1';
+            this.mnr=!this.mnr
+            if(i=='sc'){
+              console.log(i)
+              this.da = "";
+              if(this.count>1){
+                this.startNum-=2;
+                this.xr()
+                this.count--
+              }else{
+                this.mnr=!this.mnr
+              }
+            }
             return;
-          } else {
-            // this.mnr = !this.mnr
-          }
+          } 
           if (i == 2) {
             this.count++;
           }
@@ -215,6 +220,7 @@ export default {
           }
           let orderList = data.data.data;
           var j = 0;
+          this.$parent.$parent.$parent.status='Lwait'
           for (let i in orderList) {
             this.ajax
               .post(
@@ -225,7 +231,6 @@ export default {
               )
               .then(data => {
                  this.$parent.$parent.$parent.status='wait1'
-                // console.log(data);
                 orderList[i].service = data.data.data;
                 j++;
                 if (j == orderList.length) {
@@ -250,8 +255,7 @@ export default {
           })
         )
         .then(data => {
-          console.log(111111, data);
-          this.xr();
+          this.xr('sc');
         });
     },
     sc1(){
@@ -264,7 +268,6 @@ export default {
           })
         )
         .then(data => {
-          console.log(111111, data);
           this.xr();
         });
     },
@@ -278,11 +281,6 @@ export default {
   },
   created() {
     this.xr();
-    // if (!this.$parent.$parent.$parent.user) {
-    //   this.$router.push({
-    //     path: "/inner/shoujihuiyuanzhongxin",
-    //   });
-    // }
   }
 };
 </script>
@@ -525,13 +523,13 @@ background:#9c9c9c;
       display: none;
     }
     .meidd {
-      // width: 934px;
-      // height: 320px;
-      // margin-top: 22px;
-      // background-color: #f9f9f9;
-      // display: flex;
-      // justify-content: center;
-      // align-items: center;
+      width: 934px;
+      height: 320px;
+      margin-top: 22px;
+      background-color: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       span {
         color: #dfd7d7;
         font-size: 50px;
