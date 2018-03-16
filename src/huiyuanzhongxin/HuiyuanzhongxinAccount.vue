@@ -1,7 +1,11 @@
 <template>
 <div class="right">
   <div class="zhshez">
-    <span class="xiaoyu">{{xy}}</span>
+    <span class="xiaoyu">
+      <router-link to="/shoujihuiyuanzhongxin" tag="div">
+        {{xy}}
+      </router-link>
+    </span>
     <span>账户设置</span>
   </div>
   <div class="right-top">
@@ -219,7 +223,7 @@ export default {
       .xiaoyu {
         font-size: 30px;
         position: absolute;
-        margin-left: 5px;
+        // margin-left: 5px;
       }
     }
     .right-top {

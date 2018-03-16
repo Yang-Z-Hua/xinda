@@ -10,16 +10,20 @@
         <div class="bottom">
           <router-link to="/Huiyuanzhongxin/Huiyuanzhongxinindex" tag="div">
             <div class="ddzh" >
-              <img src="../assets/images/u5092.png" alt="">
-              <p>我的订单</p>
+              <div>
+                <img src="../assets/images/u5092.png" alt="">
+                <p>我的订单</p>
+              </div>
               <span>{{xy}}</span>
             </div>
           </router-link>
 
           <router-link to="/Huiyuanzhongxin/HuiyuanzhongxinAccount"  tag="div">
             <div class="ddzh">
-              <img src="../assets/images/u5102.png" alt="">
-              <p>账户设置</p>
+              <div>
+                <img src="../assets/images/u5102.png" alt="">
+                <p>账户设置</p>
+              </div>         
                <span>{{xy}}</span>
             </div>
           </router-link>
@@ -104,15 +108,16 @@ export default {
       .ddzh {
         display: flex;
         align-items: center;
+        justify-content: space-between;
         height: 40px;
         margin: 1rem 2rem;
         background: #f7f7f7;
         line-height: 50px;
         color: #ccc;
         span {
-          margin-left: 180px;
           font-size: 25px;
           vertical-align: middle;
+          padding-right: 5px;
         }
         p {
           margin-left: 10px;

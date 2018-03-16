@@ -1,7 +1,20 @@
 <template>
   <div class="right">
+    <div class="tckuang" v-show="qrsc">
+      <div class="tanchuk">
+        <p>确认删除该订单</p>
+        <ul>
+          <li class="qd" @click="sc1">确定</li>
+          <li class="qx" @click="quxiao">取消</li>
+        </ul>
+      </div>
+    </div>
     <div class="right-top">
-      <span>{{xy}}</span>
+      <span>
+        <router-link to="/shoujihuiyuanzhongxin" tag="div">
+          {{xy}}
+        </router-link>
+      </span>
       <p>我的订单</p>
     </div>
     <div class="order">
@@ -14,6 +27,7 @@
       <el-date-picker class="rili" v-model="startDate" type="date"></el-date-picker>
       <el-date-picker class="rili" v-model="endDate" type="date"></el-date-picker>
     </div>
+    
     <div class="list">
       <ul>
         <li class="sp">商品名称</li>
@@ -90,7 +104,7 @@
               <span class="aato">￥{{aa.totalPrice}}</span>
             </div>
             <div class="ddfk">
-              <span class="aato"   @click="sc(aa.id)">删除订单</span>
+              <span class="aato" @click="shanc(aa.id)" >删除订单</span>
               <span class="fuk" @click="fukuan(aa.businessNo,aa.totalPrice)">付款</span>
             </div>
           </div>
@@ -104,7 +118,7 @@
     <div class="molu">
       <span class="sy" @click="prev" >上一页</span>
       <span class="noone">{{count}}</span>
-      <p v-if="prevTip"></p><span @click="next" >下一页</span><p v-if="nextTip">xiayiye</p>
+      <p v-if="prevTip"></p><span class="sy" @click="next" >下一页</span><p v-if="nextTip">xiayiye</p>
     </div>
   </div>
 </template>
@@ -115,6 +129,7 @@ export default {
   data() {
     return {
       // mnr:true,
+      qrsc:false,
       xy: "<",
       nextTip: "",
       prevTip: "",
@@ -126,6 +141,7 @@ export default {
       da: "",
       endDate: undefined,
       yfk: "",
+      id:'',
       // imgSrc: "http://123.58.241.146:8088/xinda/pic",
       disabledDate(time) {
         return time.getTime() > Date.now();
@@ -182,7 +198,8 @@ export default {
         .then(data => {
           console.log(data);
           if (data.data.data.length == 0) {
-            this.da = "";
+            console.log(data.data.data.length)
+            // this.da = "";
             // this.mnr = this.mnr;
             return;
           } else {
@@ -205,7 +222,7 @@ export default {
                 })
               )
               .then(data => {
-                console.log(data);
+                // console.log(data);
                 orderList[i].service = data.data.data;
                 j++;
                 if (j == orderList.length) {
@@ -221,6 +238,7 @@ export default {
         });
     },
     sc(id) {
+      this.id = id;
       this.ajax
         .post(
           "/xinda-api/business-order/del",
@@ -232,15 +250,36 @@ export default {
           console.log(111111, data);
           this.xr();
         });
+    },
+    sc1(){
+      this.qrsc = !this.qrsc
+      this.ajax
+        .post(
+          "/xinda-api/business-order/del",
+          this.qs.stringify({
+            id: this.id
+          })
+        )
+        .then(data => {
+          console.log(111111, data);
+          this.xr();
+        });
+    },
+    shanc(id){
+      this.qrsc = !this.qrsc;
+      this.id = id
+    },
+    quxiao(){
+      this.qrsc = !this.qrsc
     }
   },
   created() {
     this.xr();
-    if (!this.$parent.$parent.$parent.user) {
-      this.$router.push({
-        path: "/inner/shoujihuiyuanzhongxin",
-      });
-    }
+    // if (!this.$parent.$parent.$parent.user) {
+    //   this.$router.push({
+    //     path: "/inner/shoujihuiyuanzhongxin",
+    //   });
+    // }
   }
 };
 </script>
@@ -270,6 +309,45 @@ export default {
   .right {
     width: 100%;
     display: inline-block;
+    .tckuang{
+      width:100%;
+      height:100%;
+      z-index:66;
+      position: absolute;
+      display: flex;
+      justify-content:center;
+      align-items: center;
+      background:rgba(0,0,0,.2);
+      // display: none;
+       .tanchuk{
+        width: 70%;
+        height: 25%;
+        z-index:66;
+        position: absolute;
+        background:#ffffff;
+        p{
+           text-align:center;
+          margin-top:70px;
+        }
+        ul{
+          display: flex;
+          justify-content:space-between;
+        }
+        li{
+          display: inline-block;
+          margin: 25px 20px 0 20px;
+          padding: 7px 25px;
+          color:#fff;
+        }
+        .qd{
+ background:#2693d4;
+        }
+        .qx{
+background:#9c9c9c;
+        }
+      }
+    }
+   
     .right-top {
       height: 40px;
       display: -webkit-box;
@@ -440,14 +518,17 @@ export default {
     width: 936px;
     display: inline-block;
     margin: 36px 0 0 22px;
+    .tckuang{
+      display: none;
+    }
     .meidd {
-      width: 934px;
-      height: 320px;
-      margin-top: 22px;
-      background-color: #f9f9f9;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      // width: 934px;
+      // height: 320px;
+      // margin-top: 22px;
+      // background-color: #f9f9f9;
+      // display: flex;
+      // justify-content: center;
+      // align-items: center;
       span {
         color: #dfd7d7;
         font-size: 50px;
