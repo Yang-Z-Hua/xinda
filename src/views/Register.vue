@@ -17,7 +17,8 @@
           <span class="tip">{{yzmcw}}</span>
         <Area ref="c1" :are='aaaa' display='big' @confirm='chose'/>
         <ul class="d5">
-          <input v-model="pass" type="text" placeholder="请设置密码">
+          <img :src="kan" alt="" @click="kanj">
+          <input v-model="pass" :type="type1" placeholder="请设置密码">
           <span class="tip">{{passTip}}</span>
         </ul>
         <ul class="d6" @click="regist">立即注册</ul>
@@ -50,7 +51,10 @@ export default {
       areaNum: "1", //返回的地区号码
       aaaa: "",
       pass: "", //密码
-      passTip: ""
+      passTip: "",
+      i:1,
+      kan: this.$parent.arr[0],
+      type1:'password'
     };
   },
   components: {
@@ -64,6 +68,17 @@ export default {
     this.$parent.de = "login";
   },
   methods: {
+    kanj(){
+      if(this.i){
+        this.i=!this.i;
+        this.kan=this.$parent.arr[1];
+        this.type1='text'
+      }else{
+        this.i=!this.i;
+        this.kan=this.$parent.arr[0];
+        this.type1='password'
+      }
+    },
     provinceChange() {
       this.city = areasData[this.provinceSelect];
       this.citySelect = 0;

@@ -152,9 +152,8 @@ export default {
   created() {
     var a = 1;
     // window.scrollTo(0, 0);
-    var rf=this;
+    var rf = this;
     document.onscroll = function() {
-      console.log('this',this)
       if (a) {
         a = 0;
         rf.ajax.post("/xinda-api/recommend/list").then(data => {

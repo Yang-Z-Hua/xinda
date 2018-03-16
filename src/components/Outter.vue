@@ -7,7 +7,7 @@
     <div class="middl-2">
       <div class="whit">
         <div class="bt">
-          <span><</span>
+          <span><router-link to="/inner/shoujihuiyuanzhongxin"><</router-link></span>
           <span>{{phoneTittle}}</span>
         </div>
         <router-view></router-view>
@@ -37,7 +37,8 @@ export default {
       meth: "",
       tb: "",
       de: "",
-      phoneTittle: ""
+      phoneTittle: "",
+      arr:[require('../assets/images/close.png'),require('../assets/images/open.png')],
     };
   },
   methods: {
@@ -55,12 +56,21 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style  lang='less'>
+.d5 {
+  position: relative;
+  img {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    width: 25px;
+  }
+}
 @media screen and (min-width: 768px) {
   .db {
     display: none;
   }
   .head-2 {
-    img{
+    img {
       cursor: pointer;
     }
     width: 1200px;
@@ -155,21 +165,21 @@ export default {
   }
   .db {
     background: #4d4d4d;
-    height: 79px;
+    height: 69px;
     width: 100% !important;
     color: white;
     display: flex;
     margin: -169px 0 0 0;
-    line-height: 79px;
+    line-height: 69px;
     padding: 0 20px;
     box-sizing: border-box;
     ul:nth-child(2) {
       margin: 0 0 0 auto;
       background: #2693d4;
-      height: 50px;
-      line-height: 50px;
+      height: 45px;
+      line-height: 45px;
       padding: 0 30px;
-      margin-top: 15px;
+      margin-top: 12px;
       a {
         color: white;
       }
@@ -181,9 +191,9 @@ export default {
     overflow: hidden;
     .whit {
       .bt {
-        height: 78px;
+        height: 58px;
         background: #e5e5e5;
-        line-height: 78px;
+        line-height: 58px;
         font-size: 32px;
         span:nth-child(1) {
           position: absolute;
@@ -231,6 +241,7 @@ export default {
       vertical-align: middle;
       border-radius: 4px;
     }
+
     .d6 {
       font-size: 17px;
       border: 1px solid;

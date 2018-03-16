@@ -130,8 +130,8 @@ export default {
   name: "HelloWorld",
   data() {
     return {
-      mnr:false,
-      qrsc:false,
+      mnr: false,
+      qrsc: false,
       xy: "<",
       nextTip: "",
       prevTip: "",
@@ -143,7 +143,7 @@ export default {
       da: "",
       endDate: undefined,
       yfk: "",
-      id:'',
+      id: "",
       // imgSrc: "http://123.58.241.146:8088/xinda/pic",
       disabledDate(time) {
         return time.getTime() > Date.now();
@@ -185,7 +185,7 @@ export default {
       this.xr();
     },
     xr(i) {
-      this.$parent.$parent.$parent.status='Lwait'
+      this.$parent.$parent.$parent.status = "Lwait";
       this.ajax
         .post(
           "/xinda-api/business-order/grid",
@@ -197,21 +197,20 @@ export default {
         )
         .then(data => {
           if (data.data.data.length == 0) {
-            this.$parent.$parent.$parent.status='wait1';
-            this.mnr=!this.mnr
-            if(i=='sc'){
-              console.log(i)
+            this.$parent.$parent.$parent.status = "wait1";
+            this.mnr = !this.mnr;
+            if (i == "sc") {
               this.da = "";
-              if(this.count>1){
-                this.startNum-=2;
-                this.xr()
-                this.count--
-              }else{
-                this.mnr=!this.mnr
+              if (this.count > 1) {
+                this.startNum -= 2;
+                this.xr();
+                this.count--;
+              } else {
+                this.mnr = !this.mnr;
               }
             }
             return;
-          } 
+          }
           if (i == 2) {
             this.count++;
           }
@@ -220,7 +219,7 @@ export default {
           }
           let orderList = data.data.data;
           var j = 0;
-          this.$parent.$parent.$parent.status='Lwait'
+          this.$parent.$parent.$parent.status = "Lwait";
           for (let i in orderList) {
             this.ajax
               .post(
@@ -230,7 +229,7 @@ export default {
                 })
               )
               .then(data => {
-                 this.$parent.$parent.$parent.status='wait1'
+                this.$parent.$parent.$parent.status = "wait1";
                 orderList[i].service = data.data.data;
                 j++;
                 if (j == orderList.length) {
@@ -255,11 +254,11 @@ export default {
           })
         )
         .then(data => {
-          this.xr('sc');
+          this.xr("sc");
         });
     },
-    sc1(){
-      this.qrsc = !this.qrsc
+    sc1() {
+      this.qrsc = !this.qrsc;
       this.ajax
         .post(
           "/xinda-api/business-order/del",
@@ -271,12 +270,12 @@ export default {
           this.xr();
         });
     },
-    shanc(id){
+    shanc(id) {
       this.qrsc = !this.qrsc;
-      this.id = id
+      this.id = id;
     },
-    quxiao(){
-      this.qrsc = !this.qrsc
+    quxiao() {
+      this.qrsc = !this.qrsc;
     }
   },
   created() {
@@ -310,45 +309,45 @@ export default {
   .right {
     width: 100%;
     display: inline-block;
-    .tckuang{
-      width:100%;
-      height:100%;
-      z-index:66;
+    .tckuang {
+      width: 100%;
+      height: 100%;
+      z-index: 66;
       position: absolute;
       display: flex;
-      justify-content:center;
+      justify-content: center;
       align-items: center;
-      background:rgba(0,0,0,.2);
+      background: rgba(0, 0, 0, 0.2);
       // display: none;
-       .tanchuk{
+      .tanchuk {
         width: 70%;
         height: 25%;
-        z-index:66;
+        z-index: 66;
         position: absolute;
-        background:#ffffff;
-        p{
-           text-align:center;
-          margin-top:70px;
+        background: #ffffff;
+        p {
+          text-align: center;
+          margin-top: 70px;
         }
-        ul{
+        ul {
           display: flex;
-          justify-content:space-between;
+          justify-content: space-between;
         }
-        li{
+        li {
           display: inline-block;
           margin: 25px 20px 0 20px;
           padding: 7px 25px;
-          color:#fff;
+          color: #fff;
         }
-        .qd{
- background:#2693d4;
+        .qd {
+          background: #2693d4;
         }
-        .qx{
-background:#9c9c9c;
+        .qx {
+          background: #9c9c9c;
         }
       }
     }
-   
+
     .right-top {
       height: 40px;
       display: -webkit-box;
@@ -519,7 +518,7 @@ background:#9c9c9c;
     width: 936px;
     display: inline-block;
     margin: 36px 0 0 22px;
-    .tckuang{
+    .tckuang {
       display: none;
     }
     .meidd {

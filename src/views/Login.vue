@@ -7,7 +7,8 @@
           <span class="tip">{{phoneTip}}</span>
         </ul>
         <ul class="d5">
-          <input v-model="password" type="password"  placeholder="请输入密码">
+          <img :src="kan" alt="" @click="kanj">
+          <input v-model="password" :type="type1"  placeholder="请输入密码">
           <span class="tip">{{passwordTip}}</span>
         </ul>
         <ul class="d2">
@@ -47,10 +48,24 @@ export default {
       phone: "",
       password: "",
       yzm: "",
-      tip: ""
+      tip: "",
+      i:1,
+      kan: this.$parent.arr[0],
+      type1:'password'
     };
   },
   methods: {
+    kanj(){
+      if(this.i){
+        this.i=!this.i;
+        this.kan=this.$parent.arr[1];
+        this.type1='text'
+      }else{
+        this.i=!this.i;
+        this.kan=this.$parent.arr[0];
+        this.type1='password'
+      }
+    },
     inpu(e) {
       if (e.keyCode == 13) {
         // 回车键确认登录

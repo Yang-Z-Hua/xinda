@@ -92,10 +92,13 @@ export default {
       i: 1,
       arr1: "",
       allproduct: "allproduct",
-      img: {}
+      img: {},
     };
   },
   created() {
+    this.ajax.post("/xinda-api/provider/grid").then(data => {
+      this.dataqq = data.data.data;
+    });
     this.ajax.post("/xinda-api/product/style/list").then(data => {
       this.arr1 = data.data.data;
       var j = 1;
