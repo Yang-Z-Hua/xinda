@@ -150,19 +150,27 @@ import "../assets/swiper.js";
 export default {
   name: "HelloWorld",
   created() {
+    var a = 1;
+    // window.scrollTo(0, 0);
+    var rf=this;
+    document.onscroll = function() {
+      console.log('this',this)
+      if (a) {
+        a = 0;
+        rf.ajax.post("/xinda-api/recommend/list").then(data => {
+          rf.$parent.$parent.status = "wait1";
+          rf.arr = data.data.data;
+          console.log(rf.arr);
+        });
+        rf.ajax.post("/xinda-api/provider/search-grid").then(data => {
+          rf.arr2 = data.data.data;
+        });
+        rf.ajax.post("/xinda-api/product/package/search-grid").then(data => {
+          rf.arr3 = data.data.data;
+        });
+      }
+    };
     // this.$parent.$parent.status = "wait";
-    window.scrollTo(0, 0),
-      this.ajax.post("/xinda-api/recommend/list").then(data => {
-        this.$parent.$parent.status = "wait1";
-        this.arr = data.data.data;
-        console.log(this.arr);
-      });
-    this.ajax.post("/xinda-api/provider/search-grid").then(data => {
-      this.arr2 = data.data.data;
-    });
-    this.ajax.post("/xinda-api/product/package/search-grid").then(data => {
-      this.arr3 = data.data.data;
-    });
   },
 
   data() {
