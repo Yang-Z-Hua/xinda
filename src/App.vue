@@ -164,35 +164,36 @@ export default {
     display: none;
   }
 }
-.wait {
-  cursor: wait !important;
-  display: block;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: white;
-  z-index: 12;
-  opacity: 0.9;
-  ul {
-    text-align: center;
-  }
-  img {
-    display: block;
-    margin: 40vh auto 5px;
-    animation: chen 1s linear infinite;
-  }
-  @keyframes chen {
-    form {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-}
+
 @media screen and (min-width: 768px) {
+  .wait {
+    cursor: wait !important;
+    display: block;
+    position: fixed;
+    top: 183px;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: white;
+    z-index: 1;
+    opacity: 0.9;
+    ul {
+      text-align: center;
+    }
+    img {
+      display: block;
+      margin: 30vh auto 5px;
+      animation: chen 1s linear infinite;
+    }
+    @keyframes chen {
+      form {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  }
   .phonePub {
     display: none;
   }
@@ -265,6 +266,34 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
+  .wait {
+    cursor: wait !important;
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: white;
+    z-index: 1;
+    opacity: 0.9;
+    ul {
+      text-align: center;
+    }
+    img {
+      display: block;
+      margin: 40vh auto 5px;
+      animation: chen 1s linear infinite;
+    }
+    @keyframes chen {
+      form {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  }
   #app {
     padding-bottom: 90px;
   }

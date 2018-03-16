@@ -130,12 +130,12 @@ export default {
     };
   },
   created() {
+    this.$parent.$parent.status = "wait";
     if (window.innerWidth < 768) {
       // 检测是手机还是pc
       this.fanye = 5;
     }
     window.scrollTo(0, 0);
-    this.$parent.$parent.status = "wait";
     this.ajax
       .post("/xinda-api/product/style/list", this.qs.stringify({}))
       .then(data => {
@@ -146,7 +146,6 @@ export default {
         this.firstName = this.$route.query.firstName;
         this.code = this.$route.query.code;
         this.fwfl(this.data1);
-        this.$parent.$parent.status = "wait1";
       });
     this.shang1 = "blue";
   },
@@ -339,6 +338,7 @@ export default {
     },
     chen(code, id, sort1) {
       //产品服务列表
+      this.$parent.$parent.status = "Lwait";
       this.ajax
         .post(
           "/xinda-api/product/package/grid",

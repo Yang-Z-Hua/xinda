@@ -1,3 +1,4 @@
+// 手机端主页点全部跳到这个页面
 <template>
   <div>
     <div class="product_list">

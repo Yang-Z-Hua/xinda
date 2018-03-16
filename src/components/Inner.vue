@@ -3,7 +3,7 @@
     <div class="head-1">
       <div class="sh">
         <div class="logo">
-          <img src="./../assets/images/logo.jpg" alt="">
+          <img src="./../assets/images/logo.jpg" alt="" @click="tiao">
           <ul>
             <li>北京市</li>
             <p>[切换城市]</p>
@@ -38,7 +38,7 @@
           <div class="product_list">
             <ul v-for="(a,index) in arr1" :key="index">
               <li class="title">
-                <img src="../assets/images/tax.png" alt="">
+                <img :src='img[index]' alt="">
                 <p>{{a.name}}</p>
               </li>
               <li class="example">
@@ -91,12 +91,19 @@ export default {
       cpfw2: "",
       i: 1,
       arr1: "",
-      allproduct: "allproduct"
+      allproduct: "allproduct",
+      img: {}
     };
   },
   created() {
     this.ajax.post("/xinda-api/product/style/list").then(data => {
       this.arr1 = data.data.data;
+      var j = 1;
+      for (let i in this.arr1) {
+        this.img[i] = require("../assets/images/xlogo/d" + j + ".png");
+        j++;
+      }
+      console.log(111, this.arr1);
     });
     if (this.i) {
       this.chen("/xinda-api/product/package/search-grid");
@@ -106,7 +113,18 @@ export default {
     blo() {
       this.allproduct = "allproduct";
     },
+    tiao() {
+      for (let j in this.arr) {
+        this.arr[j] = "";
+      }
+      this.$router.push({
+        path: "/"
+      });
+    },
     secondGo(a, b, index) {
+      for (let j in this.arr) {
+        this.arr[j] = "";
+      }
       this.allproduct = "allproduct1";
       this.$router.push({
         path: "/inner/liebiaoye",
@@ -173,6 +191,9 @@ export default {
       }
     },
     searchService() {
+      for (let j in this.arr) {
+        this.arr[j] = "";
+      }
       if (this.i) {
         //搜索产品走这一步，默认搜索产品
         this.$parent.status = "wait";
@@ -231,6 +252,7 @@ export default {
     },
     csfw(i) {
       //点击财税服务
+      this.$parent.status = "wait";
       for (let j in this.arr) {
         this.arr[j] = "";
       }
@@ -290,6 +312,7 @@ export default {
       display: flex;
       img {
         margin-top: 40px;
+        cursor: pointer;
       }
       ul {
         margin: 50px 0 0 26px;
