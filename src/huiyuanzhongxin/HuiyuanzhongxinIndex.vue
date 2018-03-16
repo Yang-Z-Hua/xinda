@@ -58,8 +58,8 @@
           <div class="det-left">
             <div class="manei" v-for="dd in aa.service" :key="dd.id">
               <div class="zuo">
-                <div class="img">
-                  <!-- <img :src="imgSrc+dd.providerImg" alt=""> -->
+                <div class="imgg">
+                  <img src="http://123.58.241.146:8088/xinda/pic/2016/09/28/8c419db3f572418a80ff5a08397fb857" alt="">
                 </div>
                 <div class="xdfw">
                   <p class="prov">{{dd.providerName}}</p>
@@ -200,7 +200,6 @@ export default {
             this.$parent.$parent.$parent.status='wait1';
             this.mnr=!this.mnr
             if(i=='sc'){
-              console.log(i)
               this.da = "";
               if(this.count>1){
                 this.startNum-=2;
@@ -230,7 +229,7 @@ export default {
                 })
               )
               .then(data => {
-                 this.$parent.$parent.$parent.status='wait1'
+                this.$parent.$parent.$parent.status='wait1'
                 orderList[i].service = data.data.data;
                 j++;
                 if (j == orderList.length) {
@@ -303,13 +302,22 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 @media (max-width: 768px) {
-  * {
-    margin: 0;
-    padding: 0;
-  }
+  * {margin: 0;padding: 0;}
   .right {
     width: 100%;
     display: inline-block;
+    .meidd {
+      width: 100%;
+      height: 150%;
+      // background-color: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      span {
+        color: #dfd7d7;
+        font-size: 50px;
+      }
+    }
     .tckuang{
       width:100%;
       height:100%;
@@ -439,10 +447,15 @@ background:#9c9c9c;
                 .price {
                   display: none;
                 }
-                .img {
-                  width: 48px;
+                .imgg {
+                  width: 25%;
+                  height: 70%;
                   margin-left: 12px;
                   overflow: hidden;
+                  img{
+                    width:100%;
+                    height: 100%;
+                  }
                 }
                 .xdfw {
                   margin-left: 10px;
@@ -658,10 +671,15 @@ background:#9c9c9c;
                 display: flex;
                 align-items: center;
                 border-right: 1px solid #e8e8e8;
-                .img {
-                  width: 48px;
+                .imgg {
+                  width: 10%;
+                  height: 80%;
                   margin-left: 12px;
                   overflow: hidden;
+                  img{
+                    width:100%;
+                    height: 100%;
+                  }
                 }
                 .xdfw {
                   margin-left: 11px;

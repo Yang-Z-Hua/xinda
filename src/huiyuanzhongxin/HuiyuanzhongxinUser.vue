@@ -72,7 +72,6 @@ export default {
       }))
       .then(data => { 
       this.data = data.data.data;
-      console.log(data);
     });
     this.ajax.post("/xinda-api/service/judge/submit",     //评价
       this.qs.stringify({
@@ -84,7 +83,6 @@ export default {
 
       }))
       .then(data => { 
-        console.log(data)
     })
   }
 }
