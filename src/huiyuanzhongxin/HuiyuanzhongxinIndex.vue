@@ -4,7 +4,7 @@
       <div class="tanchuk">
         <p>确认删除该订单</p>
         <ul>
-          <li class="qd" @click="sc1">确定</li>
+          <li class="qd" @click="sc('sdw')">确定</li>
           <li class="qx" @click="quxiao">取消</li>
         </ul>
       </div>
@@ -58,8 +58,8 @@
           <div class="det-left">
             <div class="manei" v-for="dd in aa.service" :key="dd.id">
               <div class="zuo">
-                <div class="img">
-                  <!-- <img :src="imgSrc+dd.providerImg" alt=""> -->
+                <div class="imgg">
+                  <img src="http://123.58.241.146:8088/xinda/pic/2016/09/28/8c419db3f572418a80ff5a08397fb857" alt="">
                 </div>
                 <div class="xdfw">
                   <p class="prov">{{dd.providerName}}</p>
@@ -120,7 +120,7 @@
     <div class="molu" v-if="!mnr">
       <span class="sy" @click="prev" >上一页</span>
       <span class="noone">{{count}}</span>
-      <p v-if="prevTip"></p><span class="sy" @click="next" >下一页</span><p v-if="nextTip"></p>
+      <p v-if="prevTip"></p><span class="sy" @click="next" >下一页</span><p v-if="nextTip">xiayiye</p>
     </div>
   </div>
 </template>
@@ -130,8 +130,8 @@ export default {
   name: "HelloWorld",
   data() {
     return {
-      mnr:false,
-      qrsc:false,
+      mnr: false,
+      qrsc: false,
       xy: "<",
       nextTip: "",
       prevTip: "",
@@ -143,7 +143,7 @@ export default {
       da: "",
       endDate: undefined,
       yfk: "",
-      id:'',
+      id: "",
       // imgSrc: "http://123.58.241.146:8088/xinda/pic",
       disabledDate(time) {
         return time.getTime() > Date.now();
@@ -185,7 +185,13 @@ export default {
       this.xr();
     },
     xr(i) {
-      this.$parent.$parent.$parent.status='Lwait'
+      this.$parent.$parent.$parent.status = "Lwait";
+      if(window.innerWidth < 768){
+         this.$parent.$parent.$parent.status = "wait";
+      }
+      if(i=='csh'){
+        this.$parent.$parent.$parent.status = "wait";
+      }
       this.ajax
         .post(
           "/xinda-api/business-order/grid",
@@ -197,21 +203,22 @@ export default {
         )
         .then(data => {
           if (data.data.data.length == 0) {
-            this.$parent.$parent.$parent.status='wait1';
-            this.mnr=!this.mnr
-            if(i=='sc'){
-              console.log(i)
+            this.$parent.$parent.$parent.status = "wait1";
+            this.mnr = !this.mnr;
+            if (i == "sc") {
               this.da = "";
-              if(this.count>1){
-                this.startNum-=2;
-                this.xr()
-                this.count--
-              }else{
-                this.mnr=!this.mnr
-              }
+              if (this.count > 1) {
+                this.startNum -= 2;
+                this.xr();
+                this.count--;
+                this.mnr = !this.mnr;
+              } 
             }
-            return;
-          } 
+            if(i==2){
+              this.mnr = !this.mnr;
+              return
+            }
+          }
           if (i == 2) {
             this.count++;
           }
@@ -220,7 +227,7 @@ export default {
           }
           let orderList = data.data.data;
           var j = 0;
-          this.$parent.$parent.$parent.status='Lwait'
+          // this.$parent.$parent.$parent.status = "Lwait";
           for (let i in orderList) {
             this.ajax
               .post(
@@ -230,7 +237,7 @@ export default {
                 })
               )
               .then(data => {
-                 this.$parent.$parent.$parent.status='wait1'
+                this.$parent.$parent.$parent.status = "wait1";
                 orderList[i].service = data.data.data;
                 j++;
                 if (j == orderList.length) {
@@ -246,20 +253,10 @@ export default {
         });
     },
     sc(id) {
-      this.id = id;
-      this.ajax
-        .post(
-          "/xinda-api/business-order/del",
-          this.qs.stringify({
-            id: id
-          })
-        )
-        .then(data => {
-          this.xr('sc');
-        });
-    },
-    sc1(){
-      this.qrsc = !this.qrsc
+      if(id!='sdw'){
+        this.id = id;
+      }
+      this.qrsc=!this.qrsc;
       this.ajax
         .post(
           "/xinda-api/business-order/del",
@@ -268,19 +265,20 @@ export default {
           })
         )
         .then(data => {
-          this.xr();
+          this.xr("sc");
         });
     },
-    shanc(id){
+    shanc(id) {
       this.qrsc = !this.qrsc;
-      this.id = id
+      this.id = id;
     },
-    quxiao(){
-      this.qrsc = !this.qrsc
+    quxiao() {
+      this.qrsc = !this.qrsc;
     }
   },
   created() {
-    this.xr();
+    this.$parent.$parent.$parent.status = "wait";
+    this.xr('csh');
   }
 };
 </script>
@@ -303,52 +301,61 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 @media (max-width: 768px) {
-  * {
-    margin: 0;
-    padding: 0;
-  }
+  * {margin: 0;padding: 0;}
   .right {
     width: 100%;
     display: inline-block;
+    .meidd {
+      width: 100%;
+      height: 150%;
+      // background-color: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      span {
+        color: #dfd7d7;
+        font-size: 50px;
+      }
+    }
     .tckuang{
       width:100%;
       height:100%;
       z-index:66;
       position: absolute;
       display: flex;
-      justify-content:center;
+      justify-content: center;
       align-items: center;
-      background:rgba(0,0,0,.2);
+      background: rgba(0, 0, 0, 0.2);
       // display: none;
-       .tanchuk{
+      .tanchuk {
         width: 70%;
         height: 25%;
-        z-index:66;
+        z-index: 66;
         position: absolute;
-        background:#ffffff;
-        p{
-           text-align:center;
-          margin-top:70px;
+        background: #ffffff;
+        p {
+          text-align: center;
+          margin-top: 70px;
         }
-        ul{
+        ul {
           display: flex;
-          justify-content:space-between;
+          justify-content: space-between;
         }
-        li{
+        li {
           display: inline-block;
           margin: 25px 20px 0 20px;
           padding: 7px 25px;
-          color:#fff;
+          color: #fff;
         }
-        .qd{
- background:#2693d4;
+        .qd {
+          background: #2693d4;
         }
-        .qx{
-background:#9c9c9c;
+        .qx {
+          background: #9c9c9c;
         }
       }
     }
-   
+
     .right-top {
       height: 40px;
       display: -webkit-box;
@@ -439,10 +446,15 @@ background:#9c9c9c;
                 .price {
                   display: none;
                 }
-                .img {
-                  width: 48px;
+                .imgg {
+                  width: 25%;
+                  height: 70%;
                   margin-left: 12px;
                   overflow: hidden;
+                  img{
+                    width:100%;
+                    height: 100%;
+                  }
                 }
                 .xdfw {
                   margin-left: 10px;
@@ -519,7 +531,7 @@ background:#9c9c9c;
     width: 936px;
     display: inline-block;
     margin: 36px 0 0 22px;
-    .tckuang{
+    .tckuang {
       display: none;
     }
     .meidd {
@@ -658,10 +670,15 @@ background:#9c9c9c;
                 display: flex;
                 align-items: center;
                 border-right: 1px solid #e8e8e8;
-                .img {
-                  width: 48px;
+                .imgg {
+                  width: 10%;
+                  height: 80%;
                   margin-left: 12px;
                   overflow: hidden;
+                  img{
+                    width:100%;
+                    height: 100%;
+                  }
                 }
                 .xdfw {
                   margin-left: 11px;

@@ -27,41 +27,40 @@
 </template>
 
 <script>
-import md5 from 'md5'
+import md5 from "md5";
 export default {
   name: "HelloWorld",
   data() {
     return {
-      user:'',
-      old:'',
-      oldTip:'',
-      new1:'',
-      reNew1:'',
-      passwordTip:''
+      user: "",
+      old: "",
+      oldTip: "",
+      new1: "",
+      reNew1: "",
+      passwordTip: ""
     };
   },
-  created(){
-    this.user=this.$parent.$parent.$parent.user;
+  created() {
+    this.user = this.$parent.$parent.$parent.user;
   },
-  methods:{
-    save(){
-      if(this.new1!=this.reNew1){
-        this.passwordTip='两次密码不匹配'
-      }else{
-        this.passwordTip='';
+  methods: {
+    save() {
+      if (this.new1 != this.reNew1) {
+        this.passwordTip = "两次密码不匹配";
+      } else {
+        this.passwordTip = "";
 
         this.ajax
           .post(
             "/xinda-api/sso/change-pwd",
             this.qs.stringify({
-              oldPwd:md5(this.old) ,	 
-              newPwd:md5(this.new1)
+              oldPwd: md5(this.old),
+              newPwd: md5(this.new1)
             })
           )
           .then(data => {
-          console.log(data)
-          this.passwordTip=data.data.msg
-        });
+            this.passwordTip = data.data.msg;
+          });
       }
     }
   }
@@ -70,18 +69,17 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-@media (max-width:768px){
-  
+@media (max-width: 768px) {
 }
-@media(min-width:768px){
+@media (min-width: 768px) {
   * {
     margin: 0;
     padding: 0;
   }
-  .tip{
+  .tip {
     color: red;
     line-height: 25px;
-    margin-left: 10px
+    margin-left: 10px;
   }
   .right {
     width: 936px;

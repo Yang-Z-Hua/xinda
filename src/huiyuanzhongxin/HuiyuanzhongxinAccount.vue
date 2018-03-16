@@ -84,13 +84,12 @@ import md5 from 'md5'
 export default {
   name: "HelloWorld",
   created() {
-    this.$parent.$parent.$parent.status='Lwait'
+    this.$parent.$parent.$parent.status='wait'
     this.user=this.$parent.$parent.$parent.user;
     this.ajax
       .post("/xinda-api/member/info", this.qs.stringify({}))
       .then(data => {
         this.data = data.data.data;
-        console.log(this.data);
         this.mingzi = this.data.name;
         this.pgone = this.data.email;
         this.$parent.$parent.$parent.status='wait1'
@@ -140,13 +139,11 @@ export default {
             })
           )
           .then(data => {
-          console.log(data)
           this.oldTip=data.data.msg
         });
       }
     },
     bianma(a) {
-      // console.log(a)
       this.youbian = a;
     },
     man() {
@@ -168,7 +165,6 @@ export default {
           })
         )
         .then(data => {
-          // console.log(data);
         });
     },
     email() {
