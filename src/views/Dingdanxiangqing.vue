@@ -92,7 +92,7 @@
       <a class="zizhu">自助转账　　　　　<p>因限额不能支付时，建议使用自助转账</p></a>
       <div class="weixin_bank">
         <input type="radio" class="weixin_d" name="fname" @click="sxiane">
-        <img src="../assets/images/dingdan.jpg" alt="" class="iimg3">              
+        <img src="../assets/images/dingdan.jpg" alt="" class="iimg4">              
       </div>
       <p class="weixin_red">注：转账时请将订单编号备注在付款信息里：转账完成后，请通知客服</p> 
       <ul class="ph_bottom">
@@ -413,6 +413,9 @@ export default {
     color: black;
     font-size: 14px;  
   }
+  .iimg4{
+    width: 320px;
+  }
   .weixin_box1{
     margin-top: 20px;
     width: 207px;
@@ -423,7 +426,7 @@ export default {
       margin: 5px 0 0 30px;
     }
     .iimg2{
-      margin: 9px 0 0 30px;    
+      margin: 9px 0 0 0px;    
     }
     .weixin_d{
     margin: -24px 0 0 3px;
@@ -452,7 +455,7 @@ export default {
     }
   }
   .weixin_bank{
-    width: 424px;
+    width: 350px;
     height: 70px;
     margin-top: 20px;
     margin-left: 24px;
@@ -473,7 +476,7 @@ export default {
     font-size: 28px;
     line-height: 112px;
     .ph_wub{
-      width: 500px;
+      width: 66vw;
     }
     .ph_sy{
       width: 33.5vw;

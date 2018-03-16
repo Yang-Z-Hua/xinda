@@ -375,8 +375,8 @@ export default {
     margin: 13px 0 0 18px;
   }
   .ph_img{
-    width: 165px;
-    height: 165px;
+    width: 22vw;
+    height: 22vw;
     margin: 16px 0 0 16px;
     border: 2px solid #e3e3e3;
   }
@@ -384,10 +384,12 @@ export default {
     display: flex;
   }
   .ph_g{
+    width: 67vw;
     margin: 10px 0 0 18px;
     .ph_g1{
       font-size: 30px;
-      width: 200px;
+      width: 26vw;
+      display: inline-block
     }
     .ph_g2{
       margin-top: 23px;
@@ -416,7 +418,7 @@ export default {
   }
   .ph_dell{
     font-size: 24px;
-    margin-left: 223px;
+    margin-left: 29vw;
     a{
       color: #fe0000;
     }
@@ -425,7 +427,7 @@ export default {
     color: #fd0002;
   }
   .ph_bo{
-    margin: 12px  0 100px 400px;
+    margin: 12px  0 100px 38vw;
   }
   .ph_bottom{
     height: 112px;
@@ -434,7 +436,7 @@ export default {
     font-size: 28px;
     line-height: 112px;
     .ph_wub{
-      width: 500px;
+      width: 66vw;
     }
     .ph_sy{
       width: 33.5vw;
@@ -447,8 +449,8 @@ export default {
     }
   }
   .kong{
-    width: 468px;
-    height: 423px;
+    width: 100vw;
+    height: 100vwpx;
     margin: 244px auto 0;
     display: block;
   }
