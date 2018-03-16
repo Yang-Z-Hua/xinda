@@ -6,24 +6,74 @@
       
       <!-- 中间主要部分 -->
 
-
       <div class="content">
+      
+      <div class="phone_call" v-show="c1">
+        <ul class="phone_call_top">
+          <li><p>免费电话咨询</p></li>
+          <li @click="close()" class="closenow">X</li>
+        </ul>
+        <ul class="phone_call_content" v-show="c2">
+          <li class="phone_call_type"><img src="../assets/images/callto.png" alt=""></li>
+          <li class="phone_call_word">
+            <p>输入手机号码</p>
+            <p>您接听来电</p>
+            <p>被叫方接听</p>
+            <p class="phone_call_last">咨询结束</p>
+          </li>
+          <li class="phone_number">
+            <input type="text" placeholder="请输入手机号">
+          </li>
+          <li class="phone_two">
+            <input type="text" placeholder="请输入图形验证码">
+          </li>
+          <li class="phone_yanzheng">
+            <input type="text" placeholder="请输入验证码">
+            <button>获取验证码</button>
+          </li>
+          <li class="start"><button @click="start()">开始免费咨询</button></li>
+          <li class="phone_ok">
+            <p>本次电话咨询完全免费，我们将对您的号码严格保密，请放心使用！</p>
+          </li>
+        </ul>
+        <ul class="call_now" v-show="c3">
+          <li class="call_now_1">
+            <p>本次电话咨询完全免费，我们将对您的号码严格保密，请放心使用！</p>
+          </li>
+          <li class="call_now_2">
+            <p>正在为您接通电话</p>
+            <p>请您注意接听来电</p>
+          </li>
+        </ul>
+      </div>
+
+
         <!-- 左部图片 -->
         <ul class="left"><img :src="img" alt=""></ul>
 
         <!-- 中间详细介绍 -->
 
         <ul class="center">
-          <li><h2>{{title1}}</h2></li>
+          <li class="cen_title"><h2>{{title1}}</h2></li>
           <li class="introduce"><p>{{info}}</p></li>
-          <li class="price"><p>价格</p><span>￥{{Price}}</span><p>{{unit}}</p></li>
-          <div class="type">
-            <ul><p>类型:</p></ul>
-            <ul>
-              <li><p>{{lei}}</p></li>
-            </ul>
+          <div class="small_message">
+            <li class="price">
+              <div class="oldPrice">
+                <p>市场价:</p><span>￥{{Price}}.00</span><p>{{unit}}</p>
+                <li></li>
+              </div>
+              <div class="newPrice">
+                <p class="price1">价　格:</p><p class="price2">价格 :</p><span>￥{{Pricenow}}.00</span><p>{{unit}}</p>
+              </div>  
+            </li>
+            <div class="type">
+              <ul><p>类型:</p></ul>
+              <ul>
+                <li><p>{{lei}}</p></li>
+              </ul>
+            </div>
+            <li class="area"><p>地区：</p><p>{{arr.providerRegionText}}</p></li>
           </div>
-          <li class="area"><p>地区：</p><p>{{arr.providerRegionText}}</p></li>
           <div class="num">
             <p>购买数量:</p>
             <li>
@@ -44,10 +94,10 @@
           <li class="first">
             <h2>顶级服务商</h2>
             <p>{{provider}}</p>
-            <button>马上咨询</button>
+            <button @click="open()">马上咨询</button>
           </li>
           <li class="second">
-            <button>查看服务商</button>
+            <button @click="goProvider(arr)">查看服务商</button>
           </li>
         </ul>
       </div>
@@ -56,6 +106,28 @@
 
       <img src="../assets/images/center.png" alt="" class="guanggao">
       
+
+        <!-- pc端隐藏，客户端显示=========== -->
+        <li class="weichat_searve">
+          <p>服务商家</p>
+          <div></div>
+        </li>
+        <ul class="weichat_provider">
+            <div class="left">
+              <li class="logo"><img :src="img2" alt=""></li>
+              <li class="glod"><img src="../assets/images/global.png" alt=""></li>
+            </div>
+            <div class="right">
+              <p class="weichat_name">{{provider}}</p>
+              <li><span>信誉</span></li>
+              <li><span>{{area}}</span></li>
+              <li class="two"><p>累计客户服务次数：{{sum}}</p></li>
+              <button @click="backShop()">进入店铺</button>
+          </div>
+          </ul>
+
+
+
       <!-- 下部评价及服务项 -->
 
       <div class="message">
@@ -65,6 +137,11 @@
         <ul class="m_title">
           <li><p :class="changebg1" @click="bottom1()">服务内容</p><p :class="changebg2" @click="bottom2()">商品评价</p></li>
         </ul>
+        <li class="weichat_searve">
+          <p>服务介绍</p>
+          <div></div>
+        </li>
+
 
         <!-- 服务详情 -->
         <ul class="provide_message" v-show="show">
@@ -107,6 +184,52 @@
               </ul>         
             </div>
         </div>
+
+      <!-- 微信端用户评价 -->
+        <li class="weichat_searve weichat_people">
+          <p>用户评价</p>
+          <div></div>
+        </li>
+        <div class="weichat_searve_contact" v-show="v1">
+          <ul class="weichat_top">
+            <li class="weichat_frist">免费电话咨询</li>
+            <li class="xxx" @click="xxx()">X</li>
+          </ul>
+          <ul class="weichat_call_content" v-show="v2">
+            <li class="weichat_p">
+              <p>本次电话咨询完全免费，我们将对您的号码严格保密，请放心使用！</p>
+            </li>
+            <li class="weichat_number">
+              <input type="text" placeholder="请输入手机号">
+            </li>
+            <li class="weichat_two">
+              <input type="text" placeholder="请输入图形验证码">
+            </li>
+            <li class="weichat_yanzheng">
+              <input type="text" placeholder="请输入验证码">
+              <button>点击获取</button>
+            </li>
+            <li class="weichat_start"><button @click="free()">免费咨询</button></li>
+        </ul>
+        <ul class="step_2" v-show="v3">
+          <li class="step_2_1">
+            <p>本次电话咨询完全免费，我们将对您的号码严格保密，请放心使用！</p>
+          </li>
+          <li class="step_2_2">
+            <p>正在为您接通电话</p>
+            <p>请您注意接听来电</p>
+          </li>
+        </ul>
+        </div>
+        <ul class="weichat_click">
+          <li class="phone" @click="contact()">
+            <img src="../assets/images/call.png" alt="">
+            <p>联系商家</p>
+          </li>
+          <li class="buylater"><p>加入购物车</p></li>
+          <li class="buynow"><p>立即购买</p></li>
+        </ul>
+
       </div>
     </div>
   </div>
@@ -124,6 +247,7 @@ export default {
       img: "",
       info: "",
       Price: "",
+      Pricenow: "",
       unit: "",
       provider: "",
       n: "1",
@@ -140,11 +264,23 @@ export default {
       disshow: false,
       changebg2: "",
       changebg1: "num1",
-      lei: ""
+      lei: "",
+      area: "",
+      sum: "",
+      img2: "",
+      c1: 0,
+      c2: 0,
+      c3: 0,
+      c4: 0,
+      v1: 0,
+      v2: 0,
+      v3: 0,
+      v4: 0,
     };
   },
   created() {
     window.scrollTo(0, 0),
+      // 商品详情
       this.ajax
         .post(
           "/xinda-api/product/package/detail",
@@ -156,15 +292,20 @@ export default {
           this.arr = data.data.data;
           this.title1 = this.arr.product.name;
           this.img = this.imgSrc + this.arr.product.img;
+          this.img2 = this.imgSrc + this.arr.provider.providerImg;
           this.info = this.arr.provider.providerInfo;
           this.Price = this.arr.product.marketPrice;
+          this.Pricenow = this.$route.query.newPrice;
           this.unit = this.arr.unit;
           this.provider = this.arr.provider.name;
+          this.area = this.arr.providerRegionText;
+          this.sum = this.arr.providerBusiness.serviceNum;
           this.serve = this.arr.providerProduct.serviceContent;
           this.send(this.title1);
           this.$parent.$parent.status = "wait1";
         });
 
+    // 商品评价接口
     this.ajax
       .post(
         "/xinda-api/product/judge/detail",
@@ -218,6 +359,62 @@ export default {
           }
         }
       });
+    },
+
+    // 跳转到服务商页面
+
+    goProvider(arr) {
+      this.$router.push({
+        path: "/inner/Dianpushouye",
+        query: {
+          id: this.arr.provider.id
+        }
+      });
+    },
+
+    // 微信跳转店铺首页
+    backShop() {
+      this.$router.push({
+        path: "/inner/Dianpushouye",
+        query: {
+          id: this.arr.provider.id
+        }
+      });
+    },
+    open() {
+      this.c1 = true;
+      if (this.c4 == 1) {
+        this.c3 = true;
+      } else {
+        this.c2 = true;
+      }
+    },
+
+    close() {
+      this.c1 = 0;
+    },
+    start() {
+      this.c2 = 0;
+      this.c3 = 1;
+      this.c4 = 1;
+    },
+    contact() {
+      this.v1 = 1;
+      
+      if(this.v4 == 0){
+        this.v2 = 1;
+      }else{
+        this.v3 = 1;
+        this.v2 = 0;
+      }
+    },
+    xxx(){
+      this.v1 = 0;
+    },
+    free(){
+      this.v2 = 0;
+      this.v3 = 1;
+      this.v4 = 1;
     }
   }
 };
@@ -229,6 +426,12 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+@media screen and (min-width: 768px) {
+  button {
+    outline: none;
+    cursor: pointer;
+  }
   .top {
     display: flex;
     width: 1200px;
@@ -242,6 +445,138 @@ export default {
   .content {
     width: 1200px;
     display: flex;
+
+    // 电话咨询部分=================
+
+    .phone_call {
+      width: 645px;
+      height: 424px;
+      background-color: #fff;
+      position: fixed;
+      z-index: 9;
+      top: 10%;
+      left: 25%;
+      .phone_call_top {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        line-height: 40px;
+        background-color: #f8f8f8;
+        border-bottom: 1px solid #eeeeee;
+        li {
+          padding: 0 15px;
+        }
+        .closenow {
+          cursor: pointer;
+        }
+      }
+      .phone_call_content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .phone_call_type {
+          width: 70%;
+          img {
+            width: 100%;
+            margin: 30px 0 16px;
+          }
+        }
+        .phone_call_word {
+          width: 83%;
+          display: flex;
+          justify-content: space-between;
+          .phone_call_last {
+            margin-left: 10px;
+            margin-right: 10px;
+          }
+        }
+        .phone_number {
+          width: 50%;
+          margin: 33px 0 13px;
+          input {
+            width: 100%;
+            height: 30px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            color: #ccc;
+          }
+        }
+        .phone_two {
+          width: 50%;
+          margin: 13px 0;
+          display: flex;
+          justify-content: space-between;
+          input {
+            width: 60%;
+            height: 30px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            color: #ccc;
+          }
+        }
+        .phone_yanzheng {
+          width: 50%;
+          margin: 13px 0;
+          display: flex;
+          justify-content: space-between;
+          input {
+            width: 60%;
+            height: 30px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            color: #ccc;
+          }
+          button {
+            width: 35%;
+            height: 30px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            color: #66799f;
+            background-color: #f5f4f4;
+            outline: none;
+          }
+        }
+        .start {
+          width: 50%;
+          margin: 13px 0;
+          button {
+            width: 100%;
+            height: 30px;
+            border-radius: 5px;
+            background-color: #4eb5ba;
+            color: #fff;
+            outline: none;
+            border: none;
+          }
+        }
+        .phone_ok {
+          margin: 8px 0;
+          font-size: 14px;
+          color: #666;
+        }
+      }
+      .call_now {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .call_now_1 {
+          font-size: 24px;
+          color: #000;
+          width: 80%;
+          margin: 20px 0 30px;
+        }
+        .call_now_2 {
+          widows: 200px;
+          height: 120px;
+          font-size: 22px;
+          color: #4ca8e6;
+          p {
+            margin: 30px 0;
+          }
+        }
+      }
+    }
 
     // 左部图片
 
@@ -268,34 +603,73 @@ export default {
         line-height: 25px;
         text-indent: 2em;
       }
-      .price {
-        display: flex;
-        width: 387px;
-        height: 75px;
-        background-color: #f7f7f7;
-        line-height: 75px;
-        padding-left: 8px;
-        span {
-          font-size: 30px;
-          color: #ff0101;
-          line-height: 65px;
-        }
-      }
-      .type {
-        display: flex;
-        line-height: 27px;
-        li {
-          line-height: 19px;
-          padding: 4px 6px;
-          margin-bottom: 5px;
-          p {
-            color: #52a5db;
+      .small_message {
+        .price {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          width: 387px;
+          height: 75px;
+          background-color: #f7f7f7;
+          line-height: 75px;
+          padding-left: 8px;
+          margin-bottom: 10px;
+          div {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 18px;
+            line-height: 18px;
+            p {
+              width: 45px;
+              margin-right: 5px;
+            }
+          }
+          .oldPrice {
+            position: relative;
+            p {
+              height: 18px;
+            }
+            span {
+              color: #ccc;
+            }
+            li {
+              width: 100px;
+              border-top: 1px solid #474747;
+              position: absolute;
+              left: 50px;
+            }
+          }
+          .newPrice {
+            align-content: flex-start;
+            .price2 {
+              display: none;
+            }
+            span {
+              color: red;
+              font-size: 28px;
+              font-weight: bold;
+            }
           }
         }
-      }
-      .area {
-        display: flex;
-        margin: 10px 0;
+        .type {
+          display: flex;
+          line-height: 27px;
+          li {
+            line-height: 19px;
+            padding: 4px 6px;
+            margin-bottom: 5px;
+            border: 1px solid #52a5db;
+            margin-left: 5px;
+            p {
+              color: #52a5db;
+            }
+          }
+        }
+        .area {
+          display: flex;
+          margin: 10px 0;
+        }
       }
       .num {
         display: flex;
@@ -362,7 +736,6 @@ export default {
         button {
           width: 88px;
           height: 22px;
-          outline: none;
           border: 1px solid #2693d4;
           color: #52a5db;
           background-color: #fff;
@@ -394,6 +767,15 @@ export default {
 
 // 下部评价及服务项
 
+.weichat_searve {
+  display: none;
+}
+.weichat_provider {
+  display: none;
+}
+.weichat_click {
+  display: none;
+}
 .message {
   width: 1200px;
 
@@ -469,6 +851,12 @@ export default {
       div {
         line-height: 25px;
         margin-left: 10px;
+        span {
+          width: 167px;
+          height: 20px;
+          background-color: rgba(228, 228, 228, 1);
+          margin: 5px;
+        }
       }
       .buy {
         height: 80px;
@@ -537,6 +925,331 @@ export default {
         border-bottom: 1px solid #ccc;
       }
     }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  // 顶部
+  .top {
+    display: none;
+  }
+
+  // 商品详情部分
+  .content {
+    position: relative;
+    margin-bottom: 100px;
+    width: 100%;
+    .left {
+      width: 100%;
+      img {
+        width: 100%;
+      }
+    }
+    .center {
+      position: absolute;
+      width: 100%;
+      bottom: -90px;
+      .cen_title {
+        background-color: black;
+        opacity: 0.6;
+        color: #fff;
+        line-height: 50px;
+        padding: 0 10px;
+      }
+      .introduce {
+        background-color: black;
+        opacity: 0.6;
+        padding: 0 10px 10px;
+        p {
+          overflow: hidden; /*超出长度的文字隐藏*/
+          text-overflow: ellipsis; /*文字隐藏以后添加省略号*/
+          white-space: nowrap;
+          color: #fff;
+          font-size: 15px;
+          line-height: 30px;
+        }
+      }
+      .small_message {
+        display: flex;
+        flex-direction: column-reverse;
+        padding: 0 25px;
+        border-bottom: 5px solid #ebebeb;
+        .price {
+          display: flex;
+          height: 44px;
+          line-height: 44px;
+          font-size: 15x;
+          flex-direction: row-reverse;
+          justify-content: flex-end;
+          div {
+            display: flex;
+          }
+          .oldPrice {
+            position: relative;
+            color: #ccc;
+            p {
+              display: none;
+            }
+            li {
+              position: absolute;
+              width: 100%;
+              border-top: 1px solid #ccc;
+              top: 22px;
+            }
+          }
+          .newPrice {
+            margin-right: 10px;
+            .price1 {
+              display: none;
+            }
+            .price2 {
+              display: block;
+            }
+            span {
+              color: red;
+              font-size: 22px;
+              font-weight: bold;
+            }
+          }
+        }
+        .area {
+          display: flex;
+          height: 44px;
+          line-height: 44px;
+          font-size: 15x;
+          border-bottom: 1px solid #ccc;
+        }
+        .type {
+          display: none;
+        }
+      }
+      .num {
+        display: none;
+      }
+    }
+    .right {
+      display: none;
+    }
+  }
+
+  // 服务商
+  .message {
+    .m_title {
+      display: none;
+    }
+    .provide_message {
+      padding-top: 0;
+      margin-bottom: 0;
+      border: none;
+      border-bottom: 5px solid #ebebeb;
+    }
+  }
+  .weichat_searve {
+    width: 100%;
+    display: block;
+    position: relative;
+    border-bottom: 2px solid #2393d3;
+    line-height: 35px;
+    margin-top: 10px;
+    font-size: 18px;
+    p {
+      margin-left: 2%;
+    }
+    div {
+      position: absolute;
+      left: 8%;
+      bottom: 0px;
+      width: 0px;
+      height: 0px;
+      border-left: 2px solid transparent;
+      border-top: none;
+      border-right: 2px solid transparent;
+      border-bottom: 2px solid #2393d3;
+    }
+  }
+
+  // 弹出框部分============================================
+  .weichat_searve_contact {
+    position: fixed;
+    top: 20%;
+    width: 90%;
+    margin: 0 5%;
+    height: 250px;
+    background-color: #fff;
+    .weichat_top {
+      display: flex;
+      width: 100%;
+      height: 35px;
+      background-color: #4eb5ba;
+      li {
+        text-align: center;
+        line-height: 34px;
+        color: #fff;
+        font-size: 20px;
+      }
+      .weichat_frist {
+        width: 95%;
+      }
+      .xxx {
+        width: 5%;
+      }
+    }
+    .weichat_call_content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      input {
+        border: 1px solid #dcdcdc;
+        color: #dcdcdc;
+        line-height: 30px;
+        border-radius: 4px;
+        margin: 7px 0;
+      }
+      li {
+        width: 90%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .weichat_p {
+        width: 88%;
+        font-size: 12px;
+      }
+      .weichat_number {
+        width: 90%;
+        input {
+          width: 100%;
+        }
+      }
+      .weichat_yanzheng {
+        button {
+          width: 30%;
+          height: 28px;
+          border: 1px solid #5dbbc0;
+          color: #5dbbc0;
+          background-color: #fff;
+        }
+      }
+      .weichat_start {
+        button {
+          width: 100%;
+          height: 30px;
+          background-color: #fff;
+          color: #5dbbc0;
+          border: 1px solid #5dbbc0;
+          border-radius: 4px;
+        }
+      }
+      
+    }
+    .step_2{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .step_2_1{
+          width: 80%;
+        }
+        .step_2_2{
+          color: #5dbbc0;
+          font-size: 14px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          width: 120px;
+          height: 80px;
+          margin:  15px 0;
+        }
+      }
+  }
+
+  .weichat_provider {
+    width: 100%;
+    height: 180px;
+    display: flex;
+    border-bottom: 5px solid #ebebeb;
+    color: #666;
+    .left {
+      width: 30%;
+      li {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .logo {
+        width: 100%;
+        height: 70%;
+        img {
+          width: 60%;
+        }
+      }
+      .glod {
+        width: 100%;
+        height: 30%;
+        img {
+          width: 60%;
+        }
+      }
+    }
+    .right {
+      width: 70%;
+      font-size: 12px;
+      line-height: 22px;
+      .weichat_name {
+        margin-top: 20px;
+      }
+      button {
+        width: 90px;
+        height: 30px;
+        background-color: #ff591b;
+        color: #fff;
+        border-right: 4px;
+        border: none;
+        outline: none;
+        margin-top: 10px;
+      }
+    }
+  }
+  .weichat_people {
+    margin-bottom: 100px;
+  }
+
+  .weichat_click {
+    display: block;
+    display: flex;
+    width: 100%;
+    height: 90px;
+    li {
+      height: 90px;
+      width: 33.3%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+    .phone {
+      background-color: #eeeff3;
+      color: #2d2d2b;
+    }
+    .buylater {
+      background-color: #2693d4;
+      color: #fff;
+    }
+    .buynow {
+      background-color: #fb4146;
+      color: #fff;
+    }
+  }
+  // 以下为客户端隐藏部分
+  .guanggao {
+    display: none;
+  }
+  .message {
+    width: 100%;
+  }
+  .buy {
+    display: none;
   }
 }
 </style>
