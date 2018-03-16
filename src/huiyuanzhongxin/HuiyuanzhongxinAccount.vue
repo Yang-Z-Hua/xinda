@@ -1,7 +1,11 @@
 <template>
 <div class="right">
   <div class="zhshez">
-    <span class="xiaoyu">{{xy}}</span>
+    <span class="xiaoyu">
+      <router-link to="/shoujihuiyuanzhongxin" tag="div">
+        {{xy}}
+      </router-link>
+    </span>
     <span>账户设置</span>
   </div>
   <div class="right-top">
@@ -80,6 +84,7 @@ import md5 from 'md5'
 export default {
   name: "HelloWorld",
   created() {
+    this.$parent.$parent.$parent.status='Lwait'
     this.user=this.$parent.$parent.$parent.user;
     this.ajax
       .post("/xinda-api/member/info", this.qs.stringify({}))
@@ -88,6 +93,7 @@ export default {
         console.log(this.data);
         this.mingzi = this.data.name;
         this.pgone = this.data.email;
+        this.$parent.$parent.$parent.status='wait1'
         if (this.data.gender == 1) {
           this.aaa = true;
         } else {
@@ -219,7 +225,7 @@ export default {
       .xiaoyu {
         font-size: 30px;
         position: absolute;
-        margin-left: 5px;
+        // margin-left: 5px;
       }
     }
     .right-top {

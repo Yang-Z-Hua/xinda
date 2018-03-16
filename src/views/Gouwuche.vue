@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- pc -->
     <div class="shopping">
       <p>首页/购物车</p>
       <p class="shopping_ag">全部商品（{{shopping_number1}}）</p>
@@ -42,31 +43,37 @@
       </div>
     </div>
     <!-- 微信端 -->
-    <div class="shopping_phone">
-      <div class="ph_top">
-        <p class="ph_1">购物车里有<a>{{shopping_number1}}</a>件商品</p>
-      </div>
-      <div class="ph_con" v-for="(item,index) in shop" :key="index" @mouseover="outt(item.serviceId,item.buyNum)">
-        <p class="ph_dianpu">{{item.providerName}}</p>
-        <ul class="ph_details" v-show="shopping_show">
-          <img :src="'http://123.58.241.146:8088/xinda/pic'+item.providerImg" alt="" class="ph_img">
-          <ul class="ph_g">
-            <ul class="ph_g3">
-              <li class="ph_g1">{{item.serviceName}}</li>
-              <li @click="shopping_del(item.serviceId)" class="ph_dell"><a href="javascript:void(0)">删除订单</a></li>
-            </ul>  
-            <li class="ph_g2"><a class="ph_red">￥{{item.unitPrice}}</a>　元</li>
-            <li class="ph_jiajia">购买数量 : <a @click="key=1,--item.buyNum" href="javascript:void(0)" class="asph">-</a>{{item.buyNum=item.buyNum>=1?item.buyNum:1}}<a @click="key=1,++item.buyNum" href="javascript:void(0)" class="asph">+</a></li>
-            <li class="ph_c">北京市　朝阳区</li>
+    <div class="weixin_p">
+      <div :class="shopping_phone">
+        <div class="ph_top">
+          <p class="ph_1">购物车里有<a>{{shopping_number1}}</a>件商品</p>
+        </div>
+        <div class="ph_con" v-for="(item,index) in shop" :key="index" @mouseover="outt(item.serviceId,item.buyNum)">
+          <p class="ph_dianpu">{{item.providerName}}</p>
+          <ul class="ph_details" v-show="shopping_show">
+            <img :src="'http://123.58.241.146:8088/xinda/pic'+item.providerImg" alt="" class="ph_img">
+            <ul class="ph_g">
+              <ul class="ph_g3">
+                <li class="ph_g1">{{item.serviceName}}</li>
+                <li @click="shopping_del(item.serviceId)" class="ph_dell"><a href="javascript:void(0)">删除订单</a></li>
+              </ul>  
+              <li class="ph_g2"><a class="ph_red">￥{{item.unitPrice}}</a>　元</li>
+              <li class="ph_jiajia">购买数量 : <a @click="key=1,--item.buyNum" href="javascript:void(0)" class="asph">-</a>{{item.buyNum=item.buyNum>=1?item.buyNum:1}}<a @click="key=1,++item.buyNum" href="javascript:void(0)" class="asph">+</a></li>
+              <li class="ph_c">北京市　朝阳区</li>
+            </ul>
           </ul>
-        </ul>
+        </div>
+        <p class="ph_bo">共计<a class="ph_ta">{{shopping_number1}}</a>件商品　小计：<a class="ph_ta">￥{{total}}.00</a></p>
+        <ul class="ph_bottom">
+          <li class="ph_wub">合计 : <a class="ph_ta">￥{{total}}.00</a></li>
+          <li class="ph_sy"><a @click="jiesuan" href="javascript:void(0)">去结算</a></li>
+        </ul>  
       </div>
-      <p class="ph_bo">共计<a class="ph_ta">{{shopping_number1}}</a>件商品　小计：<a class="ph_ta">￥{{total}}.00</a></p>
-    </div>  
-    <ul class="ph_bottom">
-      <li class="ph_wub">合计 : <a class="ph_ta">￥{{total}}.00</a></li>
-      <li class="ph_sy"><a @click="jiesuan">去结算</a></li>
-    </ul>  
+      <div :class="shp_kong">
+        <img src="../assets/images/gou_kong.jpg" alt="" class="kong">
+        <div class="qu"><router-link to="/" class="shouye">去首页</router-link></div>
+      </div>
+    </div> 
   </div>
 </template>
 
@@ -85,6 +92,8 @@ export default {
       jian:'',
       allm:'',
       key:1,
+      shopping_phone:'shopping_phon',
+      shp_kong:0,
     }
   },
   methods:{
@@ -116,6 +125,13 @@ export default {
       console.log(22,data.data.data.length)
       this.shop = data.data.data;
       this.shopping_number1 = data.data.data.length;
+      if(this.shopping_number1 == 0){
+        this.shopping_phone = 'sp'
+        this.shp_kong = 'sp_'
+      } else{
+        this.shopping_phone = 'shopping_phon'
+        this.shp_kong = 'sp1'
+      }
     })
     },//商品渲染
     shopping_del(serviceID){
@@ -175,7 +191,7 @@ export default {
 <style scoped lang='less'>
 // 外框
 @media screen and (min-width:768px){
-  .shopping_phone{
+  .weixin_p{
     display: none;
   }
   .shopping{
@@ -328,7 +344,13 @@ export default {
   }
 }
 @media screen and (max-width:768px){
+  .shopoing_phon{
+    display: block;
+  }
   .shopping{
+    display: none;
+  }
+  .ph_null{
     display: none;
   }
   .ph_top{
@@ -353,8 +375,8 @@ export default {
     margin: 13px 0 0 18px;
   }
   .ph_img{
-    width: 165px;
-    height: 165px;
+    width: 22vw;
+    height: 22vw;
     margin: 16px 0 0 16px;
     border: 2px solid #e3e3e3;
   }
@@ -362,10 +384,12 @@ export default {
     display: flex;
   }
   .ph_g{
+    width: 67vw;
     margin: 10px 0 0 18px;
     .ph_g1{
       font-size: 30px;
-      width: 200px;
+      width: 26vw;
+      display: inline-block
     }
     .ph_g2{
       margin-top: 23px;
@@ -394,7 +418,7 @@ export default {
   }
   .ph_dell{
     font-size: 24px;
-    margin-left: 223px;
+    margin-left: 29vw;
     a{
       color: #fe0000;
     }
@@ -403,7 +427,7 @@ export default {
     color: #fd0002;
   }
   .ph_bo{
-    margin: 12px  0 100px 400px;
+    margin: 12px  0 100px 38vw;
   }
   .ph_bottom{
     height: 112px;
@@ -412,7 +436,7 @@ export default {
     font-size: 28px;
     line-height: 112px;
     .ph_wub{
-      width: 500px;
+      width: 66vw;
     }
     .ph_sy{
       width: 33.5vw;
@@ -423,6 +447,34 @@ export default {
         color: #ffffff;
       }
     }
+  }
+  .kong{
+    width: 100vw;
+    height: 100vwpx;
+    margin: 244px auto 0;
+    display: block;
+  }
+  .sp{
+    display: none;
+  }
+  .sp1{
+    display: none;
+  }
+  .sp_{
+    display: block;
+  }
+  .qu{
+    width: 258px;
+    height: 85px;
+    background-color: #2693d4;
+    border-radius: 10px;
+    text-align: center;
+    margin: 59px auto 525px;
+  }
+  .shouye{
+    color: #ffffff;
+    line-height: 85px;
+    font-size: 30px;
   }
 }
 </style>

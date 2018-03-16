@@ -3,7 +3,7 @@
     <div class="head-1">
       <div class="sh">
         <div class="logo">
-          <img src="./../assets/images/logo.jpg" alt="">
+          <img src="./../assets/images/logo.jpg" alt="" @click="tiao">
           <ul>
             <li>北京市</li>
             <p>[切换城市]</p>
@@ -33,12 +33,12 @@
         </div>
       </div>
       <div class="xia">
-        <li>全部产品
-        <div class="allproduct">
+        <li @mouseover="blo">全部产品
+        <div :class="allproduct">
           <div class="product_list">
             <ul v-for="(a,index) in arr1" :key="index">
               <li class="title">
-                <img src="../assets/images/tax.png" alt="">
+                <img :src='img[index]' alt="">
                 <p>{{a.name}}</p>
               </li>
               <li class="example">
@@ -90,19 +90,42 @@ export default {
       cpfw1: "blue",
       cpfw2: "",
       i: 1,
-      arr1: ""
+      arr1: "",
+      allproduct: "allproduct",
+      img: {}
     };
   },
   created() {
     this.ajax.post("/xinda-api/product/style/list").then(data => {
       this.arr1 = data.data.data;
+      var j = 1;
+      for (let i in this.arr1) {
+        this.img[i] = require("../assets/images/xlogo/d" + j + ".png");
+        j++;
+      }
+      console.log(111, this.arr1);
     });
     if (this.i) {
       this.chen("/xinda-api/product/package/search-grid");
     }
   },
   methods: {
+    blo() {
+      this.allproduct = "allproduct";
+    },
+    tiao() {
+      for (let j in this.arr) {
+        this.arr[j] = "";
+      }
+      this.$router.push({
+        path: "/"
+      });
+    },
     secondGo(a, b, index) {
+      for (let j in this.arr) {
+        this.arr[j] = "";
+      }
+      this.allproduct = "allproduct1";
       this.$router.push({
         path: "/inner/liebiaoye",
         query: {
@@ -114,6 +137,7 @@ export default {
       });
     },
     thirdGo(a, c, index, b) {
+      this.allproduct = "allproduct1";
       this.$router.push({
         path: "/inner/liebiaoye",
         query: {
@@ -140,31 +164,38 @@ export default {
         });
     },
     bs(i) {
+      //搜索服务商或者产品
       if (i) {
         this.chen("/xinda-api/product/package/search-grid");
         this.cpfw1 = "blue";
         this.cpfw2 = "";
         this.i = 1;
       } else {
-        this.list = ["大唐", "云智慧"];
+        this.list = [{ serviceName: "大唐" }, { serviceName: "云智慧" }];
         this.cpfw2 = "blue";
         this.cpfw1 = "";
         this.i = 0;
       }
     },
     qq(i) {
+      //  加盟我们、店铺点击变色
       for (let j in this.arr) {
         this.arr[j] = "";
       }
       this.arr[i] = "bian";
     },
     inpu(e) {
+      //搜索框加入摁回车键搜索功能
       if (e.keyCode == 13) {
         this.searchService();
       }
     },
     searchService() {
+      for (let j in this.arr) {
+        this.arr[j] = "";
+      }
       if (this.i) {
+        //搜索产品走这一步，默认搜索产品
         this.$parent.status = "wait";
         this.ajax
           .post(
@@ -176,6 +207,7 @@ export default {
           .then(data => {
             this.$parent.status = "wait1";
             if (data.data.data.length == 1) {
+              //一件产品跳到商品详情
               this.$router.push({
                 path: "/inner/shangpinxiangqing",
                 query: {
@@ -183,6 +215,7 @@ export default {
                 }
               });
             } else {
+              //多件产品跳到列表页
               this.$router.push({
                 path: "/inner/search",
                 query: {
@@ -192,7 +225,11 @@ export default {
             }
           });
       } else {
+        //搜索服务商
         this.$parent.status = "wait";
+        // window.onscroll = function() {
+        //   window.scrollTo(0, 0);
+        // };
         this.ajax
           .post(
             "/xinda-api/provider/search-grid",
@@ -202,6 +239,7 @@ export default {
           )
           .then(data => {
             this.$parent.status = "wait1";
+            window.onscroll = function() {};
             console.log(111, data.data.data);
             this.$router.push({
               path: "/inner/dianpu",
@@ -213,6 +251,8 @@ export default {
       }
     },
     csfw(i) {
+      //点击财税服务
+      this.$parent.status = "wait";
       for (let j in this.arr) {
         this.arr[j] = "";
       }
@@ -229,6 +269,7 @@ export default {
       });
     },
     gsgs(i) {
+      //点击公司工商
       for (let j in this.arr) {
         this.arr[j] = "";
       }
@@ -271,6 +312,7 @@ export default {
       display: flex;
       img {
         margin-top: 40px;
+        cursor: pointer;
       }
       ul {
         margin: 50px 0 0 26px;
@@ -419,6 +461,9 @@ export default {
           background-color: #2693d4;
         }
       }
+    }
+    .allproduct1 {
+      display: none;
     }
     display: flex;
     position: relative;

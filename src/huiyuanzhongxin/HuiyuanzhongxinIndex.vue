@@ -1,7 +1,20 @@
 <template>
   <div class="right">
+    <div class="tckuang" v-show="qrsc">
+      <div class="tanchuk">
+        <p>确认删除该订单</p>
+        <ul>
+          <li class="qd" @click="sc1">确定</li>
+          <li class="qx" @click="quxiao">取消</li>
+        </ul>
+      </div>
+    </div>
     <div class="right-top">
-      <span>{{xy}}</span>
+      <span>
+        <router-link to="/shoujihuiyuanzhongxin" tag="div">
+          {{xy}}
+        </router-link>
+      </span>
       <p>我的订单</p>
     </div>
     <div class="order">
@@ -14,6 +27,7 @@
       <el-date-picker class="rili" v-model="startDate" type="date"></el-date-picker>
       <el-date-picker class="rili" v-model="endDate" type="date"></el-date-picker>
     </div>
+    
     <div class="list">
       <ul>
         <li class="sp">商品名称</li>
@@ -79,6 +93,7 @@
             </div>
           </div>
           <div class="det-right">
+            <!-- PC -->
             <div class="zhong">
               <p class="xg" @click="fukuan(aa.businessNo,aa.totalPrice)">付款</p>
               <p class="scdd" @click="sc(aa.id)">删除订单</p>
@@ -90,7 +105,8 @@
               <span class="aato">￥{{aa.totalPrice}}</span>
             </div>
             <div class="ddfk">
-              <span class="aato"   @click="sc(aa.id)">删除订单</span>
+              <!-- 手机 -->
+              <span class="aato" @click="shanc(aa.id)" >删除订单</span>
               <span class="fuk" @click="fukuan(aa.businessNo,aa.totalPrice)">付款</span>
             </div>
           </div>
@@ -98,13 +114,13 @@
         </div>
       </div>
     </div>
-    <!-- <div class="meidd" v-if="mnr">
+    <div class="meidd" v-if="mnr">
       <span>还没有订单！</span>
-    </div> -->
-    <div class="molu">
+    </div>
+    <div class="molu" v-if="!mnr">
       <span class="sy" @click="prev" >上一页</span>
       <span class="noone">{{count}}</span>
-      <p v-if="prevTip"></p><span @click="next" >下一页</span><p v-if="nextTip">xiayiye</p>
+      <p v-if="prevTip"></p><span class="sy" @click="next" >下一页</span><p v-if="nextTip"></p>
     </div>
   </div>
 </template>
@@ -114,44 +130,44 @@ export default {
   name: "HelloWorld",
   data() {
     return {
-      // mnr:true,
-      xy:"<",
+      mnr:false,
+      qrsc:false,
+      xy: "<",
       nextTip: "",
       prevTip: "",
       count: 1,
-      startNum:0,
-      No:undefined,
+      startNum: 0,
+      No: undefined,
       data: "",
       startDate: undefined,
       da: "",
-      endDate:undefined,
-      yfk:'',
+      endDate: undefined,
+      yfk: "",
+      id:'',
       // imgSrc: "http://123.58.241.146:8088/xinda/pic",
       disabledDate(time) {
         return time.getTime() > Date.now();
       }
     };
   },
-  methods:{
-    fukuan(asd,mmm){
-      // console.log(asd,mmm)
+  methods: {
+    fukuan(asd, mmm) {
       this.$router.push({
-        path:'/dingdanxiangqing',
-        query:{
-        businessNo:asd,
-        op:mmm
+        path: "/dingdanxiangqing",
+        query: {
+          businessNo: asd,
+          op: mmm
         }
-      })
+      });
     },
-     next() {
+    next() {
       this.prevTip = 0;
       if (this.arrLength < 3) {
         this.nextTip = 1;
         return;
       } else {
-        this.startNum+=2;
-        this.xr(2)
-        
+        this.startNum += 2;
+        this.xr(2);
       }
     },
     prev() {
@@ -160,79 +176,111 @@ export default {
         this.prevTip = 1;
         return;
       }
-      this.startNum-=2;
-        this.xr(0)
+      this.startNum -= 2;
+      this.xr(0);
     },
-     search(){
-       this.startNum=0;
-       this.count=1;
-      this.xr()
+    search() {
+      this.startNum = 0;
+      this.count = 1;
+      this.xr();
     },
-    xr(i){
+    xr(i) {
+      this.$parent.$parent.$parent.status='Lwait'
       this.ajax
-      .post("/xinda-api/business-order/grid", this.qs.stringify({
-        limit:2,
-        start:this.startNum,
-        businessNo:this.No,
-        // startTime:this.startDate,
-        // endTime:this.endDate
-      }))
-      .then(data => {
-        console.log(data)
-        if(data.data.data.length == 0){
-          this.da ='';
-          // this.mnr = this.mnr;
-          return
-        }else{
-          // this.mnr = !this.mnr
-        }
-        if(i==2){
-          this.count++;
-        }
-        if(i==0){
-          this.count--;
-        }
-        let orderList = data.data.data;   
-        var j=0;
-        for (let i in orderList) {
-          this.ajax
-            .post(
-              "/xinda-api/service-order/grid",
-              this.qs.stringify({
-                businessNo: orderList[i].businessNo
-              })
-            )
-            .then(data => {
-              console.log(data)
-              orderList[i].service = data.data.data;
-              j++
-              if (j == orderList.length) {
-                this.da = orderList;
-              };
-              if(orderList[i].status == 1){
-                this.yfk = '等待买家付款'
-              }else {
-                this.yfk = '已付款'
+        .post(
+          "/xinda-api/business-order/grid",
+          this.qs.stringify({
+            limit: 2,
+            start: this.startNum,
+            businessNo: this.No
+          })
+        )
+        .then(data => {
+          if (data.data.data.length == 0) {
+            this.$parent.$parent.$parent.status='wait1';
+            this.mnr=!this.mnr
+            if(i=='sc'){
+              console.log(i)
+              this.da = "";
+              if(this.count>1){
+                this.startNum-=2;
+                this.xr()
+                this.count--
+              }else{
+                this.mnr=!this.mnr
               }
-          });
-        }
-    });
+            }
+            return;
+          } 
+          if (i == 2) {
+            this.count++;
+          }
+          if (i == 0) {
+            this.count--;
+          }
+          let orderList = data.data.data;
+          var j = 0;
+          this.$parent.$parent.$parent.status='Lwait'
+          for (let i in orderList) {
+            this.ajax
+              .post(
+                "/xinda-api/service-order/grid",
+                this.qs.stringify({
+                  businessNo: orderList[i].businessNo
+                })
+              )
+              .then(data => {
+                 this.$parent.$parent.$parent.status='wait1'
+                orderList[i].service = data.data.data;
+                j++;
+                if (j == orderList.length) {
+                  this.da = orderList;
+                }
+                if (orderList[i].status == 1) {
+                  this.yfk = "等待买家付款";
+                } else {
+                  this.yfk = "已付款";
+                }
+              });
+          }
+        });
     },
-    sc(id){
+    sc(id) {
+      this.id = id;
       this.ajax
-      .post("/xinda-api/business-order/del",
-        this.qs.stringify({
-          id:id
-        })
-      )
-      .then(data => {
-        console.log(111111,data)
-        this.xr()
-      })
+        .post(
+          "/xinda-api/business-order/del",
+          this.qs.stringify({
+            id: id
+          })
+        )
+        .then(data => {
+          this.xr('sc');
+        });
     },
+    sc1(){
+      this.qrsc = !this.qrsc
+      this.ajax
+        .post(
+          "/xinda-api/business-order/del",
+          this.qs.stringify({
+            id: this.id
+          })
+        )
+        .then(data => {
+          this.xr();
+        });
+    },
+    shanc(id){
+      this.qrsc = !this.qrsc;
+      this.id = id
+    },
+    quxiao(){
+      this.qrsc = !this.qrsc
+    }
   },
   created() {
-    this.xr()
+    this.xr();
   }
 };
 </script>
@@ -254,14 +302,56 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-@media (max-width:768px){
-  * {margin: 0;padding: 0;}
-    .right {
-      width: 100%;
-      display: inline-block;
+@media (max-width: 768px) {
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  .right {
+    width: 100%;
+    display: inline-block;
+    .tckuang{
+      width:100%;
+      height:100%;
+      z-index:66;
+      position: absolute;
+      display: flex;
+      justify-content:center;
+      align-items: center;
+      background:rgba(0,0,0,.2);
+      // display: none;
+       .tanchuk{
+        width: 70%;
+        height: 25%;
+        z-index:66;
+        position: absolute;
+        background:#ffffff;
+        p{
+           text-align:center;
+          margin-top:70px;
+        }
+        ul{
+          display: flex;
+          justify-content:space-between;
+        }
+        li{
+          display: inline-block;
+          margin: 25px 20px 0 20px;
+          padding: 7px 25px;
+          color:#fff;
+        }
+        .qd{
+ background:#2693d4;
+        }
+        .qx{
+background:#9c9c9c;
+        }
+      }
+    }
+   
     .right-top {
       height: 40px;
-      display:-webkit-box;
+      display: -webkit-box;
       justify-content: center;
       align-items: center;
       background-color: #e5e5e5;
@@ -270,22 +360,22 @@ export default {
         font-size: 14px;
         line-height: 14px;
       }
-      span{
-          font-size: 30px;
-          position: absolute;
-          margin-left: 5px;
+      span {
+        font-size: 30px;
+        position: absolute;
+        margin-left: 5px;
       }
     }
     .order {
-      display:none;
+      display: none;
     }
     .time {
-     display: none;
+      display: none;
     }
     .list {
-      width:100%;
+      width: 100%;
       ul {
-        display:none;
+        display: none;
       }
       .list-top {
         // display: none;
@@ -295,59 +385,59 @@ export default {
           justify-content: space-between;
           font-size: 12px;
           align-items: center;
-          .dengdai{
-            margin-right:10px;
+          .dengdai {
+            margin-right: 10px;
           }
           p {
             display: inline-block;
             margin-left: 10px;
           }
-          .xiadan{
-            display:none;
+          .xiadan {
+            display: none;
           }
         }
         .details {
           // display: flex;
-          .fksc{
-            display:flex;
-            font-size:14px;
+          .fksc {
+            display: flex;
+            font-size: 14px;
             justify-content: space-between;
-            height:30px;
+            height: 30px;
             align-items: center;
-            .zongqian{
-               margin-left: 10px;
+            .zongqian {
+              margin-left: 10px;
             }
-            .aato{
-              color:red;
-              margin-right:20px;
+            .aato {
+              color: red;
+              margin-right: 20px;
             }
-            .ddfk{
-              margin-right:20px;
-              .fuk{
-                  padding: 5px 15px;
-                  background-color: #2693d4;
-                  color: #fff;
+            .ddfk {
+              margin-right: 20px;
+              .fuk {
+                padding: 5px 15px;
+                background-color: #2693d4;
+                color: #fff;
               }
             }
           }
-          .dicolor{
+          .dicolor {
             height: 20px;
-            background-color:#f8f8f8;
-            margin-top:5px;
+            background-color: #f8f8f8;
+            margin-top: 5px;
           }
           .det-left {
             width: 100%;
-            font-size:12px;
+            font-size: 12px;
             .manei {
-              height:105px;
+              height: 105px;
               .zuo {
                 width: 100%;
                 height: 100px;
-                background-color:#f8f8f8;
+                background-color: #f8f8f8;
                 display: flex;
                 align-items: center;
-                .price{
-                  display:none;
+                .price {
+                  display: none;
                 }
                 .img {
                   width: 48px;
@@ -357,20 +447,20 @@ export default {
                 .xdfw {
                   margin-left: 10px;
                   width: 100%;
-                  .baogao{
-                    font-size:14px;
+                  .baogao {
+                    font-size: 14px;
                   }
-                  .prov{
-                    display:none;
+                  .prov {
+                    display: none;
                   }
-                  .pl{
-                    margin-top:10px;
-                    font-size:14px;
-                     .yuan{
-                      color:red;
+                  .pl {
+                    margin-top: 10px;
+                    font-size: 14px;
+                    .yuan {
+                      color: red;
                     }
-                    .xone{
-                      margin-left:10px;
+                    .xone {
+                      margin-left: 10px;
                     }
                   }
                 }
@@ -379,10 +469,10 @@ export default {
                 }
               }
               .zongjia {
-                display:none;
+                display: none;
               }
               .ddzhuangt {
-                display:none;
+                display: none;
               }
             }
             .mn-bot {
@@ -420,31 +510,37 @@ export default {
     }
   }
 }
-@media(min-width:768px){
-  * {margin: 0;padding: 0;}
+@media (min-width: 768px) {
+  * {
+    margin: 0;
+    padding: 0;
+  }
   .right {
     width: 936px;
     display: inline-block;
     margin: 36px 0 0 22px;
-    .meidd{
-        width: 934px;
-        height: 320px;
-        margin-top: 22px;
-        background-color:#f9f9f9;
-        display: flex;
-        justify-content:center;
-        align-items: center;
-        span{
-          color:#dfd7d7;
-          font-size:50px;
-        }
+    .tckuang{
+      display: none;
+    }
+    .meidd {
+      width: 934px;
+      height: 320px;
+      margin-top: 22px;
+      background-color: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      span {
+        color: #dfd7d7;
+        font-size: 50px;
       }
+    }
     .right-top {
       width: 875px;
       height: 21px;
       border-bottom: 2px solid #f7f7f7;
-      span{
-        display:none;
+      span {
+        display: none;
       }
       p {
         display: inline-block;
@@ -533,8 +629,8 @@ export default {
           background-color: #f7f7f7;
           font-size: 12px;
           align-items: center;
-          .dengdai{
-            display:none;
+          .dengdai {
+            display: none;
           }
           p {
             display: inline-block;
@@ -543,11 +639,11 @@ export default {
         }
         .details {
           display: flex;
-          .fksc{
+          .fksc {
             display: none;
           }
-          .dicolor{
-            display:none;
+          .dicolor {
+            display: none;
           }
           .det-left {
             width: 815px;
@@ -570,7 +666,7 @@ export default {
                 .xdfw {
                   margin-left: 11px;
                   width: 279px;
-                  span{
+                  span {
                     display: none;
                   }
                 }

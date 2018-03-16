@@ -45,7 +45,9 @@
             <p>感受：</p>
             <textarea name="a"></textarea>
         </div>
+         <router-link to="/Huiyuanzhongxin/HuiyuanzhongxinAlready"  tag="div"> 
         <p class="tijiao">提交</p>
+         </router-link>
     </div>
 </div>
 </template>
@@ -136,6 +138,7 @@ export default {
             padding: 10px 60px;
             border-radius: 5px;
             background-color: #2693d4;
+            cursor: pointer;
         }
     }
     }

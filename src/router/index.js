@@ -24,6 +24,8 @@ import Zhifuchenggong from '@/zhifu/Zhifuchenggong'
 import Zhifushibai from '@/zhifu/Zhifushibai'
 import Zhifu from '@/views/Zhifu'
 import Search from '@/views/Search'
+import Shoujihuiyuanzhongxin from '@/views/Shoujihuiyuanzhongxin'
+import Chanpinfenlei from '@/components/Chanpinfenlei'
 
 Vue.use(Router)
 
@@ -48,6 +50,11 @@ export default new Router({
           component: Forget
         },
       ]
+    },
+    {
+      path: '/chanpinfenlei',
+      name: 'chanpinfenlei',
+      component: Chanpinfenlei,
     },
     {
       path: '/inner',
@@ -99,6 +106,13 @@ export default new Router({
 
           ]
         },
+        // 手机会员中心登录页面
+        {
+          path: 'Shoujihuiyuanzhongxin',
+          name: 'Shoujihuiyuanzhongxin',
+          component: Shoujihuiyuanzhongxin
+        },
+
         {
           path: 'dianpu',
           name: 'dianpu',

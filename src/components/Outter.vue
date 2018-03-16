@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="head-2">
-      <img src="../assets/images/logo.jpg" alt="">
+      <img src="../assets/images/logo.jpg" alt="" @click="tiao">
       <ul>{{tb}}</ul>
     </div>
     <div class="middl-2">
@@ -40,18 +40,29 @@ export default {
       phoneTittle: ""
     };
   },
-  methods: {},
-  computed: {}
+  methods: {
+    tiao() {
+      for (let j in this.arr) {
+        this.arr[j] = "";
+      }
+      this.$router.push({
+        path: "/"
+      });
+    }
+  }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style  lang='less'>
 @media screen and (min-width: 768px) {
-  .db{
-    display: none
+  .db {
+    display: none;
   }
   .head-2 {
+    img{
+      cursor: pointer;
+    }
     width: 1200px;
     margin: 25px auto;
     display: flex;
@@ -148,7 +159,7 @@ export default {
     width: 100% !important;
     color: white;
     display: flex;
-    margin: -79px 0 0 0;
+    margin: -169px 0 0 0;
     line-height: 79px;
     padding: 0 20px;
     box-sizing: border-box;
@@ -180,6 +191,7 @@ export default {
         span:nth-child(2) {
           text-align: center;
           display: block;
+          font-size: 20px;
         }
       }
       margin: 0 auto;

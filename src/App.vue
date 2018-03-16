@@ -15,6 +15,27 @@
       </ul>
     </div>
     <router-view></router-view>    
+    <!-- 手机端公共底部 -->
+    <div class="phonePub">
+      <div :class="cl[0]" @click="bs(0)">
+        <img src="../src/assets/images/home.png" alt="">
+        <ul>首页</ul>
+      </div>
+      <div :class="cl[1]" @click="bs(1)">
+        <img src="../src/assets/images/dp.png" alt="">
+        <ul>店铺</ul>
+      </div>
+      <div :class="cl[2]" @click="bs(2)">
+        <img src="../src/assets/images/gwc.png" alt="">
+        <ul>购物车</ul>
+      </div>
+      <div :class="cl[3]" @click="bs(3)">
+        <img src="../src/assets/images/my.png" alt="">
+        <ul>我的</ul>
+      </div>
+      
+    </div>
+    <!-- pc公共底部 -->
     <div class="foot">ⒸCopyright 2016北京信达科技有限公司 京ICP备 16011621号</div>  
     <div :class="status">
       <img src="../src/assets/images/logoxz_01.png" alt="">
@@ -34,14 +55,27 @@ export default {
       tuichu: "",
       number: "0",
       sty: "hide",
-      status: ""
+      status: "wait1",
+      scroll: "",
+      cl: ["", "", "", ""]
     };
   },
+  watch: {
+    status() {
+      if (this.status == "wait" || this.status == "Lwait")
+        window.onscroll = function() {
+          window.scrollTo(0, 0);
+        };
+      else {
+        window.onscroll = function() {};
+      }
+    }
+  },
   created() {
-    // window.onscroll=this.wait;
     this.ajax
       .post("/xinda-api/member/info", this.qs.stringify({}))
       .then(data => {
+        //判断是否登录
         if (data.data.data) {
           this.user = data.data.data.cellphone;
           (this.denglu = ""), (this.ljzc = ""), (this.tuichu = "[退出]");
@@ -51,15 +85,50 @@ export default {
         }
       });
     this.ajax.post("/xinda-api/cart/list", this.qs.stringify({})).then(data => {
-      console.log("购物车", data.data.data.length);
+      //初始化右上角购物车件数
       this.number = data.data.data.length;
     });
   },
   methods: {
-    wait() {
-      window.scrollTo(0, 0);
+    bs(a) {
+      switch (a) {
+        case 0: {
+          this.$router.push({
+            path: "/inner/index"
+          });
+          break;
+        }
+        case 1: {
+          this.$router.push({
+            path: "/inner/dianpu",
+            query: {
+              all: 1
+            }
+          });
+          break;
+        }
+        case 2: {
+          this.$router.push({
+            path: "/inner/gouwuche"
+          });
+          break;
+        }
+        case 3: {
+          this.$router.push({
+            path: "/inner/shoujihuiyuanzhongxin"
+          });
+          break;
+        }
+      }
+      this.cl = ["", "", "", ""];
+      for (let i in this.cl) {
+        this.cl[i] = " ";
+        this.cl[a] = "cl";
+      }
+      console.log(this.cl);
     },
     logOut() {
+      //退出登录
       this.status = "wait";
       this.ajax
         .post("/xinda-api/sso/logout", this.qs.stringify({}))
@@ -88,7 +157,6 @@ export default {
   left: 0;
   width: 100vw;
   height: 100vh;
-  // background-color: w;
   ul {
     display: none;
   }
@@ -96,35 +164,39 @@ export default {
     display: none;
   }
 }
-.wait {
-  cursor: wait !important;
-  display: block;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: white;
-  z-index: 12;
-  opacity: 0.8;
-  ul {
-    text-align: center;
-  }
-  img {
-    display: block;
-    margin: 40vh auto 5px;
-    animation: chen 1s linear infinite;
-  }
-  @keyframes chen {
-    form {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-}
+
 @media screen and (min-width: 768px) {
+  .wait {
+    cursor: wait !important;
+    display: block;
+    position: fixed;
+    top: 183px;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: white;
+    z-index: 1;
+    opacity: 0.9;
+    ul {
+      text-align: center;
+    }
+    img {
+      display: block;
+      margin: 30vh auto 5px;
+      animation: chen 1s linear infinite;
+    }
+    @keyframes chen {
+      form {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  }
+  .phonePub {
+    display: none;
+  }
   .show {
     display: block;
   }
@@ -194,6 +266,37 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
+  .wait {
+    cursor: wait !important;
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: white;
+    z-index: 1;
+    opacity: 0.9;
+    ul {
+      text-align: center;
+    }
+    img {
+      display: block;
+      margin: 40vh auto 5px;
+      animation: chen 1s linear infinite;
+    }
+    @keyframes chen {
+      form {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  }
+  #app {
+    padding-bottom: 90px;
+  }
   .show {
     display: block;
   }
@@ -215,6 +318,29 @@ export default {
   a {
     text-decoration: none;
     color: #2693d4;
+  }
+  .phonePub {
+    width: 100vw;
+    position: fixed;
+    bottom: -2px;
+    height: 70px;
+    border-top: 1px solid #e0e0e0;
+    background: #ffffff;
+    display: flex;
+    justify-content: space-around;
+    .cl {
+      color: #2694d3;
+      img {
+        top: 90px;
+        filter: drop-shadow(0 -90px 0px #2694d3);
+      }
+    }
+    img {
+      width: 25px;
+      display: block;
+      margin: 10px auto 4px;
+      position: relative;
+    }
   }
 }
 </style>

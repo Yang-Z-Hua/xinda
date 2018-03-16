@@ -1,3 +1,4 @@
+// 手机端搜索店铺跳到此页面
 <template>
   <div>
     <div class="all">

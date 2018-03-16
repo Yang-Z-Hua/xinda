@@ -53,9 +53,11 @@ export default {
   },
   methods: {
     cha() {
+      //验证码刷新
       this.png += " ";
     },
     checkphone() {
+      //检测手机号
       var a = /1\d{10}/;
       if (!a.test(this.phone)) {
         this.phoneTip = "手机号错误！";
@@ -65,7 +67,9 @@ export default {
       }
     },
     hq() {
+      //获取手机验证码
       if (this.checkphone()) {
+        //判断手机号是否合法
         this.ajax
           .post(
             "/xinda-api/register/sendsms",
@@ -77,10 +81,12 @@ export default {
           )
           .then(data => {
             if (data.data.status == -1) {
+              // 图片验证码错误
               this.picTip = data.data.msg;
               this.yzmtg = 0;
               this.png += " ";
             } else {
+              // 图片验证码正确
               this.picTip = "";
               this.yzmtg = 1;
             }
@@ -88,10 +94,13 @@ export default {
       }
     },
     reset() {
+      // 确认修改
       if (this.yzmtg == 0) {
+        // 没有获取手机验证码
         this.hq();
       }
       if (this.yzmtg == 1) {
+        // 以获取手机验证码
         if (this.phoneyzm != 111111) {
           this.yzmcw = "验证码错误!!";
         } else {
