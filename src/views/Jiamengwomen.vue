@@ -84,7 +84,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 .join_img1{
-  width: 100vw;
+  width: 1200px;
+  margin: 0 auto;
+  display: block;
 }
 .join_img2{
   width: 1121px;
