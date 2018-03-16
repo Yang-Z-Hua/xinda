@@ -84,7 +84,7 @@ import md5 from 'md5'
 export default {
   name: "HelloWorld",
   created() {
-    this.$parent.$parent.$parent.status='Lwait'
+    this.$parent.$parent.$parent.status='wait'
     this.user=this.$parent.$parent.$parent.user;
     this.ajax
       .post("/xinda-api/member/info", this.qs.stringify({}))

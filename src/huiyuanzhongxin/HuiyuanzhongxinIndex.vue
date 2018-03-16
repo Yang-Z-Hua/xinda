@@ -4,7 +4,7 @@
       <div class="tanchuk">
         <p>确认删除该订单</p>
         <ul>
-          <li class="qd" @click="sc1">确定</li>
+          <li class="qd" @click="sc('sdw')">确定</li>
           <li class="qx" @click="quxiao">取消</li>
         </ul>
       </div>
@@ -186,6 +186,9 @@ export default {
     },
     xr(i) {
       this.$parent.$parent.$parent.status = "Lwait";
+      if(i=='csh'){
+        this.$parent.$parent.$parent.status = "wait";
+      }
       this.ajax
         .post(
           "/xinda-api/business-order/grid",
@@ -205,11 +208,13 @@ export default {
                 this.startNum -= 2;
                 this.xr();
                 this.count--;
-              } else {
                 this.mnr = !this.mnr;
-              }
+              } 
             }
-            return;
+            if(i==2){
+              this.mnr = !this.mnr;
+              return
+            }
           }
           if (i == 2) {
             this.count++;
@@ -219,7 +224,7 @@ export default {
           }
           let orderList = data.data.data;
           var j = 0;
-          this.$parent.$parent.$parent.status = "Lwait";
+          // this.$parent.$parent.$parent.status = "Lwait";
           for (let i in orderList) {
             this.ajax
               .post(
@@ -229,11 +234,7 @@ export default {
                 })
               )
               .then(data => {
-<<<<<<< HEAD
                 this.$parent.$parent.$parent.status = "wait1";
-=======
-                this.$parent.$parent.$parent.status='wait1'
->>>>>>> b4b2cb5b4b801058563b9661c9c020f6fc19b1b4
                 orderList[i].service = data.data.data;
                 j++;
                 if (j == orderList.length) {
@@ -249,20 +250,10 @@ export default {
         });
     },
     sc(id) {
-      this.id = id;
-      this.ajax
-        .post(
-          "/xinda-api/business-order/del",
-          this.qs.stringify({
-            id: id
-          })
-        )
-        .then(data => {
-          this.xr("sc");
-        });
-    },
-    sc1() {
-      this.qrsc = !this.qrsc;
+      if(id!='sdw'){
+        this.id = id;
+      }
+      this.qrsc=!this.qrsc;
       this.ajax
         .post(
           "/xinda-api/business-order/del",
@@ -271,7 +262,7 @@ export default {
           })
         )
         .then(data => {
-          this.xr();
+          this.xr("sc");
         });
     },
     shanc(id) {
@@ -283,7 +274,8 @@ export default {
     }
   },
   created() {
-    this.xr();
+    this.$parent.$parent.$parent.status = "wait";
+    this.xr('csh');
   }
 };
 </script>
@@ -310,12 +302,6 @@ export default {
   .right {
     width: 100%;
     display: inline-block;
-<<<<<<< HEAD
-    .tckuang {
-      width: 100%;
-      height: 100%;
-      z-index: 66;
-=======
     .meidd {
       width: 100%;
       height: 150%;
@@ -332,7 +318,6 @@ export default {
       width:100%;
       height:100%;
       z-index:66;
->>>>>>> b4b2cb5b4b801058563b9661c9c020f6fc19b1b4
       position: absolute;
       display: flex;
       justify-content: center;

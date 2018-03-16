@@ -55,9 +55,11 @@ export default {
     }
   },
   created() {
+    this.$parent.$parent.status = "wait";
     this.ajax
       .post("/xinda-api/member/info", this.qs.stringify({}))
       .then(data => {
+        this.$parent.$parent.status = "wait1";
         if (data.data.data) {
           this.ab = !this.ab;
         } else {
