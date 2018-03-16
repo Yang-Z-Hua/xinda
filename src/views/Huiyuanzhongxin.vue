@@ -70,8 +70,7 @@ export default {
   created(){
      this.ajax
       .post("/xinda-api/member/info", this.qs.stringify({}))
-      .then(data => {
-// console.log(data.data.data)       
+      .then(data => {      
     this.sjh=data.data.data.cellphone
       });
   }

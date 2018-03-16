@@ -49,8 +49,8 @@ export default {
       this.ajax
         .post("/xinda-api/sso/logout", this.qs.stringify({}))
         .then(data => {
-          this.ab=1;
-          this.cd=0
+          this.ab = 1;
+          this.cd = 0;
         });
     }
   },
