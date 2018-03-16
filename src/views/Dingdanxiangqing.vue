@@ -160,7 +160,8 @@ export default {
     if(this.iii){
       this.pic  = 1
     }else{
-      this.pic  = 0    
+      this.pic  = 0 
+      alert('请选择支付方式')   
     }
   },
   sbank(){
