@@ -139,6 +139,7 @@ export default {
     this.ajax
       .post("/xinda-api/product/style/list", this.qs.stringify({}))
       .then(data => {
+        console.log('!!',data)
         this.data = data;
         this.data1 = this.$route.query.id;
         this.id2 = this.$route.query.id2;
