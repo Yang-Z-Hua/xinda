@@ -118,7 +118,7 @@
     <div class="molu">
       <span class="sy" @click="prev" >上一页</span>
       <span class="noone">{{count}}</span>
-      <p v-if="prevTip"></p><span class="sy" @click="next" >下一页</span><p v-if="nextTip">xiayiye</p>
+      <p v-if="prevTip"></p><span class="sy" @click="next" >下一页</span><p v-if="nextTip"></p>
     </div>
   </div>
 </template>
@@ -184,6 +184,7 @@ export default {
       this.xr();
     },
     xr(i) {
+      this.$parent.$parent.$parent.status='Lwait'
       this.ajax
         .post(
           "/xinda-api/business-order/grid",
@@ -199,6 +200,7 @@ export default {
           console.log(data);
           if (data.data.data.length == 0) {
             console.log(data.data.data.length)
+            this.$parent.$parent.$parent.status='wait1'
             // this.da = "";
             // this.mnr = this.mnr;
             return;
@@ -222,6 +224,7 @@ export default {
                 })
               )
               .then(data => {
+                 this.$parent.$parent.$parent.status='wait1'
                 // console.log(data);
                 orderList[i].service = data.data.data;
                 j++;

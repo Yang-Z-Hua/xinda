@@ -84,6 +84,7 @@ import md5 from 'md5'
 export default {
   name: "HelloWorld",
   created() {
+    this.$parent.$parent.$parent.status='Lwait'
     this.user=this.$parent.$parent.$parent.user;
     this.ajax
       .post("/xinda-api/member/info", this.qs.stringify({}))
@@ -92,6 +93,7 @@ export default {
         console.log(this.data);
         this.mingzi = this.data.name;
         this.pgone = this.data.email;
+        this.$parent.$parent.$parent.status='wait1'
         if (this.data.gender == 1) {
           this.aaa = true;
         } else {

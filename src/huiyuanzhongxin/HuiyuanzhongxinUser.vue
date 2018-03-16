@@ -27,9 +27,9 @@
       </div>
     </div>
     <div class="molu">
-      <span class="sy" v-on:click="count--">上一页</span>
+      <span class="sy" @click="prev" >上一页</span>
       <span class="noone">{{count}}</span>
-      <span class="sy" v-on:click="count++">下一页</span>
+      <span class="sy" @click="next" >下一页</span>
     </div>
   </div>
 </template>
@@ -41,6 +41,27 @@ export default {
     return {
       count:1,
     }
+  },
+  methods:{
+     next() {
+      this.prevTip = 0;
+      if (this.arrLength < 3) {
+        this.nextTip = 1;
+        return;
+      } else {
+        this.startNum += 2;
+        // this.xr(2);
+      }
+    },
+    prev() {
+      this.nextTip = 0;
+      if (this.count == 1) {
+        this.prevTip = 1;
+        return;
+      }
+      this.startNum -= 2;
+      // this.xr(0);
+    },
   },
   created() {
     this.ajax.post("/xinda-api/service/judge/grid",
