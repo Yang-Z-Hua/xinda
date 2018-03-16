@@ -206,9 +206,9 @@ export default {
       } else {
         //搜索服务商
         this.$parent.status = "wait";
-        window.onscroll = function() {
-          window.scrollTo(0, 0);
-        };
+        // window.onscroll = function() {
+        //   window.scrollTo(0, 0);
+        // };
         this.ajax
           .post(
             "/xinda-api/provider/search-grid",

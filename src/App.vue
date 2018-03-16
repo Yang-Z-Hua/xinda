@@ -60,6 +60,17 @@ export default {
       cl: ["", "", "", ""]
     };
   },
+  watch: {
+    status() {
+      if (this.status == "wait" || this.status == "Lwait")
+        window.onscroll = function() {
+          window.scrollTo(0, 0);
+        };
+      else {
+        window.onscroll = function() {};
+      }
+    }
+  },
   created() {
     this.ajax
       .post("/xinda-api/member/info", this.qs.stringify({}))
@@ -83,28 +94,28 @@ export default {
       switch (a) {
         case 0: {
           this.$router.push({
-            path: "/inner/index",
+            path: "/inner/index"
           });
           break;
         }
         case 1: {
           this.$router.push({
             path: "/inner/dianpu",
-            query:{
-              all:1,
+            query: {
+              all: 1
             }
           });
           break;
         }
         case 2: {
           this.$router.push({
-            path: "/inner/gouwuche",
+            path: "/inner/gouwuche"
           });
           break;
         }
         case 3: {
           this.$router.push({
-            path: "/inner/shoujihuiyuanzhongxin",
+            path: "/inner/shoujihuiyuanzhongxin"
           });
           break;
         }
@@ -182,6 +193,9 @@ export default {
   }
 }
 @media screen and (min-width: 768px) {
+  .phonePub {
+    display: none;
+  }
   .show {
     display: block;
   }

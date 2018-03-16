@@ -162,12 +162,6 @@ export default {
       this.code = this.$route.query.code;
       this.firstName = this.$route.query.firstName;
       this.fwfl(this.data1);
-      // if(this.$route.query.code==3){
-      //   for( let i in this.$parent.arr){
-      //     this.$parent.arr[i]=''
-      //     //?????????????
-      //   }
-      // }
     }
   },
   methods: {
