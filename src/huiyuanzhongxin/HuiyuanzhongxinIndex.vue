@@ -118,7 +118,7 @@
     <div class="molu">
       <span class="sy" @click="prev" >上一页</span>
       <span class="noone">{{count}}</span>
-      <p v-if="prevTip"></p><span class="sy" @click="next" >下一页</span><p v-if="nextTip"></p>
+      <p v-if="prevTip"></p><span class="sy" @click="next" >下一页</span><p v-if="nextTip">xiayiye</p>
     </div>
   </div>
 </template>
