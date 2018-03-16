@@ -146,7 +146,7 @@ export default {
     width: 100% !important;
     color: white;
     display: flex;
-    margin: -79px 0 0 0;
+    margin: -169px 0 0 0;
     line-height: 79px;
     padding: 0 20px;
     box-sizing: border-box;
@@ -178,6 +178,7 @@ export default {
         span:nth-child(2) {
           text-align: center;
           display: block;
+          font-size: 20px;
         }
       }
       margin: 0 auto;

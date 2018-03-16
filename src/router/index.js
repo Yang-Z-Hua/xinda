@@ -25,6 +25,7 @@ import Zhifushibai from '@/zhifu/Zhifushibai'
 import Zhifu from '@/views/Zhifu'
 import Search from '@/views/Search'
 import Shoujihuiyuanzhongxin from '@/views/Shoujihuiyuanzhongxin'
+import Chanpinfenlei from '@/components/Chanpinfenlei'
 
 Vue.use(Router)
 
@@ -49,6 +50,11 @@ export default new Router({
           component: Forget
         },
       ]
+    },
+    {
+      path: '/chanpinfenlei',
+      name: 'chanpinfenlei',
+      component: Chanpinfenlei,
     },
     {
       path: '/inner',

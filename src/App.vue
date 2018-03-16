@@ -55,7 +55,7 @@ export default {
       tuichu: "",
       number: "0",
       sty: "hide",
-      status: "",
+      status: "wait1",
       scroll: "",
       cl: ["", "", "", ""]
     };
@@ -104,7 +104,7 @@ export default {
         }
         case 3: {
           this.$router.push({
-            path: "/inner/huiyuanzhongxin/huiyuanzhongxinindex",
+            path: "/inner/shoujihuiyuanzhongxin",
           });
           break;
         }
@@ -279,7 +279,7 @@ export default {
   .phonePub {
     width: 100vw;
     position: fixed;
-    bottom: 0;
+    bottom: -2px;
     height: 70px;
     border-top: 1px solid #e0e0e0;
     background: #ffffff;
