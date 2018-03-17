@@ -59,7 +59,7 @@
             <div class="manei" v-for="dd in aa.service" :key="dd.id">
               <div class="zuo">
                 <div class="imgg">
-                  <img src="http://123.58.241.146:8088/xinda/pic/2016/09/28/8c419db3f572418a80ff5a08397fb857" alt="">
+                  <img src='../assets/images/logoxz_01.png' alt="">
                 </div>
                 <div class="xdfw">
                   <p class="prov">{{dd.providerName}}</p>
