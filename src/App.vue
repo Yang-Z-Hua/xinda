@@ -46,6 +46,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { mapActions } from "vuex";
 export default {
   name: "App",
   data() {
@@ -94,6 +95,7 @@ export default {
     });
   },
   methods: {
+    ...mapActions(['setNum']),
     bs(a) {
       switch (a) {
         case 0: {
