@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "App",
   data() {
@@ -70,6 +71,9 @@ export default {
         window.onscroll = function() {};
       }
     }
+  },
+  computed: {
+    ...mapGetters(["getNum"])
   },
   created() {
     this.ajax

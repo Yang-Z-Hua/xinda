@@ -7,6 +7,7 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 import qs from 'qs'
+import store from './store'
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -27,6 +28,7 @@ Vue.prototype.qs = qs;
 new Vue({
   el: '#app',
   router,
+  store,
   components: {
     App
   },
