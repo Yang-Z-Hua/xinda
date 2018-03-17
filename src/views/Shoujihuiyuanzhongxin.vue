@@ -1,5 +1,14 @@
 <template>
   <div class="public">
+    <div class="tckuang" v-show="qrsc">
+      <div class="tanchuk">
+        <p>请先登录！</p>
+        <ul>
+          <a href="#/outter/login"><li class="qd">确定</li></a>
+          <li class="qx" @click="quxiao">取消</li>
+        </ul>
+      </div>
+    </div>
     <div class="huiyuandl">
         <div><img class="tupian" src="../assets/images/u7066.png" alt=""></div>
         <div class="zd" v-if="ab">
@@ -8,25 +17,25 @@
         </div>
     </div>
         <div class="bottom">
-          <router-link to="/Huiyuanzhongxin/Huiyuanzhongxinindex" tag="div">
-            <div class="ddzh" >
+          <!-- <router-link to="/Huiyuanzhongxin/Huiyuanzhongxinindex" tag="div"> -->
+            <div class="ddzh" @click="tc">
               <div>
                 <img src="../assets/images/u5092.png" alt="">
                 <p>我的订单</p>
               </div>
               <span>{{xy}}</span>
             </div>
-          </router-link>
+          <!-- </router-link> -->
 
-          <router-link to="/Huiyuanzhongxin/HuiyuanzhongxinAccount"  tag="div">
-            <div class="ddzh">
+          <!-- <router-link to="/Huiyuanzhongxin/HuiyuanzhongxinAccount"  tag="div"> -->
+            <div class="ddzh"  @click="tc">
               <div>
                 <img src="../assets/images/u5102.png" alt="">
                 <p>账户设置</p>
               </div>         
                <span>{{xy}}</span>
             </div>
-          </router-link>
+          <!-- </router-link> -->
         </div>
         <div @click="logOut" class="tui" v-if="cd"><p class="tcdl">退出登录</p></div>
     <router-view></router-view>
@@ -40,10 +49,17 @@ export default {
     return {
       xy: ">",
       ab: true,
-      cd: true
+      cd: true,
+      qrsc: false,
     };
   },
   methods: {
+    tc(){
+      this.qrsc = !this.qrsc
+    },
+    quxiao(){
+      this.qrsc = !this.qrsc
+    },
     logOut() {
       this.status = "wait";
       this.ajax
@@ -74,11 +90,49 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 @media (max-width: 768px) {
+  .tckuang{
+      width:100%;
+      height:100%;
+      z-index:66;
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.2);
+      // display: none;
+      .tanchuk {
+        width: 70%;
+        height: 25%;
+        z-index: 66;
+        position: absolute;
+        background: #fff;
+        p {
+          text-align: center;
+          margin-top: 70px;
+        }
+        ul {
+          display: flex;
+          justify-content: space-between;
+        }
+        li {
+          display: inline-block;
+          margin: 25px 20px 0 20px;
+          padding: 7px 25px;
+          color: #fff;
+        }
+        .qd {
+          background: #2693d4;
+        }
+        .qx {
+          background: #9c9c9c;
+        }
+      }
+    }
   .public {
     width: 100%;
     .huiyuandl {
       text-align: center;
-      margin-top: 140px;
+      padding-top: 140px;
       .tupian {
         width: 25%;
       }
@@ -139,7 +193,7 @@ export default {
     }
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 769px) {
   .public {
     display: none;
   }

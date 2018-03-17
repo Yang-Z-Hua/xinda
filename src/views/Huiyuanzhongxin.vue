@@ -83,9 +83,6 @@ export default {
 @media (max-width:768px){
  .public{
     display: flex;
-      // width: 1200px;
-      // height: 650px;
-      // margin: 26px auto;
   }
   .left{
     display: none;
@@ -147,7 +144,7 @@ export default {
     background-color:#e9e9e9;
   }
 }
-@media(min-width:768px){
+@media(min-width:769px){
   .public{
     display: flex;
       width: 1200px;

@@ -71,7 +71,7 @@ export default {
 <style scoped lang="less">
 @media (max-width: 768px) {
 }
-@media (min-width: 768px) {
+@media (min-width: 769px) {
   * {
     margin: 0;
     padding: 0;

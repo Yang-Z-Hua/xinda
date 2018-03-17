@@ -79,8 +79,6 @@ export default {
         type:1,
         score:5	,
         content:'服务好，赞！',
-
-
       }))
       .then(data => { 
     })
@@ -93,7 +91,7 @@ export default {
 @media (max-width:768px){
   
 }
-@media(min-width:768px){
+@media(min-width:769px){
   *{margin: 0;padding: 0;}
   .right{
     width: 936px;
