@@ -3,7 +3,7 @@
   <div>
     <div class="product_list">
       <ul v-for="(a,index) in arr1" :key="index">
-        <li class="title">   
+        <li class="title" >   
           <!-- 一级标题 -->
           <p>{{a.name}}</p>
         </li>
@@ -55,7 +55,8 @@ export default {
           firstName: a.name,
           id: index,
           id2: b.id,
-          id3: c.id
+          id3: c.id,
+          arr:[1,2,3,4,5]
         }
       });
     },
@@ -126,13 +127,19 @@ export default {
             line-height: 3;
             text-decoration: none;
             display: block;
-            p{
+            p {
               float: right;
-              margin-right: 10px
+              margin-right: 10px;
             }
           }
         }
       }
+    }
+  }
+  ul:nth-child(1) {
+    // background-color: #f3f4f6;
+    .message {
+      display: block !important;
     }
   }
   ul:hover .message {

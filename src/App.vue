@@ -45,6 +45,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { mapActions } from "vuex";
 export default {
   name: "App",
   data() {
@@ -71,6 +73,9 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapGetters(["getNum"])
+  },
   created() {
     this.ajax
       .post("/xinda-api/member/info", this.qs.stringify({}))
@@ -90,6 +95,7 @@ export default {
     });
   },
   methods: {
+    ...mapActions(['setNum']),
     bs(a) {
       switch (a) {
         case 0: {

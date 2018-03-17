@@ -92,7 +92,7 @@
 </template>
 <script>
 import Area from "../components/Area.vue";
-const defaultImgUrl = require("../assets/images/zz.jpg");
+const defaultImgUrl = require("../assets/images/logoxz_01.png");
 export default {
   name: "HelloWorld",
   data() {
