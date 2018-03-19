@@ -66,10 +66,10 @@
       </ul>
       <div class="weixin_x" v-for="(item,index) in serviceOrderList" :key="index">      
         <ul>
-          <li>{{item.serviceName}}</li>
-          <li><a>{{item.unitPrice}}</a>元</li>
-          <li><a>{{item.buyNum}}</a></li>
-          <li><a>{{item.unitPrice*item.buyNum}}</a>元</li>
+          <li class="fumc">{{item.serviceName}}</li>
+          <li ><a>{{item.unitPrice}}</a>元</li>
+          <li class="fb"><a>{{item.buyNum}}</a></li>
+          <li ><a>{{item.unitPrice*item.buyNum}}</a>元</li>
         </ul>
       </div> 
       <a class="weixin_way">支付方式</a>
@@ -363,6 +363,9 @@ export default {
   .goods_all{
     display: none;
   }
+  .all_weixin{
+    font-size: 14px; 
+  }
   .w_top{
     height: 80px;
     background-color: #e5e5e5;
@@ -381,11 +384,17 @@ export default {
     border-bottom: 1px solid #000000;
     ul{
       display: flex;
-      justify-content:space-around;
+      // justify-content:space-around;
     } 
+    .fumc{
+      width: 120px;
+    }
+    .fb{
+      width: 138px;
+    }
     li{
       line-height: 80px;
-      width: 98px;  
+      width: 48px;  
       text-align: center;          
     }  
   }
@@ -421,7 +430,7 @@ export default {
     width: 207px;
     height: 50px;
     border: 1px solid #efefef;
-    margin-left: 24px;
+    margin-left: 16px;
      .iimg1{
       margin: 5px 0 0 30px;
     }

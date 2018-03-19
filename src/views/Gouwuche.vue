@@ -344,6 +344,14 @@ export default {
   }
 }
 @media screen and (max-width:768px){
+  // .weixin_p{
+  //   // padding-top:50px;
+  //   padding-bottom:94px;
+  //   // background: #fafafa;
+  //   z-index: 1;
+  //   position: absolute;
+  //   height: 70%;
+  // }
   .shopoing_phon{
     display: block;
   }
@@ -354,7 +362,7 @@ export default {
     display: none;
   }
   .ph_top{
-    height: 78px;
+    height: 40px;
     background-color: #e5e5e5;
     overflow: hidden;
   }
@@ -363,15 +371,15 @@ export default {
     padding-bottom: 21px;  
   }
   .ph_1{
-    font-size: 24px;
-    margin: 24px 0 0 21px;
+    // font-size: 24px;
+    margin: 10px 0 0 21px;
   }
   .ph_box1{
     width: 768px;
     height: 256px;
   }
   .ph_dianpu{
-    font-size: 30px;
+    font-size: 18px;
     margin: 13px 0 0 18px;
   }
   .ph_img{
@@ -387,38 +395,42 @@ export default {
     width: 67vw;
     margin: 10px 0 0 18px;
     .ph_g1{
-      font-size: 30px;
-      width: 26vw;
+      font-size: 16px;
+      // width: 26vw;
       display: inline-block
     }
     .ph_g2{
-      margin-top: 23px;
+      margin-top: 5px;
     }
     .asph{
       font-weight: bold;
-      font-size: 16px;
+      // font-size: 16px;
       color: black;
       background-color: #ededed;
       padding: 5px 5px;
     }
     .ph_jiajia{
-      margin-top: 15px;
+      margin-top: 5px;
+      font-size:13px;
     }
     .ph_c{
-      margin-top: 10px;
+      margin-top: 5px;
+      font-size:13px;
     }
   }
   .ph_red{
     color: #ff1518;
-    font-size: 32px;
+    font-size: 18px;
     font-weight: bold;
   }
   .ph_g3{
     display: flex;
+    justify-content: space-between;
+    font-size: 14px;
   }
   .ph_dell{
-    font-size: 24px;
-    margin-left: 29vw;
+    // font-size: 24px;
+    margin-right: 5vw;
     a{
       color: #fe0000;
     }
@@ -430,18 +442,18 @@ export default {
     margin: 12px  0 100px 38vw;
   }
   .ph_bottom{
-    height: 112px;
+    // height: 112px;
     background-color: #e5e5e5;
     display: flex;
-    font-size: 28px;
-    line-height: 112px;
+    // font-size: 28px;
+    line-height: 60px;
     .ph_wub{
       width: 66vw;
     }
     .ph_sy{
       width: 33.5vw;
       background-color: #fb2d2d;
-      line-height: 112px;
+      // line-height: 112px;
       text-align: center;
       a{
         color: #ffffff;
@@ -450,8 +462,8 @@ export default {
   }
   .kong{
     width: 100vw;
-    height: 100vwpx;
-    margin: 244px auto 0;
+    height: 100vw;
+    // margin: 244px auto 0;
     display: block;
   }
   .sp{
@@ -462,19 +474,20 @@ export default {
   }
   .sp_{
     display: block;
+    // margin-top:90px;
   }
   .qu{
-    width: 258px;
-    height: 85px;
+    width: 220px;
+    height: 70px;
     background-color: #2693d4;
     border-radius: 10px;
     text-align: center;
-    margin: 59px auto 525px;
+    margin: 59px auto 0;
   }
   .shouye{
     color: #ffffff;
-    line-height: 85px;
-    font-size: 30px;
+    line-height: 70px;
+    font-size: 25px;
   }
 }
 </style>

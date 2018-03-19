@@ -28,7 +28,7 @@
           <!-- </router-link> -->
 
           <!-- <router-link to="/Huiyuanzhongxin/HuiyuanzhongxinAccount"  tag="div"> -->
-            <div class="ddzh"  @click="tc">
+            <div class="ddzh"  @click="tc1">
               <div>
                 <img src="../assets/images/u5102.png" alt="">
                 <p>账户设置</p>
@@ -55,7 +55,32 @@ export default {
   },
   methods: {
     tc(){
-      this.qrsc = !this.qrsc
+      this.ajax
+        .post("/xinda-api/sso/login-info", this.qs.stringify({}))
+        .then(data => {
+          var omg = data.data.status;
+          if(omg == 0){
+            this.qrsc = !this.qrsc;
+          }else{
+            this.$router.push({
+              path:"/Huiyuanzhongxin/Huiyuanzhongxinindex",
+            });
+          }
+        });
+    },
+    tc1(){
+      this.ajax
+        .post("/xinda-api/sso/login-info", this.qs.stringify({}))
+        .then(data => {
+          var omgg = data.data.status;
+          if(omgg == 0){
+            this.qrsc = !this.qrsc;
+          }else{
+            this.$router.push({
+              path:"/Huiyuanzhongxin/HuiyuanzhongxinAccount",
+            });
+          }
+        });
     },
     quxiao(){
       this.qrsc = !this.qrsc
