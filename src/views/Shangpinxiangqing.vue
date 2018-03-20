@@ -245,6 +245,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 const defaultImgUrl = require("../assets/images/notFound.jpg");
 export default {
   name: "HelloWorld",
@@ -370,6 +371,8 @@ export default {
   },
 
   methods: {
+    ...mapActions(["addNum"]),
+
     defaultImg(e) {
       // 错误图片的代替
       e.target.src = defaultImgUrl;
@@ -535,7 +538,7 @@ export default {
             this.$router.push({
               path: "/outter/login",
               query: {
-                id: "9deb846c49694ca8a69d6948e04f2e1d"
+                id: this.$route.query.id
               }
             });
           } else {
@@ -543,7 +546,7 @@ export default {
               .post(
                 "xinda-api/cart/add",
                 this.qs.stringify({
-                  id: "9deb846c49694ca8a69d6948e04f2e1d",
+                  id: this.$route.query.id,
                   num: n
                 })
               )
@@ -593,27 +596,28 @@ export default {
       this.ajax
         .post("/xinda-api/sso/login-info", this.qs.stringify({}))
         .then(data => {
-          console.log(data.data.status);
+          console.log(this.arr.product.id);
           if (data.data.status == 0) {
             this.$router.push({
               path: "/outter/login",
               query: {
-                id: this.arr.product.id
+                id: this.$route.query.id
               }
             });
           } else {
             this.ajax
               .post(
-                "xinda-api/cart/add",
+                "/xinda-api/cart/add",
                 this.qs.stringify({
-                  id: this.arr.product.id,
-                  num: 1
+                  id: this.$route.query.id,
+                  num: n
                 })
               )
               .then(data => {
                 this.ajax
                   .post("/xinda-api/cart/list", this.qs.stringify({}))
                   .then(data => {
+                    this.addNum(data.data.data.length);
                     this.$parent.$parent.number = data.data.data.length;
                   });
               });
