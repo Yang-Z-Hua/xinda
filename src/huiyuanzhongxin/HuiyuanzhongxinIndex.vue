@@ -327,7 +327,7 @@ export default {
       width:100%;
       height:100%;
       z-index:66;
-      position: absolute;
+      position: fixed;
       display: flex;
       justify-content: center;
       align-items: center;

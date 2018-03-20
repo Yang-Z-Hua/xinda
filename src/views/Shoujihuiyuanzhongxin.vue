@@ -11,13 +11,13 @@
     </div>
     <div class="huiyuandl">
         <div><img class="tupian" src="../assets/images/u7066.png" alt=""></div>
+        <ul v-if="cd">{{sjh}}</ul>
         <div class="zd" v-if="ab">
           <a href="#/outter/register"><p>注册</p></a>
           <a href="#/outter/login"><p>登录</p></a>
         </div>
     </div>
         <div class="bottom">
-          <!-- <router-link to="/Huiyuanzhongxin/Huiyuanzhongxinindex" tag="div"> -->
             <div class="ddzh" @click="tc">
               <div>
                 <img src="../assets/images/u5092.png" alt="">
@@ -25,9 +25,6 @@
               </div>
               <span>{{xy}}</span>
             </div>
-          <!-- </router-link> -->
-
-          <!-- <router-link to="/Huiyuanzhongxin/HuiyuanzhongxinAccount"  tag="div"> -->
             <div class="ddzh"  @click="tc1">
               <div>
                 <img src="../assets/images/u5102.png" alt="">
@@ -35,7 +32,6 @@
               </div>         
                <span>{{xy}}</span>
             </div>
-          <!-- </router-link> -->
         </div>
         <div @click="logOut" class="tui" v-if="cd"><p class="tcdl">退出登录</p></div>
     <router-view></router-view>
@@ -51,6 +47,7 @@ export default {
       ab: true,
       cd: true,
       qrsc: false,
+      sjh:"",
     };
   },
   methods: {
@@ -97,6 +94,11 @@ export default {
   },
   created() {
     this.$parent.$parent.status = "wait";
+    this.ajax
+      .post("/xinda-api/member/info", this.qs.stringify({}))
+      .then(data => {
+        this.sjh = data.data.data.cellphone;
+      });
     this.ajax
       .post("/xinda-api/member/info", this.qs.stringify({}))
       .then(data => {
