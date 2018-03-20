@@ -317,7 +317,8 @@ export default {
     };
   },
   created() {
-    window.scrollTo(0, 0), console.log(this.$route.query.id);
+    window.scrollTo(0, 0)
+    console.log(this.$route.query.newPrice);
     // 商品详情
     this.ajax
       .post(
@@ -524,6 +525,8 @@ export default {
     // 验证验证码===============
     checkyan() {},
     checkyan1() {},
+
+
     // 立即购买============
     buy(n) {
       console.log(this.arr.product.id);
@@ -555,36 +558,6 @@ export default {
               });
           }
         });
-      // 立即购买
-      console.log(111, this.arr.product.id);
-      // let url = this.arr.product.id;
-      // if (!this.$parent.$parent.user) {
-      //   // 检测是否登录
-      //   this.$parent.$parent.status = "wait";
-      //   this.$router.push({
-      //     path: "/outter/login",
-      //     query: {
-      //       id:url,
-      //     }
-      //   });
-      //   return;
-      // }
-
-      // this.ajax
-      //   .post(
-      //     "xinda-api/cart/add",
-      //     this.qs.stringify({
-      //       id: url,
-      //       num: 1
-      //     })
-      //   )
-      //   .then(data => {
-      //     this.$router.push({
-      //       path: "/inner/gouwuche"
-      //     });
-      //     console.log(url);
-      //     console.log(data.data)
-      //   });
     },
 
     // 加入购物车=============
