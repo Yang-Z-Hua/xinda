@@ -367,12 +367,12 @@ export default {
     font-size: 14px; 
   }
   .w_top{
-    height: 80px;
+    // height: 80px;
     background-color: #e5e5e5;
     text-align: center;
     p{
-      line-height: 80px;
-      font-size: 30px;
+      line-height: 40px;
+      font-size: 18px;
     }
   }
   .dingdanhao{
@@ -479,18 +479,18 @@ export default {
     margin: 13px 0 50px 22px;
   }
   .ph_bottom{
-    height: 112px;
+    // height: 112px;
     background-color: #e5e5e5;
     display: flex;
-    font-size: 28px;
-    line-height: 112px;
+    font-size: 18px;
+    line-height: 60px;
     .ph_wub{
       width: 66vw;
     }
     .ph_sy{
       width: 33.5vw;
       background-color: #fb2d2d;
-      line-height: 112px;
+      // line-height: 112px;
       text-align: center;
       a{
         color: #ffffff;
@@ -501,8 +501,8 @@ export default {
     width: 332px;
     height: 364px;
     position: absolute;
-    top: 330px;
-    left: 200px;
+    top: 290px;
+    left: 22px;
     background-color: #ffffff;
     box-shadow: 0 0 10px #a7a3a3;
     .guanbi{
@@ -543,7 +543,7 @@ export default {
     font-size: 30px;
     color: black;
     position: absolute;
-    top: 20px;
+    // top: 20px;
   }
 }
 </style>
