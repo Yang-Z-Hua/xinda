@@ -2,6 +2,7 @@
   <div class="public">
     <div class="tckuang" v-show="qrsc">
       <div class="tanchuk">
+        <p class="tss">提示</p>
         <p>请先登录！</p>
         <ul>
           <a href="#/outter/login"><li class="qd">确定</li></a>
@@ -11,13 +12,13 @@
     </div>
     <div class="huiyuandl">
         <div><img class="tupian" src="../assets/images/u7066.png" alt=""></div>
+        <ul v-if="cd">{{sjh}}</ul>
         <div class="zd" v-if="ab">
           <a href="#/outter/register"><p>注册</p></a>
           <a href="#/outter/login"><p>登录</p></a>
         </div>
     </div>
         <div class="bottom">
-          <!-- <router-link to="/Huiyuanzhongxin/Huiyuanzhongxinindex" tag="div"> -->
             <div class="ddzh" @click="tc">
               <div>
                 <img src="../assets/images/u5092.png" alt="">
@@ -25,9 +26,6 @@
               </div>
               <span>{{xy}}</span>
             </div>
-          <!-- </router-link> -->
-
-          <!-- <router-link to="/Huiyuanzhongxin/HuiyuanzhongxinAccount"  tag="div"> -->
             <div class="ddzh"  @click="tc1">
               <div>
                 <img src="../assets/images/u5102.png" alt="">
@@ -35,7 +33,6 @@
               </div>         
                <span>{{xy}}</span>
             </div>
-          <!-- </router-link> -->
         </div>
         <div @click="logOut" class="tui" v-if="cd"><p class="tcdl">退出登录</p></div>
     <router-view></router-view>
@@ -51,6 +48,7 @@ export default {
       ab: true,
       cd: true,
       qrsc: false,
+      sjh:"",
     };
   },
   methods: {
@@ -100,6 +98,11 @@ export default {
     this.ajax
       .post("/xinda-api/member/info", this.qs.stringify({}))
       .then(data => {
+        this.sjh = data.data.data.cellphone;
+      });
+    this.ajax
+      .post("/xinda-api/member/info", this.qs.stringify({}))
+      .then(data => {
         this.$parent.$parent.status = "wait1";
         if (data.data.data) {
           this.ab = !this.ab;
@@ -124,16 +127,19 @@ export default {
       justify-content: center;
       align-items: center;
       background: rgba(0, 0, 0, 0.2);
-      // display: none;
       .tanchuk {
         width: 70%;
-        height: 25%;
+        height: 150px;
         z-index: 66;
         position: absolute;
         background: #fff;
+        .tss{
+          font-size:18px;
+          margin-top: 5%;
+        }
         p {
           text-align: center;
-          margin-top: 70px;
+          margin-top: 10%;
         }
         ul {
           display: flex;
@@ -157,7 +163,7 @@ export default {
     width: 100%;
     .huiyuandl {
       text-align: center;
-      padding-top: 140px;
+      padding-top: 120px;
       .tupian {
         width: 25%;
       }

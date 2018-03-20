@@ -269,7 +269,7 @@ export default {
   name: "HelloWorld",
   created() {
     var a = 1;
-    // window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
     var rf = this;
     document.onscroll = function() {
       if (a) {
@@ -278,22 +278,18 @@ export default {
           rf.$parent.$parent.status = "wait1";
           rf.arr = data.data.data;
         });
+
+        // 推荐服务商
         rf.ajax.post("/xinda-api/provider/search-grid").then(data => {
           rf.arr2 = data.data.data;
         });
-        rf.ajax.post("/xinda-api/product/package/search-grid").then(data => {
-          rf.arr3 = data.data.data;
-        });
       }
     };
-    // this.$parent.$parent.status = "wait";
-    this.ajax
-      .post(
-        "/xinda-api/product/style/list"
-      )
-      .then(data => {
-        console.log(data)
-      });
+    // 创业必备 推荐服务
+
+    // rf.ajax.post("/xinda-api/product/package/search-grid").then(data => {
+    //   rf.arr3 = data.data.data;
+    // });
   },
 
   data() {
@@ -302,7 +298,7 @@ export default {
       arr: "",
       arr1: "",
       arr2: "",
-      arr3: "",
+      // arr3: "",
       q: 1,
       w: 0,
       e: 1,
@@ -363,39 +359,39 @@ export default {
       this.choose1 = "sty2";
       this.choose2 = "sty1";
     },
-    jia1(){
+    jia1() {
       this.$router.push({
         path: "/inner/liebiaoye",
         query: {
           id: "1eff122d06604fc1aadf9e7acefba21a",
           id2: "93bfade97b784891847995255419cbaa",
           firstName: "知识产权",
-          code: 8,
+          code: 8
         }
       });
     },
-    jia2(){
+    jia2() {
       this.$router.push({
         path: "/inner/liebiaoye",
         query: {
           id: "1eff122d06604fc1aadf9e7acefba21a",
           id2: "9ff92f92fd614049a45f34c0d003eaa4",
           firstName: "知识产权",
-          code: 9,
+          code: 9
         }
       });
     },
-    jia3(){
+    jia3() {
       this.$router.push({
         path: "/inner/liebiaoye",
         query: {
           id: "1eff122d06604fc1aadf9e7acefba21a",
           id2: "6e129158ea5544ebac88cd6804e3aa65",
           firstName: "知识产权",
-          code: 10,
+          code: 10
         }
       });
-    },
+    }
   }
 };
 </script>
@@ -655,8 +651,8 @@ export default {
         cursor: pointer;
       }
     }
-    div:hover{
-      box-shadow: 0 0 2px 2px #71c2f1
+    div:hover {
+      box-shadow: 0 0 2px 2px #71c2f1;
     }
   }
 
