@@ -17,6 +17,9 @@ export default new Vuex.Store({
         state.num += 1;
       }
 
+    },
+    JIAN_NUM(state, n) {
+        state.num-= 1;
     }
   },
   //   指令集合
@@ -30,6 +33,11 @@ export default new Vuex.Store({
       commit
     }, n) {
       commit('ADD_NUM', n)
+    },
+    jianNum({
+      commit
+    }, n) {
+      commit('JIAN_NUM', n)
     }
   },
   //   显示集合

@@ -40,7 +40,7 @@
               <!-- <img :src="img" alt=""> -->
               <img :src='imgSrc+a.productImg' alt="" @error='defaultImg' >
               <div class="zcfgs">
-                <ul @click="xpxq(a.id)">{{a.serviceName}}</ul>
+                <ul @click="xpxq(a.id)">{{a.serviceName,a.price}}</ul>
                 <li>{{a.serviceInfo}}</li>
                 <li>
                   <span>{{a.providerName}}</span>
@@ -186,13 +186,14 @@ export default {
       //加入购物车抬起背景
       this.jrgwc = "";
     },
-    xpxq(a) {
+    xpxq(a,b) {
       // 点击商品标题
       this.$parent.$parent.status = "wait";
       this.$router.push({
         path: "/inner/shangpinxiangqing",
         query: {
-          id: a
+          id: a,
+          newPrice:b
         }
       });
     },
@@ -355,7 +356,7 @@ export default {
           })
         )
         .then(data => {
-          console.log(0, data.data.data.length);
+          console.log(0, data);
           if (this.sx == 1) {
             this.sx = "wqwq";
             if (data.data.data.length == 0) {

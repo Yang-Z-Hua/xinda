@@ -216,6 +216,9 @@ export default {
       display: flex;
       background-color: #f7f7f7;
       border: 1px solid #b6b6b6;
+      li:nth-child(1){
+        width: 430px;
+      }
       li{
         width: 400px;
         text-align: center;
