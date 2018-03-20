@@ -333,20 +333,19 @@ export default {
       justify-content: center;
       align-items: center;
       background: rgba(0, 0, 0, 0.2);
-      // display: none;
       .tanchuk {
         width: 70%;
-        height: 25%;
+        height: 150px;
         z-index: 66;
         position: absolute;
-        background: #ffffff;
+        background: #fff;
         .tss{
           font-size:18px;
-          margin-top: 20px;
+          margin-top: 5%;
         }
         p {
           text-align: center;
-          margin-top: 25px;
+          margin-top: 10%;
         }
         ul {
           display: flex;
