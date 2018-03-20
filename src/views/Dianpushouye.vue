@@ -51,14 +51,6 @@
             </div>
           </div>
    <!-- 微信端最底部======================================== -->
-          <div class="weichat_bottom_title">
-            <li>
-              
-            </li>
-            <li></li>
-            <li></li>
-            <li></li>
-          </div>
 
 
           <!-- 客户端 -->
@@ -86,7 +78,7 @@
             <h3>QQ咨询：{{arr.qq}}</h3>
           </li>
           <li :class="bot_3">
-            <img :src="imgSrc+arr.orgCertPath" alt="">
+            <img :src="imgSrc+arr.orgCertPath" @error='defaultImg1' alt="" class="bottom_img">
           </li>
         </ul>
       </div>
@@ -105,6 +97,7 @@
 
 <script>
 const defaultImgUrl = require("../assets/images/notFound.jpg");
+const defaultImgUrl1 = require("../assets/images/u4652.png");
 
 export default {
   name: "HelloWorld",
@@ -119,7 +112,7 @@ export default {
         )
         .then(data => {
           this.arr = data.data.data;
-          console.log(this.arr)
+          console.log(this.arr);
         });
     this.ajax
       .post(
@@ -161,12 +154,16 @@ export default {
       // 错误图片的代替
       e.target.src = defaultImgUrl;
     },
+    defaultImg1(e) {
+      // 错误图片的代替
+      e.target.src = defaultImgUrl1;
+    },
     more(inn) {
       this.$router.push({
         path: "/inner/Shangpinxiangqing",
         query: {
           id: inn.id,
-          newPrice:inn.price
+          newPrice: inn.price
         }
       });
     },
@@ -217,48 +214,48 @@ export default {
     },
     backfirst() {
       this.currentUnder = 0;
-          this.data_2 = this.data_1.slice(0, 6);
+      this.data_2 = this.data_1.slice(0, 6);
     },
     goend() {
       this.currentUnder = Math.ceil(this.data_1.length / 6) - 1;
-          this.data_2 = this.data_1.slice(
-            this.currentUnder * 6,
-            this.currentUnder * 6 + 6
-          );
+      this.data_2 = this.data_1.slice(
+        this.currentUnder * 6,
+        this.currentUnder * 6 + 6
+      );
     },
     prev() {
       if (this.currentUnder == 0) {
         this.currentUnder = 0;
-            this.data_2 = this.data_1.slice(0, 6);
+        this.data_2 = this.data_1.slice(0, 6);
       } else {
         this.currentUnder -= 1;
-            this.data_2 = this.data_1.slice(
-              this.currentUnder * 6,
-              this.currentUnder * 6 + 6
-            );
+        this.data_2 = this.data_1.slice(
+          this.currentUnder * 6,
+          this.currentUnder * 6 + 6
+        );
       }
     },
     next() {
       if (this.currentUnder == 3) {
         this.currentUnder = 3;
-            this.data_2 = this.data_1.slice(
-              this.currentUnder * 6,
-              this.currentUnder * 6 + 6
-            );
+        this.data_2 = this.data_1.slice(
+          this.currentUnder * 6,
+          this.currentUnder * 6 + 6
+        );
       } else {
         this.currentUnder += 1;
-            this.data_2 = this.data_1.slice(
-              this.currentUnder * 6,
-              this.currentUnder * 6 + 6
-            );
+        this.data_2 = this.data_1.slice(
+          this.currentUnder * 6,
+          this.currentUnder * 6 + 6
+        );
       }
     },
-    go_shopping(four){
+    go_shopping(four) {
       this.$router.push({
         path: "/inner/Shangpinxiangqing",
         query: {
           id: four.id,
-          newPrice:four.price
+          newPrice: four.price
         }
       });
     }
@@ -272,6 +269,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 // PC端
@@ -303,6 +301,7 @@ export default {
     margin-bottom: 80px;
     position: relative;
     .left {
+      margin: 0 11px;
       width: 300px;
       height: 583px;
       border: 1px solid #e9e9e9;
@@ -328,6 +327,7 @@ export default {
       }
     }
     .right {
+      margin: 0 10px;
       width: 875px;
       height: 583px;
       .top_list {
@@ -437,7 +437,7 @@ export default {
         .weichat_list {
           display: none;
         }
-        .weichat_bottom_title{
+        .weichat_bottom_title {
           display: none;
         }
       }
@@ -492,6 +492,11 @@ export default {
     color: grey;
     outline: none;
     cursor: crosshair;
+  }
+  .bottom_img {
+    width: 250px;
+    height: 400px;
+    margin: 20px 180px;
   }
 }
 
@@ -590,11 +595,10 @@ export default {
                 line-height: 28px;
                 width: 100%;
               }
-              .service_i{
+              .service_i {
                 line-height: 20px;
                 width: 100%;
                 height: 100px;
-                
               }
               li {
                 width: 100%;
@@ -603,12 +607,12 @@ export default {
                 position: absolute;
                 bottom: 6%;
                 line-height: 16px;
-                img{
+                img {
                   width: 8px;
                   height: 12px;
                   margin: 1%;
                 }
-                span{
+                span {
                   margin: 0 0 0 10%;
                   color: red;
                   font-size: 18px;
@@ -626,6 +630,9 @@ export default {
   }
   .bot_1 {
     display: none;
+  }
+  h4{
+    font-weight: bold;
   }
 }
 </style>

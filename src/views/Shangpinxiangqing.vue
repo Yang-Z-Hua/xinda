@@ -319,7 +319,7 @@ export default {
   },
   created() {
     window.scrollTo(0, 0)
-    console.log(this.$route.query.newPrice);
+    // console.log(this.$route.query.newPrice)
     // 商品详情
     this.ajax
       .post(
@@ -467,6 +467,23 @@ export default {
       this.phoneTip = "";
       this.picTip = "";
     },
+    start(){
+      if (
+        this.phone == "" ||
+        this.checkp == "" ||
+        this.checky == "" ||
+        this.phoneTip != "" ||
+        this.picTip != "" ||
+        this.yanTip != ""
+      ) {
+        this.phoneTip = "手机号错误！";
+        this.picTip = "图形验证码错误";
+      } else {
+        this.v2 = 0;
+        this.v3 = 1;
+        this.v4 = 1;
+      }
+    },
     free() {
       if (
         this.phone1 == "" ||
@@ -526,16 +543,28 @@ export default {
       }
     },
     // 验证验证码===============
-    checkyan() {},
-    checkyan1() {},
+    checkyan() {
+      var a = /^\d{6}/;
+      if (!a.test(this.checky)) {
+        this.yanTip = "验证码错误";
+      } else {
+        this.yanTip = "";
+      }
+    },
+    checkyan1() {
+      var a = /^\d{6}/;
+      if (!a.test(this.checky1)) {
+        this.yanTip1 = "验证码错误";
+      } else {
+        this.yanTip1 = "";
+      }
+    },
 
 
     // 立即购买============
     buy(n) {
-      console.log(this.$route.query.id);
-      console.log(this.$route.query.newPrice);
-      console.log(this.newPrice)
       // 判断是否登录==============
+      console.log(this.$route.query.newPrice)
       this.ajax
         .post("/xinda-api/sso/login-info", this.qs.stringify({}))
         .then(data => {
@@ -548,19 +577,24 @@ export default {
               }
             });
           } else {
+            var sss;
+            if(this.isPhone == 1){
+                sss = 1;  
+              }else{
+                sss = n;  
+              }
             this.ajax
               .post(
                 "xinda-api/cart/add",
                 this.qs.stringify({
                   id: this.$route.query.id,
-                  num: n
+                  num: sss
                 })
               )
-              .then(data => {
+              .then(data => {             
                 this.$router.push({
                   path: "/inner/gouwuche"
                 });
-                console.log(data.data);
               });
           }
         });
