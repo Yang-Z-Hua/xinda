@@ -97,8 +97,8 @@ export default {
       this.png += " ";
     },
     checkphone() {
-      // 加测手机号
-      var a = /1\d{10}/;
+      // 检测手机号
+      var a = /1[3,4,5,7,8,9]\d{9}/;
       if (!a.test(this.phone)) {
         this.phoneTip = "手机号错误！";
       } else {

@@ -18,7 +18,11 @@
           <img :src="'http://123.58.241.146:8088/xinda/pic'+item.providerImg" alt="">
           <li class="shopping_g">{{item.serviceName}}</li>
           <li>￥{{item.unitPrice}}</li>
-          <li class="jiajia"><a @click="key=1,--item.buyNum" href="javascript:void(0)" class="asp">-</a>{{item.buyNum=item.buyNum>=1?item.buyNum:1}}<a @click="key=1,++item.buyNum" href="javascript:void(0)" class="asp">+</a></li>
+          <li class="jiajia">
+            <a @click="key=1,--item.buyNum" href="javascript:void(0)" class="asp">-</a>
+            <span>{{item.buyNum=item.buyNum>=1?item.buyNum:1}}</span>
+            <a @click="key=1,++item.buyNum" href="javascript:void(0)" class="asp">+</a>
+          </li>
           <li class="shopping_c1">￥{{item.unitPrice*item.buyNum}}</li>
           <li @click="shopping_del(item.serviceId)" class="dell"><a href="javascript:void(0)">删除</a></li>
         </ul> 
@@ -78,272 +82,288 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
 export default {
-  name: 'HelloWorld',
-  data () {
+  name: "HelloWorld",
+  data() {
     return {
-      msg: 'Welcome to Your Vue.js App',
-      shopping_number1:'',
-      shopping_show:1,
-      culb:'',
-      vfvfv:'http://123.58.241.146:8088/xinda/pic',
-      shop:[],
-      goods_shuzi:'goods_shuzi',
-      jian:'',
-      allm:'',
-      key:1,
-      shopping_phone:'shopping_phon',
-      shp_kong:0,
-    }
+      msg: "Welcome to Your Vue.js App",
+      shopping_number1: "",
+      shopping_show: 1,
+      culb: "",
+      vfvfv: "http://123.58.241.146:8088/xinda/pic",
+      shop: [],
+      goods_shuzi: "goods_shuzi",
+      jian: "",
+      allm: "",
+      key: 1,
+      shopping_phone: "shopping_phon",
+      shp_kong: 0
+    };
   },
-  methods:{
-    jiesuan(){
-    if(this.total !=0){
-      this.ajax.post('/xinda-api/cart/submit',this.qs.stringify({	
-
-      }))
-        .then((data)=>{
-        console.log(data.data.data)
-        console.log(this.total)
-        this.$router.push({
-          path:'/dingdanxiangqing',
-          query:{
-            businessNo:data.data.data,
-            op:this.total
+  methods: {
+    ...mapActions(['jianNum']),
+    jiesuan() {
+      if (this.total != 0) {
+        this.ajax
+          .post("/xinda-api/cart/submit", this.qs.stringify({}))
+          .then(data => {
+            console.log(data.data.data);
+            console.log(this.total);
+            this.$router.push({
+              path: "/dingdanxiangqing",
+              query: {
+                businessNo: data.data.data,
+                op: this.total
+              }
+            });
+          });
+      } else {
+        alert("请购买商品");
+      }
+    },
+    spxr() {
+      this.ajax
+        .post("/xinda-api/cart/list", this.qs.stringify({}))
+        .then(data => {
+          console.log(22, data.data.data.length);
+          this.shop = data.data.data;
+          this.shopping_number1 = data.data.data.length;
+          if (this.shopping_number1 == 0) {
+            this.shopping_phone = "sp";
+            this.shp_kong = "sp_";
+          } else {
+            this.shopping_phone = "shopping_phon";
+            this.shp_kong = "sp1";
           }
-        })
-      })
-      }else{
-        alert("请购买商品")
-      }
-    },
-    spxr(){
-      this.ajax.post('/xinda-api/cart/list',this.qs.stringify({	
-
-    }))
-    .then((data)=>{
-      console.log(22,data.data.data.length)
-      this.shop = data.data.data;
-      this.shopping_number1 = data.data.data.length;
-      if(this.shopping_number1 == 0){
-        this.shopping_phone = 'sp'
-        this.shp_kong = 'sp_'
-      } else{
-        this.shopping_phone = 'shopping_phon'
-        this.shp_kong = 'sp1'
-      }
-    })
-    },//商品渲染
-    shopping_del(serviceID){
-      this.ajax.post('/xinda-api/cart/del',this.qs.stringify({	
-      id:serviceID
-      }))
-      .then((data)=>{
-        console.log(111,data)
-        this.spxr()
-      });
-    },
-    outt(serviceID,sd){
-      if(this.key){
-        this.ajax.post('/xinda-api/cart/set',this.qs.stringify({	
-        id:serviceID,
-        num:sd
-        }))
-        .then((data)=>{
-          console.log(sd)
-          console.log(11,data)
         });
-        this.key = 0;    
+    }, //商品渲染
+    shopping_del(serviceID) {
+      this.$parent.$parent.status='wait'
+      this.ajax
+        .post(
+          "/xinda-api/cart/del",
+          this.qs.stringify({
+            id: serviceID
+          })
+        )
+        .then(data => {
+          this.$parent.$parent.status='wait1'
+          this.spxr();
+          this.jianNum()
+        });
+    },
+    outt(serviceID, sd) {
+      if (this.key) {
+        this.ajax
+          .post(
+            "/xinda-api/cart/set",
+            this.qs.stringify({
+              id: serviceID,
+              num: sd
+            })
+          )
+          .then(data => {
+            console.log(sd);
+            console.log(11, data);
+          });
+        this.key = 0;
       }
     }
   },
-  watch:{
-    shopping_number1(n,o){
-      console.log('检测',n,o)
-      if(n!=o){
+  watch: {
+    shopping_number1(n, o) {
+      console.log("检测", n, o);
+      if (n != o) {
         this.$parent.$parent.number = n;
       }
     }
   },
-  computed:{
-    total(){
+  computed: {
+    total() {
       let total = 0;
       this.shop.forEach(item => {
-        total+=item.unitPrice*item.buyNum;
+        total += item.unitPrice * item.buyNum;
       });
       return total;
     }
   },
   created() {
-    this.spxr()
-    this.ajax.post('/xinda-api/recommend/list',this.qs.stringify({	
-
-    }))
-    .then((data)=>{
-      // console.log(data.data.data.hq)
-      this.culb = data.data.data.hq;
-    });
-  },
-}
+    this.spxr();
+    this.ajax
+      .post("/xinda-api/recommend/list", this.qs.stringify({}))
+      .then(data => {
+        // console.log(data.data.data.hq)
+        this.culb = data.data.data.hq;
+      });
+  }
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang='less'>
 // 外框
-@media screen and (min-width:768px){
-  .weixin_p{
+@media screen and (min-width: 768px) {
+  .weixin_p {
     display: none;
   }
-  .shopping{
+  .shopping {
     width: 1205px;
     margin: 24px auto 80px;
     font-size: 14px;
     color: #2a2a2a;
   }
-  .shopping_ag{
+  .shopping_ag {
     color: #75b2df;
     padding: 18px 0 6px 70px;
     border-bottom: 1px solid #bdbdbd;
   }
   // 菜单列表
-  .shopping_list{
+  .shopping_list {
     display: flex;
-    li{
+    li {
       margin: 23px 85px 10px 80px;
     }
   }
-  .shopping_dianpu{
-    margin:18px 0 0 80px;
+  .shopping_dianpu {
+    margin: 18px 0 0 80px;
   }
   // 详情
-  .shopping_details{
+  .shopping_details {
     display: flex;
     width: 1205px;
     height: 78px;
     background-color: #f7f7f7;
     margin: 18px 0 0 0;
-      img{
-        width: 124px;
-        height: 57px;
-        margin:10px 36px 0 9px;
-      }
-      li{
-      margin: 23px 80px 10px 80px;
-      .asp{
+    img {
+      width: 124px;
+      height: 57px;
+      margin: 10px 36px 0 9px;
+    }
+    li {
+      margin: 23px 75px 10px 75px;
+      .asp {
         background-color: #bdbdbd;
         font-size: 20px;
+        text-align:center;
+        width: 16px;
+        display: inline-block;
         font-weight: bold;
         color: #202020;
         text-decoration: none;
       }
     }
-      .shopping_c1{
-        color: #4ca1d7;
-      }
+    .shopping_c1 {
+      color: #4ca1d7;
     }
-    .shopping_remen{
-      padding: 56px 0 7px 71px;
-      border-bottom: 1px solid #bdbdbd;
-      color: #65a8dc;
-    }
-    // 结算
-  .goods_jiesuan{
+  }
+  .shopping_remen {
+    padding: 56px 0 7px 71px;
+    border-bottom: 1px solid #bdbdbd;
+    color: #65a8dc;
+  }
+  // 结算
+  .goods_jiesuan {
     width: 221px;
     height: 80px;
     position: relative;
     margin: 80px 0 0 999px;
   }
-  .goods_am{
+  .goods_am {
     color: #020202;
     margin-top: 5px;
     display: inline-block;
   }
-  .goods_shuzi{
+  .goods_shuzi {
     // margin-left: 10px;
     position: absolute;
-    font-family: '黑体';
+    font-family: "黑体";
     font-weight: bold;
     color: #2793d3;
     font-size: 30px;
   }
-  .goods_kuang{
+  .goods_kuang {
     border: 1px solid #2693d4;
     width: 102px;
-    height: 26px; 
+    height: 26px;
     margin: 12px 0 0 1px;
     border-radius: 5px;
   }
-  .goods_end{
+  .goods_end {
     text-decoration: none;
     text-align: center;
     line-height: 26px;
     display: block;
   }
-  .sd{
+  .sd {
     display: flex;
   }
-  .shopping_box2{
+  .shopping_box2 {
     width: 267px;
     height: 191px;
     border: 1px solid #eeeeee;
   }
-  .shopping_ia{
+  .shopping_ia {
     display: flex;
     justify-content: space-between;
     margin-top: 32px;
-    div{
+    div {
       text-align: center;
     }
   }
-  .shopping_p1{
+  .shopping_p1 {
     font-size: 18px;
     width: 230px;
-    white-space:nowrap;
-    overflow:hidden;
+    white-space: nowrap;
+    overflow: hidden;
     margin: 10px auto 0;
-    text-overflow:ellipsis;
+    text-overflow: ellipsis;
   }
-  .shopping_img1{
+  .shopping_img1 {
     margin: 13px 0 0 -50px;
   }
-  .shopping_p2{
-    white-space:nowrap;
-    overflow:hidden;
+  .shopping_p2 {
+    white-space: nowrap;
+    overflow: hidden;
     margin: 0 auto;
-    text-overflow:ellipsis;
+    text-overflow: ellipsis;
     width: 230px;
   }
-  .shopoing_p3{
+  .shopoing_p3 {
     margin: 9px 2px 3px -190px;
   }
-  .shopoing_p4{
+  .shopoing_p4 {
     color: #2694d3;
     font-size: 45px;
-    font-family: '黑体'
+    font-family: "黑体";
   }
-  .shopoing_p5{
+  .shopoing_p5 {
     margin: 5px 36px 3px 4px;
     display: inline-block;
-    text-decoration:line-through;
+    text-decoration: line-through;
   }
-  .shopoing_p6{
+  .shopoing_p6 {
     text-decoration: none;
     color: #53a2db;
   }
-  .shopping_g{
-    width: 100px;
+  .shopping_g {
+    width: 120px;
     height: 45px;
   }
-  .dell{
+  .dell {
     width: 28px;
     height: 45px;
   }
-  .jiajia{
-    width: 45px;
+  .jiajia {
     height: 45px;
+    span{
+      display: inline-block;
+      width: 16px;
+      text-align: center
+    }
   }
 }
-@media screen and (max-width:768px){
+@media screen and (max-width: 768px) {
   // .weixin_p{
   //   // padding-top:50px;
   //   padding-bottom:94px;
@@ -352,96 +372,96 @@ export default {
   //   position: absolute;
   //   height: 70%;
   // }
-  .shopoing_phon{
+  .shopoing_phon {
     display: block;
   }
-  .shopping{
+  .shopping {
     display: none;
   }
-  .ph_null{
+  .ph_null {
     display: none;
   }
-  .ph_top{
+  .ph_top {
     height: 40px;
     background-color: #e5e5e5;
     overflow: hidden;
   }
-  .ph_con{
+  .ph_con {
     border-bottom: 1px solid #cfcfcf;
-    padding-bottom: 21px;  
+    padding-bottom: 21px;
   }
-  .ph_1{
+  .ph_1 {
     // font-size: 24px;
     margin: 10px 0 0 21px;
   }
-  .ph_box1{
+  .ph_box1 {
     width: 768px;
     height: 256px;
   }
-  .ph_dianpu{
+  .ph_dianpu {
     font-size: 18px;
     margin: 13px 0 0 18px;
   }
-  .ph_img{
+  .ph_img {
     width: 22vw;
     height: 22vw;
     margin: 16px 0 0 16px;
     border: 2px solid #e3e3e3;
   }
-  .ph_details{
+  .ph_details {
     display: flex;
   }
-  .ph_g{
+  .ph_g {
     width: 67vw;
     margin: 10px 0 0 18px;
-    .ph_g1{
+    .ph_g1 {
       font-size: 16px;
       // width: 26vw;
-      display: inline-block
+      display: inline-block;
     }
-    .ph_g2{
+    .ph_g2 {
       margin-top: 5px;
     }
-    .asph{
+    .asph {
       font-weight: bold;
       // font-size: 16px;
       color: black;
       background-color: #ededed;
       padding: 5px 5px;
     }
-    .ph_jiajia{
+    .ph_jiajia {
       margin-top: 5px;
-      font-size:13px;
+      font-size: 13px;
     }
-    .ph_c{
+    .ph_c {
       margin-top: 5px;
-      font-size:13px;
+      font-size: 13px;
     }
   }
-  .ph_red{
+  .ph_red {
     color: #ff1518;
     font-size: 18px;
     font-weight: bold;
   }
-  .ph_g3{
+  .ph_g3 {
     display: flex;
     justify-content: space-between;
     font-size: 14px;
   }
-  .ph_dell{
+  .ph_dell {
     // font-size: 24px;
     margin-right: 5vw;
-    a{
+    a {
       color: #fe0000;
     }
   }
-  .ph_ta{
+  .ph_ta {
     color: #fd0002;
   }
-  .ph_bo{
-    margin: 12px  0 100px 38vw;
+  .ph_bo {
+    margin: 12px 0 100px 38vw;
   }
-  .ph_bottom{
+  .ph_bottom {
     // height: 112px;
     background-color: #e5e5e5;
     display: flex;
@@ -453,33 +473,33 @@ export default {
       width: 66vw;
       text-indent: 18px;
     }
-    .ph_sy{
+    .ph_sy {
       width: 33.5vw;
       background-color: #fb2d2d;
       // line-height: 112px;
       text-align: center;
-      a{
+      a {
         color: #ffffff;
       }
     }
   }
-  .kong{
+  .kong {
     width: 100vw;
     height: 100vw;
     // margin: 244px auto 0;
     display: block;
   }
-  .sp{
+  .sp {
     display: none;
   }
-  .sp1{
+  .sp1 {
     display: none;
   }
-  .sp_{
+  .sp_ {
     display: block;
     // margin-top:90px;
   }
-  .qu{
+  .qu {
     width: 220px;
     height: 70px;
     background-color: #2693d4;
@@ -487,7 +507,7 @@ export default {
     text-align: center;
     margin: 59px auto 0;
   }
-  .shouye{
+  .shouye {
     color: #ffffff;
     line-height: 70px;
     font-size: 25px;

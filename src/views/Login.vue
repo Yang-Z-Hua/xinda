@@ -105,7 +105,8 @@ export default {
               this.$router.push({
                 path: "/inner/shangpinxiangqing",
                 query: {
-                  id: this.$route.query.id
+                  id: this.$route.query.id,
+                  newPrice:this.$route.query.newPrice,
                 }
               });
               return;

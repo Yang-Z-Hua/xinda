@@ -216,6 +216,9 @@ export default {
       display: flex;
       background-color: #f7f7f7;
       border: 1px solid #b6b6b6;
+      li:nth-child(1){
+        width: 430px;
+      }
       li{
         width: 400px;
         text-align: center;
@@ -286,7 +289,7 @@ export default {
   // 结算
   .goods_jiesuan{
     width: 190px;
-    height: 80px;
+    height: 100px;
     position: relative;
     margin: 80px 0 0 999px;
   }

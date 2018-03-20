@@ -22,14 +22,19 @@
             <p class="phone_call_last">咨询结束</p>
           </li>
           <li class="phone_number">
-            <input type="text" placeholder="请输入手机号">
+            <input @blur="checkphone" v-model="phone" type="text" placeholder="请输入手机号">
+            <span class="tip">{{phoneTip}}</span>
           </li>
+          
           <li class="phone_two">
-            <input type="text" placeholder="请输入图形验证码">
+            <input type="text" v-model="checkp" placeholder="请输入图形验证码" @blur="checkpic">
+            <img :src="png" v-on:click='cha'>
+            <span class="tip">{{picTip}}</span>
           </li>
           <li class="phone_yanzheng">
-            <input type="text" placeholder="请输入验证码">
+            <input type="text" v-model="checky" placeholder="请输入验证码" @blur="checkyan">
             <button>获取验证码</button>
+            <span class="tip">{{yanTip}}</span>
           </li>
           <li class="start"><button @click="start()">开始免费咨询</button></li>
           <li class="phone_ok">
@@ -49,7 +54,7 @@
 
 
         <!-- 左部图片 -->
-        <ul class="left"><img :src="img" alt=""></ul>
+        <ul class="left"><img :src="img" alt="" @error='defaultImg'></ul>
 
         <!-- 中间详细介绍 -->
 
@@ -77,14 +82,14 @@
           <div class="num">
             <p>购买数量:</p>
             <li>
-              <button @click="n--">-</button>
+              <button @click="n<2?1:n--">-</button>
               <span>{{n}}</span>
               <button @click="n++">+</button>
             </li>
           </div>
           <li class="buy">
-            <button class="but_1">立即购买</button>
-            <button class="but_2">加入购物车</button>
+            <button class="but_1" @click="buy(n)">立即购买</button>
+            <button class="but_2" @click="market(n)">加入购物车</button>
           </li>
         </ul>
 
@@ -107,7 +112,7 @@
       <img src="../assets/images/center.png" alt="" class="guanggao">
       
 
-        <!-- pc端隐藏，客户端显示=========== -->
+        <!-- pc端隐藏，微信端显示=========== -->
         <li class="weichat_searve">
           <p>服务商家</p>
           <div></div>
@@ -185,7 +190,7 @@
             </div>
         </div>
 
-      <!-- 微信端用户评价 -->
+      <!-- 微信端用户评价 =================== 弹出框  ===============================-->
         <li class="weichat_searve weichat_people">
           <p>用户评价</p>
           <div></div>
@@ -200,14 +205,18 @@
               <p>本次电话咨询完全免费，我们将对您的号码严格保密，请放心使用！</p>
             </li>
             <li class="weichat_number">
-              <input type="text" placeholder="请输入手机号">
+              <input type="text" @blur="checkphone1" v-model="phone1" placeholder="请输入手机号">
+              <span class="tip">{{phoneTip1}}</span>
             </li>
             <li class="weichat_two">
-              <input type="text" placeholder="请输入图形验证码">
+              <input type="text" v-model="checkp1" placeholder="请输入图形验证码" @blur="checkpic1">
+              <img :src="png" v-on:click='cha'>
+              <span class="tip">{{picTip1}}</span>
             </li>
             <li class="weichat_yanzheng">
-              <input type="text" placeholder="请输入验证码">
+              <input type="text" v-model="checky1" placeholder="请输入验证码" @blur="checkyan1">
               <button>点击获取</button>
+              <span class="tip">{{yanTip1}}</span>
             </li>
             <li class="weichat_start"><button @click="free()">免费咨询</button></li>
         </ul>
@@ -226,8 +235,8 @@
             <img src="../assets/images/call.png" alt="">
             <p>联系商家</p>
           </li>
-          <li class="buylater"><p>加入购物车</p></li>
-          <li class="buynow"><p>立即购买</p></li>
+          <li class="buylater" @click="market(n)"><p>加入购物车</p></li>
+          <li class="buynow" @click="buy(n)"><p>立即购买</p></li>
         </ul>
 
       </div>
@@ -236,12 +245,41 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+const defaultImgUrl = require("../assets/images/notFound.jpg");
 export default {
   name: "HelloWorld",
+  mounted() {
+    const that = this;
+    window.onresize = function temp() {
+      if (document.documentElement.clientWidth < 768) {
+        //判断 当前页面的有效宽度
+        //shou ji
+        that.isPhone = "1";
+      } else {
+        // pc
+        that.isPhone = "0";
+      }
+    };
+  },
+
   data() {
     return {
-      msg: "Welcome to Your Vue.js App",
+      msg: "你瞅啥",
       imgSrc: "http://123.58.241.146:8088/xinda/pic",
+      png: "/xinda-api/ajaxAuthcode",
+      phone: "", //手机号
+      checkp: "", //图片
+      checky: "", //验证码
+      phoneTip: "", //手机号提示
+      picTip: "", //图片验证提示
+      yanTip: "", //验证码提示
+      phone1: "", //手机号
+      checkp1: "", //图片
+      checky1: "", //验证码
+      phoneTip1: "", //手机号提示
+      picTip1: "", //图片验证提示
+      yanTip1: "", //验证码提示
       arr: "",
       title1: "",
       img: "",
@@ -276,34 +314,42 @@ export default {
       v2: 0,
       v3: 0,
       v4: 0,
+      url: ""
     };
   },
   created() {
-    window.scrollTo(0, 0),
-      // 商品详情
-      this.ajax
-        .post(
-          "/xinda-api/product/package/detail",
-          this.qs.stringify({
-            sId: this.$route.query.id
-          })
-        )
-        .then(data => {
-          this.arr = data.data.data;
-          this.title1 = this.arr.product.name;
-          this.img = this.imgSrc + this.arr.product.img;
-          this.img2 = this.imgSrc + this.arr.provider.providerImg;
-          this.info = this.arr.provider.providerInfo;
-          this.Price = this.arr.product.marketPrice;
-          this.Pricenow = this.$route.query.newPrice;
-          this.unit = this.arr.unit;
-          this.provider = this.arr.provider.name;
-          this.area = this.arr.providerRegionText;
-          this.sum = this.arr.providerBusiness.serviceNum;
-          this.serve = this.arr.providerProduct.serviceContent;
-          this.send(this.title1);
-          this.$parent.$parent.status = "wait1";
-        });
+    window.scrollTo(0, 0)
+    console.log(this.$route.query.newPrice);
+    // 商品详情
+    this.ajax
+      .post(
+        "/xinda-api/product/package/detail",
+        this.qs.stringify({
+          sId: this.$route.query.id
+        })
+      )
+      .then(data => {
+        this.arr = data.data.data;
+        this.title1 = this.arr.product.name;
+        this.img = this.imgSrc + this.arr.product.img;
+        this.img2 = this.imgSrc + this.arr.provider.providerImg;
+        this.info = this.arr.provider.providerInfo;
+        this.Price = this.arr.product.marketPrice;
+        this.Pricenow = this.$route.query.newPrice;
+        this.unit = this.arr.unit;
+        this.provider = this.arr.provider.name;
+        this.area = this.arr.providerRegionText;
+        this.sum = this.arr.providerBusiness.serviceNum;
+        this.serve = this.arr.providerProduct.serviceContent;
+        this.send(this.title1);
+        this.$parent.$parent.status = "wait1";
+        if (this.isPhone == "1") {
+          setTimeout(() => {
+            var service_table = document.querySelector(".message table");
+            service_table.style.width = "261pt";
+          }, 0);
+        }
+      });
 
     // 商品评价接口
     this.ajax
@@ -326,6 +372,12 @@ export default {
   },
 
   methods: {
+    ...mapActions(["addNum"]),
+
+    defaultImg(e) {
+      // 错误图片的代替
+      e.target.src = defaultImgUrl;
+    },
     test(num) {
       this.currentIndex = num;
     },
@@ -400,21 +452,153 @@ export default {
     },
     contact() {
       this.v1 = 1;
-      
-      if(this.v4 == 0){
+
+      if (this.v4 == 0) {
         this.v2 = 1;
-      }else{
+      } else {
         this.v3 = 1;
         this.v2 = 0;
       }
     },
-    xxx(){
+    xxx() {
       this.v1 = 0;
+      this.phoneTip1 = "";
+      this.picTip1 = "";
+      this.phoneTip = "";
+      this.picTip = "";
     },
-    free(){
-      this.v2 = 0;
-      this.v3 = 1;
-      this.v4 = 1;
+    free() {
+      if (
+        this.phone1 == "" ||
+        this.checkp1 == "" ||
+        this.checky1 == "" ||
+        this.phoneTip1 != "" ||
+        this.picTip1 != "" ||
+        this.yanTip1 != ""
+      ) {
+        this.phoneTip1 = "手机号错误！";
+        this.picTip1 = "图形验证码错误";
+      } else {
+        console.log(this.picTip1);
+        this.v2 = 0;
+        this.v3 = 1;
+        this.v4 = 1;
+      }
+    },
+    cha() {
+      // 验证码重载
+      this.png += " ";
+    },
+    checkphone() {
+      // 加测手机号
+      var a = /^1[345789]\d{9}$/;
+      if (!a.test(this.phone)) {
+        this.phoneTip = "手机号错误！";
+      } else {
+        this.phoneTip = "";
+        return 1;
+      }
+    },
+    checkphone1() {
+      // 加测手机号
+      var a = /^1[345789]\d{9}$/;
+      if (!a.test(this.phone1)) {
+        this.phoneTip1 = "手机号错误！";
+      } else {
+        this.phoneTip1 = "";
+      }
+    },
+    // 验证图形验证码=========
+    checkpic() {
+      var a = /^\w{4}/;
+      if (!a.test(this.checkp)) {
+        this.picTip = "图形验证码错误";
+      } else {
+        this.picTip = "";
+      }
+    },
+    checkpic1() {
+      var a = /^\w{4}/;
+      if (!a.test(this.checkp1)) {
+        this.picTip1 = "图形验证码错误";
+      } else {
+        this.picTip1 = "";
+      }
+    },
+    // 验证验证码===============
+    checkyan() {},
+    checkyan1() {},
+
+
+    // 立即购买============
+    buy(n) {
+      console.log(this.$route.query.id);
+      console.log(this.$route.query.newPrice);
+      console.log(this.newPrice)
+      // 判断是否登录==============
+      this.ajax
+        .post("/xinda-api/sso/login-info", this.qs.stringify({}))
+        .then(data => {
+          if (data.data.status == 0) {
+            this.$router.push({
+              path: "/outter/login",
+              query: {
+                id: this.$route.query.id,
+                newPrice:this.$route.query.newPrice,
+              }
+            });
+          } else {
+            this.ajax
+              .post(
+                "xinda-api/cart/add",
+                this.qs.stringify({
+                  id: this.$route.query.id,
+                  num: n
+                })
+              )
+              .then(data => {
+                this.$router.push({
+                  path: "/inner/gouwuche"
+                });
+                console.log(data.data);
+              });
+          }
+        });
+    },
+
+    // 加入购物车=============
+    market(n) {
+      // 判断是否登录==============
+      this.ajax
+        .post("/xinda-api/sso/login-info", this.qs.stringify({}))
+        .then(data => {
+          console.log(this.arr.product.id);
+          if (data.data.status == 0) {
+            this.$router.push({
+              path: "/outter/login",
+              query: {
+                id: this.$route.query.id
+              }
+            });
+          } else {
+            this.ajax
+              .post(
+                "/xinda-api/cart/add",
+                this.qs.stringify({
+                  id: this.$route.query.id,
+                  num: n
+                })
+              )
+              .then(data => {
+                this.ajax
+                  .post("/xinda-api/cart/list", this.qs.stringify({}))
+                  .then(data => {
+                    this.addNum(data.data.data.length);
+                    this.$parent.$parent.number = data.data.data.length;
+                  });
+              });
+          }
+        });
     }
   }
 };
@@ -490,44 +674,50 @@ export default {
             margin-right: 10px;
           }
         }
-        .phone_number {
+        li {
           width: 50%;
+        }
+        input {
+          height: 30px;
+          border-radius: 5px;
+          border: 1px solid #ccc;
+          color: #000;
+          padding: 0 1%;
+        }
+        span {
+          color: red;
+          line-height: 30px;
+          margin-left: 5px;
+          position: absolute;
+          top: 30px;
+          left: -4px;
+        }
+        .phone_number {
           margin: 33px 0 13px;
+          position: relative;
           input {
             width: 100%;
-            height: 30px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            color: #ccc;
           }
         }
         .phone_two {
-          width: 50%;
+          position: relative;
           margin: 13px 0;
           display: flex;
           justify-content: space-between;
           input {
-            width: 60%;
-            height: 30px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            color: #ccc;
+            width: 68%;
           }
         }
         .phone_yanzheng {
-          width: 50%;
+          position: relative;
           margin: 13px 0;
           display: flex;
           justify-content: space-between;
           input {
-            width: 60%;
-            height: 30px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            color: #ccc;
+            width: 68%;
           }
           button {
-            width: 35%;
+            width: 25%;
             height: 30px;
             border-radius: 5px;
             border: 1px solid #ccc;
@@ -537,7 +727,6 @@ export default {
           }
         }
         .start {
-          width: 50%;
           margin: 13px 0;
           button {
             width: 100%;
@@ -550,6 +739,8 @@ export default {
           }
         }
         .phone_ok {
+          width: 100%;
+          text-align: center;
           margin: 8px 0;
           font-size: 14px;
           color: #666;
@@ -1086,6 +1277,8 @@ export default {
         line-height: 34px;
         color: #fff;
         font-size: 20px;
+        display: flex;
+        justify-content: space-between;
       }
       .weichat_frist {
         width: 95%;
@@ -1104,26 +1297,42 @@ export default {
         line-height: 30px;
         border-radius: 4px;
         margin: 7px 0;
+        padding: 0 1%;
       }
       li {
         width: 90%;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        position: relative;
+        span {
+          position: absolute;
+          font-size: 12px;
+          color: red;
+          top: 38px;
+          left: 8px;
+        }
       }
       .weichat_p {
         width: 88%;
         font-size: 12px;
       }
       .weichat_number {
-        width: 90%;
         input {
           width: 100%;
         }
       }
+      .weichat_two {
+        input {
+          width: 70%;
+        }
+      }
       .weichat_yanzheng {
+        input {
+          width: 70%;
+        }
         button {
-          width: 30%;
+          width: 23%;
           height: 28px;
           border: 1px solid #5dbbc0;
           color: #5dbbc0;
@@ -1140,27 +1349,26 @@ export default {
           border-radius: 4px;
         }
       }
-      
     }
-    .step_2{
-        width: 100%;
+    .step_2 {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .step_2_1 {
+        width: 80%;
+      }
+      .step_2_2 {
+        color: #5dbbc0;
+        font-size: 14px;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        .step_2_1{
-          width: 80%;
-        }
-        .step_2_2{
-          color: #5dbbc0;
-          font-size: 14px;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          width: 120px;
-          height: 80px;
-          margin:  15px 0;
-        }
+        justify-content: space-between;
+        width: 120px;
+        height: 80px;
+        margin: 15px 0;
       }
+    }
   }
 
   .weichat_provider {
@@ -1218,19 +1426,22 @@ export default {
     display: block;
     display: flex;
     width: 100%;
-    height: 90px;
+    height: 60px;
     li {
-      height: 90px;
+      height: 60px;
       width: 33.3%;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
+      font-size: 18px;
     }
     .phone {
       background-color: #eeeff3;
       color: #2d2d2b;
+      img {
+        width: 25%;
+      }
     }
     .buylater {
       background-color: #2693d4;

@@ -9,7 +9,7 @@
           <li><a href="#/outter/register">{{ljzc}}</a></li>
         </div>
         <div class="right">
-          <router-link :class="sty" to="/inner/gouwuche">购物车<span>{{number}}</span>件</router-link>
+          <router-link :class="sty" to="/inner/gouwuche">购物车<span>{{getNum}}</span>件</router-link>
           <li>服务商入口</li>
         </div>
       </ul>
@@ -77,6 +77,7 @@ export default {
     ...mapGetters(["getNum"])
   },
   created() {
+    
     this.ajax
       .post("/xinda-api/member/info", this.qs.stringify({}))
       .then(data => {
@@ -91,11 +92,12 @@ export default {
       });
     this.ajax.post("/xinda-api/cart/list", this.qs.stringify({})).then(data => {
       //初始化右上角购物车件数
-      this.number = data.data.data.length;
+      // this.number = data.data.data.length;
+      this.setNum(data.data.data.length)
     });
   },
   methods: {
-    ...mapActions(['setNum']),
+    ...mapActions(["setNum"]),
     bs(a) {
       switch (a) {
         case 0: {
