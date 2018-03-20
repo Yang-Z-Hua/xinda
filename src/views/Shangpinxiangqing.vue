@@ -532,7 +532,9 @@ export default {
 
     // 立即购买============
     buy(n) {
-      console.log(this.arr.product.id);
+      console.log(this.$route.query.id);
+      console.log(this.$route.query.newPrice);
+      console.log(this.newPrice)
       // 判断是否登录==============
       this.ajax
         .post("/xinda-api/sso/login-info", this.qs.stringify({}))
@@ -541,7 +543,8 @@ export default {
             this.$router.push({
               path: "/outter/login",
               query: {
-                id: this.$route.query.id
+                id: this.$route.query.id,
+                newPrice:this.$route.query.newPrice,
               }
             });
           } else {
