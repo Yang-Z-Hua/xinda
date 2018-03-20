@@ -593,7 +593,7 @@ export default {
               .service_i{
                 line-height: 20px;
                 width: 100%;
-                height: 90px;
+                height: 100px;
                 
               }
               li {

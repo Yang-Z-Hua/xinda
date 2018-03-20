@@ -286,7 +286,7 @@ export default {
   // 结算
   .goods_jiesuan{
     width: 190px;
-    height: 80px;
+    height: 100px;
     position: relative;
     margin: 80px 0 0 999px;
   }

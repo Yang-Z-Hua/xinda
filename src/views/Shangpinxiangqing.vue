@@ -205,15 +205,18 @@
               <p>本次电话咨询完全免费，我们将对您的号码严格保密，请放心使用！</p>
             </li>
             <li class="weichat_number">
-              <input type="text" placeholder="请输入手机号">
+              <input type="text" @blur="checkphone1" v-model="phone1" placeholder="请输入手机号">
+              <span class="tip">{{phoneTip1}}</span>
             </li>
             <li class="weichat_two">
-              <input type="text" placeholder="请输入图形验证码">
+              <input type="text" v-model="checkp1" placeholder="请输入图形验证码" @blur="checkpic1">
               <img :src="png" v-on:click='cha'>
+              <span class="tip">{{picTip1}}</span>
             </li>
             <li class="weichat_yanzheng">
-              <input type="text" placeholder="请输入验证码">
+              <input type="text" v-model="checky1" placeholder="请输入验证码" @blur="checkyan1">
               <button>点击获取</button>
+              <span class="tip">{{yanTip1}}</span>
             </li>
             <li class="weichat_start"><button @click="free()">免费咨询</button></li>
         </ul>
@@ -248,16 +251,17 @@ export default {
   mounted() {
     const that = this;
     window.onresize = function temp() {
-      if(document.documentElement.clientWidth <768){//判断 当前页面的有效宽度
-               //shou ji 
-        that.isPhone = '1'; 
-      }else{
-        // pc 
-        that.isPhone = '0';
+      if (document.documentElement.clientWidth < 768) {
+        //判断 当前页面的有效宽度
+        //shou ji
+        that.isPhone = "1";
+      } else {
+        // pc
+        that.isPhone = "0";
       }
-    }
+    };
   },
-  
+
   data() {
     return {
       msg: "你瞅啥",
@@ -269,6 +273,12 @@ export default {
       phoneTip: "", //手机号提示
       picTip: "", //图片验证提示
       yanTip: "", //验证码提示
+      phone1: "", //手机号
+      checkp1: "", //图片
+      checky1: "", //验证码
+      phoneTip1: "", //手机号提示
+      picTip1: "", //图片验证提示
+      yanTip1: "", //验证码提示
       arr: "",
       title1: "",
       img: "",
@@ -331,10 +341,10 @@ export default {
         this.serve = this.arr.providerProduct.serviceContent;
         this.send(this.title1);
         this.$parent.$parent.status = "wait1";
-         if(this.isPhone == '1'){
+        if (this.isPhone == "1") {
           setTimeout(() => {
-            var service_table=document.querySelector('.message table');
-            service_table.style.width = '261pt';
+            var service_table = document.querySelector(".message table");
+            service_table.style.width = "261pt";
           }, 0);
         }
       });
@@ -448,11 +458,28 @@ export default {
     },
     xxx() {
       this.v1 = 0;
+      this.phoneTip1 = "";
+      this.picTip1 = "";
+      this.phoneTip = "";
+      this.picTip = "";
     },
     free() {
-      this.v2 = 0;
-      this.v3 = 1;
-      this.v4 = 1;
+      if (
+        this.phone1 == "" ||
+        this.checkp1 == "" ||
+        this.checky1 == "" ||
+        this.phoneTip1 != "" ||
+        this.picTip1 != "" ||
+        this.yanTip1 != ""
+      ) {
+        this.phoneTip1 = "手机号错误！";
+        this.picTip1 = "图形验证码错误";
+      } else {
+        console.log(this.picTip1);
+        this.v2 = 0;
+        this.v3 = 1;
+        this.v4 = 1;
+      }
     },
     cha() {
       // 验证码重载
@@ -468,19 +495,35 @@ export default {
         return 1;
       }
     },
+    checkphone1() {
+      // 加测手机号
+      var a = /^1[345789]\d{9}$/;
+      if (!a.test(this.phone1)) {
+        this.phoneTip1 = "手机号错误！";
+      } else {
+        this.phoneTip1 = "";
+      }
+    },
     // 验证图形验证码=========
     checkpic() {
       var a = /^\w{4}/;
-      if (!a.test(this.phone)) {
+      if (!a.test(this.checkp)) {
         this.picTip = "图形验证码错误";
       } else {
         this.picTip = "";
       }
     },
-    // 验证验证码===============
-    checkyan() {
-
+    checkpic1() {
+      var a = /^\w{4}/;
+      if (!a.test(this.checkp1)) {
+        this.picTip1 = "图形验证码错误";
+      } else {
+        this.picTip1 = "";
+      }
     },
+    // 验证验证码===============
+    checkyan() {},
+    checkyan1() {},
     // 立即购买============
     buy(n) {
       console.log(this.arr.product.id);
@@ -666,8 +709,8 @@ export default {
           line-height: 30px;
           margin-left: 5px;
           position: absolute;
-            top: 30px;
-            left: -4px;
+          top: 30px;
+          left: -4px;
         }
         .phone_number {
           margin: 33px 0 13px;
@@ -1254,6 +1297,8 @@ export default {
         line-height: 34px;
         color: #fff;
         font-size: 20px;
+        display: flex;
+        justify-content: space-between;
       }
       .weichat_frist {
         width: 95%;
@@ -1272,26 +1317,42 @@ export default {
         line-height: 30px;
         border-radius: 4px;
         margin: 7px 0;
+        padding: 0 1%;
       }
       li {
         width: 90%;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        position: relative;
+        span {
+          position: absolute;
+          font-size: 12px;
+          color: red;
+          top: 38px;
+          left: 8px;
+        }
       }
       .weichat_p {
         width: 88%;
         font-size: 12px;
       }
       .weichat_number {
-        width: 90%;
         input {
           width: 100%;
         }
       }
+      .weichat_two {
+        input {
+          width: 70%;
+        }
+      }
       .weichat_yanzheng {
+        input {
+          width: 70%;
+        }
         button {
-          width: 30%;
+          width: 23%;
           height: 28px;
           border: 1px solid #5dbbc0;
           color: #5dbbc0;
@@ -1385,19 +1446,22 @@ export default {
     display: block;
     display: flex;
     width: 100%;
-    height: 90px;
+    height: 60px;
     li {
-      height: 90px;
+      height: 60px;
       width: 33.3%;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
+      font-size: 18px;
     }
     .phone {
       background-color: #eeeff3;
       color: #2d2d2b;
+      img {
+        width: 25%;
+      }
     }
     .buylater {
       background-color: #2693d4;
