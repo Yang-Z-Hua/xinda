@@ -2,6 +2,7 @@
   <div class="right">
     <div class="tckuang" v-show="qrsc">
       <div class="tanchuk">
+        <p class="tss">提示</p>
         <p>确认删除该订单</p>
         <ul>
           <li class="qd" @click="sc('sdw')">确定</li>
@@ -339,9 +340,13 @@ export default {
         z-index: 66;
         position: absolute;
         background: #ffffff;
+        .tss{
+          font-size:18px;
+          margin-top: 20px;
+        }
         p {
           text-align: center;
-          margin-top: 70px;
+          margin-top: 25px;
         }
         ul {
           display: flex;

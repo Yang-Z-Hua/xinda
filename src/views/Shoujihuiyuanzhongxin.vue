@@ -2,6 +2,7 @@
   <div class="public">
     <div class="tckuang" v-show="qrsc">
       <div class="tanchuk">
+        <p class="tss">提示</p>
         <p>请先登录！</p>
         <ul>
           <a href="#/outter/login"><li class="qd">确定</li></a>
@@ -133,9 +134,13 @@ export default {
         z-index: 66;
         position: absolute;
         background: #fff;
+        .tss{
+          font-size:18px;
+          margin-top: 20px;
+        }
         p {
           text-align: center;
-          margin-top: 70px;
+          margin-top: 25px;
         }
         ul {
           display: flex;
@@ -159,7 +164,7 @@ export default {
     width: 100%;
     .huiyuandl {
       text-align: center;
-      padding-top: 140px;
+      padding-top: 120px;
       .tupian {
         width: 25%;
       }
