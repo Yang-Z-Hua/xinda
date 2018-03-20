@@ -374,6 +374,9 @@ export default {
         }
       }
     }
+    .weichat_topic{
+      display: none;
+    }
   }
   .page {
     width: 1200px;
@@ -477,6 +480,9 @@ export default {
     }
     .shoplist {
       width: 100%;
+      .no{
+        display: none;
+      }
       div {
         display: flex;
         border-bottom: 1px solid #cfcfcf;

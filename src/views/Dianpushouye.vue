@@ -37,7 +37,7 @@
           </div>
           <div class="weichat_list">
             <div v-for="(four,underNum) in data_1" :key="underNum" class="weichat_goos_list">
-              <div class="left"><img :src="imgSrc+four.productImg" alt="" @click="go_shopping(four)"></div>
+              <div class="left"><img :src="imgSrc+four.productImg" alt="" @click="go_shopping(four)" @error='defaultImg'></div>
               <div class="right">
                 <p class="service_t" @click="go_shopping(four)">{{four.serviceName.split('（')[0]}}</p>
                 <p class="service_i">{{four.serviceInfo}}</p>
@@ -86,7 +86,7 @@
             <h3>QQ咨询：{{arr.qq}}</h3>
           </li>
           <li :class="bot_3">
-            <img :src="imgSrc+arr.businessCertPath" alt="">
+            <img :src="imgSrc+arr.orgCertPath" alt="">
           </li>
         </ul>
       </div>
@@ -104,6 +104,8 @@
 </template>
 
 <script>
+const defaultImgUrl = require("../assets/images/notFound.jpg");
+
 export default {
   name: "HelloWorld",
   created() {
@@ -117,6 +119,7 @@ export default {
         )
         .then(data => {
           this.arr = data.data.data;
+          console.log(this.arr)
         });
     this.ajax
       .post(
@@ -139,6 +142,7 @@ export default {
       msg: "Welcome to Your Vue.js App",
       arr: "",
       array: [],
+      data: "",
       data_1: "",
       data_2: "",
       data_wei: "",
@@ -153,6 +157,10 @@ export default {
     };
   },
   methods: {
+    defaultImg(e) {
+      // 错误图片的代替
+      e.target.src = defaultImgUrl;
+    },
     more(inn) {
       this.$router.push({
         path: "/inner/Shangpinxiangqing",
@@ -209,131 +217,48 @@ export default {
     },
     backfirst() {
       this.currentUnder = 0;
-      this.ajax
-        .post(
-          "/xinda-api/product/package/grid",
-          this.qs.stringify({
-            providerId: this.$route.query.id
-          })
-        )
-        .then(data => {
-          this.data_1 = data.data.data;
           this.data_2 = this.data_1.slice(0, 6);
-          let number = Math.ceil(this.data_1.length / 6);
-          for (let i = 0; i < number; i++) {
-            this.array[i] = i + 1;
-          }
-        });
     },
     goend() {
       this.currentUnder = Math.ceil(this.data_1.length / 6) - 1;
-      this.ajax
-        .post(
-          "/xinda-api/product/package/grid",
-          this.qs.stringify({
-            providerId: this.$route.query.id
-          })
-        )
-        .then(data => {
-          this.data_1 = data.data.data;
           this.data_2 = this.data_1.slice(
             this.currentUnder * 6,
             this.currentUnder * 6 + 6
           );
-          let number = Math.ceil(this.data_1.length / 6);
-          for (let i = 0; i < number; i++) {
-            this.array[i] = i + 1;
-          }
-        });
     },
     prev() {
       if (this.currentUnder == 0) {
         this.currentUnder = 0;
-        this.ajax
-          .post(
-            "/xinda-api/product/package/grid",
-            this.qs.stringify({
-              providerId: this.$route.query.id
-            })
-          )
-          .then(data => {
-            this.data_1 = data.data.data;
             this.data_2 = this.data_1.slice(0, 6);
-            let number = Math.ceil(this.data_1.length / 6);
-            for (let i = 0; i < number; i++) {
-              this.array[i] = i + 1;
-            }
-          });
       } else {
         this.currentUnder -= 1;
-        this.ajax
-          .post(
-            "/xinda-api/product/package/grid",
-            this.qs.stringify({
-              providerId: this.$route.query.id
-            })
-          )
-          .then(data => {
-            this.data_1 = data.data.data;
             this.data_2 = this.data_1.slice(
               this.currentUnder * 6,
               this.currentUnder * 6 + 6
             );
-            let number = Math.ceil(this.data_1.length / 6);
-            for (let i = 0; i < number; i++) {
-              this.array[i] = i + 1;
-            }
-          });
       }
     },
     next() {
       if (this.currentUnder == 3) {
         this.currentUnder = 3;
-        this.ajax
-          .post(
-            "/xinda-api/product/package/grid",
-            this.qs.stringify({
-              providerId: this.$route.query.id
-            })
-          )
-          .then(data => {
-            this.data_1 = data.data.data;
             this.data_2 = this.data_1.slice(
               this.currentUnder * 6,
               this.currentUnder * 6 + 6
             );
-            let number = Math.ceil(this.data_1.length / 6);
-            for (let i = 0; i < number; i++) {
-              this.array[i] = i + 1;
-            }
-          });
       } else {
         this.currentUnder += 1;
-        this.ajax
-          .post(
-            "/xinda-api/product/package/grid",
-            this.qs.stringify({
-              providerId: this.$route.query.id
-            })
-          )
-          .then(data => {
-            this.data_1 = data.data.data;
             this.data_2 = this.data_1.slice(
               this.currentUnder * 6,
               this.currentUnder * 6 + 6
             );
-            let number = Math.ceil(this.data_1.length / 6);
-            for (let i = 0; i < number; i++) {
-              this.array[i] = i + 1;
-            }
-          });
       }
     },
     go_shopping(four){
       this.$router.push({
         path: "/inner/Shangpinxiangqing",
         query: {
-          id: four.id
+          id: four.id,
+          newPrice:four.price
         }
       });
     }
@@ -593,7 +518,7 @@ export default {
       p {
         font-size: 15px;
         margin: 30px 10px;
-        line-height: 20px;
+        line-height: 30px;
         text-indent: 2em;
       }
       img {
@@ -641,7 +566,6 @@ export default {
             display: flex;
             margin: 10px 5px;
             border-bottom: 1px solid #ccc;
-            padding: 2% 2%;
             .left {
               width: 30%;
               display: flex;
@@ -677,7 +601,7 @@ export default {
                 display: flex;
                 font-size: 12px;
                 position: absolute;
-                bottom: 4%;
+                bottom: 6%;
                 line-height: 16px;
                 img{
                   width: 8px;
