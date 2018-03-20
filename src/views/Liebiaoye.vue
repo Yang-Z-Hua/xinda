@@ -40,7 +40,7 @@
               <!-- <img :src="img" alt=""> -->
               <img :src='imgSrc+a.productImg' alt="" @error='defaultImg' >
               <div class="zcfgs">
-                <ul @click="xpxq(a.id)">{{a.serviceName,a.price}}</ul>
+                <ul @click="xpxq(a.id,a.price)">{{a.serviceName}}</ul>
                 <li>{{a.serviceInfo}}</li>
                 <li>
                   <span>{{a.providerName}}</span>
