@@ -106,7 +106,6 @@ export default {
         this.img[i] = require("../assets/images/xlogo/d" + j + ".png");
         j++;
       }
-      console.log(111, this.arr1);
     });
     if (this.i) {
       this.chen("/xinda-api/product/package/search-grid");

@@ -169,7 +169,7 @@ export default {
     width: 100% !important;
     color: white;
     display: flex;
-    margin: -169px 0 0 0;
+    // margin: auto 0 70px 0;
     line-height: 69px;
     padding: 0 20px;
     box-sizing: border-box;
@@ -186,7 +186,7 @@ export default {
     }
   }
   .middl-2 {
-    height: 100vh;
+    // height: 100vh;
     background: #f8f8f8;
     overflow: hidden;
     .whit {
@@ -220,7 +220,7 @@ export default {
   }
   .zj {
     display: flex;
-    padding: 50px 0;
+    padding: 70px 0 ;
     margin: 0 auto;
     .d2 input,
     .d3 input {
