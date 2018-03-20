@@ -1,5 +1,25 @@
 <template>
 <div class="right">
+  <div class="tckuang" v-show="qrsc">
+  <div class="tanchuk">
+    <p class="tss">提示</p>
+    <p>是否确认修改？</p>
+    <ul>
+      <li class="qd" @click="send">确定</li>
+      <li class="qx"  @click="quxiao">取消</li>
+    </ul>
+   </div>
+  </div>
+  <div class="tckuang" v-show="qrsc">
+  <div class="tanchuk">
+    <p class="tss">提示</p>
+    <p>是否确认修改？</p>
+    <ul>
+      <li class="qd" @click="save">确定</li>
+      <li class="qx"  @click="quxiao">取消</li>
+    </ul>
+   </div>
+  </div>
   <div class="zhshez">
     <span class="xiaoyu">
       <router-link to="/shoujihuiyuanzhongxin" tag="div">
@@ -44,7 +64,7 @@
             <Area @confirm='bianma' display='ar'/>
         </div>
       </div>
-      <p class="baocun" @click="send">保存</p>
+      <p class="baocun" @click="sen">保存</p>
     </div>
     <div class="beijingse"></div>
   </div>
@@ -64,14 +84,14 @@
       </div>
       <div class="xmm">
         <p>新密码：</p>
-        <input type="password" v-model="new1">
+        <input type="password" @blur="ymm" v-model="new1">
       </div>
       <div class="zcsr">
         <p>再次输入新密码：</p>
         <input type="password" v-model="reNew1">
         <span class="tip">{{passwordTip}}</span>
       </div>
-      <p class="baocun" @click="save">保存</p>
+      <p class="baocun" @click="sen">保存</p>
     </div>  
     <div class="beijingse"></div>
   </div>
@@ -102,6 +122,7 @@ export default {
   },
   data() {
     return {
+      qrsc: false,
       xy: "<",
       pgone: "", //邮箱
       pgonets: "", //邮箱提示
@@ -124,12 +145,21 @@ export default {
     Area
   },
   methods: {
+    ymm(){
+      var pa=/^(\w){6,20}$/;
+      if (!pa.test(this.new1)) {
+        this.passwordTip = "请输入6-12位，包含字母，数字,下划线";
+      } else {
+        this.passwordTip = "";
+        return 1;
+      }
+    },
     save(){
+      this.qrsc = !this.qrsc;
       if(this.new1!=this.reNew1){
         this.passwordTip='两次密码不匹配'
       }else{
         this.passwordTip='';
-
         this.ajax
           .post(
             "/xinda-api/sso/change-pwd",
@@ -152,7 +182,14 @@ export default {
     woman() {
       this.sex = 2;
     },
+    sen() {
+      this.qrsc = !this.qrsc;
+    },
+    quxiao() {
+      this.qrsc = !this.qrsc;
+    },
     send() {
+      this.qrsc = !this.qrsc;
       this.ajax
         .post(
           "/xinda-api/member/update-info",
@@ -212,6 +249,48 @@ export default {
     display: inline-block;
     // margin-top: 36px;
     font-size: 14px;
+    .tckuang{
+      width:100%;
+      height:100%;
+      z-index:66;
+      position: fixed;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.2);
+      // display: none;
+      .tanchuk {
+        width: 70%;
+        height: 25%;
+        z-index: 66;
+        position: absolute;
+        background: #ffffff;
+        .tss{
+          font-size:18px;
+          margin-top: 20px;
+        }
+        p {
+          text-align: center;
+          margin-top: 25px;
+        }
+        ul {
+          display: flex;
+          justify-content: space-between;
+        }
+        li {
+          display: inline-block;
+          margin: 25px 20px 0 20px;
+          padding: 7px 25px;
+          color: #fff;
+        }
+        .qd {
+          background: #2693d4;
+        }
+        .qx {
+          background: #9c9c9c;
+        }
+      }
+    }
     .zhshez {
       height: 40px;
       display: -webkit-box;
@@ -302,8 +381,9 @@ export default {
   * {margin: 0;padding: 0;}
   .tip{
     color: red;
+    width: 80px;
     line-height: 25px;
-    margin-left: 10px
+    // margin-left: 10px
   }
   .rig {
     width: 100%;
@@ -329,20 +409,20 @@ export default {
       .jmm {
         display: flex;
         input {
-          margin-left: 65px;
+          margin-left: 55px;
         }
       }
       .xmm {
         display: flex;
         margin: 20px 0;
         input {
-          margin-left: 65px;
+          margin-left: 55px;
         }
       }
       .zcsr {
         display: flex;
         input {
-          margin-left: 10px;
+          // margin-left: 10px;
         }
       }
       .baocun {

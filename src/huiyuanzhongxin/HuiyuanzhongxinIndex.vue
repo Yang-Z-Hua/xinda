@@ -19,7 +19,7 @@
     </div>
     <div class="order">
       <p>订单号：</p>
-      <input type="text" v-model="No" placeholder="请输入订单号搜索">
+      <input type="text" @keypress="qwe" v-model="No" placeholder="请输入订单号搜索">
       <li @click="search">搜索</li>
     </div>
     <div class="time">
@@ -151,6 +151,12 @@ export default {
     };
   },
   methods: {
+    qwe(e){
+      if (e.keyCode == 13) {
+        this.search();
+      }
+
+    },
     fukuan(asd, mmm) {
       this.$router.push({
         path: "/dingdanxiangqing",

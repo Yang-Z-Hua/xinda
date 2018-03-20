@@ -447,8 +447,11 @@ export default {
     display: flex;
     // font-size: 28px;
     line-height: 60px;
+    position: fixed;
+    bottom: 68px;
     .ph_wub{
       width: 66vw;
+      text-indent: 18px;
     }
     .ph_sy{
       width: 33.5vw;
