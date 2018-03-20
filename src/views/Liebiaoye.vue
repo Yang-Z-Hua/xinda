@@ -91,6 +91,7 @@
   </div>
 </template>
 <script>
+import { mapActions } from "vuex";
 import Area from "../components/Area.vue";
 const defaultImgUrl = require("../assets/images/logoxz_01.png");
 export default {
@@ -226,10 +227,12 @@ export default {
           this.ajax
             .post("/xinda-api/cart/list", this.qs.stringify({}))
             .then(data => {
-              this.$parent.$parent.number = data.data.data.length;
+              // this.$parent.$parent.number = data.data.data.length;
+              this.addNum(data.data.data.length)
             });
         });
     },
+    ...mapActions(["addNum"]),
     buy(id1) {
       // 立即购买
       if (!this.$parent.$parent.user) {
@@ -354,7 +357,7 @@ export default {
         .then(data => {
           console.log(0, data.data.data.length);
           if (this.sx == 1) {
-            this.sx = 'wqwq';
+            this.sx = "wqwq";
             if (data.data.data.length == 0) {
               this.nextTip = 1;
               this.$parent.$parent.status = "wait1";
@@ -366,7 +369,7 @@ export default {
             }
           }
           if (this.sx == 0) {
-            this.sx = 'wqwq';
+            this.sx = "wqwq";
             if (this.number == 1) {
               this.prevTip = 1;
               this.$parent.$parent.status = "wait1";
