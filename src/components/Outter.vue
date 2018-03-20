@@ -38,7 +38,10 @@ export default {
       tb: "",
       de: "",
       phoneTittle: "",
-      arr:[require('../assets/images/close.png'),require('../assets/images/open.png')],
+      arr: [
+        require("../assets/images/close.png"),
+        require("../assets/images/open.png")
+      ]
     };
   },
   methods: {
@@ -170,6 +173,7 @@ export default {
     color: white;
     display: flex;
     // margin: auto 0 70px 0;
+    position: absolute;top: 470px;
     line-height: 69px;
     padding: 0 20px;
     box-sizing: border-box;
@@ -197,6 +201,10 @@ export default {
         font-size: 32px;
         span:nth-child(1) {
           position: absolute;
+          left: 10px;
+          a {
+            color: black;
+          }
         }
         span:nth-child(2) {
           text-align: center;
@@ -220,7 +228,7 @@ export default {
   }
   .zj {
     display: flex;
-    padding: 70px 0 ;
+    padding: 40px 0;
     margin: 0 auto;
     .d2 input,
     .d3 input {

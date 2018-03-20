@@ -328,10 +328,16 @@ export default {
     color: #2693d4;
   }
   .phonePub {
+    div ul{
+      line-height: 1
+    }
+    div img{
+      margin-top: 6px;
+    }
     width: 100vw;
     position: fixed;
     bottom: -2px;
-    height: 70px;
+    height: 60px;
     border-top: 1px solid #e0e0e0;
     background: #ffffff;
     display: flex;
