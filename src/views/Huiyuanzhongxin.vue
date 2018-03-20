@@ -32,9 +32,7 @@
           </router-link>
         </div>
       </div>
-      
     </div>
-    
     <router-view></router-view>
   </div>
 </template>
@@ -78,7 +76,7 @@ export default {
     if (sessionStorage.getItem("key") == 3) {
       (this.style = "dd"), (this.sty = "pj"), (this.styl = "pj");
     }
-    console.log(sessionStorage.getItem("key"));
+    // console.log(sessionStorage.getItem("key"));
     this.ajax
       .post("/xinda-api/member/info", this.qs.stringify({}))
       .then(data => {
