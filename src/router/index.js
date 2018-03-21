@@ -1,32 +1,58 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Outter from '@/components/Outter'
-import Login from '@/views/Login'
-import Register from '@/views/Register'
-import Inner from '@/components/Inner'
-import Index from '@/views/Index'
-import Forget from '@/views/Forget'
-import Huiyuanzhongxin from '@/views/Huiyuanzhongxin'
-import HuiyuanzhongxinIndex from '@/huiyuanzhongxin/HuiyuanzhongxinIndex'
-import HuiyuanzhongxinForget from '@/huiyuanzhongxin/HuiyuanzhongxinForget'
-import HuiyuanzhongxinAccount from '@/huiyuanzhongxin/HuiyuanzhongxinAccount'
-import HuiyuanzhongxinUser from '@/huiyuanzhongxin/HuiyuanzhongxinUser'
-import HuiyuanzhongxinAlready from '@/huiyuanzhongxin/HuiyuanzhongxinAlready'
-import HuiyuanzhongxinEvaluate from '@/huiyuanzhongxin/HuiyuanzhongxinEvaluate'
-import Dianpu from '@/views/Dianpu'
-import Dianpushouye from '@/views/Dianpushouye'
-import Dingdanxiangqing from '@/views/Dingdanxiangqing'
-import Gouwuche from '@/views/Gouwuche'
-import Jiamengwomen from '@/views/Jiamengwomen'
-import Liebiaoye from '@/views/Liebiaoye'
-import Shangpinxiangqing from '@/views/Shangpinxiangqing'
-import Zhifuchenggong from '@/zhifu/Zhifuchenggong'
-import Zhifushibai from '@/zhifu/Zhifushibai'
-import Zhifu from '@/views/Zhifu'
-import Search from '@/views/Search'
-import Shoujihuiyuanzhongxin from '@/views/Shoujihuiyuanzhongxin'
-import Chanpinfenlei from '@/components/Chanpinfenlei'
+// import Outter from '@/components/Outter'
+// import Inner from '@/components/Inner'
+// import Chanpinfenlei from '@/components/Chanpinfenlei'
+// import Login from '@/views/Login'
+// import Register from '@/views/Register'
+// import Index from '@/views/Index'
+// import Forget from '@/views/Forget'
+// import Huiyuanzhongxin from '@/views/Huiyuanzhongxin'
+// import HuiyuanzhongxinIndex from '@/huiyuanzhongxin/HuiyuanzhongxinIndex'
+// import HuiyuanzhongxinForget from '@/huiyuanzhongxin/HuiyuanzhongxinForget'
+// import HuiyuanzhongxinAccount from '@/huiyuanzhongxin/HuiyuanzhongxinAccount'
+// import HuiyuanzhongxinUser from '@/huiyuanzhongxin/HuiyuanzhongxinUser'
+// import HuiyuanzhongxinAlready from '@/huiyuanzhongxin/HuiyuanzhongxinAlready'
+// import HuiyuanzhongxinEvaluate from '@/huiyuanzhongxin/HuiyuanzhongxinEvaluate'
+// import Dianpu from '@/views/Dianpu'
+// import Dianpushouye from '@/views/Dianpushouye'
+// import Dingdanxiangqing from '@/views/Dingdanxiangqing'
+// import Gouwuche from '@/views/Gouwuche'
+// import Jiamengwomen from '@/views/Jiamengwomen'
+// import Liebiaoye from '@/views/Liebiaoye'
+// import Shangpinxiangqing from '@/views/Shangpinxiangqing'
+// import Zhifuchenggong from '@/zhifu/Zhifuchenggong'
+// import Zhifushibai from '@/zhifu/Zhifushibai'
+// import Zhifu from '@/views/Zhifu'
+// import Search from '@/views/Search'
+// import Shoujihuiyuanzhongxin from '@/views/Shoujihuiyuanzhongxin'
 
+const Inner = ()=>import('@/components/Inner');
+const Outter = ()=>import('@/components/Outter');
+const Chanpinfenlei = ()=>import('@/components/Chanpinfenlei');
+const Zhifuchenggong = ()=>import('@/zhifu/Zhifuchenggong');
+const Zhifushibai = ()=>import('@/zhifu/Zhifushibai');
+const HuiyuanzhongxinEvaluate = ()=>import('@/huiyuanzhongxin/HuiyuanzhongxinEvaluate');
+const HuiyuanzhongxinForget = ()=>import('@/huiyuanzhongxin/HuiyuanzhongxinForget');
+const HuiyuanzhongxinAccount = ()=>import('@/huiyuanzhongxin/HuiyuanzhongxinAccount');
+const HuiyuanzhongxinUser = ()=>import('@/huiyuanzhongxin/HuiyuanzhongxinUser');
+const HuiyuanzhongxinAlready = ()=>import('@/huiyuanzhongxin/HuiyuanzhongxinAlready');
+const HuiyuanzhongxinIndex = ()=>import('@/huiyuanzhongxin/HuiyuanzhongxinIndex');
+const Jiamengwomen = ()=>import('../views/Jiamengwomen.vue');
+const Forget = ()=>import('../views/Forget.vue');
+const Huiyuanzhongxin = ()=>import('../views/Huiyuanzhongxin.vue');
+const Login = ()=>import('../views/Login.vue');
+const Dianpu = ()=>import('../views/Dianpu.vue');
+const Register = ()=>import('../views/Register.vue');
+const Dianpushouye = ()=>import('../views/Dianpushouye.vue');
+const Zhifu = ()=>import('../views/Zhifu.vue');
+const Search = ()=>import('../views/Search.vue');
+const Shoujihuiyuanzhongxin = ()=>import('../views/Shoujihuiyuanzhongxin.vue');
+const Shangpinxiangqing = ()=>import('../views/Shangpinxiangqing.vue');
+const Liebiaoye = ()=>import('../views/Liebiaoye.vue');
+const Gouwuche = ()=>import('../views/Gouwuche.vue');
+const Dingdanxiangqing = ()=>import('../views/Dingdanxiangqing.vue');
+const Index = ()=>import('../views/Index.vue');
 Vue.use(Router)
 
 export default new Router({
