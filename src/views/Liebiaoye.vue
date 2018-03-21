@@ -140,7 +140,9 @@ export default {
     }
     window.scrollTo(0, 0);
     this.ajax
-      .post("/xinda-api/product/style/list", this.qs.stringify({}))
+      .post("/xinda-api/product/style/list", this.qs.stringify({
+        
+      }))
       .then(data => {
         this.data = data;
         this.data1 = this.$route.query.id;
