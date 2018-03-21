@@ -28,7 +28,6 @@
 </template>
 
 <script>
-import md5 from "md5";
 export default {
   name: "HelloWorld",
   data() {
@@ -39,7 +38,7 @@ export default {
       new1: "",
       reNew1: "",
       passwordTip: "",
-      xinmim:""
+      xinmim: ""
     };
   },
   created() {
@@ -47,10 +46,10 @@ export default {
     this.user = this.$parent.$parent.$parent.user;
   },
   methods: {
-    ymm(){
-      var pa=/^(\w){6,20}$/;
+    ymm() {
+      var pa = /^(\w){6,20}$/;
       if (!pa.test(this.new1)) {
-        this.xinmim = "请输入6-12位，包含字母，数字,下划线";
+        this.xinmim = "请输入6-12位密码";
       } else {
         this.xinmim = "";
         return 1;
@@ -60,8 +59,12 @@ export default {
       if (this.new1 != this.reNew1) {
         this.passwordTip = "两次密码不匹配";
       } else {
+        var pa = /^(\w){6,20}$/;
+        if (!pa.test(this.new1)) {
+          this.xinmim = "请输入6-12位密码";
+          return;
+        }
         this.passwordTip = "";
-
         this.ajax
           .post(
             "/xinda-api/sso/change-pwd",

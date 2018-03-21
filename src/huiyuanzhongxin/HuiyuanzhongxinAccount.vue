@@ -104,20 +104,19 @@
 
 <script>
 import Area from "../components/Area";
-import md5 from 'md5'
 export default {
   name: "HelloWorld",
   created() {
     window.scrollTo(0, 0);
-    this.$parent.$parent.$parent.status='wait'
-    this.user=this.$parent.$parent.$parent.user;
+    this.$parent.$parent.$parent.status = "wait";
+    this.user = this.$parent.$parent.$parent.user;
     this.ajax
       .post("/xinda-api/member/info", this.qs.stringify({}))
       .then(data => {
         this.data = data.data.data;
         this.mingzi = this.data.name;
         this.pgone = this.data.email;
-        this.$parent.$parent.$parent.status='wait1'
+        this.$parent.$parent.$parent.status = "wait1";
         if (this.data.gender == 1) {
           this.aaa = true;
         } else {
@@ -139,45 +138,50 @@ export default {
       aaa: false,
       bbb: false,
 
-      user:'',
-      old:'',
-      oldTip:'',
-      new1:'',
-      reNew1:'',
-      passwordTip:'',
-      xinmim:''
+      user: "",
+      old: "",
+      oldTip: "",
+      new1: "",
+      reNew1: "",
+      passwordTip: "",
+      xinmim: ""
     };
   },
   components: {
     Area
   },
   methods: {
-    ymm(){
-      var pa=/^(\w){6,20}$/;
+    ymm() {
+      var pa = /^(\w){6,20}$/;
       if (!pa.test(this.new1)) {
-        this.xinmim = "请输入6-12位，包含字母，数字,下划线";
+        this.xinmim = "请输入6-12位密码";
       } else {
         this.xinmim = "";
         return 1;
       }
     },
-    save(){
+    save() {
       this.qrsc = !this.qrsc;
-      if(this.new1!=this.reNew1){
-        this.passwordTip='两次密码不匹配'
-      }else{
-        this.passwordTip='';
+      if (this.new1 != this.reNew1) {
+        this.passwordTip = "两次密码不匹配";
+      } else {
+        var pa = /^(\w){6,20}$/;
+        if (!pa.test(this.new1)) {
+          this.xinmim = "请输入6-12位密码";
+          return;
+        }
+        this.passwordTip = "";
         this.ajax
           .post(
             "/xinda-api/sso/change-pwd",
             this.qs.stringify({
-              oldPwd:md5(this.old) ,	 
-              newPwd:md5(this.new1)
+              oldPwd: md5(this.old),
+              newPwd: md5(this.new1)
             })
           )
           .then(data => {
-          this.oldTip=data.data.msg
-        });
+            this.oldTip = data.data.msg;
+          });
       }
     },
     bianma(a) {
@@ -214,8 +218,7 @@ export default {
             regionId: this.youbian
           })
         )
-        .then(data => {
-        });
+        .then(data => {});
     },
     email() {
       var a = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
@@ -254,7 +257,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 @media (max-width: 768px) {
-  * {margin: 0;
+  * {
+    margin: 0;
     padding: 0;
   }
   .right {
@@ -262,10 +266,10 @@ export default {
     display: inline-block;
     // margin-top: 36px;
     font-size: 14px;
-    .tckuang{
-      width:100%;
-      height:100%;
-      z-index:66;
+    .tckuang {
+      width: 100%;
+      height: 100%;
+      z-index: 66;
       position: fixed;
       display: flex;
       justify-content: center;
@@ -273,10 +277,10 @@ export default {
       background: rgba(0, 0, 0, 0.2);
       // display: none;
     }
-    .tckuangg{
-      width:100%;
-      height:100%;
-      z-index:67;
+    .tckuangg {
+      width: 100%;
+      height: 100%;
+      z-index: 67;
       position: fixed;
       display: flex;
       justify-content: center;
@@ -285,36 +289,36 @@ export default {
       // display: none;
     }
     .tanchuk {
-        width: 70%;
-        height: 150px;
-        z-index: 66;
-        position: absolute;
-        background: #ffffff;
-        .tss{
-          font-size:18px;
-          margin-top: 5%;
-        }
-        p {
-          text-align: center;
-          margin-top: 8%;
-        }
-        ul {
-          display: flex;
-          justify-content: space-between;
-        }
-        li {
-          display: inline-block;
-          margin: 25px 20px 0 20px;
-          padding: 7px 25px;
-          color: #fff;
-        }
-        .qd {
-          background: #2693d4;
-        }
-        .qx {
-          background: #9c9c9c;
-        }
+      width: 70%;
+      height: 150px;
+      z-index: 66;
+      position: absolute;
+      background: #ffffff;
+      .tss {
+        font-size: 18px;
+        margin-top: 5%;
       }
+      p {
+        text-align: center;
+        margin-top: 8%;
+      }
+      ul {
+        display: flex;
+        justify-content: space-between;
+      }
+      li {
+        display: inline-block;
+        margin: 25px 20px 0 20px;
+        padding: 7px 25px;
+        color: #fff;
+      }
+      .qd {
+        background: #2693d4;
+      }
+      .qx {
+        background: #9c9c9c;
+      }
+    }
     .zhshez {
       height: 40px;
       display: -webkit-box;
@@ -355,8 +359,8 @@ export default {
     .information {
       height: 205px;
       margin-left: 15px;
-      .mingbx{
-        padding-left:27px;
+      .mingbx {
+        padding-left: 27px;
       }
       .xingming {
         display: flex;
@@ -405,26 +409,29 @@ export default {
     }
   }
   // 手机端修改密码
-  * {margin: 0;padding: 0;}
-  .tip{
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  .tip {
     color: red;
     line-height: 25px;
-    margin-left: 110px
+    margin-left: 110px;
   }
   .rig {
     width: 100%;
     display: inline-block;
     margin-top: 15px;
     font-size: 14px;
-    margin-bottom:20px;
+    margin-bottom: 20px;
     .rig-top {
       height: 21px;
       border-bottom: 2px solid #2693d4;
-      .xgmi{
+      .xgmi {
         margin-left: 10px;
       }
-      .wd{
-         display: none;
+      .wd {
+        display: none;
       }
     }
     .password {
@@ -468,11 +475,14 @@ export default {
 }
 
 @media (min-width: 769px) {
-  * { margin: 0;padding: 0;}
-  .tckuang{
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  .tckuang {
     display: none;
   }
-  .rig{
+  .rig {
     display: none;
   }
   .right {
@@ -557,7 +567,7 @@ export default {
         }
       }
       .baocun {
-       display: none;
+        display: none;
       }
       .baocun1 {
         margin: 41px 0 0 95px;

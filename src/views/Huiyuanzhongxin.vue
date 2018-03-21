@@ -66,6 +66,7 @@ export default {
   },
   created() {
     window.scrollTo(0, 0);
+    
     if (sessionStorage.getItem("key") == 1) {
       this.sty = "dd";
       this.style = "pj";
@@ -78,6 +79,12 @@ export default {
       (this.style = "dd"), (this.sty = "pj"), (this.styl = "pj");
     }
     // console.log(sessionStorage.getItem("key"));
+    if(this.$route.query.chn==1){
+      this.sty = "dd";
+      this.style = "pj";
+      this.styl = "pj";
+      // return
+    }
     this.ajax
       .post("/xinda-api/member/info", this.qs.stringify({}))
       .then(data => {
