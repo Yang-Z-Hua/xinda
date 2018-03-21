@@ -14,7 +14,8 @@
     </div>
     <div class="xmm">
       <p>新密码：</p>
-      <input type="password" v-model="new1">
+      <input type="password" @blur="ymm" v-model="new1">
+      <li class="tip">{{xinmim}}</li>
     </div>
     <div class="zcsr">
       <p>再次输入新密码：</p>
@@ -37,14 +38,31 @@ export default {
       oldTip: "",
       new1: "",
       reNew1: "",
-      passwordTip: ""
+      passwordTip: "",
+      xinmim:""
     };
   },
   created() {
     this.user = this.$parent.$parent.$parent.user;
   },
   methods: {
+    ymm(){
+      var pa=/^(\w){6,20}$/;
+      if (!pa.test(this.new1)) {
+        this.xinmim = "请输入6-12位，包含字母，数字,下划线";
+      } else {
+        this.xinmim = "";
+        return 1;
+      }
+    },
     save() {
+      var pa=/^(\w){6,20}$/;
+      if (!pa.test(this.new1)) {
+        this.xinmim = "请输入6-12位，包含字母，数字,下划线";
+      } else {
+        this.xinmim = "";
+        return 1;
+      }
       if (this.new1 != this.reNew1) {
         this.passwordTip = "两次密码不匹配";
       } else {
@@ -59,7 +77,7 @@ export default {
             })
           )
           .then(data => {
-            this.passwordTip = data.data.msg;
+            this.oldTip = data.data.msg;
           });
       }
     }
