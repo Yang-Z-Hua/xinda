@@ -224,7 +224,7 @@ export default {
       // 添加到购物车并且修改右上角购物车数量
       this.ajax
         .post(
-          "xinda-api/cart/add",
+          "/xinda-api/cart/add",
           this.qs.stringify({
             id: id1,
             num: 1
@@ -255,7 +255,7 @@ export default {
       }
       this.ajax
         .post(
-          "xinda-api/cart/add",
+          "/xinda-api/cart/add",
           this.qs.stringify({
             id: id1,
             num: 1
