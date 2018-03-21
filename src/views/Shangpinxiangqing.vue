@@ -611,16 +611,23 @@ export default {
             this.$router.push({
               path: "/outter/login",
               query: {
-                id: this.$route.query.id
+                id: this.$route.query.id,
+                newPrice:this.$route.query.newPrice,
               }
             });
           } else {
+            var sss;
+            if(this.isPhone == 1){
+                sss = 1;  
+              }else{
+                sss = n;  
+              }
             this.ajax
               .post(
                 "/xinda-api/cart/add",
                 this.qs.stringify({
                   id: this.$route.query.id,
-                  num: n
+                  num: sss
                 })
               )
               .then(data => {
