@@ -468,33 +468,27 @@ export default {
       this.picTip = "";
     },
     start(){
-      if (
-        this.phone == "" ||
-        this.checkp == "" ||
-        this.checky == "" ||
-        this.phoneTip != "" ||
-        this.picTip != "" ||
-        this.yanTip != ""
-      ) {
+      if(this.phone == ""||this.phoneTip != ""){
         this.phoneTip = "手机号错误！";
+      }else if(this.checky == ""|| this.picTip != ""){
         this.picTip = "图形验证码错误";
-      } else {
+      }
+      else if(this.phoneTip == ""||this.yanTip != ""){
+        this.yanTip = "验证码错误";
+      }else {
         this.v2 = 0;
         this.v3 = 1;
         this.v4 = 1;
       }
     },
     free() {
-      if (
-        this.phone1 == "" ||
-        this.checkp1 == "" ||
-        this.checky1 == "" ||
-        this.phoneTip1 != "" ||
-        this.picTip1 != "" ||
-        this.yanTip1 != ""
-      ) {
+      if(this.phone1 == ""||this.phoneTip1 != ""){
         this.phoneTip1 = "手机号错误！";
+      }else if(this.checky1 == ""|| this.picTip1 != ""){
         this.picTip1 = "图形验证码错误";
+      }
+      else if(this.phoneTip1 == ""||this.yanTip1 != ""){
+        this.yanTip1 = "验证码错误";
       } else {
         console.log(this.picTip1);
         this.v2 = 0;
@@ -527,7 +521,7 @@ export default {
     },
     // 验证图形验证码=========
     checkpic() {
-      var a = /^\w{4}/;
+      var a = /\w{4}/;
       if (!a.test(this.checkp)) {
         this.picTip = "图形验证码错误";
       } else {
@@ -535,7 +529,7 @@ export default {
       }
     },
     checkpic1() {
-      var a = /^\w{4}/;
+      var a = /\w{4}/;
       if (!a.test(this.checkp1)) {
         this.picTip1 = "图形验证码错误";
       } else {
