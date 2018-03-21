@@ -469,24 +469,27 @@ export default {
       this.picTip = "";
     },
     start() {
-      if (this.phone == "" || this.phoneTip != "") {
+      if (this.phone == ""||this.phoneTip!='') {
         this.phoneTip = "手机号错误！";
-      } else if (this.checky == "" || this.picTip != "") {
+      } else if (this.checkp == ""||this.picTip!='') {
         this.picTip = "图形验证码错误";
-      } else if (this.phoneTip == "" || this.yanTip != "") {
+      } else if (this.checky == ""||this.yanTip!='') {
         this.yanTip = "验证码错误";
       } else {
         this.v2 = 0;
         this.v3 = 1;
         this.v4 = 1;
+        this.phoneTip = "";
+        this.picTip = "";
+        this.yanTip = "";
       }
     },
     free() {
-      if (this.phone1 == "" || this.phoneTip1 != "") {
+      if (this.phone1 == ""||this.phoneTip1!='') {
         this.phoneTip1 = "手机号错误！";
-      } else if (this.checky1 == "" || this.picTip1 != "") {
+      } else if (this.checkp1 == ""||this.picTip1!='') {
         this.picTip1 = "图形验证码错误";
-      } else if (this.phoneTip1 == "" || this.yanTip1 != "") {
+      } else if (this.checky1 == ""||this.yanTip1!='') {
         this.yanTip1 = "验证码错误";
       } else {
         this.v2 = 0;
@@ -536,7 +539,7 @@ export default {
     },
     // 验证验证码===============
     checkyan() {
-      var a = /^\d{6}/;
+      var a = /\d{6}/;
       if (!a.test(this.checky)) {
         this.yanTip = "验证码错误";
       } else {
@@ -544,7 +547,7 @@ export default {
       }
     },
     checkyan1() {
-      var a = /^\d{6}/;
+      var a = /\d{6}/;
       if (!a.test(this.checky1)) {
         this.yanTip1 = "验证码错误";
       } else {
@@ -555,7 +558,6 @@ export default {
     // 立即购买============
     buy(n) {
       // 判断是否登录==============
-      console.log(this.$route.query.newPrice);
       this.ajax
         .post("/xinda-api/sso/login-info", this.qs.stringify({}))
         .then(data => {
@@ -1339,7 +1341,6 @@ export default {
       align-items: center;
       input {
         border: 1px solid #dcdcdc;
-        color: #dcdcdc;
         line-height: 30px;
         border-radius: 4px;
         margin: 7px 0;
@@ -1393,6 +1394,7 @@ export default {
           color: #5dbbc0;
           border: 1px solid #5dbbc0;
           border-radius: 4px;
+          margin-top: 10px;
         }
       }
     }

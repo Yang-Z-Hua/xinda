@@ -270,6 +270,7 @@ export default {
   created() {
     var a = 1;
     window.scrollTo(0, 0);
+    rf.$parent.$parent.status = "wait1";
     var rf = this;
     document.onscroll = function() {
       if (a) {
@@ -676,7 +677,7 @@ export default {
       }
     }
     div:hover {
-      box-shadow: 0 0 2px 2px #71c2f1;
+      box-shadow: 0 0 2px 2px #a7d8f5;
     }
   }
 
@@ -718,6 +719,9 @@ export default {
       cursor: pointer;
       width: 254px;
       height: 382px;
+    }
+    .picture:hover{
+      box-shadow: 0 0 2px 2px rgb(192, 236, 247)
     }
   }
   .move_lead {

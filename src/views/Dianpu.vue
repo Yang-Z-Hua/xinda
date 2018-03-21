@@ -84,7 +84,6 @@ export default {
   },
   created() {
     if (this.$route.query.all == 1) {
-      console.log(this.$parent.fwsAll);
       this.$parent.$parent.status = "wait";
       window.scrollTo(0, 0);
       if (this.$parent.fwsAll) {
