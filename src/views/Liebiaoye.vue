@@ -186,14 +186,14 @@ export default {
       //加入购物车抬起背景
       this.jrgwc = "";
     },
-    xpxq(a,b) {
+    xpxq(a, b) {
       // 点击商品标题
       this.$parent.$parent.status = "wait";
       this.$router.push({
         path: "/inner/shangpinxiangqing",
         query: {
           id: a,
-          newPrice:b
+          newPrice: b
         }
       });
     },
@@ -229,7 +229,7 @@ export default {
             .post("/xinda-api/cart/list", this.qs.stringify({}))
             .then(data => {
               // this.$parent.$parent.number = data.data.data.length;
-              this.addNum(data.data.data.length)
+              this.addNum(data.data.data.length);
             });
         });
     },
@@ -356,12 +356,11 @@ export default {
           })
         )
         .then(data => {
-          console.log(0, data);
+          this.$parent.$parent.status = "wait1";
           if (this.sx == 1) {
             this.sx = "wqwq";
             if (data.data.data.length == 0) {
               this.nextTip = 1;
-              this.$parent.$parent.status = "wait1";
               this.num -= this.fanye;
               return;
             } else {
@@ -373,7 +372,6 @@ export default {
             this.sx = "wqwq";
             if (this.number == 1) {
               this.prevTip = 1;
-              this.$parent.$parent.status = "wait1";
               this.num += this.fanye;
               return;
             } else {
@@ -382,7 +380,6 @@ export default {
           }
           this.arr = data.data.data;
           this.arrLength = this.arr.length;
-          this.$parent.$parent.status = "wait1";
         });
     },
     zh() {

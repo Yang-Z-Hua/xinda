@@ -4,7 +4,7 @@
     <div class="company">
       <ul>
         <li class="area">服务区域</li>
-        <li class="kind"><Area @confirm="close"></Area></li>
+        <li class="kind"><Area @confirm="close"/></li>
       </ul>
       <ul>
         <li class="area">产品类型</li>
@@ -88,7 +88,7 @@ export default {
         window.scrollTo(0, 0),
         this.ajax.post("/xinda-api/provider/grid").then(data => {
           this.arr = data.data.data;
-          this.$parent.$parent.status = "";
+          this.$parent.$parent.status = "wait1";
         });
     } else if (this.$route.query.arr.length != 0) {
       this.arr = this.$route.query.arr;

@@ -278,7 +278,7 @@ export default {
     cursor: wait !important;
     display: block;
     position: fixed;
-    top: -70px;
+    bottom: 60px;
     left: 0;
     width: 100vw;
     height: 100vh;

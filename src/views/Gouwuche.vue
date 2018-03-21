@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import { mapActions } from "vuex";
 export default {
   name: "HelloWorld",
   data() {
@@ -102,7 +102,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['jianNum']),
+    ...mapActions(["jianNum"]),
     jiesuan() {
       if (this.total != 0) {
         this.ajax
@@ -139,7 +139,7 @@ export default {
         });
     }, //商品渲染
     shopping_del(serviceID) {
-      this.$parent.$parent.status='wait'
+      this.$parent.$parent.status = "wait";
       this.ajax
         .post(
           "/xinda-api/cart/del",
@@ -148,9 +148,9 @@ export default {
           })
         )
         .then(data => {
-          this.$parent.$parent.status='wait1'
+          this.$parent.$parent.status = "wait1";
           this.spxr();
-          this.jianNum()
+          this.jianNum();
         });
     },
     outt(serviceID, sd) {
@@ -189,12 +189,13 @@ export default {
     }
   },
   created() {
+    this.$parent.$parent.status = "wait";
     this.spxr();
     this.ajax
       .post("/xinda-api/recommend/list", this.qs.stringify({}))
       .then(data => {
-        // console.log(data.data.data.hq)
         this.culb = data.data.data.hq;
+        this.$parent.$parent.status = "wait1";
       });
   }
 };
@@ -245,7 +246,7 @@ export default {
       .asp {
         background-color: #bdbdbd;
         font-size: 20px;
-        text-align:center;
+        text-align: center;
         width: 16px;
         display: inline-block;
         font-weight: bold;
@@ -356,10 +357,10 @@ export default {
   }
   .jiajia {
     height: 45px;
-    span{
+    span {
       display: inline-block;
       width: 16px;
-      text-align: center
+      text-align: center;
     }
   }
 }
@@ -468,8 +469,8 @@ export default {
     // font-size: 28px;
     line-height: 60px;
     position: fixed;
-    bottom: 68px;
-    .ph_wub{
+    bottom: 58px;
+    .ph_wub {
       width: 66vw;
       text-indent: 18px;
     }
