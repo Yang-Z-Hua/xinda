@@ -51,7 +51,9 @@
               <div class="sizeal">
                 <ul>￥{{a.price}}</ul>
                 <li>
-                  <p :class="animi==a.id?'dong':''"></p>
+                  <p :class="animi==a.id?'dong':''">
+                    <img :class="animi==a.id?'dong':''" src="../assets/images/qwewe.png" alt="">
+                  </p>
                   <span @mousedown="gm(a.id)" @mouseup="gm1" :class="ljgm==a.id?'down':''" @click="buy(a.id)">立即购买</span>
                   <span @mousedown="gw(a.id)" @mouseup="gw1" :class="jrgwc==a.id?'down':''" @click="gouwuche(a.id)">加入购物车</span>
                 </li>
@@ -140,9 +142,7 @@ export default {
     }
     window.scrollTo(0, 0);
     this.ajax
-      .post("/xinda-api/product/style/list", this.qs.stringify({
-        
-      }))
+      .post("/xinda-api/product/style/list", this.qs.stringify({}))
       .then(data => {
         this.data = data;
         this.data1 = this.$route.query.id;
@@ -168,8 +168,8 @@ export default {
       this.fwfl(this.data1);
     }
   },
-  computed:{
-    ...mapGetters(['getNum'])
+  computed: {
+    ...mapGetters(["getNum"])
   },
   methods: {
     defaultImg(e) {
@@ -265,7 +265,7 @@ export default {
           this.$router.push({
             path: "/inner/gouwuche"
           });
-          this.addNum(this.getNum+1);
+          this.addNum(this.getNum + 1);
         });
     },
     next() {
@@ -555,20 +555,23 @@ export default {
             .sizeal li {
               position: relative;
             }
-            .sizeal li p {
+            .sizeal li p img {
               position: absolute;
               top: 35px;
+              z-index: 999;
               right: 46px;
+              opacity: 0;
+              left: -390px;
               display: inline-block;
               border-radius: 5px;
-              background-image: url("../assets/images/qwewe.png");
+              // background-image: url("../../static/qwewe.png");
               transition: transform 0.5s cubic-bezier(0.47, 0, 0.745, 0.715);
             }
-            .sizeal li p.dong {
+            .sizeal li p img.dong {
               width: 600px;
               height: 60px;
               opacity: 0.7;
-              transform: translate(375px, -540px);
+              transform: translate(375px, -420px);
             }
             .sizeal li span.down {
               background: cyan;
