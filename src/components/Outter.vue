@@ -172,8 +172,8 @@ export default {
     width: 100% !important;
     color: white;
     display: flex;
-    // margin: auto 0 70px 0;
-    position: absolute;top: 470px;
+    position: absolute;
+    top: 470px;
     line-height: 69px;
     padding: 0 20px;
     box-sizing: border-box;
@@ -228,7 +228,7 @@ export default {
   }
   .zj {
     display: flex;
-    padding: 40px 0;
+    padding: 40px 0 250px;
     margin: 0 auto;
     .d2 input,
     .d3 input {
