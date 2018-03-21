@@ -4,7 +4,7 @@
     <div class="company">
       <ul>
         <li class="area">服务区域</li>
-        <li class="kind"><Area @confirm="close"/></li>
+        <li class="kind"><Area display="lby" @confirm="close"/></li>
       </ul>
       <ul>
         <li class="area">产品类型</li>

@@ -92,6 +92,7 @@
 </template>
 <script>
 import { mapActions } from "vuex";
+import { mapGetters } from "vuex";
 import Area from "../components/Area.vue";
 const defaultImgUrl = require("../assets/images/logoxz_01.png");
 export default {
@@ -164,6 +165,9 @@ export default {
       this.firstName = this.$route.query.firstName;
       this.fwfl(this.data1);
     }
+  },
+  computed:{
+    ...mapGetters(['getNum'])
   },
   methods: {
     defaultImg(e) {
@@ -259,20 +263,15 @@ export default {
           this.$router.push({
             path: "/inner/gouwuche"
           });
+          this.addNum(this.getNum+1);
         });
     },
     next() {
       // 下一页
       this.sx = 1;
       this.prevTip = 0;
-      // if (this.arrLength < this.fanye) {
-      //   this.nextTip = 1;
-      //   return;
-      // } else {
       this.num += this.fanye;
-      //   this.number++;
       this.chen(this.fyCode, this.fyId, this.pxIndex);
-      // }
     },
     prev() {
       //上一页

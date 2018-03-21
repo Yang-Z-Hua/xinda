@@ -26,20 +26,22 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import md5 from "md5";
 export default {
   name: "HelloWorld",
   created() {
-    this.$parent.$parent.status='wait'
+    this.$parent.$parent.status = "wait";
     this.$parent.ask = "还没有账号？";
     this.$parent.phoneTittle = "登录";
     this.$parent.meth = "立即注册";
     this.$parent.tb = "欢迎登录";
     this.$parent.de = "register";
     console.log(this.$route.query.id);
-    var a=this;
-    setTimeout(function(){a.$parent.$parent.status = "wait1";},200)
-    
+    var a = this;
+    setTimeout(function() {
+      a.$parent.$parent.status = "wait1";
+    }, 200);
   },
   data() {
     return {
@@ -52,21 +54,22 @@ export default {
       password: "",
       yzm: "",
       tip: "",
-      i:1,
+      i: 1,
       kan: this.$parent.arr[0],
-      type1:'password'
+      type1: "password"
     };
   },
   methods: {
-    kanj(){
-      if(this.i){
-        this.i=!this.i;
-        this.kan=this.$parent.arr[1];
-        this.type1='text'
-      }else{
-        this.i=!this.i;
-        this.kan=this.$parent.arr[0];
-        this.type1='password'
+    ...mapActions(["setNum"]),
+    kanj() {
+      if (this.i) {
+        this.i = !this.i;
+        this.kan = this.$parent.arr[1];
+        this.type1 = "text";
+      } else {
+        this.i = !this.i;
+        this.kan = this.$parent.arr[0];
+        this.type1 = "password";
       }
     },
     inpu(e) {
@@ -106,7 +109,7 @@ export default {
                 path: "/inner/shangpinxiangqing",
                 query: {
                   id: this.$route.query.id,
-                  newPrice:this.$route.query.newPrice,
+                  newPrice: this.$route.query.newPrice
                 }
               });
               return;
@@ -117,8 +120,8 @@ export default {
             this.ajax
               .post("/xinda-api/cart/list", this.qs.stringify({}))
               .then(data => {
-                this.$parent.$parent.number = data.data.data.length;
                 this.$parent.$parent.sty = "show";
+                this.setNum(data.data.data.length);
               });
           }
         });
