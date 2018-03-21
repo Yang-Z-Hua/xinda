@@ -80,7 +80,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style  lang='less'>
+<style scoped  lang='less'>
 .product_list {
   width: 100%;
   ul {

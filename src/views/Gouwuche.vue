@@ -391,8 +391,8 @@ export default {
     width: 768px;
     height: 256px;
   }
-  .ph_dianpu {
-    font-size: 18px;
+  .ph_dianpu{
+    font-size: 15px;
     margin: 13px 0 0 18px;
   }
   .ph_img {

@@ -373,6 +373,7 @@ export default {
       width: 1000px;
       // display: flex;
       position: absolute;
+      z-index: 9999;
       top: 32px;
       left: 0;
       .product_list {
