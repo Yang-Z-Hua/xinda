@@ -139,7 +139,7 @@ export default {
     },
     logOut() {
       //退出登录
-      this.status = "wait";
+      // this.status = "wait";
       this.ajax
         .post("/xinda-api/sso/logout", this.qs.stringify({}))
         .then(data => {});
