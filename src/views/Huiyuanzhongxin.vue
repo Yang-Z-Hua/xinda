@@ -65,6 +65,7 @@ export default {
     }
   },
   created() {
+    window.scrollTo(0, 0);
     if (sessionStorage.getItem("key") == 1) {
       this.sty = "dd";
       this.style = "pj";

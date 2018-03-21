@@ -55,6 +55,9 @@
 <script>
 export default {
   name: 'HelloWorld',
+  created() {
+    window.scrollTo(0, 0);
+    },
     data(){
         return {
             inputdata:'5'

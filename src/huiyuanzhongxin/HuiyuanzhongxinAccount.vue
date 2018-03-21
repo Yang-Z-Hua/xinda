@@ -66,6 +66,7 @@
         </div>
       </div>
       <p class="baocun" @click="senn">保存</p>
+      <p class="baocun1" @click="send">保存</p>
     </div>
     <div class="beijingse"></div>
   </div>
@@ -107,6 +108,7 @@ import md5 from 'md5'
 export default {
   name: "HelloWorld",
   created() {
+    window.scrollTo(0, 0);
     this.$parent.$parent.$parent.status='wait'
     this.user=this.$parent.$parent.$parent.user;
     this.ajax
@@ -394,6 +396,9 @@ export default {
         border-radius: 10%;
         cursor: pointer;
       }
+      .baocun1 {
+        display: none;
+      }
     }
     .ts {
       color: red;
@@ -447,7 +452,7 @@ export default {
         }
       }
       .baocun {
-        margin: 29px 0 20px 123px;
+        margin: 29px 0 20px 113px;
         display: inline-block;
         padding: 5px 20px;
         color: #2992d3;
@@ -464,6 +469,9 @@ export default {
 
 @media (min-width: 769px) {
   * { margin: 0;padding: 0;}
+  .tckuang{
+    display: none;
+  }
   .rig{
     display: none;
   }
@@ -489,6 +497,7 @@ export default {
         z-index: 2;
         position: absolute;
         margin-left: 9px;
+        cursor: pointer;
       }
       .xgmm {
         display: inline-block;
@@ -498,6 +507,7 @@ export default {
         z-index: 2;
         position: absolute;
         margin-left: 135px;
+        cursor: pointer;
       }
     }
     .touxiang {
@@ -547,6 +557,9 @@ export default {
         }
       }
       .baocun {
+       display: none;
+      }
+      .baocun1 {
         margin: 41px 0 0 95px;
         display: inline-block;
         padding: 5px 20px;

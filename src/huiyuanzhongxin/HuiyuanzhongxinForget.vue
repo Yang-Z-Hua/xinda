@@ -43,6 +43,7 @@ export default {
     };
   },
   created() {
+    window.scrollTo(0, 0);
     this.user = this.$parent.$parent.$parent.user;
   },
   methods: {
@@ -56,13 +57,6 @@ export default {
       }
     },
     save() {
-      var pa=/^(\w){6,20}$/;
-      if (!pa.test(this.new1)) {
-        this.xinmim = "请输入6-12位，包含字母，数字,下划线";
-      } else {
-        this.xinmim = "";
-        return 1;
-      }
       if (this.new1 != this.reNew1) {
         this.passwordTip = "两次密码不匹配";
       } else {
@@ -116,6 +110,7 @@ export default {
         z-index: 2;
         position: absolute;
         margin-left: 9px;
+        cursor: pointer;
       }
       .xgmm {
         display: inline-block;
@@ -127,6 +122,7 @@ export default {
         z-index: 2;
         position: absolute;
         margin-left: 135px;
+        cursor: pointer;
       }
     }
     .password {
@@ -160,6 +156,7 @@ export default {
         color: #2992d3;
         border: 1px solid #2693d4;
         border-radius: 10%;
+        cursor: pointer;
       }
     }
   }
