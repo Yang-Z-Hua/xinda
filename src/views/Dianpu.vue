@@ -78,18 +78,23 @@ export default {
         "审计报告"
       ],
       leiName: ["综合排序", "价格", "接单数"],
-      weichat:["综合排序","销量"],
+      weichat: ["综合排序", "销量"],
       worryshow: "no"
     };
   },
   created() {
     if (this.$route.query.all == 1) {
-      (this.$parent.$parent.status = "wait"),
-        window.scrollTo(0, 0),
-        this.ajax.post("/xinda-api/provider/grid").then(data => {
-          this.arr = data.data.data;
-          this.$parent.$parent.status = "wait1";
-        });
+      this.$parent.$parent.status = "wait";
+      window.scrollTo(0, 0);
+      if (this.$parent.fwsAll) {
+        this.arr = this.$parent.fwsAll.data.data;
+        this.$parent.$parent.status = "wait1";
+        return;
+      }
+      this.ajax.post("/xinda-api/provider/grid").then(data => {
+        this.arr = data.data.data;
+        this.$parent.$parent.status = "wait1";
+      });
     } else if (this.$route.query.arr.length != 0) {
       this.arr = this.$route.query.arr;
     } else if (this.$route.query.arr.length == 0) {
@@ -163,7 +168,7 @@ export default {
           });
       }
     },
-    change1(s){
+    change1(s) {
       this.currentUnder_2 = s;
     }
   }
@@ -321,7 +326,7 @@ export default {
           flex-direction: column;
           width: 282px;
           margin-top: 20px;
-          .adress_2{
+          .adress_2 {
             display: none;
           }
           h5 {
@@ -333,7 +338,7 @@ export default {
           .two {
             display: flex;
             justify-content: space-between;
-            span{
+            span {
               color: #2a2a2a;
             }
           }
@@ -374,7 +379,7 @@ export default {
         }
       }
     }
-    .weichat_topic{
+    .weichat_topic {
       display: none;
     }
   }
@@ -449,38 +454,36 @@ export default {
   .page {
     display: none;
   }
-  .believe{
+  .believe {
     display: none;
   }
-  .adress_1{
+  .adress_1 {
     display: none;
   }
-  .adress_2{
+  .adress_2 {
     display: flex;
   }
-
 
   .sort {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    .weichat_topic{
+    .weichat_topic {
       display: flex;
       width: 358px;
-      border:1px solid #2693d4;
+      border: 1px solid #2693d4;
       border-radius: 4px;
-      margin:0 0 20px 0;
-      li{
+      margin: 0 0 20px 0;
+      li {
         width: 50%;
         text-align: center;
         line-height: 50px;
-        
       }
     }
     .shoplist {
       width: 100%;
-      .no{
+      .no {
         display: none;
       }
       div {
@@ -498,35 +501,35 @@ export default {
             width: 100%;
           }
         }
-        .right{
+        .right {
           width: 60%;
           position: relative;
-          h5{
+          h5 {
             font-size: 18px;
-            font-weight:100;
+            font-weight: 100;
             line-height: 38px;
           }
-          .adress_2{
+          .adress_2 {
             display: flex;
             font-size: 14px;
             line-height: 30px;
-            img{
+            img {
               width: 9px;
               height: 13px;
               margin: 9px;
             }
           }
-          .two{
+          .two {
             width: 100%;
             font-size: 12px;
             display: flex;
             margin-bottom: 20px;
             position: absolute;
             bottom: 0;
-            p{
+            p {
               margin-right: 7px;
             }
-            span{
+            span {
               color: red;
             }
           }
@@ -535,8 +538,8 @@ export default {
     }
   }
   .default {
-        background-color: #2693d4;
-        color: #fff;
-      }
+    background-color: #2693d4;
+    color: #fff;
+  }
 }
 </style>

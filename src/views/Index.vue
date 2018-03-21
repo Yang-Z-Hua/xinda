@@ -272,6 +272,7 @@ export default {
     window.scrollTo(0, 0);
     var rf = this;
     document.onscroll = function() {
+      console.log(222,rf.$parent.fwsAll)
       if (a) {
         a = 0;
         rf.ajax.post("/xinda-api/recommend/list").then(data => {
@@ -282,6 +283,8 @@ export default {
         // 推荐服务商
         rf.ajax.post("/xinda-api/provider/search-grid").then(data => {
           rf.arr2 = data.data.data;
+          rf.$parent.fwsAll=data;
+          console.log(11,rf.$parent.fwsAll);
         });
       }
     };

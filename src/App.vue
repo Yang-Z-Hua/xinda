@@ -303,7 +303,7 @@ export default {
     }
   }
   #app {
-    padding-bottom: 90px;
+    padding-bottom: 60px;
   }
   .show {
     display: block;

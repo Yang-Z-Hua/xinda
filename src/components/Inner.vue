@@ -93,6 +93,7 @@ export default {
       arr1: "",
       allproduct: "allproduct",
       img: {},
+      fwsAll:''
     };
   },
   created() {
@@ -162,7 +163,6 @@ export default {
         .then(data => {
           this.$parent.status = "wait1";
           this.list = data.data.data;
-          console.log(this.list);
         });
     },
     bs(i) {
@@ -242,7 +242,6 @@ export default {
           .then(data => {
             this.$parent.status = "wait1";
             window.onscroll = function() {};
-            console.log(111, data.data.data);
             this.$router.push({
               path: "/inner/dianpu",
               query: {
