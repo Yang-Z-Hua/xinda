@@ -101,25 +101,6 @@ export default {
       shp_kong: 0
     };
   },
-<<<<<<< HEAD
-  methods:{
-    jiesuan(){
-    if(this.total !=0){
-      this.ajax.post('/xinda-api/cart/submit',this.qs.stringify({	
-
-      }))
-        .then((data)=>{
-        this.$router.push({
-          path:'/dingdanxiangqing',
-          query:{
-            businessNo:data.data.data,
-            op:this.total
-          }
-        })
-      })
-      }else{
-        alert("请购买商品")
-=======
   methods: {
     ...mapActions(["jianNum"]),
     jiesuan() {
@@ -139,7 +120,6 @@ export default {
           });
       } else {
         alert("请购买商品");
->>>>>>> a2b8956dddfdaf56be9f9448e62eccd4498f3356
       }
     },
     spxr() {
@@ -209,19 +189,6 @@ export default {
     }
   },
   created() {
-<<<<<<< HEAD
-    this.spxr()
-    this.ajax.post('/xinda-api/recommend/list',this.qs.stringify({	
-
-    }))
-    .then((data)=>{
-      // console.log(data.data.data.hq)
-      this.culb = data.data.data.hq;
-    });
-  },
-}
-
-=======
     this.$parent.$parent.status = "wait";
     this.spxr();
     this.ajax
@@ -232,7 +199,6 @@ export default {
       });
   }
 };
->>>>>>> a2b8956dddfdaf56be9f9448e62eccd4498f3356
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -425,13 +391,8 @@ export default {
     width: 768px;
     height: 256px;
   }
-<<<<<<< HEAD
   .ph_dianpu{
     font-size: 15px;
-=======
-  .ph_dianpu {
-    font-size: 18px;
->>>>>>> a2b8956dddfdaf56be9f9448e62eccd4498f3356
     margin: 13px 0 0 18px;
   }
   .ph_img {
@@ -446,17 +407,10 @@ export default {
   .ph_g {
     width: 67vw;
     margin: 10px 0 0 18px;
-<<<<<<< HEAD
-    .ph_g1{
-      font-size: 15px;
-      width: 26vw;
-      display: inline-block
-=======
     .ph_g1 {
       font-size: 16px;
       // width: 26vw;
       display: inline-block;
->>>>>>> a2b8956dddfdaf56be9f9448e62eccd4498f3356
     }
     .ph_g2 {
       margin-top: 5px;
@@ -487,17 +441,10 @@ export default {
     justify-content: space-between;
     font-size: 14px;
   }
-<<<<<<< HEAD
-  .ph_dell{
-    font-size: 14px;
-    margin-left: 25vw;
-    a{
-=======
   .ph_dell {
     // font-size: 24px;
     margin-right: 5vw;
     a {
->>>>>>> a2b8956dddfdaf56be9f9448e62eccd4498f3356
       color: #fe0000;
     }
   }

@@ -299,7 +299,7 @@ export default {
     display: inline-block;
   }
   .goods_shuzi{
-    // margin-left: 10px;
+    margin-left: 10px;
     position: absolute;
     font-family: '黑体';
     font-weight: bold;
@@ -370,7 +370,6 @@ export default {
     font-size: 14px; 
   }
   .w_top{
-    // height: 80px;
     background-color: #e5e5e5;
     text-align: center;
     p{
@@ -387,7 +386,7 @@ export default {
     border-bottom: 1px solid #000000;
     ul{
       display: flex;
-      // justify-content:space-around;
+      justify-content:space-around;
     } 
     .fumc{
       width: 120px;
@@ -451,9 +450,6 @@ export default {
     color: black; 
     font-size: 14px;         
   }
-  // .weixin_bb{
-  //   // display: flex;
-  // }
   // 自助转账
   .zizhu{
     margin: 16px 0 0 9px;
@@ -507,14 +503,9 @@ export default {
     width: 332px;
     height: 364px;
     position: absolute;
-<<<<<<< HEAD
     top: 330px;
     left: 50%;
     margin-left: -160px;
-=======
-    top: 290px;
-    left: 22px;
->>>>>>> a2b8956dddfdaf56be9f9448e62eccd4498f3356
     background-color: #ffffff;
     box-shadow: 0 0 10px #a7a3a3;
     .guanbi{
@@ -555,7 +546,6 @@ export default {
     font-size: 30px;
     color: black;
     position: absolute;
-    // top: 20px;
   }
 }
 </style>
