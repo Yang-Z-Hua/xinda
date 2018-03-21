@@ -578,7 +578,7 @@ export default {
             }
             this.ajax
               .post(
-                "xinda-api/cart/add",
+                "/xinda-api/cart/add",
                 this.qs.stringify({
                   id: this.$route.query.id,
                   num: sss
