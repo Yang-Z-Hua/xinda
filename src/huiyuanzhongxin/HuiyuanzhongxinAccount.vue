@@ -1,16 +1,17 @@
 <template>
 <div class="right">
-  <div class="tckuang" v-show="qrsc">
+  <div class="tckuang" v-if="qrscc">
   <div class="tanchuk">
     <p class="tss">提示</p>
     <p>是否确认修改？</p>
     <ul>
       <li class="qd" @click="send">确定</li>
-      <li class="qx"  @click="quxiao">取消</li>
+      <li class="qx"  @click="quxiaoo">取消</li>
     </ul>
    </div>
   </div>
-  <div class="tckuang" v-show="qrsc">
+  <div>
+  <div class="tckuangg" v-if="qrsc">
   <div class="tanchuk">
     <p class="tss">提示</p>
     <p>是否确认修改？</p>
@@ -64,7 +65,7 @@
             <Area @confirm='bianma' display='ar'/>
         </div>
       </div>
-      <p class="baocun" @click="sen">保存</p>
+      <p class="baocun" @click="senn">保存</p>
     </div>
     <div class="beijingse"></div>
   </div>
@@ -80,20 +81,22 @@
       <div class="jmm">
         <p>旧密码：</p>
         <input type="password" v-model="old">
-        <span class="tip">{{oldTip}}</span>
       </div>
+      <p class="tip">{{oldTip}}</p>
       <div class="xmm">
         <p>新密码：</p>
         <input type="password" @blur="ymm" v-model="new1">
       </div>
+      <p class="tip">{{xinmim}}</p>
       <div class="zcsr">
         <p>再次输入新密码：</p>
         <input type="password" v-model="reNew1">
-        <span class="tip">{{passwordTip}}</span>
       </div>
+       <p class="tip">{{passwordTip}}</p>
       <p class="baocun" @click="sen">保存</p>
     </div>  
     <div class="beijingse"></div>
+  </div>
   </div>
 </div>
 </template>
@@ -122,6 +125,7 @@ export default {
   },
   data() {
     return {
+      qrscc: false,
       qrsc: false,
       xy: "<",
       pgone: "", //邮箱
@@ -138,7 +142,8 @@ export default {
       oldTip:'',
       new1:'',
       reNew1:'',
-      passwordTip:''
+      passwordTip:'',
+      xinmim:''
     };
   },
   components: {
@@ -148,9 +153,9 @@ export default {
     ymm(){
       var pa=/^(\w){6,20}$/;
       if (!pa.test(this.new1)) {
-        this.passwordTip = "请输入6-12位，包含字母，数字,下划线";
+        this.xinmim = "请输入6-12位，包含字母，数字,下划线";
       } else {
-        this.passwordTip = "";
+        this.xinmim = "";
         return 1;
       }
     },
@@ -182,14 +187,20 @@ export default {
     woman() {
       this.sex = 2;
     },
+    senn() {
+      this.qrscc = !this.qrscc;
+    },
     sen() {
       this.qrsc = !this.qrsc;
+    },
+    quxiaoo() {
+      this.qrscc = !this.qrscc;
     },
     quxiao() {
       this.qrsc = !this.qrsc;
     },
     send() {
-      this.qrsc = !this.qrsc;
+      this.qrscc = !this.qrscc;
       this.ajax
         .post(
           "/xinda-api/member/update-info",
@@ -259,9 +270,21 @@ export default {
       align-items: center;
       background: rgba(0, 0, 0, 0.2);
       // display: none;
-      .tanchuk {
+    }
+    .tckuangg{
+      width:100%;
+      height:100%;
+      z-index:67;
+      position: fixed;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.2);
+      // display: none;
+    }
+    .tanchuk {
         width: 70%;
-        height: 25%;
+        height: 150px;
         z-index: 66;
         position: absolute;
         background: #ffffff;
@@ -290,7 +313,6 @@ export default {
           background: #9c9c9c;
         }
       }
-    }
     .zhshez {
       height: 40px;
       display: -webkit-box;
@@ -381,9 +403,8 @@ export default {
   * {margin: 0;padding: 0;}
   .tip{
     color: red;
-    width: 80px;
     line-height: 25px;
-    // margin-left: 10px
+    margin-left: 110px
   }
   .rig {
     width: 100%;

@@ -7,16 +7,22 @@ const path = require('path')
 module.exports = {
     dev: {
 
+<<<<<<< HEAD
+        // Paths
+        assetsSubDirectory: 'static',
+        assetsPublicPath: '/',
+=======
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
+>>>>>>> aad0635ea6afa9e4c1de9c7754d93d7ebf1e5314
 
-    proxyTable: {
-      '/xinda-api/': {
-        target: "http://123.58.241.146:8088/xinda/",
-        changeOrigin: true,
-      }
-    },
+        proxyTable: {
+            '/xinda-api/': {
+                target: "http://123.58.241.146:8088/xinda/",
+                changeOrigin: true,
+            }
+        },
         // Various Dev Server settings
         host: 'localhost', // can be overwritten by process.env.HOST
         port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined

@@ -22,12 +22,12 @@
       </ul>
       <div class="shoplist">
         <div v-for="(a,index) in arr" :key="index">
-          <ul class="left">
+          <ul class="left" @click="go(index)">
             <li class="logo"><img :src="imgSrc+a.providerImg" alt=""></li>
             <li class="gold"><img src="../assets/images/global.png" alt=""></li>
           </ul>
           <ul class="right">
-            <h5>{{a.providerName}}</h5>
+            <h5 @click="go(index)">{{a.providerName}}</h5>
             <li class="believe"><span>信誉</span></li>
             <li class="adress_1"><span>{{a.regionName}}</span></li>
             <li class="adress_2"><img src="../assets/images/adress.png" alt=""><span>{{a.regionName.split('-')[1]}}　{{a.regionName.split('-')[2]}}</span></li>

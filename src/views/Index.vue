@@ -157,7 +157,7 @@
         <div v-for="(a,index) in arr.hq" :key="index">
             <li class="img"><img :src="imgSrc+a.providerImg" alt="" @click="goods(a)"></li>
             <ul>
-              <p class="product_title">{{a.serviceName.split('（')[0]}}</p>
+              <p class="product_title" @click="goods(a)">{{a.serviceName.split('（')[0]}}</p>
               <li class="introduce_li"><p class="product_introduce">{{a.serviceInfo}}</p></li>
               <p class="product_price"><span>￥{{a.price}}</span>{{a.unit}}</p>
               <button @click="goods(a)">查看详情</button>
@@ -958,6 +958,7 @@ export default {
         .product_title {
           color: black;
           font-size: 18px;
+          font-weight: bold;
           overflow: hidden; /*超出长度的文字隐藏*/
           text-overflow: ellipsis; /*文字隐藏以后添加省略号*/
           white-space: nowrap;
