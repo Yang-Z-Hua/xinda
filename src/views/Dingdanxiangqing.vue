@@ -439,9 +439,9 @@ export default {
     color: black; 
     font-size: 14px;         
   }
-  .weixin_bb{
-    display: flex;
-  }
+  // .weixin_bb{
+  //   // display: flex;
+  // }
   // 自助转账
   .zizhu{
     margin: 16px 0 0 16px;
@@ -493,7 +493,8 @@ export default {
     height: 364px;
     position: absolute;
     top: 330px;
-    left: 200px;
+    left: 50%;
+    margin-left: -160px;
     background-color: #ffffff;
     box-shadow: 0 0 10px #a7a3a3;
     .guanbi{

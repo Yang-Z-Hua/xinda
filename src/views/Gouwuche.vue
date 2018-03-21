@@ -103,8 +103,6 @@ export default {
 
       }))
         .then((data)=>{
-        console.log(data.data.data)
-        console.log(this.total)
         this.$router.push({
           path:'/dingdanxiangqing',
           query:{
@@ -185,6 +183,7 @@ export default {
     });
   },
 }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -371,7 +370,7 @@ export default {
     height: 256px;
   }
   .ph_dianpu{
-    font-size: 30px;
+    font-size: 15px;
     margin: 13px 0 0 18px;
   }
   .ph_img{
@@ -387,7 +386,7 @@ export default {
     width: 67vw;
     margin: 10px 0 0 18px;
     .ph_g1{
-      font-size: 30px;
+      font-size: 15px;
       width: 26vw;
       display: inline-block
     }
@@ -417,8 +416,8 @@ export default {
     display: flex;
   }
   .ph_dell{
-    font-size: 24px;
-    margin-left: 29vw;
+    font-size: 14px;
+    margin-left: 25vw;
     a{
       color: #fe0000;
     }
