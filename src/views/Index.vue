@@ -270,8 +270,8 @@ export default {
   created() {
     var a = 1;
     window.scrollTo(0, 0);
-    rf.$parent.$parent.status = "wait1";
     var rf = this;
+    rf.$parent.$parent.status = "wait1";
     document.onscroll = function() {
       if (a) {
         a = 0;
