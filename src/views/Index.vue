@@ -240,7 +240,7 @@
           <li class="img"><img :src="imgSrc+a.providerImg" alt=""></li>
           <p class="product_title">{{a.serviceName.split('（')[0]}}</p>
           <li><p class="product_introduce">{{a.providerName}}</p></li>
-          <p class="product_price"><span>￥{{a.marketPrice}}</span>{{a.unit}}</p>
+          <p class="product_price"><span>￥{{a.price}}</span>{{a.unit}}</p>
           <button @click="goods(a)">查看详情</button>
       </div>
     </ul>

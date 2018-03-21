@@ -7,9 +7,9 @@ const path = require('path')
 module.exports = {
     dev: {
 
-    // Paths
-    assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+        // Paths
+        assetsSubDirectory: 'static',
+        assetsPublicPath: '/',
 
         proxyTable: {
             '/xinda-api/': {
