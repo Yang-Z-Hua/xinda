@@ -38,7 +38,10 @@ export default {
       tb: "",
       de: "",
       phoneTittle: "",
-      arr:[require('../assets/images/close.png'),require('../assets/images/open.png')],
+      arr: [
+        require("../assets/images/close.png"),
+        require("../assets/images/open.png")
+      ]
     };
   },
   methods: {
@@ -169,7 +172,8 @@ export default {
     width: 100% !important;
     color: white;
     display: flex;
-    margin: -169px 0 0 0;
+    position: absolute;
+    top: 470px;
     line-height: 69px;
     padding: 0 20px;
     box-sizing: border-box;
@@ -186,7 +190,7 @@ export default {
     }
   }
   .middl-2 {
-    height: 100vh;
+    // height: 100vh;
     background: #f8f8f8;
     overflow: hidden;
     .whit {
@@ -197,6 +201,10 @@ export default {
         font-size: 32px;
         span:nth-child(1) {
           position: absolute;
+          left: 10px;
+          a {
+            color: black;
+          }
         }
         span:nth-child(2) {
           text-align: center;
@@ -220,7 +228,7 @@ export default {
   }
   .zj {
     display: flex;
-    padding: 50px 0;
+    padding: 40px 0 250px;
     margin: 0 auto;
     .d2 input,
     .d3 input {

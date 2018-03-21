@@ -75,7 +75,7 @@ export default {
 @media (max-width:768px){
   
 }
-@media(min-width:768px){
+@media(min-width:769px){
     *{margin: 0;padding: 0;}
     .right{
     width: 936px;

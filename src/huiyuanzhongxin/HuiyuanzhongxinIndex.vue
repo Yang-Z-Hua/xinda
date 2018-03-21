@@ -2,7 +2,8 @@
   <div class="right">
     <div class="tckuang" v-show="qrsc">
       <div class="tanchuk">
-        <p>确认删除该订单</p>
+        <p class="tss">提示</p>
+        <p>确认删除该订单?</p>
         <ul>
           <li class="qd" @click="sc('sdw')">确定</li>
           <li class="qx" @click="quxiao">取消</li>
@@ -19,7 +20,7 @@
     </div>
     <div class="order">
       <p>订单号：</p>
-      <input type="text" v-model="No" placeholder="请输入订单号搜索">
+      <input type="text" @keypress="qwe" v-model="No" placeholder="请输入订单号搜索">
       <li @click="search">搜索</li>
     </div>
     <div class="time">
@@ -59,7 +60,7 @@
             <div class="manei" v-for="dd in aa.service" :key="dd.id">
               <div class="zuo">
                 <div class="imgg">
-                  <img src="http://123.58.241.146:8088/xinda/pic/2016/09/28/8c419db3f572418a80ff5a08397fb857" alt="">
+                  <img src='../assets/images/logoxz_01.png' alt="">
                 </div>
                 <div class="xdfw">
                   <p class="prov">{{dd.providerName}}</p>
@@ -151,6 +152,12 @@ export default {
     };
   },
   methods: {
+    qwe(e){
+      if (e.keyCode == 13) {
+        this.search();
+      }
+
+    },
     fukuan(asd, mmm) {
       this.$router.push({
         path: "/dingdanxiangqing",
@@ -321,21 +328,24 @@ export default {
       width:100%;
       height:100%;
       z-index:66;
-      position: absolute;
+      position: fixed;
       display: flex;
       justify-content: center;
       align-items: center;
       background: rgba(0, 0, 0, 0.2);
-      // display: none;
       .tanchuk {
         width: 70%;
-        height: 25%;
+        height: 150px;
         z-index: 66;
         position: absolute;
-        background: #ffffff;
+        background: #fff;
+        .tss{
+          font-size:18px;
+          margin-top: 5%;
+        }
         p {
           text-align: center;
-          margin-top: 70px;
+          margin-top: 8%;
         }
         ul {
           display: flex;
@@ -442,18 +452,19 @@ export default {
                 height: 100px;
                 background-color: #f8f8f8;
                 display: flex;
+                // justify-itme: flex-start;
                 align-items: center;
                 .price {
                   display: none;
                 }
                 .imgg {
-                  width: 25%;
-                  height: 70%;
+                  width: 80px;
+                  // height: 70%;
                   margin-left: 12px;
                   overflow: hidden;
                   img{
-                    width:100%;
-                    height: 100%;
+                    width:60px
+                    // height: 100%;
                   }
                 }
                 .xdfw {
@@ -522,7 +533,7 @@ export default {
     }
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 769px) {
   * {
     margin: 0;
     padding: 0;

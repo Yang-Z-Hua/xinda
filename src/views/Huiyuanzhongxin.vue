@@ -13,207 +13,213 @@
         </div>
         <div class="bottom">
           <router-link to="/Huiyuanzhongxin/Huiyuanzhongxinindex" tag="div">
-            <div  v-bind:class="sty" v-on:click="foo">
+            <div  :class="sty" v-on:click="foo">
               <img src="../assets/images/u5092.png" alt="">
               <p>我的订单</p>
             </div>
           </router-link>
           <router-link to="/Huiyuanzhongxin/HuiyuanzhongxinUser"  tag="div">
-            <div v-bind:class="styl" v-on:click="foq">
+            <div :class="styl" v-on:click="foq">
               <img src="../assets/images/u5098.png" alt="">
               <p>用户评价</p>
             </div>
           </router-link>
           <router-link to="/Huiyuanzhongxin/HuiyuanzhongxinAccount"  tag="div">
-            <div v-bind:class="style" v-on:click="foa">
+            <div :class="style" v-on:click="foa">
               <img src="../assets/images/u5102.png" alt="">
               <p>账户设置</p>
             </div>
           </router-link>
         </div>
       </div>
-      
     </div>
-    
     <router-view></router-view>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
-  data () {
+  name: "HelloWorld",
+  data() {
     return {
-    sty:'dd',
-    styl:'pj',
-    style:'pj',
-    sjh:'',
+      sty: "dd",
+      styl: "pj",
+      style: "pj",
+      sjh: ""
+    };
+  },
+  methods: {
+    foo: function() {
+      this.sty = "dd";
+      this.style = "pj";
+      this.styl = "pj";
+      sessionStorage.setItem("key", 1);
+    },
+    foq: function() {
+      (this.styl = "dd"), (this.sty = "pj"), (this.style = "pj");
+      sessionStorage.setItem("key", 2);
+    },
+    foa: function() {
+      (this.style = "dd"), (this.sty = "pj"), (this.styl = "pj");
+      sessionStorage.setItem("key", 3);
     }
   },
-  methods:{
-     foo:function(){
-       this.sty = 'dd',
-        this.style = 'pj',
-        this.styl = 'pj'
-     },
-     foq:function(){
-       this.styl = 'dd',
-       this.sty = 'pj',
-       this.style = 'pj'
-     },
-     foa:function(){
-       this.style = 'dd',
-        this.sty = 'pj',
-         this.styl = 'pj'
-     }
-  },
-  created(){
-     this.ajax
+  created() {
+    if (sessionStorage.getItem("key") == 1) {
+      this.sty = "dd";
+      this.style = "pj";
+      this.styl = "pj";
+    }
+    if (sessionStorage.getItem("key") == 2) {
+      (this.styl = "dd"), (this.sty = "pj"), (this.style = "pj");
+    }
+    if (sessionStorage.getItem("key") == 3) {
+      (this.style = "dd"), (this.sty = "pj"), (this.styl = "pj");
+    }
+    // console.log(sessionStorage.getItem("key"));
+    this.ajax
       .post("/xinda-api/member/info", this.qs.stringify({}))
-      .then(data => {      
-    this.sjh=data.data.data.cellphone
+      .then(data => {
+        this.sjh = data.data.data.cellphone;
       });
   }
-}
+};
 </script>
 
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-@media (max-width:768px){
- .public{
+@media (max-width: 768px) {
+  .public {
     display: flex;
-      // width: 1200px;
-      // height: 650px;
-      // margin: 26px auto;
   }
-  .left{
+  .left {
     display: none;
   }
-  .top{
+  .top {
     line-height: 14px;
-    font-size:14px;
-    p{
+    font-size: 14px;
+    p {
       display: inline-block;
     }
   }
-  .middle{
-      width: 242px;
-      height:526px;
-      margin: 13px 0 0 2px;
-      .middle-top{
-        height:141px;
-        background-color: #e9e9e9;
-        div{
-            text-align: center;
-          img{
-            width: 100px;
-            height:100px;
-            margin-top: 9px;
-          }
-        }
-        p{
-          text-align: center;
+  .middle {
+    width: 242px;
+    height: 526px;
+    margin: 13px 0 0 2px;
+    .middle-top {
+      height: 141px;
+      background-color: #e9e9e9;
+      div {
+        text-align: center;
+        img {
+          width: 100px;
+          height: 100px;
+          margin-top: 9px;
         }
       }
-      .bottom{
-        height: 376px;
-        margin-top: 9px;
-        background-color: #f7f7f7;
-        div{
-          height: 50px;
-          text-align: center;
-          line-height: 50px;
-          p{
-            font-size: 17px;
-            line-height: 17px;
-            display: inline-block;
-            vertical-align: middle;
-            color: black;
-            cursor:pointer;
-          }
-          img{
-            width: 22px;
-            height: 22px;
-            vertical-align: middle;
-          }
-        } 
+      p {
+        text-align: center;
       }
+    }
+    .bottom {
+      height: 376px;
+      margin-top: 9px;
+      background-color: #f7f7f7;
+      div {
+        height: 50px;
+        text-align: center;
+        line-height: 50px;
+        p {
+          font-size: 17px;
+          line-height: 17px;
+          display: inline-block;
+          vertical-align: middle;
+          color: black;
+          cursor: pointer;
+        }
+        img {
+          width: 22px;
+          height: 22px;
+          vertical-align: middle;
+        }
+      }
+    }
   }
-  .pj{
-    background-color:#f7f7f7;
-  } 
-  .dd{
-    background-color:#e9e9e9;
+  .pj {
+    background-color: #f7f7f7;
+  }
+  .dd {
+    background-color: #e9e9e9;
   }
 }
-@media(min-width:768px){
-  .public{
+@media (min-width: 769px) {
+  .public {
     display: flex;
-      width: 1200px;
-      // height: 650px;
-      margin: 26px auto;
+    width: 1200px;
+    // height: 650px;
+    margin: 26px auto;
   }
-  .left{
-    display:inline-block;
+  .left {
+    display: inline-block;
     width: 244px;
-    height:552px;
+    height: 552px;
   }
-  .top{
+  .top {
     line-height: 14px;
-    font-size:14px;
-    p{
+    font-size: 14px;
+    p {
       display: inline-block;
     }
   }
-  .middle{
-      width: 242px;
-      height:526px;
-      margin: 13px 0 0 2px;
-      .middle-top{
-        height:141px;
-        background-color: #e9e9e9;
-        div{
-            text-align: center;
-          img{
-            width: 100px;
-            height:100px;
-            margin-top: 9px;
-          }
-        }
-        p{
-          text-align: center;
+  .middle {
+    width: 242px;
+    height: 526px;
+    margin: 13px 0 0 2px;
+    .middle-top {
+      height: 141px;
+      background-color: #e9e9e9;
+      div {
+        text-align: center;
+        img {
+          width: 100px;
+          height: 100px;
+          margin-top: 9px;
         }
       }
-      .bottom{
-        height: 376px;
-        margin-top: 9px;
-        background-color: #f7f7f7;
-        div{
-          height: 50px;
-          text-align: center;
-          line-height: 50px;
-          p{
-            font-size: 17px;
-            line-height: 17px;
-            display: inline-block;
-            vertical-align: middle;
-            color: black;
-            cursor:pointer;
-          }
-          img{
-            width: 22px;
-            height: 22px;
-            vertical-align: middle;
-          }
-        } 
+      p {
+        text-align: center;
       }
+    }
+    .bottom {
+      height: 376px;
+      margin-top: 9px;
+      background-color: #f7f7f7;
+      div {
+        height: 50px;
+        text-align: center;
+        line-height: 50px;
+        p {
+          font-size: 17px;
+          line-height: 17px;
+          display: inline-block;
+          vertical-align: middle;
+          color: black;
+          cursor: pointer;
+        }
+        img {
+          width: 22px;
+          height: 22px;
+          vertical-align: middle;
+        }
+      }
+    }
   }
-  .pj{
-    background-color:#f7f7f7;
-  } 
-  .dd{
-    background-color:#e9e9e9;
+  .pj {
+    background-color: #f7f7f7;
+  }
+  .dd {
+    background-color: #e9e9e9;
   }
 }
 </style>

@@ -52,31 +52,33 @@ export default {
       aaaa: "",
       pass: "", //密码
       passTip: "",
-      i:1,
+      i: 1,
       kan: this.$parent.arr[0],
-      type1:'password'
+      type1: "password"
     };
   },
   components: {
     Area
   },
   created() {
+    this.$parent.$parent.status = "wait";
     this.$parent.ask = "已有账号？";
     this.$parent.meth = "立即登录";
     this.$parent.phoneTittle = "注册";
     this.$parent.tb = "欢迎注册";
     this.$parent.de = "login";
+    this.$parent.$parent.status = "wait1";
   },
   methods: {
-    kanj(){
-      if(this.i){
-        this.i=!this.i;
-        this.kan=this.$parent.arr[1];
-        this.type1='text'
-      }else{
-        this.i=!this.i;
-        this.kan=this.$parent.arr[0];
-        this.type1='password'
+    kanj() {
+      if (this.i) {
+        this.i = !this.i;
+        this.kan = this.$parent.arr[1];
+        this.type1 = "text";
+      } else {
+        this.i = !this.i;
+        this.kan = this.$parent.arr[0];
+        this.type1 = "password";
       }
     },
     provinceChange() {
@@ -97,8 +99,8 @@ export default {
       this.png += " ";
     },
     checkphone() {
-      // 加测手机号
-      var a = /1\d{10}/;
+      // 检测手机号
+      var a = /1[3,4,5,7,8,9]\d{9}/;
       if (!a.test(this.phone)) {
         this.phoneTip = "手机号错误！";
       } else {
@@ -205,7 +207,7 @@ div div ul.d3 {
 }
 span.tip {
   color: red;
-  margin:-15px 0 10px 0;
-  display: block
+  margin: -15px 0 10px 0;
+  display: block;
 }
 </style>

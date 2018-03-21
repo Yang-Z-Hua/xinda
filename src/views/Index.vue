@@ -8,6 +8,9 @@
       </ul>
       <img src="../assets/images/logo.jpg" alt="">
     </div>
+
+
+    <!-- 轮播============================================== -->
     <div class="allproduct">
       <div class="cycle">
           <div class="swiper-container HM_lb">
@@ -28,7 +31,9 @@
       </div>
     </div>
 
-    <!-- 明星产品推荐 -->
+    <!-- 明星产品推荐=================================================== -->
+
+    <!-- PC端============================= -->
     <ul class="product_star none">
       <p>明星产品推荐</p>
       <li class="triangle"></li>
@@ -68,7 +73,7 @@
       </router-link>  
     </div>
 
-    <!-- 微信端 -->
+    <!-- 微信端=================================== -->
     <div class="move_lead">
       <li>
         <router-link :to='{path:"/inner/liebiaoye",query:{
@@ -137,8 +142,12 @@
         <p>全部服务</p>
       </li>
     </div>
+
+
+
+    <!-- 此盒子为了颠倒顺序 -->
     <div class="weichat_use">
-      <!-- 初创企业必备 -->
+      <!-- 初创企业必备==========================    PC  +   weichat   ================  -->
       <div>
       <ul class="product_star">
         <p>初创企业必备</p>
@@ -148,7 +157,7 @@
         <div v-for="(a,index) in arr.hq" :key="index">
             <li class="img"><img :src="imgSrc+a.providerImg" alt="" @click="goods(a)"></li>
             <ul>
-              <p class="product_title">{{a.serviceName.split('（')[0]}}</p>
+              <p class="product_title" @click="goods(a)">{{a.serviceName.split('（')[0]}}</p>
               <li class="introduce_li"><p class="product_introduce">{{a.serviceInfo}}</p></li>
               <p class="product_price"><span>￥{{a.price}}</span>{{a.unit}}</p>
               <button @click="goods(a)">查看详情</button>
@@ -156,7 +165,9 @@
         </div>      
       </div>
       </div>
-      <!-- 知识产权 -->
+
+
+      <!-- 知识产权 ============================ PC + WEICHAT  ================================-->
       <div>
       <ul class="product_star">
         <p>知识产权</p>
@@ -172,6 +183,7 @@
         <li class="knowledge_2">
           <router-link :to='{path:"/inner/liebiaoye",query:{
           id: "1eff122d06604fc1aadf9e7acefba21a",
+          id2: "93bfade97b784891847995255419cbaa",
           firstName: "知识产权",
           code: 8,
           }}'>
@@ -179,6 +191,7 @@
       </router-link>
       <router-link :to='{path:"/inner/liebiaoye",query:{
           id: "1eff122d06604fc1aadf9e7acefba21a",
+          id2: "9ff92f92fd614049a45f34c0d003eaa4",
           firstName: "知识产权",
           code: 9,
           }}'>
@@ -186,6 +199,7 @@
       </router-link>
       <router-link :to='{path:"/inner/liebiaoye",query:{
           id: "1eff122d06604fc1aadf9e7acefba21a",
+          id2: "9ff92f92fd614049a45f34c0d003eaa4",
           firstName: "知识产权",
           code: 9,
           }}'>
@@ -195,8 +209,13 @@
       </ul>
       </div>
     </div>
+
+
+    <!-- 中部广告============================================================== -->
     <img src="../assets/images/approve.png" alt="" class="approve">
-    <!-- 推荐服务商 -->
+
+
+    <!-- 推荐服务商 ===========================  PC ================================-->
     <ul class="recommend"> 
       <li :class="choose1" @click="see1()"><p>推荐服务商</p><span v-show="q"></span></li>
       <li :class="choose2" @click="see2()"><p>推荐服务</p><span v-show="w"></span></li>
@@ -213,12 +232,15 @@
         </ul>
       </div>
     </ul>
+
+
+    <!-- 推荐服务====================================================== -->
     <ul v-show="r" class="again">
       <div v-for="(a,index) in arr.hq" :key="index">
           <li class="img"><img :src="imgSrc+a.providerImg" alt=""></li>
           <p class="product_title">{{a.serviceName.split('（')[0]}}</p>
           <li><p class="product_introduce">{{a.providerName}}</p></li>
-          <p class="product_price"><span>￥{{a.marketPrice}}</span>{{a.unit}}</p>
+          <p class="product_price"><span>￥{{a.price}}</span>{{a.unit}}</p>
           <button @click="goods(a)">查看详情</button>
       </div>
     </ul>
@@ -247,31 +269,30 @@ export default {
   name: "HelloWorld",
   created() {
     var a = 1;
-    // window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
     var rf = this;
     document.onscroll = function() {
+      console.log(222,rf.$parent.fwsAll)
       if (a) {
         a = 0;
         rf.ajax.post("/xinda-api/recommend/list").then(data => {
           rf.$parent.$parent.status = "wait1";
           rf.arr = data.data.data;
         });
+
+        // 推荐服务商
         rf.ajax.post("/xinda-api/provider/search-grid").then(data => {
           rf.arr2 = data.data.data;
-        });
-        rf.ajax.post("/xinda-api/product/package/search-grid").then(data => {
-          rf.arr3 = data.data.data;
+          rf.$parent.fwsAll=data;
+          console.log(11,rf.$parent.fwsAll);
         });
       }
     };
-    // this.$parent.$parent.status = "wait";
-    this.ajax
-      .post(
-        "/xinda-api/product/style/list"
-      )
-      .then(data => {
-        console.log(data)
-      });
+    // 创业必备 推荐服务
+
+    // rf.ajax.post("/xinda-api/product/package/search-grid").then(data => {
+    //   rf.arr3 = data.data.data;
+    // });
   },
 
   data() {
@@ -280,7 +301,7 @@ export default {
       arr: "",
       arr1: "",
       arr2: "",
-      arr3: "",
+      // arr3: "",
       q: 1,
       w: 0,
       e: 1,
@@ -341,39 +362,39 @@ export default {
       this.choose1 = "sty2";
       this.choose2 = "sty1";
     },
-    jia1(){
+    jia1() {
       this.$router.push({
         path: "/inner/liebiaoye",
         query: {
           id: "1eff122d06604fc1aadf9e7acefba21a",
           id2: "93bfade97b784891847995255419cbaa",
           firstName: "知识产权",
-          code: 8,
+          code: 8
         }
       });
     },
-    jia2(){
+    jia2() {
       this.$router.push({
         path: "/inner/liebiaoye",
         query: {
           id: "1eff122d06604fc1aadf9e7acefba21a",
           id2: "9ff92f92fd614049a45f34c0d003eaa4",
           firstName: "知识产权",
-          code: 9,
+          code: 9
         }
       });
     },
-    jia3(){
+    jia3() {
       this.$router.push({
         path: "/inner/liebiaoye",
         query: {
           id: "1eff122d06604fc1aadf9e7acefba21a",
           id2: "6e129158ea5544ebac88cd6804e3aa65",
           firstName: "知识产权",
-          code: 10,
+          code: 10
         }
       });
-    },
+    }
   }
 };
 </script>
@@ -633,6 +654,9 @@ export default {
         cursor: pointer;
       }
     }
+    div:hover {
+      box-shadow: 0 0 2px 2px #71c2f1;
+    }
   }
 
   // 明星产品
@@ -758,16 +782,16 @@ export default {
         height: 18px;
         position: absolute;
         cursor: pointer;
-        right: 130px;
+        right: 136px;
       }
       .jia1 {
-        top: 36px;
+        top: 28px;
       }
       .jia2 {
-        top: 65px;
+        top: 53px;
       }
       .jia3 {
-        top: 94px;
+        top: 80px;
       }
     }
     .knowledge_2 {
@@ -854,11 +878,11 @@ export default {
     flex-wrap: wrap;
     margin: 10px 0;
     li {
-      width: 23%;
+      width: 20%;
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin: 1%;
+      margin: 1% 2.5%;
       font-size: 18px;
       a {
         width: 90%;
@@ -867,6 +891,7 @@ export default {
         }
       }
       p {
+        font-size: 14px;
         line-height: 26px;
       }
     }
@@ -935,18 +960,17 @@ export default {
         position: relative;
         .product_title {
           color: black;
-          font-size: 20px;
+          font-size: 18px;
+          font-weight: bold;
           overflow: hidden; /*超出长度的文字隐藏*/
           text-overflow: ellipsis; /*文字隐藏以后添加省略号*/
           white-space: nowrap;
-        }
-        .product_title:hover {
-          overflow: visible;
         }
         .introduce_li {
           .product_introduce {
             line-height: 20px;
             font-size: 14px;
+            text-indent: 2em;
           }
         }
 

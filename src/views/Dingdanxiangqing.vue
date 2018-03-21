@@ -66,10 +66,10 @@
       </ul>
       <div class="weixin_x" v-for="(item,index) in serviceOrderList" :key="index">      
         <ul>
-          <li>{{item.serviceName}}</li>
-          <li><a>{{item.unitPrice}}</a>元</li>
-          <li><a>{{item.buyNum}}</a></li>
-          <li><a>{{item.unitPrice*item.buyNum}}</a>元</li>
+          <li class="fumc">{{item.serviceName}}</li>
+          <li ><a>{{item.unitPrice}}</a>元</li>
+          <li class="fb"><a>{{item.buyNum}}</a></li>
+          <li ><a>{{item.unitPrice*item.buyNum}}</a>元</li>
         </ul>
       </div> 
       <a class="weixin_way">支付方式</a>
@@ -216,6 +216,9 @@ export default {
       display: flex;
       background-color: #f7f7f7;
       border: 1px solid #b6b6b6;
+      li:nth-child(1){
+        width: 430px;
+      }
       li{
         width: 400px;
         text-align: center;
@@ -286,7 +289,7 @@ export default {
   // 结算
   .goods_jiesuan{
     width: 190px;
-    height: 80px;
+    height: 100px;
     position: relative;
     margin: 80px 0 0 999px;
   }
@@ -363,13 +366,16 @@ export default {
   .goods_all{
     display: none;
   }
+  .all_weixin{
+    font-size: 14px; 
+  }
   .w_top{
-    height: 80px;
+    // height: 80px;
     background-color: #e5e5e5;
     text-align: center;
     p{
-      line-height: 80px;
-      font-size: 30px;
+      line-height: 40px;
+      font-size: 18px;
     }
   }
   .dingdanhao{
@@ -381,11 +387,17 @@ export default {
     border-bottom: 1px solid #000000;
     ul{
       display: flex;
-      justify-content:space-around;
+      // justify-content:space-around;
     } 
+    .fumc{
+      width: 120px;
+    }
+    .fb{
+      width: 130px;
+    }
     li{
       line-height: 80px;
-      width: 98px;  
+      width: 48px;  
       text-align: center;          
     }  
   }
@@ -401,14 +413,14 @@ export default {
     }
   }
   .weixin_way{
-    margin: 16px 0 0 16px;  
+    margin: 16px 0 0 9px;  
     display: block;
     border-bottom: solid 1px #706d6d;
     padding-bottom: 20px;
   }
   // 非网银支付
   .feiyin{
-    margin: 16px 0 0 16px;
+    margin: 16px 0 0 9px;
     display: block;
     color: black;
     font-size: 14px;  
@@ -421,7 +433,7 @@ export default {
     width: 207px;
     height: 50px;
     border: 1px solid #efefef;
-    margin-left: 24px;
+    margin-left: 9px;
      .iimg1{
       margin: 5px 0 0 30px;
     }
@@ -434,7 +446,7 @@ export default {
     }
   }
   .pingtai{
-    margin: 16px 0 0 16px;
+    margin: 16px 0 0 9px;
     display: block;
     color: black; 
     font-size: 14px;         
@@ -444,7 +456,7 @@ export default {
   // }
   // 自助转账
   .zizhu{
-    margin: 16px 0 0 16px;
+    margin: 16px 0 0 9px;
     display: block;
     color: black;   
     font-size: 14px;       
@@ -458,7 +470,7 @@ export default {
     width: 350px;
     height: 70px;
     margin-top: 20px;
-    margin-left: 24px;
+    margin-left: 11px;
     .weixin_d{
     margin: -24px 0 0 3px;
     vertical-align: middle;
@@ -467,21 +479,24 @@ export default {
   .weixin_red{
     font-size: 1px;
     color: #ff6867;
-    margin: 13px 0 50px 22px;
+    margin: 13px 0 50px 15px;
   }
   .ph_bottom{
-    height: 112px;
+    width: 100%;
     background-color: #e5e5e5;
     display: flex;
-    font-size: 28px;
-    line-height: 112px;
+    font-size: 18px;
+    line-height: 60px;
+    position: fixed;
+    bottom: 58px;
     .ph_wub{
       width: 66vw;
+      text-indent: 18px;
     }
     .ph_sy{
       width: 33.5vw;
       background-color: #fb2d2d;
-      line-height: 112px;
+      // line-height: 112px;
       text-align: center;
       a{
         color: #ffffff;
@@ -492,9 +507,14 @@ export default {
     width: 332px;
     height: 364px;
     position: absolute;
+<<<<<<< HEAD
     top: 330px;
     left: 50%;
     margin-left: -160px;
+=======
+    top: 290px;
+    left: 22px;
+>>>>>>> a2b8956dddfdaf56be9f9448e62eccd4498f3356
     background-color: #ffffff;
     box-shadow: 0 0 10px #a7a3a3;
     .guanbi{
@@ -535,7 +555,7 @@ export default {
     font-size: 30px;
     color: black;
     position: absolute;
-    top: 20px;
+    // top: 20px;
   }
 }
 </style>

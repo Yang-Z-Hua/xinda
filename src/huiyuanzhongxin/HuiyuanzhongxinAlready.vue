@@ -11,8 +11,8 @@
         <p  class="st">已评价</p>
       </div>
       <div class="evaluate-xia">
-        <div class="img">
-          
+        <div class="imgg">
+          <img src='../assets/images/logoxz_01.png' alt="">
         </div>
         <div class="fwnr">
           <p class="xdbj">信达北京服务中心</p>
@@ -69,7 +69,7 @@ export default {
 @media (max-width:768px){
   
 }
-@media(min-width:768px){
+@media(min-width:769px){
   *{margin: 0;padding: 0;}
   .right{
     width: 936px;
@@ -118,12 +118,16 @@ export default {
         height: 151px;
         display: flex;
         align-items: center;
-        .img{
+        .imgg{
           width: 98px;
           height: 98px;
-          background-color: red;
           border: 1px solid #cccccc;
           margin-left: 8px;
+          overflow: hidden;
+          img{
+            width: 98px;
+            height: 98px;
+          }
         }
         .fwnr{
           width: 174px;

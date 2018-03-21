@@ -93,6 +93,7 @@ export default {
       arr1: "",
       allproduct: "allproduct",
       img: {},
+      fwsAll:''
     };
   },
   created() {
@@ -106,7 +107,6 @@ export default {
         this.img[i] = require("../assets/images/xlogo/d" + j + ".png");
         j++;
       }
-      console.log(111, this.arr1);
     });
     if (this.i) {
       this.chen("/xinda-api/product/package/search-grid");
@@ -163,7 +163,6 @@ export default {
         .then(data => {
           this.$parent.status = "wait1";
           this.list = data.data.data;
-          console.log(this.list);
         });
     },
     bs(i) {
@@ -243,7 +242,6 @@ export default {
           .then(data => {
             this.$parent.status = "wait1";
             window.onscroll = function() {};
-            console.log(111, data.data.data);
             this.$router.push({
               path: "/inner/dianpu",
               query: {
