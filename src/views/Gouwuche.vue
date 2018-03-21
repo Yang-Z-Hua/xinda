@@ -365,14 +365,6 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
-  // .weixin_p{
-  //   // padding-top:50px;
-  //   padding-bottom:94px;
-  //   // background: #fafafa;
-  //   z-index: 1;
-  //   position: absolute;
-  //   height: 70%;
-  // }
   .shopoing_phon {
     display: block;
   }
@@ -463,10 +455,9 @@ export default {
     margin: 12px 0 100px 38vw;
   }
   .ph_bottom {
-    // height: 112px;
+    width: 100%;
     background-color: #e5e5e5;
     display: flex;
-    // font-size: 28px;
     line-height: 60px;
     position: fixed;
     bottom: 58px;

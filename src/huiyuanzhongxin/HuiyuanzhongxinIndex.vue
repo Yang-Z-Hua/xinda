@@ -3,7 +3,7 @@
     <div class="tckuang" v-show="qrsc">
       <div class="tanchuk">
         <p class="tss">提示</p>
-        <p>确认删除该订单</p>
+        <p>确认删除该订单?</p>
         <ul>
           <li class="qd" @click="sc('sdw')">确定</li>
           <li class="qx" @click="quxiao">取消</li>
@@ -345,7 +345,7 @@ export default {
         }
         p {
           text-align: center;
-          margin-top: 10%;
+          margin-top: 8%;
         }
         ul {
           display: flex;

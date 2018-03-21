@@ -393,7 +393,7 @@ export default {
       width: 120px;
     }
     .fb{
-      width: 138px;
+      width: 130px;
     }
     li{
       line-height: 80px;
@@ -413,14 +413,14 @@ export default {
     }
   }
   .weixin_way{
-    margin: 16px 0 0 16px;  
+    margin: 16px 0 0 9px;  
     display: block;
     border-bottom: solid 1px #706d6d;
     padding-bottom: 20px;
   }
   // 非网银支付
   .feiyin{
-    margin: 16px 0 0 16px;
+    margin: 16px 0 0 9px;
     display: block;
     color: black;
     font-size: 14px;  
@@ -433,7 +433,7 @@ export default {
     width: 207px;
     height: 50px;
     border: 1px solid #efefef;
-    margin-left: 16px;
+    margin-left: 9px;
      .iimg1{
       margin: 5px 0 0 30px;
     }
@@ -446,7 +446,7 @@ export default {
     }
   }
   .pingtai{
-    margin: 16px 0 0 16px;
+    margin: 16px 0 0 9px;
     display: block;
     color: black; 
     font-size: 14px;         
@@ -456,7 +456,7 @@ export default {
   }
   // 自助转账
   .zizhu{
-    margin: 16px 0 0 16px;
+    margin: 16px 0 0 9px;
     display: block;
     color: black;   
     font-size: 14px;       
@@ -470,7 +470,7 @@ export default {
     width: 350px;
     height: 70px;
     margin-top: 20px;
-    margin-left: 24px;
+    margin-left: 11px;
     .weixin_d{
     margin: -24px 0 0 3px;
     vertical-align: middle;
@@ -479,16 +479,19 @@ export default {
   .weixin_red{
     font-size: 1px;
     color: #ff6867;
-    margin: 13px 0 50px 22px;
+    margin: 13px 0 50px 15px;
   }
   .ph_bottom{
-    // height: 112px;
+    width: 100%;
     background-color: #e5e5e5;
     display: flex;
     font-size: 18px;
     line-height: 60px;
+    position: fixed;
+    bottom: 58px;
     .ph_wub{
       width: 66vw;
+      text-indent: 18px;
     }
     .ph_sy{
       width: 33.5vw;

@@ -290,11 +290,11 @@ export default {
         background: #ffffff;
         .tss{
           font-size:18px;
-          margin-top: 20px;
+          margin-top: 5%;
         }
         p {
           text-align: center;
-          margin-top: 25px;
+          margin-top: 8%;
         }
         ul {
           display: flex;
