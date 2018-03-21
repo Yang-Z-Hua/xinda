@@ -578,7 +578,7 @@ export default {
             }
             this.ajax
               .post(
-                "xinda-api/cart/add",
+                "/xinda-api/cart/add",
                 this.qs.stringify({
                   id: this.$route.query.id,
                   num: sss
@@ -1503,9 +1503,17 @@ export default {
       color: #fff;
     }
   }
-  .can_market {
+
+  // 以下为客户端隐藏部分
+  .guanggao {
+    display: none;
+  }
+  .message {
+    width: 100%;
+      .can_market {
     position: fixed;
     color: #fff;
+    font-size: 14px;
     top: 40%;
     left: 35%;
     width: 30%;
@@ -1513,12 +1521,6 @@ export default {
     background-color: #ccc;
     text-align: center;
   }
-  // 以下为客户端隐藏部分
-  .guanggao {
-    display: none;
-  }
-  .message {
-    width: 100%;
   }
   .buy {
     display: none;

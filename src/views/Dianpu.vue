@@ -79,10 +79,12 @@ export default {
       ],
       leiName: ["综合排序", "价格", "接单数"],
       weichat: ["综合排序", "销量"],
-      worryshow: "no"
+      worryshow: "no",
+      prevhtml: "",
     };
   },
   created() {
+    
     if (this.$route.query.all == 1) {
       this.$parent.$parent.status = "wait";
       window.scrollTo(0, 0);
@@ -117,9 +119,7 @@ export default {
     test(under) {
       this.currentUnder = under;
       if (under == 0) {
-        this.ajax.post("/xinda-api/provider/grid").then(data => {
-          this.arr = data.data.data;
-        });
+          this.arr = this.$parent.fwsAll.data.data;
       } else {
         this.ajax
           .post(
