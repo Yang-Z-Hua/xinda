@@ -45,7 +45,7 @@
           firstName: "社保代理",
           code: 6,
           }}'>
-        <img src="../assets/images/u10.png" alt="">
+        <img :src="linshi1" alt="" :class="picc">
       </router-link>
       <!-- 公司工商 -->
       <router-link :to='{path:"/inner/liebiaoye",query:{
@@ -53,7 +53,7 @@
           firstName: "公司工商",
           code: 4,
           }}'>
-        <img src="../assets/images/u12.png" alt="">
+        <img :src="linshi2" alt="" :class="picc">
       </router-link>
       <!-- 财税服务 -->
       <router-link :to='{path:"/inner/liebiaoye",query:{
@@ -61,7 +61,7 @@
           firstName: "财税服务",
           code: 3
           }}'>
-        <img src="../assets/images/u14.png" alt="">
+        <img :src="linshi3" alt="" :class="picc">
       </router-link>
       <!-- 知识产权 -->
       <router-link :to='{path:"/inner/liebiaoye",query:{
@@ -69,7 +69,7 @@
           firstName: "知识产权",
           code: 10,
           }}'>
-        <img src="../assets/images/u16.png" alt="">
+        <img :src="linshi4" alt="" :class="picc">
       </router-link>  
     </div>
 
@@ -175,7 +175,7 @@
       </ul>
       <ul class="knowledge">
         <li class="knowledge_1">
-          <img src="../assets/images/u82.png" alt="" class="u82">
+          <img :src="linshi5" alt="" class="u82">
           <span class="jia1" @click="jia1()"></span>
           <span class="jia2" @click="jia2()"></span>
           <span class="jia3" @click="jia3()"></span>
@@ -187,7 +187,7 @@
           firstName: "知识产权",
           code: 8,
           }}'>
-          <img src="../assets/images/u84.png" alt="" class="u84">
+          <img :src="linshi6" alt="" class="u84">
       </router-link>
       <router-link :to='{path:"/inner/liebiaoye",query:{
           id: "1eff122d06604fc1aadf9e7acefba21a",
@@ -195,7 +195,7 @@
           firstName: "知识产权",
           code: 9,
           }}'>
-          <img src="../assets/images/u86.png" alt="" class="u86">
+          <img :src="linshi7" alt="" class="u86">
       </router-link>
       <router-link :to='{path:"/inner/liebiaoye",query:{
           id: "1eff122d06604fc1aadf9e7acefba21a",
@@ -203,7 +203,7 @@
           firstName: "知识产权",
           code: 9,
           }}'>
-          <img src="../assets/images/aaa.png" alt="" class="u88">
+          <img :src="linshi8" alt="" class="u88">
       </router-link>
         </li>
       </ul>
@@ -212,7 +212,7 @@
 
 
     <!-- 中部广告============================================================== -->
-    <img src="../assets/images/approve.png" alt="" class="approve">
+    <img :src="linshi10" alt="" class="approve">
 
 
     <!-- 推荐服务商 ===========================  PC ================================-->
@@ -257,7 +257,7 @@
       <p>合作伙伴</p>
       <li class="triangle"></li>
     </ul>
-    <img src="../assets/images/zanshi2.png" alt="" class="partner">
+    <img :src="linshi9" alt="" class="partner">
   </div>
 
 </template>
@@ -272,7 +272,6 @@ export default {
     window.scrollTo(0, 0);
     var rf = this;
     document.onscroll = function() {
-      console.log(222,rf.$parent.fwsAll)
       if (a) {
         a = 0;
         rf.ajax.post("/xinda-api/recommend/list").then(data => {
@@ -284,9 +283,19 @@ export default {
         rf.ajax.post("/xinda-api/provider/search-grid").then(data => {
           rf.arr2 = data.data.data;
           rf.$parent.fwsAll=data;
-          console.log(11,rf.$parent.fwsAll);
         });
-      }
+      };
+      rf.linshi1 =require('../assets/images/u10.png');
+      rf.linshi2 = require('../assets/images/u12.png');
+      rf.linshi3 = require('../assets/images/u14.png');
+      rf.linshi4 = require('../assets/images/u16.png');
+      rf.linshi5 = require('../assets/images/u82.png');
+      rf.linshi6 = require('../assets/images/u84.png');
+      rf.linshi7 = require('../assets/images/u86.png');
+      rf.linshi8 = require('../assets/images/aaa.png');
+      rf.linshi9 = require('../assets/images/zanshi2.png');
+      rf.linshi10 = require('../assets/images/approve.png');
+      rf.picc = 'picture'
     };
     // 创业必备 推荐服务
 
@@ -309,7 +318,19 @@ export default {
       choose1: "",
       choose2: "yuan",
       imgSrc: "http://123.58.241.146:8088/xinda/pic",
-      currentIndex: -1
+      currentIndex: -1,
+      // 以下是图片不加载部分====
+      linshi1:'../assets/images/linshipic.png',
+      linshi2:'../assets/images/linshipic.png',
+      linshi3:'../assets/images/linshipic.png',
+      linshi4:'../assets/images/linshipic.png',
+      linshi5:'../assets/images/linshipic.png',
+      linshi6:'../assets/images/linshipic.png',
+      linshi7:'../assets/images/linshipic.png',
+      linshi8:'../assets/images/linshipic.png',
+      linshi9:'../assets/images/linshipic.png',
+      linshi10:'../assets/images/linshipic.png',
+      picc:'',
     };
   },
   mounted() {
@@ -689,7 +710,11 @@ export default {
     margin-top: 46px;
     display: flex;
     justify-content: space-between;
-    img {
+    a{
+      width: 254px;
+      height: 382px;
+    }
+    .picture {
       cursor: pointer;
       width: 254px;
       height: 382px;

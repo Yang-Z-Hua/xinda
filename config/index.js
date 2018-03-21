@@ -38,7 +38,7 @@ module.exports = {
         // https://vue-loader.vuejs.org/en/options.html#cachebusting
         cacheBusting: true,
 
-        cssSourceMap: true
+        cssSourceMap: false,
     },
 
     build: {
@@ -54,7 +54,12 @@ module.exports = {
          * Source Maps
          */
 
-        productionSourceMap: true,
+        productionSourceMap: false,
+
+        // cssSourceMap: false,
+        // productionSourceMap: false,只是方便查询，没必要打包出来
+
+
         // https://webpack.js.org/configuration/devtool/#production
         devtool: '#source-map',
 
@@ -62,7 +67,7 @@ module.exports = {
         // Surge or Netlify already gzip all static assets for you.
         // Before setting to `true`, make sure to:
         // npm install --save-dev compression-webpack-plugin
-        productionGzip: false,
+        productionGzip: true, //压缩更牛
         productionGzipExtensions: ['js', 'css'],
 
         // Run the build command with an extra argument to

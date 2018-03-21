@@ -36,7 +36,7 @@
             <div></div>
           </div>
           <div class="weichat_list">
-            <div v-for="(four,underNum) in data_1" :key="underNum" class="weichat_goos_list">
+            <div v-for="(four,underNum) in data_3" :key="underNum" class="weichat_goos_list">
               <div class="left"><img :src="imgSrc+four.productImg" alt="" @click="go_shopping(four)" @error='defaultImg'></div>
               <div class="right">
                 <p class="service_t" @click="go_shopping(four)">{{four.serviceName.split('（')[0]}}</p>
@@ -102,7 +102,8 @@ const defaultImgUrl1 = require("../assets/images/u4652.png");
 export default {
   name: "HelloWorld",
   created() {
-    window.scrollTo(0, 0),
+    window.scrollTo(0, 0);
+    var th = this;
       this.ajax
         .post(
           "/xinda-api/provider/detail",
@@ -112,7 +113,6 @@ export default {
         )
         .then(data => {
           this.arr = data.data.data;
-          console.log(this.arr);
         });
     this.ajax
       .post(
@@ -124,10 +124,14 @@ export default {
       .then(data => {
         this.data_1 = data.data.data;
         this.data_2 = this.data_1.slice(0, 6);
+        this.data_3 = this.data_1.slice(0,4);
         let number = Math.ceil(this.data_1.length / 6);
         for (let i = 0; i < number; i++) {
           this.array[i] = i + 1;
         }
+          document.onscroll = function() {
+            th.data_3 = th.data_1
+          }
       });
   },
   data() {
@@ -138,6 +142,7 @@ export default {
       data: "",
       data_1: "",
       data_2: "",
+      data_3: "",
       data_wei: "",
       imgSrc: "http://123.58.241.146:8088/xinda/pic",
       change1: "style1",
@@ -445,7 +450,9 @@ export default {
   }
   .style1 {
     color: #74b3df;
+    p{
     border-bottom: 2px solid #2693d4;
+    }
   }
   .style2 {
     color: black;
