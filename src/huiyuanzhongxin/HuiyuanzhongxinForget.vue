@@ -14,7 +14,8 @@
     </div>
     <div class="xmm">
       <p>新密码：</p>
-      <input type="password" v-model="new1">
+      <input type="password" @blur="ymm" v-model="new1">
+      <li class="tip">{{xinmim}}</li>
     </div>
     <div class="zcsr">
       <p>再次输入新密码：</p>
@@ -27,7 +28,6 @@
 </template>
 
 <script>
-import md5 from "md5";
 export default {
   name: "HelloWorld",
   data() {
@@ -37,19 +37,34 @@ export default {
       oldTip: "",
       new1: "",
       reNew1: "",
-      passwordTip: ""
+      passwordTip: "",
+      xinmim: ""
     };
   },
   created() {
+    window.scrollTo(0, 0);
     this.user = this.$parent.$parent.$parent.user;
   },
   methods: {
+    ymm() {
+      var pa = /^(\w){6,20}$/;
+      if (!pa.test(this.new1)) {
+        this.xinmim = "请输入6-12位密码";
+      } else {
+        this.xinmim = "";
+        return 1;
+      }
+    },
     save() {
       if (this.new1 != this.reNew1) {
         this.passwordTip = "两次密码不匹配";
       } else {
+        var pa = /^(\w){6,20}$/;
+        if (!pa.test(this.new1)) {
+          this.xinmim = "请输入6-12位密码";
+          return;
+        }
         this.passwordTip = "";
-
         this.ajax
           .post(
             "/xinda-api/sso/change-pwd",
@@ -59,7 +74,7 @@ export default {
             })
           )
           .then(data => {
-            this.passwordTip = data.data.msg;
+            this.oldTip = data.data.msg;
           });
       }
     }
@@ -98,6 +113,7 @@ export default {
         z-index: 2;
         position: absolute;
         margin-left: 9px;
+        cursor: pointer;
       }
       .xgmm {
         display: inline-block;
@@ -109,6 +125,7 @@ export default {
         z-index: 2;
         position: absolute;
         margin-left: 135px;
+        cursor: pointer;
       }
     }
     .password {
@@ -142,6 +159,7 @@ export default {
         color: #2992d3;
         border: 1px solid #2693d4;
         border-radius: 10%;
+        cursor: pointer;
       }
     }
   }

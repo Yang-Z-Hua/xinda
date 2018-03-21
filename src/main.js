@@ -2,18 +2,16 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 
 
-import Vue from 'vue' //var vue=require('vue');
+// import Vue from 'vue' //var vue=require('vue');
+// import ElementUI from 'element-ui'
+// import qs from 'qs'
+// import axios from 'axios'
 import App from './App'
 import router from './router'
-import axios from 'axios'
-import qs from 'qs'
 import store from './store'
-
-import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-// import App from './App.vue'
 
-Vue.use(ElementUI)
+// Vue.use(ElementUI)
 Vue.config.productionTip = false
 
 
@@ -21,7 +19,7 @@ Vue.config.productionTip = false
 Vue.config.productionTip = false
 axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded';
 Vue.prototype.ajax = axios;
-Vue.prototype.qs = qs;
+Vue.prototype.qs = Qs;
 
 
 /* eslint-disable no-new */

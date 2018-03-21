@@ -1,5 +1,9 @@
-import Vue from 'vue'
+// import Vue from 'vue'
 import Router from 'vue-router'
+
+
+
+
 // import Outter from '@/components/Outter'
 // import Inner from '@/components/Inner'
 // import Chanpinfenlei from '@/components/Chanpinfenlei'
@@ -53,7 +57,7 @@ const Liebiaoye = ()=>import('../views/Liebiaoye.vue');
 const Gouwuche = ()=>import('../views/Gouwuche.vue');
 const Dingdanxiangqing = ()=>import('../views/Dingdanxiangqing.vue');
 const Index = ()=>import('../views/Index.vue');
-Vue.use(Router)
+// Vue.use(Router)
 
 export default new Router({
   routes: [{

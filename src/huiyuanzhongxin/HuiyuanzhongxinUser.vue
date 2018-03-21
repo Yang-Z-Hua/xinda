@@ -64,6 +64,7 @@ export default {
     },
   },
   created() {
+    window.scrollTo(0, 0);
     this.ajax.post("/xinda-api/service/judge/grid",
       this.qs.stringify({
         start:0,

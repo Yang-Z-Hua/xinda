@@ -94,6 +94,7 @@ export default {
     }
   },
   created() {
+    window.scrollTo(0, 0);
     this.$parent.$parent.status = "wait";
     this.ajax
       .post("/xinda-api/member/info", this.qs.stringify({}))

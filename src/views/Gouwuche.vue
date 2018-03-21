@@ -102,12 +102,14 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["setNum"]),
     ...mapActions(["jianNum"]),
     jiesuan() {
       if (this.total != 0) {
         this.ajax
           .post("/xinda-api/cart/submit", this.qs.stringify({}))
           .then(data => {
+            this.setNum(0)
             console.log(data.data.data);
             console.log(this.total);
             this.$router.push({
@@ -391,8 +393,8 @@ export default {
     width: 768px;
     height: 256px;
   }
-  .ph_dianpu{
-    font-size: 15px;
+  .ph_dianpu {
+    font-size: 18px;
     margin: 13px 0 0 18px;
   }
   .ph_img {

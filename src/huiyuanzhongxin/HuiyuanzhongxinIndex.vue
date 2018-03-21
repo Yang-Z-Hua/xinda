@@ -284,6 +284,7 @@ export default {
     }
   },
   created() {
+    window.scrollTo(0, 0);
     this.$parent.$parent.$parent.status = "wait";
     this.xr('csh');
   }

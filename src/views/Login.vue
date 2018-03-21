@@ -27,7 +27,7 @@
 
 <script>
 import { mapActions } from "vuex";
-import md5 from "md5";
+// import md5 from "md5";
 export default {
   name: "HelloWorld",
   created() {
