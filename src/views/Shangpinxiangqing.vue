@@ -446,11 +446,6 @@ export default {
     close() {
       this.c1 = 0;
     },
-    start() {
-      this.c2 = 0;
-      this.c3 = 1;
-      this.c4 = 1;
-    },
     contact() {
       this.v1 = 1;
 
@@ -476,12 +471,9 @@ export default {
       } else if (this.checky == ""||this.yanTip!='') {
         this.yanTip = "验证码错误";
       } else {
-        this.v2 = 0;
-        this.v3 = 1;
-        this.v4 = 1;
-        this.phoneTip = "";
-        this.picTip = "";
-        this.yanTip = "";
+        this.c2 = 0;
+        this.c3 = 1;
+        this.c4 = 1;
       }
     },
     free() {

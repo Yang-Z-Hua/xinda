@@ -281,7 +281,7 @@ export default {
         });
 
         // 推荐服务商
-        rf.ajax.post("/xinda-api/provider/search-grid").then(data => {
+        rf.ajax.post("/xinda-api/provider/search-grid").then(data => {/*  */
           rf.arr2 = data.data.data;
           rf.$parent.fwsAll=data;
         });
