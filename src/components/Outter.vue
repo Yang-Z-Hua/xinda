@@ -63,7 +63,7 @@ export default {
   position: relative;
   img {
     position: absolute;
-    right: 10px;
+    left: 260px;
     top: 5px;
     width: 25px;
   }
@@ -119,6 +119,9 @@ export default {
   .zj {
     display: flex;
     padding: 50px 0 0 145px;
+    .d1 .tip{
+      color: red
+    }
     .d2 input,
     .d3 input {
       width: 172px;

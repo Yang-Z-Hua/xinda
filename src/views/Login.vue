@@ -84,6 +84,13 @@ export default {
     },
     login() {
       // 立即登录
+      var a = /1[3,4,5,7,8,9]\d{9}/;
+       if (!a.test(this.phone)) {
+         this.phoneTip='手机号不正确！';
+         return
+       }else{
+          this.phoneTip='';
+       }
       this.ajax
         .post(
           "/xinda-api/sso/login",
@@ -103,9 +110,6 @@ export default {
             this.$parent.$parent.denglu = "";
             this.$parent.$parent.ljzc = "";
             this.$parent.$parent.tuichu = "[退出]";
-            this.$router.push({
-              path: "/"
-            });
             this.ajax
               .post("/xinda-api/cart/list", this.qs.stringify({}))
               .then(data => {
@@ -123,6 +127,10 @@ export default {
               });
               return;
             }
+
+            this.$router.push({
+              path: "/"
+            });
           }
         });
     }

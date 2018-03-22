@@ -95,7 +95,8 @@ export default {
       arr1: "",
       allproduct: "allproduct",
       img: {},
-      fwsAll: ""
+      fwsAll: "",
+      cp:''
     };
   },
   created() {
@@ -110,9 +111,8 @@ export default {
         j++;
       }
     });
-    if (this.i) {
       this.chen("/xinda-api/product/package/search-grid");
-    }
+      this.list=this.cp;
   },
   methods: {
     blo() {
@@ -164,13 +164,14 @@ export default {
         )
         .then(data => {
           this.$parent.status = "wait1";
-          this.list = data.data.data;
+          this.cp = data.data.data;
+          this.list=this.cp;
         });
     },
     bs(i) {
       //搜索服务商或者产品
       if (i) {
-        this.chen("/xinda-api/product/package/search-grid");
+        this.list=this.cp;
         this.cpfw1 = "blue";
         this.cpfw2 = "";
         this.i = 1;

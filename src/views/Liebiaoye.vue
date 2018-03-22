@@ -203,7 +203,7 @@ export default {
         }
       });
     },
-    gouwuche(id1,b) {
+    gouwuche(id1, b) {
       // 加入购物车
       if (!this.$parent.$parent.user) {
         // 未登录的话需要登录
@@ -212,7 +212,7 @@ export default {
           path: "/outter/login",
           query: {
             id: id1,
-            newPrice:b
+            newPrice: b
           }
         });
         return;
@@ -241,7 +241,7 @@ export default {
         });
     },
     ...mapActions(["addNum"]),
-    buy(id1,b) {
+    buy(id1, b) {
       // 立即购买
       if (!this.$parent.$parent.user) {
         // 检测是否登录
@@ -250,7 +250,7 @@ export default {
           path: "/outter/login",
           query: {
             id: id1,
-            newPrice:b
+            newPrice: b
           }
         });
         return;
@@ -267,7 +267,12 @@ export default {
           this.$router.push({
             path: "/inner/gouwuche"
           });
-          // this.addNum(this.getNum + 1);
+          this.ajax
+            .post("/xinda-api/cart/list", this.qs.stringify({}))
+            .then(data => {
+              // this.$parent.$parent.number = data.data.data.length;
+              this.addNum(data.data.data.length);
+            });
         });
     },
     next() {

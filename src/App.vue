@@ -14,7 +14,7 @@
           <router-link :class="sty" to="/inner/gouwuche">购物车<span>{{getNum}}</span>件</router-link>
           <li :@mousemove="qd">
             服务商入口
-            <span class="qd">暂未开放，敬请期待！</span>
+            <span class="qd1">暂未开放，敬请期待！</span>
           </li>
         </div>
       </ul>
@@ -159,7 +159,7 @@ export default {
 </script>
 
 <style lang='less'>
-.qd{
+.qd1{
   position: absolute;
   color: red;
   padding-left: 4px;
