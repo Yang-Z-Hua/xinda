@@ -54,8 +54,8 @@
                   <p :class="animi==a.id?'dong':''">
                     <img :class="animi==a.id?'dong':''" src="../assets/images/qwewe.png" alt="">
                   </p>
-                  <span @mousedown="gm(a.id)" @mouseup="gm1" :class="ljgm==a.id?'down':''" @click="buy(a.id)">立即购买</span>
-                  <span @mousedown="gw(a.id)" @mouseup="gw1" :class="jrgwc==a.id?'down':''" @click="gouwuche(a.id)">加入购物车</span>
+                  <span @mousedown="gm(a.id)" @mouseup="gm1" :class="ljgm==a.id?'down':''" @click="buy(a.id,a.price)">立即购买</span>
+                  <span @mousedown="gw(a.id)" @mouseup="gw1" :class="jrgwc==a.id?'down':''" @click="gouwuche(a.id,a.price)">加入购物车</span>
                 </li>
               </div>
             </div>
@@ -203,7 +203,7 @@ export default {
         }
       });
     },
-    gouwuche(id1) {
+    gouwuche(id1,b) {
       // 加入购物车
       if (!this.$parent.$parent.user) {
         // 未登录的话需要登录
@@ -211,7 +211,8 @@ export default {
         this.$router.push({
           path: "/outter/login",
           query: {
-            id: id1
+            id: id1,
+            newPrice:b
           }
         });
         return;
@@ -240,7 +241,7 @@ export default {
         });
     },
     ...mapActions(["addNum"]),
-    buy(id1) {
+    buy(id1,b) {
       // 立即购买
       if (!this.$parent.$parent.user) {
         // 检测是否登录
@@ -248,7 +249,8 @@ export default {
         this.$router.push({
           path: "/outter/login",
           query: {
-            id: id1
+            id: id1,
+            newPrice:b
           }
         });
         return;
@@ -265,7 +267,7 @@ export default {
           this.$router.push({
             path: "/inner/gouwuche"
           });
-          this.addNum(this.getNum + 1);
+          // this.addNum(this.getNum + 1);
         });
     },
     next() {

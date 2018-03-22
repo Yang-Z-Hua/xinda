@@ -6,7 +6,9 @@
           <img src="./../assets/images/logo.jpg" alt="" @click="tiao">
           <ul>
             <li>北京市</li>
-            <p>[切换城市]</p>
+            <p>[切换城市]
+              <span class="qd">当前仅北京开放！！</span>
+            </p>
           </ul>
         </div>
         <div class="search">
@@ -93,7 +95,7 @@ export default {
       arr1: "",
       allproduct: "allproduct",
       img: {},
-      fwsAll:''
+      fwsAll: ""
     };
   },
   created() {
@@ -320,6 +322,22 @@ export default {
         font-size: 14px;
         p {
           color: #2693d4;
+          position: relative;
+          span.qd {
+            position: absolute;
+            color: red;
+            width: 130px;
+            padding-left: 4px;
+            top: 20px;
+            background: white;
+            border: 1px solid;
+            border-radius: 5px;
+            line-height: 2;
+            display: none;
+          }
+        }
+        p:hover .qd{
+          display: block;
         }
       }
     }

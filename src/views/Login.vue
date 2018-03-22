@@ -103,6 +103,15 @@ export default {
             this.$parent.$parent.denglu = "";
             this.$parent.$parent.ljzc = "";
             this.$parent.$parent.tuichu = "[退出]";
+            this.$router.push({
+              path: "/"
+            });
+            this.ajax
+              .post("/xinda-api/cart/list", this.qs.stringify({}))
+              .then(data => {
+                this.$parent.$parent.sty = "show";
+                this.setNum(data.data.data.length);
+              });
             if (this.$route.query.id) {
               // 如果之前点击该买/加入购物车进来的，在跳回去
               this.$router.push({
@@ -114,15 +123,6 @@ export default {
               });
               return;
             }
-            this.$router.push({
-              path: "/"
-            });
-            this.ajax
-              .post("/xinda-api/cart/list", this.qs.stringify({}))
-              .then(data => {
-                this.$parent.$parent.sty = "show";
-                this.setNum(data.data.data.length);
-              });
           }
         });
     }

@@ -12,7 +12,10 @@
         </div>
         <div class="right">
           <router-link :class="sty" to="/inner/gouwuche">购物车<span>{{getNum}}</span>件</router-link>
-          <li>服务商入口</li>
+          <li :@mousemove="qd">
+            服务商入口
+            <span class="qd">暂未开放，敬请期待！</span>
+          </li>
         </div>
       </ul>
     </div>
@@ -79,7 +82,6 @@ export default {
     ...mapGetters(["getNum"])
   },
   created() {
-    
     this.ajax
       .post("/xinda-api/member/info", this.qs.stringify({}))
       .then(data => {
@@ -95,7 +97,7 @@ export default {
     this.ajax.post("/xinda-api/cart/list", this.qs.stringify({})).then(data => {
       //初始化右上角购物车件数
       // this.number = data.data.data.length;
-      this.setNum(data.data.data.length)
+      this.setNum(data.data.data.length);
     });
   },
   methods: {
@@ -157,6 +159,18 @@ export default {
 </script>
 
 <style lang='less'>
+.qd{
+  position: absolute;
+  color: red;
+  padding-left: 4px;
+  top: 30px;
+  background: white;
+  border: 1px solid ;
+  border-radius: 5px;
+  line-height: 2;
+  display: none;
+}
+
 .wait1 {
   display: none;
 }
@@ -260,6 +274,9 @@ export default {
     color: #2693d4;
     margin-left: 17px;
   }
+  .mmm .right li:hover span{
+    display: block
+  }
   .mmm .right ul {
     cursor: pointer;
   }
@@ -330,10 +347,10 @@ export default {
     color: #2693d4;
   }
   .phonePub {
-    div ul{
-      line-height: 1
+    div ul {
+      line-height: 1;
     }
-    div img{
+    div img {
       margin-top: 6px;
     }
     width: 100vw;
