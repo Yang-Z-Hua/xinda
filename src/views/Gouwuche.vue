@@ -45,6 +45,10 @@
           <a class="shopoing_p5">原价:￥2000.00</a><a href="javascrip:void(0)" class="shopoing_p6">查看详情>>></a>
         </div>
       </div>
+       <div :class="shp_kong">
+        <img src="../assets/images/gou_kong.jpg" alt="" class="kong">
+        <div class="qu"><router-link to="/" class="shouye">去首页</router-link></div>
+      </div>
     </div>
     <!-- 微信端 -->
     <div class="weixin_p">

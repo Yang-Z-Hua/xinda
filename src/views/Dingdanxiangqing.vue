@@ -131,6 +131,7 @@ export default {
       pic:0,
       iii:'',
       sdsd:'javascript:void(0)',
+      ceshi:'',
     }
   },
   methods:{
@@ -172,6 +173,7 @@ export default {
     }
   },
   created() {
+
     this.all = this.$route.query.op
     this.ajax.post('/xinda-api/business-order/detail',this.qs.stringify({
       businessNo:this.$route.query.businessNo
