@@ -290,10 +290,11 @@ export default {
 </script>
 
 <style lang="less">
-.el-input--prefix .el-input__inner {
-  padding: 0;
+.el-date-editor.el-input{
+  width: 111px;
 }
 .el-input__inner {
+  padding: 0;
   height: 23px;
 }
 .el-input__icon {
@@ -566,9 +567,9 @@ export default {
         display: inline-block;
         font-size: 14px;
       }
-      .rili {
-        width: 111px;
-      }
+      // .rili {
+      //   width: 111px;
+      // }
     }
     .list {
       margin-top: 22px;

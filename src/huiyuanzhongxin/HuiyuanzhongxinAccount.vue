@@ -19,15 +19,7 @@
     <div class="touxiang">
       <p>当前头像：</p>
       <span>
-        <el-upload
-          class="avatar-uploader"
-          action="https://jsonplaceholder.typicode.com/posts/"
-          :show-file-list="false"
-          :on-success="handleAvatarSuccess"
-          :before-upload="beforeAvatarUpload">
-          <img v-if="imageUrl" :src="imageUrl" class="avatar">
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>    
+        <img src="../assets/images/u7066.png" alt="">    
       </span>
     </div>
     <div class="information">
@@ -201,22 +193,6 @@ export default {
         });          
       });
     },
-
-    handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
-      },
-      beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < 2;
-
-        if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
-        }
-        if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
-        }
-        return isJPG && isLt2M;
-      },
     //
     ymm() {
       var pa = /^(\w){6,20}$/;
@@ -274,29 +250,6 @@ export default {
     height: 23px;
   }
 }
-.avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 70px;
-    height: 70px;
-    line-height: 70px;
-    text-align: center;
-  }
-  .avatar {
-    width: 70px;
-    height: 70px;
-    display: block;
-  }
 </style>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -397,6 +350,10 @@ export default {
       span {
         margin-left: 10px;
         overflow: hidden;
+        img{
+          width:70px;
+          height: 70px;
+        }
       }
     }
     .information {
