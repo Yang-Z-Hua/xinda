@@ -13,6 +13,7 @@
       <input type="text" @keypress="qwe" v-model="No" placeholder="请输入订单号搜索">
       <li @click="search">搜索</li>
     </div>
+    <p class="ddch">{{dingdcx}}</p>
     <div class="time">
       <p>创建时间：</p>
       <el-date-picker class="rili" v-model="startDate" type="date"></el-date-picker>
@@ -121,6 +122,7 @@ export default {
   name: "HelloWorld",
   data() {
     return {
+      dingdcx:'',
       mnr: false,
       xy: "<",
       nextTip: "",
@@ -205,6 +207,9 @@ export default {
       this.xr(0);
     },
     search() {
+      if(this.No == undefined){
+        this.dingdcx = '请输入订单号'
+      }
       this.startNum = 0;
       this.count = 1;
       this.xr();
@@ -535,10 +540,16 @@ export default {
         position: absolute;
         margin-left: 9px;
       }
-    }
+    } 
+    .ddch{
+        color: red;
+        font-size:14px;
+        margin-left:76px;
+      } 
     .order {
       margin: 22px 0 0 2px;
       height: 26px;
+     
       p {
         font-size: 14px;
         display: inline-block;
