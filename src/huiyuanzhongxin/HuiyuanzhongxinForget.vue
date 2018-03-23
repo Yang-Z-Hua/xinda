@@ -22,7 +22,7 @@
       <input type="password" v-model="reNew1">
       <li class="tip">{{passwordTip}}</li>
     </div>
-    <p class="baocun" @click="save">保存</p>
+    <p class="baocun" @click="open2">保存</p>
   </div>
 </div>
 </template>
@@ -46,6 +46,52 @@ export default {
     this.user = this.$parent.$parent.$parent.user;
   },
   methods: {
+    open2() {
+      this.$confirm("是否修改当前密码?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          if (this.new1 != this.reNew1) {
+            this.passwordTip = "两次密码不匹配";
+          } else {
+            this.passwordTip = "";
+            this.ajax
+              .post(
+                "/xinda-api/sso/change-pwd",
+                this.qs.stringify({
+                  oldPwd: md5(this.old),
+                  newPwd: md5(this.new1)
+                })
+              )
+              .then(data => {
+                if (data.data.status == -1) {
+                  this.oldTip = data.data.msg;
+                  this.$message({
+                    type: "error",
+                    message: "修改失败!"
+                  });
+                }
+                if (data.data.status == 1) {
+                  this.oldTip=''
+                  this.$message({
+                    type: "success",
+                    message: "修改成功!"
+                  });
+                  return;
+                }
+              });
+          }
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消修改"
+          });
+        });
+    },
+    //
     ymm() {
       var pa = /^(\w){6,20}$/;
       if (!pa.test(this.new1)) {
@@ -56,27 +102,7 @@ export default {
       }
     },
     save() {
-      if (this.new1 != this.reNew1) {
-        this.passwordTip = "两次密码不匹配";
-      } else {
-        var pa = /^(\w){6,20}$/;
-        if (!pa.test(this.new1)) {
-          this.xinmim = "请输入6-12位密码";
-          return;
-        }
-        this.passwordTip = "";
-        this.ajax
-          .post(
-            "/xinda-api/sso/change-pwd",
-            this.qs.stringify({
-              oldPwd: md5(this.old),
-              newPwd: md5(this.new1)
-            })
-          )
-          .then(data => {
-            this.oldTip = data.data.msg;
-          });
-      }
+      this.open2();
     }
   }
 };

@@ -1,15 +1,5 @@
 <template>
   <div class="right">
-    <div class="tckuang" v-show="qrsc">
-      <div class="tanchuk">
-        <p class="tss">提示</p>
-        <p>确认删除该订单?</p>
-        <ul>
-          <li class="qd" @click="sc('sdw')">确定</li>
-          <li class="qx" @click="quxiao">取消</li>
-        </ul>
-      </div>
-    </div>
     <div class="right-top">
       <span>
         <router-link to="/shoujihuiyuanzhongxin" tag="div">
@@ -97,7 +87,7 @@
             <!-- PC -->
             <div class="zhong">
               <p class="xg" @click="fukuan(aa.businessNo,aa.totalPrice)">付款</p>
-              <p class="scdd" @click="sc(aa.id)">删除订单</p>
+              <p class="scdd" @click="open2(aa.id)">删除订单</p>
             </div>
           </div>
           <div class="fksc">
@@ -107,7 +97,7 @@
             </div>
             <div class="ddfk">
               <!-- 手机 -->
-              <span class="aato" @click="shanc(aa.id)" >删除订单</span>
+              <span class="aato" @click="open2(aa.id)" >删除订单</span>
               <span class="fuk" @click="fukuan(aa.businessNo,aa.totalPrice)">付款</span>
             </div>
           </div>
@@ -132,7 +122,6 @@ export default {
   data() {
     return {
       mnr: false,
-      qrsc: false,
       xy: "<",
       nextTip: "",
       prevTip: "",
@@ -152,11 +141,40 @@ export default {
     };
   },
   methods: {
-    qwe(e){
+    open2(id) {
+      this.$confirm("此操作将删除该订单, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {;
+          this.ajax
+            .post(
+              "/xinda-api/business-order/del",
+              this.qs.stringify({
+                id: id
+              })
+            )
+            .then(data => {
+              this.xr("sc");
+              this.$message({
+                type: "success",
+                message: "删除成功!"
+              });
+            });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
+    },
+    //
+    qwe(e) {
       if (e.keyCode == 13) {
         this.search();
       }
-
     },
     fukuan(asd, mmm) {
       this.$router.push({
@@ -193,10 +211,10 @@ export default {
     },
     xr(i) {
       this.$parent.$parent.$parent.status = "Lwait";
-      if(window.innerWidth < 768){
-         this.$parent.$parent.$parent.status = "wait";
+      if (window.innerWidth < 768) {
+        this.$parent.$parent.$parent.status = "wait";
       }
-      if(i=='csh'){
+      if (i == "csh") {
         this.$parent.$parent.$parent.status = "wait";
       }
       this.ajax
@@ -219,11 +237,11 @@ export default {
                 this.xr();
                 this.count--;
                 this.mnr = !this.mnr;
-              } 
+              }
             }
-            if(i==2){
+            if (i == 2) {
               this.mnr = !this.mnr;
-              return
+              return;
             }
           }
           if (i == 2) {
@@ -260,33 +278,13 @@ export default {
         });
     },
     sc(id) {
-      if(id!='sdw'){
-        this.id = id;
-      }
-      this.qrsc=!this.qrsc;
-      this.ajax
-        .post(
-          "/xinda-api/business-order/del",
-          this.qs.stringify({
-            id: this.id
-          })
-        )
-        .then(data => {
-          this.xr("sc");
-        });
+      this.open2(id);
     },
-    shanc(id) {
-      this.qrsc = !this.qrsc;
-      this.id = id;
-    },
-    quxiao() {
-      this.qrsc = !this.qrsc;
-    }
   },
   created() {
     window.scrollTo(0, 0);
     this.$parent.$parent.$parent.status = "wait";
-    this.xr('csh');
+    this.xr("csh");
   }
 };
 </script>
@@ -309,7 +307,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 @media (max-width: 768px) {
-  * {margin: 0;padding: 0;}
+  * {
+    margin: 0;
+    padding: 0;
+  }
   .right {
     width: 100%;
     display: inline-block;
@@ -325,48 +326,6 @@ export default {
         font-size: 50px;
       }
     }
-    .tckuang{
-      width:100%;
-      height:100%;
-      z-index:66;
-      position: fixed;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: rgba(0, 0, 0, 0.2);
-      .tanchuk {
-        width: 70%;
-        height: 150px;
-        z-index: 66;
-        position: absolute;
-        background: #fff;
-        .tss{
-          font-size:18px;
-          margin-top: 5%;
-        }
-        p {
-          text-align: center;
-          margin-top: 8%;
-        }
-        ul {
-          display: flex;
-          justify-content: space-between;
-        }
-        li {
-          display: inline-block;
-          margin: 25px 20px 0 20px;
-          padding: 7px 25px;
-          color: #fff;
-        }
-        .qd {
-          background: #2693d4;
-        }
-        .qx {
-          background: #9c9c9c;
-        }
-      }
-    }
-
     .right-top {
       height: 40px;
       display: -webkit-box;
@@ -463,8 +422,8 @@ export default {
                   // height: 70%;
                   margin-left: 12px;
                   overflow: hidden;
-                  img{
-                    width:60px
+                  img {
+                    width: 60px;
                     // height: 100%;
                   }
                 }
@@ -543,9 +502,6 @@ export default {
     width: 936px;
     display: inline-block;
     margin: 36px 0 0 22px;
-    .tckuang {
-      display: none;
-    }
     .meidd {
       width: 934px;
       height: 320px;
@@ -687,8 +643,8 @@ export default {
                   height: 80%;
                   margin-left: 12px;
                   overflow: hidden;
-                  img{
-                    width:100%;
+                  img {
+                    width: 100%;
                     height: 100%;
                   }
                 }

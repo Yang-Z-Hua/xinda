@@ -1,26 +1,6 @@
 <template>
 <div class="right">
-  <div class="tckuang" v-if="qrscc">
-  <div class="tanchuk">
-    <p class="tss">提示</p>
-    <p>是否确认修改？</p>
-    <ul>
-      <li class="qd" @click="send">确定</li>
-      <li class="qx"  @click="quxiaoo">取消</li>
-    </ul>
-   </div>
-  </div>
   <div>
-  <div class="tckuangg" v-if="qrsc">
-  <div class="tanchuk">
-    <p class="tss">提示</p>
-    <p>是否确认修改？</p>
-    <ul>
-      <li class="qd" @click="save">确定</li>
-      <li class="qx"  @click="quxiao">取消</li>
-    </ul>
-   </div>
-  </div>
   <div class="zhshez">
     <span class="xiaoyu">
       <router-link to="/shoujihuiyuanzhongxin" tag="div">
@@ -38,7 +18,17 @@
   <div class="dibu">
     <div class="touxiang">
       <p>当前头像：</p>
-      <span><img src="../assets/images/u7066.png" alt=""></span>
+      <span>
+        <el-upload
+          class="avatar-uploader"
+          action="https://jsonplaceholder.typicode.com/posts/"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload">
+          <img v-if="imageUrl" :src="imageUrl" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>    
+      </span>
     </div>
     <div class="information">
       <div class="xingming">
@@ -65,8 +55,7 @@
             <Area @confirm='bianma' display='ar'/>
         </div>
       </div>
-      <p class="baocun" @click="senn">保存</p>
-      <p class="baocun1" @click="send">保存</p>
+      <p class="baocun" @click="open2">保存</p>
     </div>
     <div class="beijingse"></div>
   </div>
@@ -94,7 +83,7 @@
         <input type="password" v-model="reNew1">
       </div>
        <p class="tip">{{passwordTip}}</p>
-      <p class="baocun" @click="sen">保存</p>
+      <p class="baocun" @click="open3">保存</p>
     </div>  
     <div class="beijingse"></div>
   </div>
@@ -126,8 +115,7 @@ export default {
   },
   data() {
     return {
-      qrscc: false,
-      qrsc: false,
+      imageUrl: '',
       xy: "<",
       pgone: "", //邮箱
       pgonets: "", //邮箱提示
@@ -151,25 +139,44 @@ export default {
     Area
   },
   methods: {
-    ymm() {
-      var pa = /^(\w){6,20}$/;
-      if (!pa.test(this.new1)) {
-        this.xinmim = "请输入6-12位密码";
-      } else {
-        this.xinmim = "";
-        return 1;
-      }
+    open2() {
+      this.$confirm('是否修改当前用户信息?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.ajax
+        .post(
+          "/xinda-api/member/update-info",
+          this.qs.stringify({
+            headImg: "/2016/10/28/152843b6d9a04abe83a396d2ba03675f",
+            name: this.mingzi,
+            gender: this.sex,
+            email: this.pgone,
+            regionId: this.youbian
+          })
+        )
+        .then(data => {});
+        this.$message({
+          type: 'success',
+          message: '修改成功!'
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消修改'
+        });          
+      });
     },
-    save() {
-      this.qrsc = !this.qrsc;
-      if (this.new1 != this.reNew1) {
+    open3() {
+      this.$confirm('是否修改当前密码?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+         if (this.new1 != this.reNew1) {
         this.passwordTip = "两次密码不匹配";
       } else {
-        var pa = /^(\w){6,20}$/;
-        if (!pa.test(this.new1)) {
-          this.xinmim = "请输入6-12位密码";
-          return;
-        }
         this.passwordTip = "";
         this.ajax
           .post(
@@ -183,6 +190,45 @@ export default {
             this.oldTip = data.data.msg;
           });
       }
+        // this.$message({
+        //   type: 'success',
+        //   message: '修改成功!'
+        // });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消修改'
+        });          
+      });
+    },
+
+    handleAvatarSuccess(res, file) {
+        this.imageUrl = URL.createObjectURL(file.raw);
+      },
+      beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        const isLt2M = file.size / 1024 / 1024 < 2;
+
+        if (!isJPG) {
+          this.$message.error('上传头像图片只能是 JPG 格式!');
+        }
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不能超过 2MB!');
+        }
+        return isJPG && isLt2M;
+      },
+    //
+    ymm() {
+      var pa = /^(\w){6,20}$/;
+      if (!pa.test(this.new1)) {
+        this.xinmim = "请输入6-12位密码";
+      } else {
+        this.xinmim = "";
+        return 1;
+      }
+    },
+    save() {
+      this.open3();
     },
     bianma(a) {
       this.youbian = a;
@@ -193,32 +239,8 @@ export default {
     woman() {
       this.sex = 2;
     },
-    senn() {
-      this.qrscc = !this.qrscc;
-    },
-    sen() {
-      this.qrsc = !this.qrsc;
-    },
-    quxiaoo() {
-      this.qrscc = !this.qrscc;
-    },
-    quxiao() {
-      this.qrsc = !this.qrsc;
-    },
     send() {
-      this.qrscc = !this.qrscc;
-      this.ajax
-        .post(
-          "/xinda-api/member/update-info",
-          this.qs.stringify({
-            headImg: "/2016/10/28/152843b6d9a04abe83a396d2ba03675f",
-            name: this.mingzi,
-            gender: this.sex,
-            email: this.pgone,
-            regionId: this.youbian
-          })
-        )
-        .then(data => {});
+      this.open2()
     },
     email() {
       var a = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
@@ -252,6 +274,29 @@ export default {
     height: 23px;
   }
 }
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    text-align: center;
+  }
+  .avatar {
+    width: 70px;
+    height: 70px;
+    display: block;
+  }
 </style>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -314,9 +359,11 @@ export default {
       }
       .qd {
         background: #2693d4;
+        cursor: pointer;
       }
       .qx {
         background: #9c9c9c;
+        cursor: pointer;
       }
     }
     .zhshez {
@@ -350,10 +397,6 @@ export default {
       span {
         margin-left: 10px;
         overflow: hidden;
-        img {
-          width: 70px;
-          height: 70px;
-        }
       }
     }
     .information {
@@ -399,9 +442,6 @@ export default {
         border: 1px solid #2693d4;
         border-radius: 10%;
         cursor: pointer;
-      }
-      .baocun1 {
-        display: none;
       }
     }
     .ts {
@@ -481,7 +521,53 @@ export default {
   }
   .tckuang {
     display: none;
-  }
+  }  .tckuang{
+      top:0;
+      left: 0;
+      width:100%;
+      height:100%;
+      z-index:66;
+      position: fixed;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.2);
+      .tanchuk {
+        // margin:185px 0 0 100px;
+        width: 400px;
+        height: 170px;
+        z-index: 66;
+        position: absolute;
+        background: #fff;
+        border: 1px solid #ccc;
+        .tss{
+          font-size:18px;
+          margin-top: 5%;
+        }
+        p {
+          text-align: center;
+          margin-top: 8%;
+        }
+        ul {
+          display: flex;
+          justify-content: space-between;
+        }
+        li {
+          display: inline-block;
+          margin: 25px 20px 0 20px;
+          padding: 7px 25px;
+          color: #fff;
+        }
+        .qd {
+          background: #2693d4;
+          cursor: pointer;
+        }
+        .qx {
+          background: #9c9c9c;
+          cursor: pointer;
+        }
+      }
+    }
   .rig {
     display: none;
   }
@@ -567,9 +653,6 @@ export default {
         }
       }
       .baocun {
-        display: none;
-      }
-      .baocun1 {
         margin: 41px 0 0 95px;
         display: inline-block;
         padding: 5px 20px;
