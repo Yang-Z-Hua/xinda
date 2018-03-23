@@ -43,7 +43,8 @@
       <p class="goods_red">注：转账时请将订单编号备注在付款信息里：转账完成后，请通知客服</p>
       <div class="goods_jiesuan">
         <a class="goods_am">金额总计</a><a class="goods_shuzi">￥{{all}}.00</a>
-        <div class="goods_kuang"><a @click="chuxian" class="goods_end" :href="sdsd">去结算</a></div>
+        <!-- <div class="goods_kuang"><a @click="chuxian" class="goods_end" :href="sdsd">去结<el-button type="text" @click="open">点击打开 Message Box</el-button>算</a></div> -->
+        <div class="goods_kuang"><el-button type="text" @click="open" class="goods_end">结算</el-button></div>
       </div>
       <div class="imgw1" v-show="pic">
         <a href="javascript:void(0)"  @click="X" class="guanbi">×</a>
@@ -136,6 +137,22 @@ export default {
     }
   },
   methods:{
+     open() {
+         if(this.iii){
+      this.pic  = 1
+    }else{
+      this.pic  = 0   
+        this.$alert('请选择支付类型', '标题名称', {
+          confirmButtonText: '确定',
+          callback: action => {
+            this.$message({
+              type: 'info',
+              message: `action: ${ action }`
+            });
+          }
+        });
+      }
+      },
   timestampToTime(we) {
         var date = new Date(we);
         var Y = date.getFullYear() + '-';
@@ -326,9 +343,11 @@ export default {
   }
   .goods_end{
     text-decoration: none;
-    text-align: center;
-    line-height: 26px;
+    // text-align: center;
+    // line-height: 26px;
     display: block;
+    margin: -7px 0 0 35px;
+    font-size: 16px;
   }
   .imgw1{
     width: 332px;

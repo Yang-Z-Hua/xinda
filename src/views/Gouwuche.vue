@@ -65,7 +65,8 @@
             <ul class="ph_g">
               <ul class="ph_g3">
                 <li class="ph_g1">{{item.serviceName}}</li>
-                <li @click="shopping_del(item.serviceId)" class="ph_dell"><a href="javascript:void(0)">删除订单</a></li>
+                <!-- <li @click="shopping_del(item.serviceId)" class="ph_dell"><a href="javascript:void(0)">删除订单</a></li> -->
+                <el-button type="text" @click="open2(item.serviceId)" ><a href="javascript:void(0)" class="dell">删除订单</a></el-button>
               </ul>  
               <li class="ph_g2"><a class="ph_red">￥{{item.unitPrice}}</a>　元</li>
               <li class="ph_jiajia">购买数量 : <a @click="key=1,--item.buyNum" href="javascript:void(0)" class="asph">-</a>{{item.buyNum=item.buyNum>=1?item.buyNum:1}}<a @click="key=1,++item.buyNum" href="javascript:void(0)" class="asph">+</a></li>
@@ -436,6 +437,9 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
+  .shopping_kong{
+    display: none;
+  }
   .shopoing_phon {
     display: block;
   }
