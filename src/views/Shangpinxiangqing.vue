@@ -584,7 +584,7 @@ export default {
                 "/xinda-api/cart/add",
                 this.qs.stringify({
                   id: this.$route.query.id,
-                  num: sss
+                  num: n
                 })
               )
               .then(data => {

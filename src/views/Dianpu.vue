@@ -42,8 +42,6 @@
       </div>
     </div>
 
-
-  
     <!-- 下部页码数 -->
     <ul class="page">
       <button>上一页</button>
@@ -51,6 +49,33 @@
       <button>下一页</button>
     </ul>
 
+
+
+
+    <!-- element ui 分页实验===================== -->
+
+      <div class="block">
+        <span class="demonstration">直接前往</span>
+        
+        <el-pagination
+          background
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page.sync="currentPage3"
+          :page-size="100"
+          layout="prev, pager, next, jumper"
+          :total="1000">
+        </el-pagination>
+      </div>
+
+
+
+
+
+
+
+
+    
   </div>
 </template>
 
