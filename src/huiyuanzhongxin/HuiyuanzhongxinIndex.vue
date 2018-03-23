@@ -568,9 +568,9 @@ export default {
         display: inline-block;
         font-size: 14px;
       }
-      // .rili {
-      //   width: 111px;
-      // }
+      .rili {
+        width: 111px;
+      }
     }
     .list {
       margin-top: 22px;
