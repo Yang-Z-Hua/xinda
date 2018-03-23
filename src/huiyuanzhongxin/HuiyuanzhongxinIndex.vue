@@ -147,7 +147,7 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       })
-        .then(() => {;
+        .then(() => {
           this.ajax
             .post(
               "/xinda-api/business-order/del",
@@ -279,7 +279,7 @@ export default {
     },
     sc(id) {
       this.open2(id);
-    },
+    }
   },
   created() {
     window.scrollTo(0, 0);
@@ -290,18 +290,19 @@ export default {
 </script>
 
 <style lang="less">
-.el-date-editor.el-input{
+.el-date-editor.el-input,
+.el-date-editor.el-input__inner {
   width: 111px;
-}
-.el-input__inner {
-  padding: 0;
-  height: 23px;
-}
-.el-input__icon {
-  line-height: 0;
-}
-.el-input__prefix {
-  left: 85px;
+  .el-input__inner {
+    padding: 0;
+    height: 23px;
+  }
+  .el-input__icon {
+    line-height: 0;
+  }
+  .el-input__prefix {
+    left: 85px;
+  }
 }
 </style>
 
