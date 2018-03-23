@@ -120,7 +120,7 @@ export default {
       });
     },
     reset() {
-      this.open2();
+      // this.open2();
       // 确认修改
       if (this.yzmtg == 0) {
         // 没有获取手机验证码
@@ -161,6 +161,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang='less'>
+.zj{
+  padding-bottom: 100px;
+}
 .d3 span {
   position: absolute;
   left: 165px;

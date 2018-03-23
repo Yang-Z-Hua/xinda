@@ -166,16 +166,16 @@ export default {
       });
     },
     regist() {
-      this.open2()
-      if(!this.checkphone()){
-        return
+      // this.open2()
+      if (!this.checkphone()) {
+        return;
       }
-      if(!this.pic){
-        this.picTip='请输入验证码';
-        return
+      if (!this.pic) {
+        this.picTip = "请输入验证码";
+        return;
       }
       if (this.yzmtg == 0) {
-        this.picTip='';
+        this.picTip = "";
         // this.hq();
         this.yzmcw = "请获取验证码";
         return;

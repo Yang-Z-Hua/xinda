@@ -30,7 +30,7 @@
           </div>
         </div>
         <div class="phone">
-          <img src="../assets/images/phone.jpg" alt="">
+          <img src="../assets/images/phone.jpg" alt="" @click="cs">
           <span>010-83421842</span>
         </div>
       </div>
@@ -98,7 +98,9 @@ export default {
       fwsAll: "",
       cp: "",
       search: "搜索您需要的服务或服务商(不超过30个字)",
-      serBS: "" //搜索框变色
+      serBS: "", //搜索框变色
+      rq: 0,
+      time: []
     };
   },
   created() {
@@ -117,6 +119,21 @@ export default {
     this.list = this.cp;
   },
   methods: {
+    cs() {
+      var this1 = this;
+      // this.time[this.rq] = new Date().getTime();
+      // (function(a) {
+      //   this1.rq++;
+      //   setTimeout(function() {
+      //     if (this1.time[a + 1] && this1.time[a + 1] - this1.time[a] < 1000) {
+      //       return;
+      //     } else {
+      //       //这里写实际的代码
+      //       console.log(this1.rq);
+      //     }
+      //   }, 1000);
+      // })(this.rq);
+    },
     blo() {
       this.allproduct = "allproduct";
     },
@@ -202,8 +219,8 @@ export default {
     ser() {
       this.search = "搜索您需要的服务或服务商(不超过30个字)";
       this.serBS = "";
-      if (this.searchFor.length >30) {
-        this.searchFor=this.searchFor.substr(0,30);
+      if (this.searchFor.length > 30) {
+        this.searchFor = this.searchFor.substr(0, 30);
       }
     },
     searchService() {
@@ -379,7 +396,7 @@ export default {
         padding-left: 10px;
       }
       input.bian {
-        border: 2px solid red ;
+        border: 2px solid red;
         // color: red
       }
       .mdd span {

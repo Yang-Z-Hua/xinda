@@ -30,7 +30,6 @@ import Router from 'vue-router'
 // import Zhifu from '@/views/Zhifu'
 // import Search from '@/views/Search'
 // import Shoujihuiyuanzhongxin from '@/views/Shoujihuiyuanzhongxin'
-
 const Inner = ()=>import('@/components/Inner');
 const Outter = ()=>import('@/components/Outter');
 const Chanpinfenlei = ()=>import('@/components/Chanpinfenlei');

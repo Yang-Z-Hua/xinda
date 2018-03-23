@@ -85,24 +85,24 @@ export default {
     login() {
       // 立即登录
       var a = /1[3,4,5,7,8,9]\d{9}/;
-       if (!a.test(this.phone)) {
-         this.phoneTip='手机号不正确！';
-         return
-       }else{
-          this.phoneTip='';
-       }
-       if(!this.password){
-         this.passwordTip='请输入密码！'
-         return
-       }else{
-         this.passwordTip=''
-       }
-       if(!this.yzm){
-         this.picTip='请输入验证码！'
-         return
-       }else{
-         this.picTip=''
-       }
+      if (!a.test(this.phone)) {
+        this.phoneTip = "手机号不正确！";
+        return;
+      } else {
+        this.phoneTip = "";
+      }
+      if (!this.password) {
+        this.passwordTip = "请输入密码！";
+        return;
+      } else {
+        this.passwordTip = "";
+      }
+      if (!this.yzm) {
+        this.picTip = "请输入验证码！";
+        return;
+      } else {
+        this.picTip = "";
+      }
       this.ajax
         .post(
           "/xinda-api/sso/login",
@@ -114,7 +114,7 @@ export default {
         )
         .then(data => {
           if (data.data.status == -1) {
-            console.log(data)
+            console.log(data);
             this.tip = data.data.msg;
             this.cha();
           } else {
@@ -156,6 +156,13 @@ export default {
 @media screen and (max-width: 768px) {
   div div ul.d3 {
     display: none;
+  }
+  .tip {
+    border: none;
+    margin-left: 0;
+    color: red;
+    position: relative;
+    top: -10px
   }
   .left li.ti {
     color: red;
