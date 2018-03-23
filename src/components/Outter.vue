@@ -119,7 +119,7 @@ export default {
   .zj {
     display: flex;
     padding: 50px 0 0 145px;
-    .d1 .tip{
+    .tip{
       color: red
     }
     .d2 input,
@@ -135,7 +135,7 @@ export default {
     .d3 span.qq {
       border: 1px solid;
       color: #2693d4;
-      font-size: 18px;
+      font-size: 16px;
       padding: 4.5px 12px;
       margin-left: 10px;
       vertical-align: middle;
@@ -176,7 +176,7 @@ export default {
     color: white;
     display: flex;
     position: absolute;
-    top: 470px;
+    top: 500px;
     line-height: 69px;
     padding: 0 20px;
     box-sizing: border-box;
@@ -247,7 +247,7 @@ export default {
       border: 1px solid;
       color: #2693d4;
       font-size: 18px;
-      padding: 4.5px 12px;
+      padding: 5px 10px;
       margin-left: 10px;
       vertical-align: middle;
       border-radius: 4px;

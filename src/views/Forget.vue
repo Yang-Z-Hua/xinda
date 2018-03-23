@@ -3,23 +3,24 @@
       <div class="left">
         <ul class="d1">
           <input v-model="phone" type="text" placeholder="请输入手机号码">
-          <span class="tip">{{phoneTip}}</span>
         </ul>
+          <span class="tip">{{phoneTip}}</span>
         <ul class="d2">
           <input type="text" v-model="pic" placeholder="请输入图片验证码">
           <img :src="png" v-on:click='cha'>
-          <span class="tip">{{picTip}}</span>
         </ul>
+          <span class="tip">{{picTip}}</span>
         <ul class="d3">
           <input type="text" v-model="phoneyzm"  placeholder="请输入手机验证码">
           <span @click="hq">点击获取</span>
-          <span class="tip">{{yzmcw}}</span>
+          <span :class="hq11">{{djs}}秒后获取</span>
         </ul>
+          <span class="tip">{{yzmcw}}</span>
         <ul class="d4"><input v-model="password" type="password" placeholder="请输入新密码"></ul>
         <ul class="d5">
           <input v-model="password1" type="password" placeholder="请再次确认密码">
-          <span class="tip">{{mmbyz}}</span>
         </ul>
+          <span class="tip">{{mmbyz}}</span>
         <ul class="d6" @click="reset">确认修改</ul>
       </div>   
     </div>
@@ -37,6 +38,8 @@ export default {
   },
   data() {
     return {
+      djs: 60,
+      hq11: "qq1",
       msg: "Welcome to Your Vue.js App",
       png: "/xinda-api/ajaxAuthcode",
       phone: "",
@@ -89,11 +92,35 @@ export default {
               // 图片验证码正确
               this.picTip = "";
               this.yzmtg = 1;
+              this.hq11 = "qq2";
+              var re = this;
+              var ID = setInterval(function() {
+                console.log(1);
+                if (re.djs == 0) {
+                  re.hq11 = "qq qq1";
+                  re.djs = 60;
+                  clearInterval(ID);
+                  return;
+                }
+                re.djs--;
+              }, 1000);
             }
           });
       }
     },
+    open2() {
+      this.$confirm("修改密码成功！是否跳转到登录页？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+        this.$router.push({
+          path: "/outter/login"
+        });
+      });
+    },
     reset() {
+      this.open2();
       // 确认修改
       if (this.yzmtg == 0) {
         // 没有获取手机验证码
@@ -119,7 +146,10 @@ export default {
                 })
               )
               .then(data => {
-                this.mmbyz = data.data.msg;
+                // this.mmbyz = data.data.msg;
+                if ((11, data.data.msg)) {
+                  this.open2();
+                }
               });
           }
         }
@@ -132,6 +162,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang='less'>
 .d3 span {
+  position: absolute;
+  left: 165px;
+  top: 1px;
   color: #349ad7;
   border: 1px solid;
   padding: 5px;
@@ -141,10 +174,25 @@ export default {
   height: 21px;
   margin-top: 1px;
 }
-.tip {
+span.tip {
   color: red;
+  position: relative;
+  top: -10px;
+  // display: inline-block;
 }
 .d3 {
+  position: relative;
+  .qq2 {
+    display: block;
+    position: absolute;
+    left: 165px;
+    top: 1px;
+    background: white;
+    color: gray;
+  }
+  .qq1 {
+    display: none;
+  }
   display: flex;
   .tip {
     border: none;

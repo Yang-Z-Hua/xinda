@@ -17,7 +17,7 @@
             <span @click="bs(0)" :class="cpfw2"> 服务商</span>
         </div>
           <div class="mdd">
-            <input placeholder="搜索您需要的服务或服务商" list="dataList" type="text" v-model="searchFor" @keypress="inpu">
+            <input :class="serBS" @input="ser" :placeholder="search" list="dataList" type="text" v-model="searchFor" @keypress="inpu">
             <datalist id="dataList">
               <option v-for="val in list" :key="val.id" :value="val.serviceName"></option>
             </datalist>
@@ -96,7 +96,9 @@ export default {
       allproduct: "allproduct",
       img: {},
       fwsAll: "",
-      cp:''
+      cp: "",
+      search: "搜索您需要的服务或服务商(不超过30个字)",
+      serBS: "" //搜索框变色
     };
   },
   created() {
@@ -111,8 +113,8 @@ export default {
         j++;
       }
     });
-      this.chen("/xinda-api/product/package/search-grid");
-      this.list=this.cp;
+    this.chen("/xinda-api/product/package/search-grid");
+    this.list = this.cp;
   },
   methods: {
     blo() {
@@ -154,24 +156,26 @@ export default {
       });
     },
     chen(a) {
+      //调用一次
       this.$parent.status = "wait";
       this.ajax
         .post(
           a,
           this.qs.stringify({
-            searchName: this.searchFor
+            searchName: this.searchFor,
+            limit: 8
           })
         )
         .then(data => {
           this.$parent.status = "wait1";
           this.cp = data.data.data;
-          this.list=this.cp;
+          this.list = this.cp;
         });
     },
     bs(i) {
       //搜索服务商或者产品
       if (i) {
-        this.list=this.cp;
+        this.list = this.cp;
         this.cpfw1 = "blue";
         this.cpfw2 = "";
         this.i = 1;
@@ -195,12 +199,24 @@ export default {
         this.searchService();
       }
     },
-    searchService() {
-      for (let j in this.arr) {
-        this.arr[j] = "";
+    ser() {
+      this.search = "搜索您需要的服务或服务商(不超过30个字)";
+      this.serBS = "";
+      if (this.searchFor.length >30) {
+        this.searchFor=this.searchFor.substr(0,30);
       }
+    },
+    searchService() {
       if (this.i) {
         //搜索产品走这一步，默认搜索产品
+        if (this.searchFor.length == 0) {
+          this.search = "请输入内容！";
+          this.serBS = "bian";
+          return;
+        }
+        for (let j in this.arr) {
+          this.arr[j] = "";
+        }
         this.$parent.status = "wait";
         this.ajax
           .post(
@@ -337,7 +353,7 @@ export default {
             display: none;
           }
         }
-        p:hover .qd{
+        p:hover .qd {
           display: block;
         }
       }
@@ -362,6 +378,10 @@ export default {
         margin-top: 5px;
         padding-left: 10px;
       }
+      input.bian {
+        border: 2px solid red ;
+        // color: red
+      }
       .mdd span {
         cursor: pointer;
         display: inline-block;
@@ -374,6 +394,7 @@ export default {
           margin: 10px 0 0 40px;
         }
       }
+
       .bott span {
         font-size: 11px;
         color: #c7c7c7;

@@ -13,6 +13,7 @@
         <ul class="d3">
           <input type="text" placeholder="请输入验证码" v-model="phoneyzm">
           <span class="qq" @click="hq">点击获取</span>
+          <span :class="hq11">{{djs}}秒后获取</span>
         </ul>
           <span class="tip">{{yzmcw}}</span>
         <Area ref="c1" :are='aaaa' display='big' @confirm='chose'/>
@@ -34,6 +35,7 @@ export default {
   name: "HelloWorld",
   data() {
     return {
+      hq11: "qq qq1", //倒计时
       png: "/xinda-api/ajaxAuthcode",
       pic: "", //图片验证码
       picTip: "", //图片验证码提示
@@ -54,7 +56,8 @@ export default {
       passTip: "",
       i: 1,
       kan: this.$parent.arr[0],
-      type1: "password"
+      type1: "password",
+      djs: 60 //倒计时
     };
   },
   components: {
@@ -128,6 +131,18 @@ export default {
             } else {
               this.picTip = "";
               this.yzmtg = 1;
+              this.hq11 = "qq qq2";
+              var re = this;
+              var ID = setInterval(function() {
+                console.log(1);
+                if (re.djs == 0) {
+                  re.hq11 = "qq qq1";
+                  re.djs = 60;
+                  clearInterval(ID);
+                  return;
+                }
+                re.djs--;
+              }, 1000);
             }
           });
       }
@@ -135,9 +150,35 @@ export default {
     chen() {
       this.$refs.c1.children();
     },
+    open2() {
+      this.$confirm("注册成功！是否跳转到登录页？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+        this.$router.push({
+          path: "/outter/login"
+        });
+        this.$message({
+          type: "success",
+          message: ""
+        });
+      });
+    },
     regist() {
+      this.open2()
+      if(!this.checkphone()){
+        return
+      }
+      if(!this.pic){
+        this.picTip='请输入验证码';
+        return
+      }
       if (this.yzmtg == 0) {
-        this.hq();
+        this.picTip='';
+        // this.hq();
+        this.yzmcw = "请获取验证码";
+        return;
       }
       if (this.yzmtg == 1) {
         if (this.phoneyzm != 111111) {
@@ -155,6 +196,8 @@ export default {
             } else {
               //注册验证
               this.passTip = "";
+              this.$parent.$parent.status = "wait";
+
               this.ajax
                 .post(
                   "/xinda-api/register/valid-sms",
@@ -167,6 +210,7 @@ export default {
                 .then(data => {
                   if (data.data.status < 0) {
                     this.phoneTip = data.data.msg;
+                    this.$parent.$parent.status = "wait1";
                   } else {
                     this.phoneTip = "";
                     // 注册提交接口
@@ -181,7 +225,11 @@ export default {
                           regionId: this.areaNum
                         })
                       )
-                      .then(data => {});
+                      .then(data => {
+                        this.$parent.$parent.status = "wait1";
+                        this.open2();
+                        console.log(data);
+                      });
                   }
                 });
             }
@@ -195,19 +243,73 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang='less'>
-div div ul.d3 input {
-  display: inline !important;
-}
-div div ul.d3 {
-  margin: 0 !important;
-  span.qq {
-    border: 1px solid !important;
-    cursor: pointer;
+@media screen and (min-width: 768px) {
+  div div ul.d3 input {
+    display: inline !important;
+  }
+  div div ul.d3 {
+    margin: 0 !important;
+    position: relative;
+    span.qq {
+      border: 1px solid !important;
+      cursor: pointer;
+      position: absolute;
+      left: 185px;
+      top: 1px;
+      font-size: 14px;
+      height: 23px;
+    }
+    span.qq1 {
+      display: none;
+    }
+    span.qq2 {
+      display: block;
+      position: absolute;
+      left: 185px;
+      top: 1px;
+      background: white;
+      color: gray;
+    }
+  }
+  span.tip {
+    color: red;
+    margin: -15px 0 10px 0;
+    display: block;
   }
 }
-span.tip {
-  color: red;
-  margin: -15px 0 10px 0;
-  display: block;
+@media screen and (max-width: 768px) {
+  div div ul.d3 input {
+    display: inline !important;
+  }
+  div div ul.d3 {
+    margin: 0 !important;
+    position: relative;
+    span.qq {
+      border: 1px solid !important;
+      cursor: pointer;
+      position: absolute;
+      left: 185px;
+      top: 1px;
+      font-size: 14px;
+      text-align: center;
+      height: 26px;
+    }
+    span.qq1 {
+      display: none;
+    }
+    span.qq2 {
+      display: block;
+      position: absolute;
+      left: 185px;
+      top: 1px;
+      background: white;
+      color: gray;
+    }
+  }
+  span.tip {
+    color: red;
+    margin: -15px 0 10px 0;
+    display: block;
+  }
 }
 </style>

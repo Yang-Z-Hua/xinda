@@ -141,7 +141,7 @@ export default {
     },
     logOut() {
       //退出登录
-      // this.status = "wait";
+      this.status = "wait";
       this.ajax
         .post("/xinda-api/sso/logout", this.qs.stringify({}))
         .then(data => {});
@@ -159,6 +159,9 @@ export default {
 </script>
 
 <style lang='less'>
+div.el-message-box {
+  width: 330px !important
+}
 .qd1{
   position: absolute;
   color: red;

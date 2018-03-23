@@ -564,8 +564,9 @@ export default {
             }
             .sizeal li p img {
               position: absolute;
-              top: 35px;
+              top: 10px;
               z-index: 999;
+              // background: red;
               right: 46px;
               opacity: 0;
               left: -390px;
@@ -578,7 +579,7 @@ export default {
               width: 600px;
               height: 60px;
               opacity: 0.7;
-              transform: translate(375px, -420px);
+              transform: translate(320px, -590px);
             }
             .sizeal li span.down {
               background: cyan;

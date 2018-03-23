@@ -91,6 +91,18 @@ export default {
        }else{
           this.phoneTip='';
        }
+       if(!this.password){
+         this.passwordTip='请输入密码！'
+         return
+       }else{
+         this.passwordTip=''
+       }
+       if(!this.yzm){
+         this.picTip='请输入验证码！'
+         return
+       }else{
+         this.picTip=''
+       }
       this.ajax
         .post(
           "/xinda-api/sso/login",
@@ -102,6 +114,7 @@ export default {
         )
         .then(data => {
           if (data.data.status == -1) {
+            console.log(data)
             this.tip = data.data.msg;
             this.cha();
           } else {
