@@ -1,15 +1,5 @@
 <template>
   <div class="public">
-    <div class="tckuang" v-show="qrsc">
-      <div class="tanchuk">
-        <p class="tss">提示</p>
-        <p>请先登录！</p>
-        <ul>
-          <a href="#/outter/login"><li class="qd">确定</li></a>
-          <li class="qx" @click="quxiao">取消</li>
-        </ul>
-      </div>
-    </div>
     <div class="huiyuandl">
         <div><img class="tupian" src="../assets/images/u7066.png" alt=""></div>
         <ul v-if="cd">{{sjh}}</ul>
@@ -52,13 +42,33 @@ export default {
     };
   },
   methods: {
+    open2() {
+      
+    },
     tc(){
       this.ajax
         .post("/xinda-api/sso/login-info", this.qs.stringify({}))
         .then(data => {
           var omg = data.data.status;
           if(omg == 0){
-            this.qrsc = !this.qrsc;
+            this.$confirm('请先登录', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.$router.push({
+              path:"/outter/login",
+            });
+            // this.$message({
+            //   type: 'success',
+            //   message: '登录成功!'
+            // });
+          }).catch(() => {
+            // this.$message({
+            //   type: 'info',
+            //   message: '取消登录'
+            // });          
+          });
           }else{
             this.$router.push({
               path:"/Huiyuanzhongxin/Huiyuanzhongxinindex",
@@ -70,9 +80,26 @@ export default {
       this.ajax
         .post("/xinda-api/sso/login-info", this.qs.stringify({}))
         .then(data => {
-          var omgg = data.data.status;
-          if(omgg == 0){
-            this.qrsc = !this.qrsc;
+          var omg = data.data.status;
+          if(omg == 0){
+            this.$confirm('请先登录', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.$router.push({
+              path:"/outter/login",
+            });
+            // this.$message({
+            //   type: 'success',
+            //   message: '登录成功!'
+            // });
+          }).catch(() => {
+            // this.$message({
+            //   type: 'info',
+            //   message: '取消登录'
+            // });          
+          });
           }else{
             this.$router.push({
               path:"/Huiyuanzhongxin/HuiyuanzhongxinAccount",
@@ -80,6 +107,7 @@ export default {
           }
         });
     },
+   
     quxiao(){
       this.qrsc = !this.qrsc
     },
