@@ -4,23 +4,23 @@
         <ul class="d1">
           <input @input="checkphone" v-model="phone" type="text" placeholder='请输入手机号'>
         </ul>
-          <span class="tip">{{phoneTip}}</span>
+        <span class="tip">{{phoneTip}}</span>
         <ul class="d2">
           <input type="text" v-model="pic" placeholder="请输入验证码">
           <img :src="png" v-on:click='cha'>
         </ul>
-          <span class="tip">{{picTip}}</span>
+        <span class="tip">{{picTip}}</span>
         <ul class="d3">
           <input type="text" placeholder="请输入验证码" v-model="phoneyzm">
           <span class="qq" @click="hq">点击获取</span>
           <span :class="hq11">{{djs}}秒后获取</span>
         </ul>
-          <span class="tip">{{yzmcw}}</span>
+        <span class="tip">{{yzmcw}}</span>
         <Area ref="c1" :are='aaaa' display='big' @confirm='chose'/>
         <ul class="d5">
           <img :src="kan" alt="" @click="kanj">
           <input v-model="pass" :type="type1" placeholder="请设置密码">
-          <span class="tip">{{passTip}}</span>
+        <span class="tip">{{passTip}}</span>
         </ul>
         <ul class="d6" @click="regist">立即注册</ul>
       </div>   
@@ -196,7 +196,7 @@ export default {
             } else {
               //注册验证
               this.passTip = "";
-              this.$parent.$parent.status = "wait";
+              this.$parent.$parent.status = "Bwait";
 
               this.ajax
                 .post(

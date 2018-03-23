@@ -122,17 +122,32 @@ export default {
     reset() {
       // this.open2();
       // 确认修改
+      if (!this.checkphone()) {
+        return;
+      }
+      if (!this.pic) {
+        this.picTip = "请输入验证码";
+        return;
+      }
+      this.picTip=''
       if (this.yzmtg == 0) {
         // 没有获取手机验证码
-        this.hq();
+        this.yzmcw = "请获取手机验证码！";
+        return;
       }
+      this.yzmcw=''
       if (this.yzmtg == 1) {
         // 以获取手机验证码
         if (this.phoneyzm != 111111) {
           this.yzmcw = "验证码错误!!";
         } else {
           this.yzmcw = "";
-          if (this.password != this.password1 || this.password == "") {
+          if(!this.password){
+            this.mmbyz='请输入密码！'
+            return
+          }
+          this.mmbyz=''
+          if (this.password != this.password1) {
             this.mmbyz = "两次密码不一致";
           } else {
             this.ajax
@@ -161,7 +176,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang='less'>
-.zj{
+.zj {
   padding-bottom: 100px;
 }
 .d3 span {

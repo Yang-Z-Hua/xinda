@@ -99,8 +99,8 @@ export default {
       cp: "",
       search: "搜索您需要的服务或服务商(不超过30个字)",
       serBS: "", //搜索框变色
-      rq: 0,
-      time: []
+      // rq: 0, 
+      // time: []
     };
   },
   created() {

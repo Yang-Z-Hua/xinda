@@ -13,16 +13,16 @@
           <li>金额</li>
           <li>操作</li>
         </ul>
-        <div v-for="(item,index) in shop" :key="index" @mouseover="outt(item.serviceId,item.buyNum)">
+        <div v-for="(item,index) in shop" :key="index">
           <p class="shopping_dianpu">店铺：{{item.providerName}}</p>
           <ul class="shopping_details" v-show="shopping_show">
             <img :src="'http://123.58.241.146:8088/xinda/pic'+item.providerImg" alt="">
             <li class="shopping_g">{{item.serviceName}}</li>
             <li>￥{{item.unitPrice}}</li>
             <li class="jiajia">
-              <a @click="key=1,--item.buyNum" href="javascript:void(0)" class="asp">-</a>
-              <span>{{item.buyNum=item.buyNum>=1?item.buyNum:1}}</span>
-              <a @click="key=1,++item.buyNum" href="javascript:void(0)" class="asp">+</a>
+              <a @click="jjian(item)" href="javascript:void(0)" class="asp">-</a>
+              <span>{{item.buyNum}}</span>
+              <a @click="jjia(item)" href="javascript:void(0)" class="asp">+</a>
             </li>
             <li class="shopping_c1">￥{{item.unitPrice*item.buyNum}}</li>
             <el-button type="text" @click="open2(item.serviceId)" ><a href="javascript:void(0)" class="dell">删除</a></el-button>
@@ -105,19 +105,22 @@ export default {
       key: 1,
       shopping_phone: "shopping_phon",
       shp_kong: 0,
-      ssp:1,
+      ssp: 1,
+      rq: 0,
+      time: []
     };
   },
   methods: {
     ...mapActions(["setNum"]),
     ...mapActions(["jianNum"]),
-    // 
+    //
     open2(serviceID) {
-        this.$confirm('此操作将永久删除该产品, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
+      this.$confirm("此操作将永久删除该产品, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
           this.$parent.$parent.status = "wait";
           this.ajax
             .post(
@@ -132,55 +135,85 @@ export default {
               this.jianNum();
             });
           this.$message({
-            type: 'success',
-            message: '删除成功!'
+            type: "success",
+            message: "删除成功!"
           });
-        }).catch(() => {
+        })
+        .catch(() => {
           this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
-        });
-      },
-    // 
-    jiesuan() {
-        this.ajax
-          .post("/xinda-api/cart/submit", this.qs.stringify({}))
-          .then(data => {
-            this.setNum(0)
-            console.log(data.data.data);
-            console.log(this.total);
-            this.$router.push({
-              path: "/dingdanxiangqing",
-              query: {
-                businessNo: data.data.data,
-                op: this.total
-              }
-            });
+            type: "info",
+            message: "已取消删除"
           });
+        });
+    },
+    //
+    jiesuan() {
+      this.ajax
+        .post("/xinda-api/cart/submit", this.qs.stringify({}))
+        .then(data => {
+          this.setNum(0);
+          this.$router.push({
+            path: "/dingdanxiangqing",
+            query: {
+              businessNo: data.data.data,
+              op: this.total
+            }
+          });
+        });
+    },
+    jjia(item) {
+      item.buyNum++;
+      var this1 = this;
+      // console.log(111,this.time);
+      this.time[this.rq] = new Date().getTime();
+      (function(a) {
+        var id = setTimeout(function() {
+          if (this1.time[a + 1] && this1.time[a + 1] - this1.time[a] < 300) {
+            return;
+          } else {
+            console.log(this1);
+            this1.outt(item.serviceId, item.buyNum);
+          }
+        }, 300);
+      })(this.rq);
+      this1.rq++;
+    },
+    jjian(item) {
+      item.buyNum--;
+      var this1 = this;
+      this.time[this.rq] = new Date().getTime();
+      (function(a) {
+        var id = setTimeout(function() {
+          if (this1.time[a + 1] && this1.time[a + 1] - this1.time[a] < 300) {
+            return;
+          } else {
+            console.log(this1);
+            this1.outt(item.serviceId, item.buyNum);
+          }
+        }, 300);
+      })(this.rq);
+      this1.rq++;
     },
     spxr() {
       this.ajax
         .post("/xinda-api/cart/list", this.qs.stringify({}))
         .then(data => {
-          console.log(22, data.data.data.length);
           this.shop = data.data.data;
-          this.shopping_number1 = data.data.data.length;        
+          this.shopping_number1 = data.data.data.length;
           if (this.shopping_number1 == 0) {
             this.shopping_phone = "sp";
             this.shp_kong = "sp_";
-            this.ssp=0;
-            this.swp=1;
+            this.ssp = 0;
+            this.swp = 1;
           } else {
             this.shopping_phone = "shopping_phon";
             this.shp_kong = "sp1";
-            this.ssp=1;
-            this.swp=0;
+            this.ssp = 1;
+            this.swp = 0;
           }
         });
     }, //商品渲染
     outt(serviceID, sd) {
-      if (this.key) {
         this.ajax
           .post(
             "/xinda-api/cart/set",
@@ -189,17 +222,12 @@ export default {
               num: sd
             })
           )
-          .then(data => {
-            console.log(sd);
-            console.log(11, data);
-          });
+          .then(data => {});
         this.key = 0;
       }
-    },
   },
   watch: {
     shopping_number1(n, o) {
-      console.log("检测", n, o);
       if (n != o) {
         this.$parent.$parent.number = n;
       }
@@ -242,17 +270,17 @@ export default {
     position: relative;
     overflow: auto;
   }
-  .shopping_kong{
+  .shopping_kong {
     width: 1205px;
     margin: 24px auto 80px;
     text-align: center;
-    p{
+    p {
       font-size: 30px;
       color: #5e5555;
     }
-    .shouye_pc{
+    .shouye_pc {
       display: block;
-      margin-top: 20px
+      margin-top: 20px;
     }
   }
   .shopping_ag {

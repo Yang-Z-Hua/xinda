@@ -141,7 +141,7 @@ export default {
     },
     logOut() {
       //退出登录
-      this.status = "wait";
+      // this.status = "wait";
       this.ajax
         .post("/xinda-api/sso/logout", this.qs.stringify({}))
         .then(data => {});
@@ -210,6 +210,34 @@ div.el-message-box {
     img {
       display: block;
       margin: 30vh auto 5px;
+      animation: chen 1s linear infinite;
+    }
+    @keyframes chen {
+      form {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  }
+  .Bwait {
+    cursor: wait !important;
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: white;
+    z-index: 1;
+    opacity: 0.9;
+    ul {
+      text-align: center;
+    }
+    img {
+      display: block;
+      margin: 40vh auto 5px;
       animation: chen 1s linear infinite;
     }
     @keyframes chen {

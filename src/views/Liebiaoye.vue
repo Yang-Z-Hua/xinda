@@ -18,7 +18,7 @@
           </ul>
           <ul class="d">
             <li>服务区域</li>
-            <li><Area display="lby"/></li>
+            <li><Area display="lby" @confirm='choose'/></li>
           </ul>
         </div>
         <div class="xia">
@@ -49,11 +49,8 @@
                 <p>{{a.regionName}}</p>
               </div>
               <div class="sizeal">
-                <ul>￥{{a.price}}</ul>
+                <ul>￥{{a.price}}.00</ul>
                 <li>
-                  <p :class="animi==a.id?'dong':''">
-                    <img :class="animi==a.id?'dong':''" src="../assets/images/qwewe.png" alt="">
-                  </p>
                   <span @mousedown="gm(a.id)" @mouseup="gm1" :class="ljgm==a.id?'down':''" @click="buy(a.id,a.price)">立即购买</span>
                   <span @mousedown="gw(a.id)" @mouseup="gw1" :class="jrgwc==a.id?'down':''" @click="gouwuche(a.id,a.price)">加入购物车</span>
                 </li>
@@ -125,7 +122,6 @@ export default {
       firstName: "",
       ljgm: "", //立即购买背景
       jrgwc: "", //加入购物车背景
-      animi: "",
       px1: "click", //排序
       px2: "", //排序
       pxIndex: "",
@@ -172,6 +168,15 @@ export default {
     ...mapGetters(["getNum"])
   },
   methods: {
+    choose(data){
+      console.log(data,this.id3)
+      if(this.id3){
+        this.chen(0,this.id3,this.pxIndex,data)
+      }else{
+        this.chen(this.code,'',this.pxIndex,data)
+      }
+      
+    },
     defaultImg(e) {
       // 错误图片的代替
       e.target.src = defaultImgUrl;
@@ -205,9 +210,9 @@ export default {
     },
     gouwuche(id1, b) {
       // 加入购物车
+      this.$parent.$parent.status = "Lwait";
       if (!this.$parent.$parent.user) {
         // 未登录的话需要登录
-        this.$parent.$parent.status = "wait";
         this.$router.push({
           path: "/outter/login",
           query: {
@@ -217,11 +222,6 @@ export default {
         });
         return;
       }
-      this.animi = id1;
-      var qq = this;
-      setTimeout(function() {
-        qq.animi = "dd";
-      }, 500);
       // 添加到购物车并且修改右上角购物车数量
       this.ajax
         .post(
@@ -237,6 +237,11 @@ export default {
             .then(data => {
               // this.$parent.$parent.number = data.data.data.length;
               this.addNum(data.data.data.length);
+              this.$parent.$parent.status = "wait1";
+              this.$confirm("添加成功", "提示", {
+                confirmButtonText: "确定",
+                type: "success"
+              });
             });
         });
     },
@@ -321,11 +326,12 @@ export default {
       if (this.id3 && this.key) {
         this.key = 0;
         this.lxclick(this.id3);
-        this.id3 = "";
+        // this.id3 = "";
         this.code = "";
         this.id2 = "";
       } else {
         this.code = code;
+        this.id3=''
         this.chen(code, undefined, this.pxIndex);
       }
     },
@@ -349,7 +355,7 @@ export default {
       var data = this.data.data.data[this.$route.query.id].itemList[a].itemList;
       this.sleType = data;
     },
-    chen(code, id, sort1) {
+    chen(code, id, sort1,yb) {
       //产品服务列表
       this.$parent.$parent.status = "Lwait";
       this.ajax
@@ -360,7 +366,8 @@ export default {
             limit: this.fanye,
             productTypeCode: code,
             productId: id,
-            sort: sort1
+            sort: sort1,
+            regionId:yb
           })
         )
         .then(data => {
@@ -417,6 +424,9 @@ export default {
 </script>
 <style scoped lang='less'>
 @media screen and (min-width: 768px) {
+  .tip{
+    display: none;
+  }
   .bt {
     width: 1200px;
     margin: 25px auto 0;
@@ -557,30 +567,13 @@ export default {
             .sizeal ul {
               color: red;
               font-size: 24px;
-              text-align: center;
+              text-align: right;
+              margin-right: 20px;
             }
             .sizeal li {
               position: relative;
             }
-            .sizeal li p img {
-              position: absolute;
-              top: 10px;
-              z-index: 999;
-              // background: red;
-              right: 46px;
-              opacity: 0;
-              left: -390px;
-              display: inline-block;
-              border-radius: 5px;
-              // background-image: url("../../static/qwewe.png");
-              transition: transform 0.5s cubic-bezier(0.47, 0, 0.745, 0.715);
-            }
-            .sizeal li p img.dong {
-              width: 600px;
-              height: 60px;
-              opacity: 0.7;
-              transform: translate(320px, -590px);
-            }
+
             .sizeal li span.down {
               background: cyan;
               cursor: pointer;
