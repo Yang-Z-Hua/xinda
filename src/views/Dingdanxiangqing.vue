@@ -215,9 +215,9 @@ export default {
   .goods_thr{
     margin-top: 38px;
     ul{
-      height: 75px;
+      height: 40px;
       display: flex;
-      background-color: #f7f7f7;
+      background-color: #e5e5e5;
       border: 1px solid #b6b6b6;
       li:nth-child(1){
         width: 430px;
@@ -225,12 +225,20 @@ export default {
       li{
         width: 400px;
         text-align: center;
-        line-height: 70px;
+        line-height: 40px;
       }
     }
   }
   .goods_thr2{
     margin-top: 0;
+    ul{
+      height: 65px;
+      
+      background-color: #f8f8f8;
+      li{
+        line-height: 65px;
+      }
+    }
   }
   a{
     color: #62a8dc;
