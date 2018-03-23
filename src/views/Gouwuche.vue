@@ -1,53 +1,55 @@
 <template>
   <div>
     <!-- pc -->
-    <div class="shopping">
-      <p>首页/购物车</p>
-      <p class="shopping_ag">全部商品（{{shopping_number1}}）</p>
-      <ul class="shopping_list">
-        <li>公司</li>
-        <li>服务商品</li>
-        <li>单价</li>
-        <li>数量</li>
-        <li>金额</li>
-        <li>操作</li>
-      </ul>
-      <div v-for="(item,index) in shop" :key="index" @mouseover="outt(item.serviceId,item.buyNum)">
-        <p class="shopping_dianpu">店铺：{{item.providerName}}</p>
-        <ul class="shopping_details" v-show="shopping_show">
-          <img :src="'http://123.58.241.146:8088/xinda/pic'+item.providerImg" alt="">
-          <li class="shopping_g">{{item.serviceName}}</li>
-          <li>￥{{item.unitPrice}}</li>
-          <li class="jiajia">
-            <a @click="key=1,--item.buyNum" href="javascript:void(0)" class="asp">-</a>
-            <span>{{item.buyNum=item.buyNum>=1?item.buyNum:1}}</span>
-            <a @click="key=1,++item.buyNum" href="javascript:void(0)" class="asp">+</a>
-          </li>
-          <li class="shopping_c1">￥{{item.unitPrice*item.buyNum}}</li>
-          <li @click="shopping_del(item.serviceId)" class="dell"><a href="javascript:void(0)">删除</a></li>
-        </ul> 
-      </div>
-      <div class="goods_jiesuan">
-        <a class="goods_am">金额总计</a><a :class="goods_shuzi">￥{{total}}.00</a>
-        <div class="sd">
-          <div class="goods_kuang"><router-link to="/"  class="goods_end">继续购物</router-link></div>
-          <div class="goods_kuang"><a  @click="jiesuan" class="goods_end" href="javascript:void(0)">去结算</a></div>
+    <div>
+      <div class="shopping" v-show="ssp">
+        <p>首页/购物车</p>
+        <p class="shopping_ag">全部商品（{{shopping_number1}}）</p>
+        <ul class="shopping_list">
+          <li>公司</li>
+          <li>服务商品</li>
+          <li>单价</li>
+          <li>数量</li>
+          <li>金额</li>
+          <li>操作</li>
+        </ul>
+        <div v-for="(item,index) in shop" :key="index" @mouseover="outt(item.serviceId,item.buyNum)">
+          <p class="shopping_dianpu">店铺：{{item.providerName}}</p>
+          <ul class="shopping_details" v-show="shopping_show">
+            <img :src="'http://123.58.241.146:8088/xinda/pic'+item.providerImg" alt="">
+            <li class="shopping_g">{{item.serviceName}}</li>
+            <li>￥{{item.unitPrice}}</li>
+            <li class="jiajia">
+              <a @click="key=1,--item.buyNum" href="javascript:void(0)" class="asp">-</a>
+              <span>{{item.buyNum=item.buyNum>=1?item.buyNum:1}}</span>
+              <a @click="key=1,++item.buyNum" href="javascript:void(0)" class="asp">+</a>
+            </li>
+            <li class="shopping_c1">￥{{item.unitPrice*item.buyNum}}</li>
+            <el-button type="text" @click="open2(item.serviceId)" ><a href="javascript:void(0)" class="dell">删除</a></el-button>
+          </ul>
+        </div>
+        <div class="goods_jiesuan">
+          <a class="goods_am">金额总计</a><a :class="goods_shuzi">￥{{total}}.00</a>
+          <div class="sd">
+            <div class="goods_kuang"><router-link to="/"  class="goods_end">继续购物</router-link></div>
+            <div class="goods_kuang"><a  @click="jiesuan" class="goods_end" href="javascript:void(0)">去结算</a></div>
+          </div>
+        </div>
+        <p class="shopping_remen">热门服务</p>
+        <div class="shopping_ia">
+          <div class="shopping_box2" v-for="(item,index) in culb" :key="index">
+            <p class="shopping_p1">{{item.serviceName}}</p>
+            <img src="../assets/images/goods_gouwu.jpg" alt="" class="shopping_img1">
+            <p class="shopping_p2">{{item.serviceInfo}}</p>
+            <p class="shopoing_p3">销量:</p>
+            <p class="shopoing_p4">￥1400.00</p>
+            <a class="shopoing_p5">原价:￥2000.00</a><a href="javascrip:void(0)" class="shopoing_p6">查看详情>>></a>
+          </div>
         </div>
       </div>
-      <p class="shopping_remen">热门服务</p>
-      <div class="shopping_ia">
-        <div class="shopping_box2" v-for="(item,index) in culb" :key="index">
-          <p class="shopping_p1">{{item.serviceName}}</p>
-          <img src="../assets/images/goods_gouwu.jpg" alt="" class="shopping_img1">
-          <p class="shopping_p2">{{item.serviceInfo}}</p>
-          <p class="shopoing_p3">销量:</p>
-          <p class="shopoing_p4">￥1400.00</p>
-          <a class="shopoing_p5">原价:￥2000.00</a><a href="javascrip:void(0)" class="shopoing_p6">查看详情>>></a>
-        </div>
-      </div>
-       <div :class="shp_kong">
-        <img src="../assets/images/gou_kong.jpg" alt="" class="kong">
-        <div class="qu"><router-link to="/" class="shouye">去首页</router-link></div>
+      <div class="shopping_kong" v-show="swp">
+        <p>购物车为空，请返回继续购物</p>
+        <router-link to="/" class="shouye_pc">返回首页</router-link>         
       </div>
     </div>
     <!-- 微信端 -->
@@ -102,14 +104,46 @@ export default {
       allm: "",
       key: 1,
       shopping_phone: "shopping_phon",
-      shp_kong: 0
+      shp_kong: 0,
+      ssp:1,
     };
   },
   methods: {
     ...mapActions(["setNum"]),
     ...mapActions(["jianNum"]),
+    // 
+    open2(serviceID) {
+        this.$confirm('此操作将永久删除该产品, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$parent.$parent.status = "wait";
+          this.ajax
+            .post(
+              "/xinda-api/cart/del",
+              this.qs.stringify({
+                id: serviceID
+              })
+            )
+            .then(data => {
+              this.$parent.$parent.status = "wait1";
+              this.spxr();
+              this.jianNum();
+            });
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+      },
+    // 
     jiesuan() {
-      if (this.total != 0) {
         this.ajax
           .post("/xinda-api/cart/submit", this.qs.stringify({}))
           .then(data => {
@@ -124,9 +158,6 @@ export default {
               }
             });
           });
-      } else {
-        alert("请购买商品");
-      }
     },
     spxr() {
       this.ajax
@@ -134,31 +165,20 @@ export default {
         .then(data => {
           console.log(22, data.data.data.length);
           this.shop = data.data.data;
-          this.shopping_number1 = data.data.data.length;
+          this.shopping_number1 = data.data.data.length;        
           if (this.shopping_number1 == 0) {
             this.shopping_phone = "sp";
             this.shp_kong = "sp_";
+            this.ssp=0;
+            this.swp=1;
           } else {
             this.shopping_phone = "shopping_phon";
             this.shp_kong = "sp1";
+            this.ssp=1;
+            this.swp=0;
           }
         });
     }, //商品渲染
-    shopping_del(serviceID) {
-      this.$parent.$parent.status = "wait";
-      this.ajax
-        .post(
-          "/xinda-api/cart/del",
-          this.qs.stringify({
-            id: serviceID
-          })
-        )
-        .then(data => {
-          this.$parent.$parent.status = "wait1";
-          this.spxr();
-          this.jianNum();
-        });
-    },
     outt(serviceID, sd) {
       if (this.key) {
         this.ajax
@@ -175,7 +195,7 @@ export default {
           });
         this.key = 0;
       }
-    }
+    },
   },
   watch: {
     shopping_number1(n, o) {
@@ -219,12 +239,28 @@ export default {
     margin: 24px auto 80px;
     font-size: 14px;
     color: #2a2a2a;
+    position: relative;
+    overflow: auto;
+  }
+  .shopping_kong{
+    width: 1205px;
+    margin: 24px auto 80px;
+    text-align: center;
+    p{
+      font-size: 30px;
+      color: #5e5555;
+    }
+    .shouye_pc{
+      display: block;
+      margin-top: 20px
+    }
   }
   .shopping_ag {
     color: #75b2df;
     padding: 18px 0 6px 70px;
     border-bottom: 1px solid #bdbdbd;
   }
+
   // 菜单列表
   .shopping_list {
     display: flex;
@@ -274,7 +310,7 @@ export default {
     width: 221px;
     height: 80px;
     position: relative;
-    margin: 80px 0 0 999px;
+    margin: 80px 0 0 983px;
   }
   .goods_am {
     color: #020202;
@@ -360,6 +396,7 @@ export default {
   .dell {
     width: 28px;
     height: 45px;
+    margin-left: 80px;
   }
   .jiajia {
     height: 45px;
