@@ -52,7 +52,6 @@
         </ul>
       </div>
 
-
         <!-- 左部图片 -->
         <ul class="left"><img :src="img" alt="" @error='defaultImg'></ul>
 
@@ -239,6 +238,7 @@
           <li class="buynow" @click="buy(n)"><p>立即购买</p></li>
         </ul>
         <div class="can_market" v-show="market_yes">加入成功</div>
+        
       </div>
     </div>
   </div>
@@ -255,10 +255,10 @@ export default {
       if (document.documentElement.clientWidth < 768) {
         //判断 当前页面的有效宽度
         //shou ji
-        that.isPhone = "1";
+        that.isPhone = 1;
       } else {
         // pc
-        that.isPhone = "0";
+        that.isPhone = 0;
       }
     };
   },
@@ -464,11 +464,11 @@ export default {
       this.picTip = "";
     },
     start() {
-      if (this.phone == ""||this.phoneTip!='') {
+      if (this.phone == "" || this.phoneTip != "") {
         this.phoneTip = "手机号错误！";
-      } else if (this.checkp == ""||this.picTip!='') {
+      } else if (this.checkp == "" || this.picTip != "") {
         this.picTip = "图形验证码错误";
-      } else if (this.checky == ""||this.yanTip!='') {
+      } else if (this.checky == "" || this.yanTip != "") {
         this.yanTip = "验证码错误";
       } else {
         this.c2 = 0;
@@ -477,11 +477,11 @@ export default {
       }
     },
     free() {
-      if (this.phone1 == ""||this.phoneTip1!='') {
+      if (this.phone1 == "" || this.phoneTip1 != "") {
         this.phoneTip1 = "手机号错误！";
-      } else if (this.checkp1 == ""||this.picTip1!='') {
+      } else if (this.checkp1 == "" || this.picTip1 != "") {
         this.picTip1 = "图形验证码错误";
-      } else if (this.checky1 == ""||this.yanTip1!='') {
+      } else if (this.checky1 == "" || this.yanTip1 != "") {
         this.yanTip1 = "验证码错误";
       } else {
         this.v2 = 0;
@@ -554,20 +554,31 @@ export default {
         .post("/xinda-api/sso/login-info", this.qs.stringify({}))
         .then(data => {
           if (data.data.status == 0) {
-            this.$router.push({
-              path: "/outter/login",
-              query: {
-                id: this.$route.query.id,
-                newPrice: this.$route.query.newPrice
-              }
-            });
-          } else {
-            var sss;
-            if (this.isPhone == 1) {
-              sss = 1;
-            } else {
-              sss = n;
-            }
+            this.$confirm("尚未登录页面，是否登录？", "提示", {
+              confirmButtonText: "登录",
+              cancelButtonText: "取消",
+              type: "warning"
+            })
+              .then(() => {
+                this.$router.push({
+                  path: "/outter/login",
+                  query: {
+                    id: this.$route.query.id,
+                    newPrice: this.$route.query.newPrice
+                  }
+                });
+                this.$message({
+                  type: "success",
+                  message: "欢迎登陆!"
+                });
+              })
+              .catch(() => {
+                this.$message({
+                  type: "info",
+                  message: "已取消登录"
+                });
+              });
+          } else {          
             this.ajax
               .post(
                 "/xinda-api/cart/add",
@@ -584,49 +595,58 @@ export default {
           }
         });
     },
-
     // 加入购物车=============
     market(n) {
-      // 判断是否登录==============
       this.ajax
         .post("/xinda-api/sso/login-info", this.qs.stringify({}))
         .then(data => {
           if (data.data.status == 0) {
-            this.$router.push({
-              path: "/outter/login",
-              query: {
-                id: this.$route.query.id,
-                newPrice: this.$route.query.newPrice
-              }
-            });
-          } else {
-            this.market_yes = 1;
-            var sss;
-            if (this.isPhone == 1) {
-              sss = 1;
-            } else {
-              sss = n;
-            }
-            this.ajax
-              .post(
-                "/xinda-api/cart/add",
-                this.qs.stringify({
-                  id: this.$route.query.id,
-                  num: sss
-                })
-              )
-              .then(data => {
-                this.ajax
-                  .post("/xinda-api/cart/list", this.qs.stringify({}))
-                  .then(data => {
-                    this.addNum(data.data.data.length);
-                    this.$parent.$parent.number = data.data.data.length;
-                  });
+            this.$confirm("尚未登录页面，是否登录？", "提示", {
+              confirmButtonText: "登录",
+              cancelButtonText: "取消",
+              type: "warning"
+            })
+              .then(() => {
+                this.$router.push({
+                  path: "/outter/login",
+                  query: {
+                    id: this.$route.query.id,
+                    newPrice: this.$route.query.newPrice
+                  }
+                });
+                this.$message({
+                  type: "success",
+                  message: "欢迎登陆!"
+                });
+              })
+              .catch(() => {
+                this.$message({
+                  type: "info",
+                  message: "已取消登录"
+                });
               });
-            let aaa = this;
-            setTimeout(function(){
-              aaa.market_yes = 0;
-            },1000)
+          } else {
+            this.$confirm("添加成功", "提示", {
+              confirmButtonText: "确定",
+              type: "success"
+            }).then(() => {
+              this.ajax
+                .post(
+                  "/xinda-api/cart/add",
+                  this.qs.stringify({
+                    id: this.$route.query.id,
+                    num: n
+                  })
+                )
+                .then(data => {
+                  this.ajax
+                    .post("/xinda-api/cart/list", this.qs.stringify({}))
+                    .then(data => {
+                      this.addNum(data.data.data.length);
+                      this.$parent.$parent.number = data.data.data.length;
+                    });
+                });
+            });
           }
         });
     }
@@ -675,7 +695,7 @@ export default {
         display: flex;
         justify-content: space-between;
         line-height: 40px;
-        background-color: #f8f8f8;
+        background-color: rgb(161, 234, 236);
         border-bottom: 1px solid #eeeeee;
         li {
           padding: 0 15px;
@@ -798,6 +818,7 @@ export default {
         }
       }
     }
+
 
     // 左部图片
 
@@ -1010,6 +1031,7 @@ export default {
     left: 35%;
     background-color: rgb(226, 225, 225);
   }
+  
   .m_title {
     width: 100%;
     border-bottom: 1px solid #ccc;
@@ -1443,7 +1465,7 @@ export default {
       width: 70%;
       font-size: 12px;
       line-height: 22px;
-      img{
+      img {
         width: 25%;
       }
       .weichat_name {
@@ -1502,17 +1524,17 @@ export default {
   }
   .message {
     width: 100%;
-      .can_market {
-    position: fixed;
-    color: #fff;
-    font-size: 14px;
-    top: 40%;
-    left: 35%;
-    width: 30%;
-    line-height: 40px;
-    background-color: #ccc;
-    text-align: center;
-  }
+    .can_market {
+      position: fixed;
+      color: #fff;
+      font-size: 14px;
+      top: 40%;
+      left: 35%;
+      width: 30%;
+      line-height: 40px;
+      background-color: #ccc;
+      text-align: center;
+    }
   }
   .buy {
     display: none;

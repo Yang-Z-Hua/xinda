@@ -42,6 +42,8 @@
       </div>
     </div>
 
+
+  
     <!-- 下部页码数 -->
     <ul class="page">
       <button>上一页</button>
@@ -88,11 +90,11 @@ export default {
     if (this.$route.query.all == 1) {
       this.$parent.$parent.status = "wait";
       window.scrollTo(0, 0);
-      if (this.$parent.fwsAll) {
-        this.arr = this.$parent.fwsAll.data.data;
-        this.$parent.$parent.status = "wait1";
-        return;
-      }
+      // if (this.$parent.fwsAll) {
+      //   this.arr = this.$parent.fwsAll.data.data;
+      //   this.$parent.$parent.status = "wait1";
+      //   return;
+      // }
       this.ajax.post("/xinda-api/provider/grid").then(data => {
         this.arr = data.data.data;
         this.$parent.$parent.status = "wait1";
