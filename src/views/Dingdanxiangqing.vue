@@ -98,7 +98,8 @@
       <p class="weixin_red">注：转账时请将订单编号备注在付款信息里：转账完成后，请通知客服</p> 
       <ul class="ph_bottom">
         <li class="ph_wub">合计 : <a class="ph_ta">￥{{all}}.00</a></li>
-        <li class="ph_sy"><a @click="chuxian" :href="sdsd" >去结算</a></li>
+        <!-- <li class="ph_sy"><a @click="chuxian" :href="sdsd" >去结算</a></li> -->
+        <li class="ph_sy"><el-button type="text" @click="open" class="goods_end"><a>结算</a></el-button></li>
       </ul>  
       <div class="imgw_" v-show="pic">
         <a href="javascript:void(0)"  @click="X" class="guanbi">×</a>
@@ -525,7 +526,8 @@ export default {
       // line-height: 112px;
       text-align: center;
       a{
-        color: #ffffff;
+        color: #2693d4;
+        font-size: 18px;
       }
     }
   }
