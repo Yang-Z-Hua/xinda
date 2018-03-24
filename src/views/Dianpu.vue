@@ -51,8 +51,6 @@
 
 
 
-
-    <!-- element ui 分页实验===================== -->
     
   </div>
 </template>
@@ -89,7 +87,6 @@ export default {
     };
   },
   created() {
-    
     if (this.$route.query.all == 1) {
       this.$parent.$parent.status = "wait";
       window.scrollTo(0, 0);
@@ -121,6 +118,8 @@ export default {
         }
       });
     },
+
+    // =====================================================
     test(under) {
       this.currentUnder = under;
       if (under == 0) {
@@ -137,7 +136,13 @@ export default {
       }
     },
     close(value) {
-      this.pio = value;
+          this.ajax
+          .post(
+            "/xinda-api/provider/grid",this.qs.stringify({ regionId: value })
+          )
+          .then(data => {
+            this.arr = data.data.data;
+          });
     },
     change(number) {
       this.currentUnder_1 = number;

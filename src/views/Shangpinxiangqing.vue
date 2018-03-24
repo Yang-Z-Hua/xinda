@@ -1,6 +1,9 @@
 <template>
   <div>
+    <div class="mengban" v-show="l1"></div>
+      <div class="mengban" v-show="l2"></div>
     <div class="outer">
+      
       <li class="top"><p>首页/</p><p>{{lei}}</p></li>
       
       
@@ -229,6 +232,9 @@
           </li>
         </ul>
         </div>
+
+
+
         <ul class="weichat_click">
           <li class="phone" @click="contact()">
             <img src="../assets/images/call.png" alt="">
@@ -315,6 +321,8 @@ export default {
       v2: 0,
       v3: 0,
       v4: 0,
+      l1: 0,
+      l2: 0,
       url: ""
     };
   },
@@ -436,6 +444,11 @@ export default {
     },
     open() {
       this.c1 = true;
+      this.l1 = true;
+      let long = window.scrollY;
+      window.onscroll = function() {
+          window.scrollTo(0, 0);
+        };
       if (this.c4 == 1) {
         this.c3 = true;
       } else {
@@ -445,10 +458,15 @@ export default {
 
     close() {
       this.c1 = 0;
+      this.l1 = 0;
+      window.onscroll = function() {};
     },
     contact() {
       this.v1 = 1;
-
+      this.l2 = 1;
+      window.onscroll = function() {
+          window.scrollTo(0, 0);
+        };
       if (this.v4 == 0) {
         this.v2 = 1;
       } else {
@@ -458,6 +476,8 @@ export default {
     },
     xxx() {
       this.v1 = 0;
+      this.l2 = 0;
+      window.onscroll = function() {};
       this.phoneTip1 = "";
       this.picTip1 = "";
       this.phoneTip = "";
@@ -578,7 +598,7 @@ export default {
                   message: "已取消登录"
                 });
               });
-          } else {          
+          } else {
             this.ajax
               .post(
                 "/xinda-api/cart/add",
@@ -656,11 +676,22 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
+  .mengban {
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: .3;
+    position: fixed;
+    z-index: 10;
+    top: 0;
+  }
 .outer {
   display: flex;
   flex-direction: column;
   align-items: center;
+
 }
+
 @media screen and (min-width: 768px) {
   button {
     outline: none;
@@ -687,7 +718,7 @@ export default {
       height: 424px;
       background-color: #fff;
       position: fixed;
-      z-index: 9;
+      z-index: 12;
       top: 10%;
       left: 25%;
       .phone_call_top {
@@ -818,7 +849,6 @@ export default {
         }
       }
     }
-
 
     // 左部图片
 
@@ -1031,7 +1061,7 @@ export default {
     left: 35%;
     background-color: rgb(226, 225, 225);
   }
-  
+
   .m_title {
     width: 100%;
     border-bottom: 1px solid #ccc;
@@ -1324,6 +1354,7 @@ export default {
   // 弹出框部分============================================
   .weichat_searve_contact {
     position: fixed;
+    z-index: 12;
     top: 20%;
     width: 90%;
     margin: 0 5%;
