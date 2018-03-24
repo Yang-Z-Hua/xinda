@@ -31,6 +31,8 @@ import { mapActions } from "vuex";
 export default {
   name: "HelloWorld",
   created() {
+    window.scrollTo(0, 0);
+
     this.$parent.$parent.status = "wait";
     this.$parent.ask = "还没有账号？";
     this.$parent.phoneTittle = "登录";
@@ -162,7 +164,7 @@ export default {
     margin-left: 0;
     color: red;
     position: relative;
-    top: -10px
+    top: -10px;
   }
   .left li.ti {
     color: red;

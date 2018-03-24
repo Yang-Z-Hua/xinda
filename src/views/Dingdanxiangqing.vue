@@ -415,11 +415,7 @@ export default {
   }
   .weixin_x {
     height: 80px;
-<<<<<<< HEAD
     background-color: #f8f8f8; 
-=======
-    background-color: #e5e5e5;
->>>>>>> c6aa9eb6294466cf72600d5312707332906f8842
     border-bottom: 1px solid #000000;
     display: flex;
     align-items: center;

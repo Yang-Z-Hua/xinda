@@ -17,7 +17,7 @@
             <span @click="bs(0)" :class="cpfw2"> 服务商</span>
         </div>
           <div class="mdd">
-            <input @keypress='ed' :class="serBS" :placeholder="search" list="dataList" type="text" v-model="searchFor" @input="inpu(e,inpuzj)" >
+            <input @keypress='ed' :class="serBS" :placeholder="search" list="dataList" type="text" v-model="searchFor" @input="inpu(inpuzj)" >
             <datalist id="dataList">
               <option v-for="val in list" :key="val.id" :value="val.serviceName"></option>
             </datalist>

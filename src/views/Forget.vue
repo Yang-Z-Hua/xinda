@@ -31,6 +31,7 @@ import md5 from "md5";
 export default {
   name: "HelloWorld",
   created() {
+    window.scrollTo(0, 0);
     this.$parent.ask = "想起密码来了？";
     this.$parent.meth = "立即登录";
     this.$parent.tb = "忘记密码";
@@ -129,24 +130,24 @@ export default {
         this.picTip = "请输入验证码";
         return;
       }
-      this.picTip=''
+      this.picTip = "";
       if (this.yzmtg == 0) {
         // 没有获取手机验证码
         this.yzmcw = "请获取手机验证码！";
         return;
       }
-      this.yzmcw=''
+      this.yzmcw = "";
       if (this.yzmtg == 1) {
         // 以获取手机验证码
         if (this.phoneyzm != 111111) {
           this.yzmcw = "验证码错误!!";
         } else {
           this.yzmcw = "";
-          if(!this.password){
-            this.mmbyz='请输入密码！'
-            return
+          if (!this.password) {
+            this.mmbyz = "请输入密码！";
+            return;
           }
-          this.mmbyz=''
+          this.mmbyz = "";
           if (this.password != this.password1) {
             this.mmbyz = "两次密码不一致";
           } else {

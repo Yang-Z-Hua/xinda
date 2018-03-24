@@ -1,5 +1,5 @@
 export default {
-  inpu:function(e, function1) {
+  inpu:function(function1) {
     console.log(function1);
     //debounce机制
     var this1 = this;

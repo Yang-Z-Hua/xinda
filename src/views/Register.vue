@@ -64,6 +64,7 @@ export default {
     Area
   },
   created() {
+    window.scrollTo(0, 0);
     this.$parent.$parent.status = "wait";
     this.$parent.ask = "已有账号？";
     this.$parent.meth = "立即登录";
@@ -278,8 +279,8 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
-  div.zj{
-    padding-bottom:150px;
+  div.zj {
+    padding-bottom: 150px;
   }
   div div ul.d3 input {
     display: inline !important;

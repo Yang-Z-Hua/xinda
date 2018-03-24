@@ -59,14 +59,15 @@
             <div class="tsnr" v-if="!arrLength">当前选项无内容</div>
           </div>
         </div>
-        <div class="fanye">
+        <Page @confirm='zhang' :TotalCount='totalCount' :nage='nage' :number='number' :fanye='fanye'/>
+        <!-- <div class="fanye">
           <span @click="prev" :class="shang1">上一页</span>
           <ul>{{number}}</ul>
           <p v-if="prevTip">当前是第一页!!</p>
           <span @click="next" :class="xia1">下一页</span>
           <p v-if="nextTip">当前是最后一页!!</p>
         </div>
-        <div class="tip" v-if="prevTip||nextTip">没有更多了!!!</div>
+        <div class="tip" v-if="prevTip||nextTip">没有更多了!!!</div> -->
       </div>
       <div class="right">
         <div>
@@ -93,6 +94,7 @@
 import { mapActions } from "vuex";
 import { mapGetters } from "vuex";
 import Area from "../components/Area.vue";
+import Page from "../components/Page.vue";
 const defaultImgUrl = require("../assets/images/logoxz_01.png");
 export default {
   name: "HelloWorld",
@@ -101,11 +103,14 @@ export default {
       arr: "",
       imgSrc: "http://123.58.241.146:8088/xinda/pic",
       img: require("../assets/images/zz.jpg"),
-      number: 1,
       num: 0,
       sleType: "", //公司注册/变更
-      shang1: "grey",
-      xia1: "blue",
+      // number: 1,
+      // shang1: "grey",
+      // xia1: "blue",
+      // nextTip: "",
+      // prevTip: "",
+      nage: "",
       data1: "", //主页传过来的大类
       data: "",
       background: "",
@@ -117,8 +122,6 @@ export default {
       fyCode: "",
       fyId: "",
       i: 0,
-      nextTip: "",
-      prevTip: "",
       firstName: "",
       ljgm: "", //立即购买背景
       jrgwc: "", //加入购物车背景
@@ -126,6 +129,7 @@ export default {
       px2: "", //排序
       pxIndex: "",
       key: 1,
+      totalCount: "",
       fanye: 3,
       sx: "dede" //上一页下一页标志
     };
@@ -151,7 +155,8 @@ export default {
     this.shang1 = "blue";
   },
   components: {
-    Area
+    Area,
+    Page
   },
   watch: {
     $route() {
@@ -168,13 +173,12 @@ export default {
     ...mapGetters(["getNum"])
   },
   methods: {
-    choose(data){
-      if(this.id3){
-        this.chen(0,this.id3,this.pxIndex,data)
-      }else{
-        this.chen(this.code,'',this.pxIndex,data)
+    choose(data) {
+      if (this.id3) {
+        this.chen(0, this.id3, this.pxIndex, data);
+      } else {
+        this.chen(this.code, "", this.pxIndex, data);
       }
-      
     },
     defaultImg(e) {
       // 错误图片的代替
@@ -279,25 +283,25 @@ export default {
             });
         });
     },
-    next() {
-      // 下一页
-      this.sx = 1;
-      this.prevTip = 0;
-      this.num += this.fanye;
-      this.chen(this.fyCode, this.fyId, this.pxIndex);
-    },
-    prev() {
-      //上一页
-      this.sx = 0;
-      this.nextTip = 0;
-      // if (this.number == 1) {
-      //   this.prevTip = 1;
-      //   return;
-      // }
-      this.num -= this.fanye;
-      // (this.xia1 = "blue"), this.number--;
-      this.chen(this.fyCode, this.fyId, this.pxIndex);
-    },
+    // next() {
+    //   // 下一页
+    //   this.sx = 1;
+    //   this.prevTip = 0;
+    //   this.num += this.fanye;
+    //   this.chen(this.fyCode, this.fyId, this.pxIndex);
+    // },
+    // prev() {
+    //   //上一页
+    //   this.sx = 0;
+    //   this.nextTip = 0;
+    //   // if (this.number == 1) {
+    //   //   this.prevTip = 1;
+    //   //   return;
+    //   // }
+    //   this.num -= this.fanye;
+    //   // (this.xia1 = "blue"), this.number--;
+    //   this.chen(this.fyCode, this.fyId, this.pxIndex);
+    // },
     fwfl(a) {
       //就开始调用一次
       //服务分类
@@ -330,7 +334,7 @@ export default {
         this.id2 = "";
       } else {
         this.code = code;
-        this.id3=''
+        this.id3 = "";
         this.chen(code, undefined, this.pxIndex);
       }
     },
@@ -354,8 +358,14 @@ export default {
       var data = this.data.data.data[this.$route.query.id].itemList[a].itemList;
       this.sleType = data;
     },
-    chen(code, id, sort1,yb) {
+    zhang(Num, Sx) {
+      this.num = Num;
+      this.sx = Sx;
+      this.chen(this.fyCode, this.fyId, this.pxIndex);
+    },
+    chen(code, id, sort1, yb) {
       //产品服务列表
+
       this.$parent.$parent.status = "Lwait";
       this.ajax
         .post(
@@ -366,16 +376,17 @@ export default {
             productTypeCode: code,
             productId: id,
             sort: sort1,
-            regionId:yb
+            regionId: yb
           })
         )
         .then(data => {
+          this.totalCount = data.data.totalCount;
           this.$parent.$parent.status = "wait1";
           if (this.sx == 1) {
             this.sx = "wqwq";
             if (data.data.data.length == 0) {
               this.nextTip = 1;
-              this.num -= this.fanye;
+              this.nage = 1;
               return;
             } else {
               this.number += 1;
@@ -385,7 +396,7 @@ export default {
             this.sx = "wqwq";
             if (this.number == 1) {
               this.prevTip = 1;
-              this.num += this.fanye;
+              this.nage = 0;
               return;
             } else {
               this.number--;
@@ -422,7 +433,7 @@ export default {
 </script>
 <style scoped lang='less'>
 @media screen and (min-width: 768px) {
-  .tip{
+  .tip {
     display: none;
   }
   .bt {
@@ -599,38 +610,38 @@ export default {
           }
         }
       }
-      .fanye {
-        p {
-          color: red;
-          line-height: 35px;
-          position: absolute;
-          left: 580px;
-        }
-        position: relative;
-        margin: 29px auto 202px;
-        display: flex;
-        justify-content: center;
-        font-size: 14px;
-        span {
-          cursor: pointer;
-          border: 1px solid;
-          line-height: 1;
-          padding: 10px 13px;
-        }
-        span.grey {
-          color: #cccccc;
-        }
-        span.blue {
-          color: #2693d4;
-        }
-        ul {
-          color: #2693d4;
-          border: 1px solid;
-          line-height: 1;
-          padding: 10px 13px;
-          margin: 0 6px;
-        }
-      }
+      // .fanye {
+      //   p {
+      //     color: red;
+      //     line-height: 35px;
+      //     position: absolute;
+      //     left: 580px;
+      //   }
+      //   position: relative;
+      //   margin: 29px auto 202px;
+      //   display: flex;
+      //   justify-content: center;
+      //   font-size: 14px;
+      //   span {
+      //     cursor: pointer;
+      //     border: 1px solid;
+      //     line-height: 1;
+      //     padding: 10px 13px;
+      //   }
+      //   span.grey {
+      //     color: #cccccc;
+      //   }
+      //   span.blue {
+      //     color: #2693d4;
+      //   }
+      //   ul {
+      //     color: #2693d4;
+      //     border: 1px solid;
+      //     line-height: 1;
+      //     padding: 10px 13px;
+      //     margin: 0 6px;
+      //   }
+      // }
     }
     .right {
       width: 236px;
@@ -760,43 +771,43 @@ export default {
           }
         }
       }
-      .fanye {
-        p {
-          display: none;
-          color: red;
-          line-height: 35px;
-          position: absolute;
-          left: 580px;
-        }
-        position: relative;
-        margin: 29px auto 10px;
-        display: flex;
-        justify-content: center;
-        font-size: 14px;
-        span {
-          cursor: pointer;
-          border: 1px solid;
-          line-height: 1;
-          padding: 10px 13px;
-        }
-        span.grey {
-          color: #cccccc;
-        }
-        span.blue {
-          color: #2693d4;
-        }
-        ul {
-          color: #2693d4;
-          border: 1px solid;
-          line-height: 1;
-          padding: 10px 13px;
-          margin: 0 6px;
-        }
-      }
-      .tip {
-        color: red;
-        text-align: center;
-      }
+      // .fanye {
+      //   p {
+      //     display: none;
+      //     color: red;
+      //     line-height: 35px;
+      //     position: absolute;
+      //     left: 580px;
+      //   }
+      //   position: relative;
+      //   margin: 29px auto 10px;
+      //   display: flex;
+      //   justify-content: center;
+      //   font-size: 14px;
+      //   span {
+      //     cursor: pointer;
+      //     border: 1px solid;
+      //     line-height: 1;
+      //     padding: 10px 13px;
+      //   }
+      //   span.grey {
+      //     color: #cccccc;
+      //   }
+      //   span.blue {
+      //     color: #2693d4;
+      //   }
+      //   ul {
+      //     color: #2693d4;
+      //     border: 1px solid;
+      //     line-height: 1;
+      //     padding: 10px 13px;
+      //     margin: 0 6px;
+      //   }
+      // }
+      // .tip {
+      //   color: red;
+      //   text-align: center;
+      // }
     }
     .right {
       display: none;
