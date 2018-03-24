@@ -115,27 +115,27 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
-  data () {
+  name: "HelloWorld",
+  data() {
     return {
-      msg: 'Welcome to Your Vue.js App',
-      sub_1:'800.00',
-      sub_a:'1',
-      sub_2:'1800.00',
-      sub_b:'1',
-      iiiiii:'',
-      all: '',
-      asd:'#',
-      businessOrder:'',
-      serviceOrderList:'',
-      sd:'',
-      createTime:'',
-      pic:0,
-      iii:'',
-      sdsd:'javascript:void(0)',
-      ceshi:'',
-      www:'',
-    }
+      msg: "Welcome to Your Vue.js App",
+      sub_1: "800.00",
+      sub_a: "1",
+      sub_2: "1800.00",
+      sub_b: "1",
+      iiiiii: "",
+      all: "",
+      asd: "#",
+      businessOrder: "",
+      serviceOrderList: "",
+      sd: "",
+      createTime: "",
+      pic: 0,
+      iii: "",
+      sdsd: "javascript:void(0)",
+      ceshi: "",
+      www: ""
+    };
   },
   methods:{
      open() {
@@ -164,90 +164,92 @@ export default {
         var s = date.getSeconds();
         return Y+M+D+h+m+s;
     },
-  sweixin(){
-    this.iii = './static/weixin.jpg'
-  },
-  szhifubao(){
-    this.iii = './static/taobao.jpg'
-  },
-  X(){
-    this.pic  = 0    
-  },
-  fanhui(){
-    this.pic  = 0    
-  },
-  chuxian(){
-    if(this.iii){
-      this.pic  = 1
-    }else{
-      this.pic  = 0 
-      alert('请选择支付方式')   
-    }
-  },
-  sbank(){
-    this.iii = './static/yinhang.png'
+    sweixin() {
+      this.iii = "./static/weixin.jpg";
     },
-  sxiane(){
-    this.iii = './static/yinhang.png'    
+    szhifubao() {
+      this.iii = "./static/taobao.jpg";
+    },
+    X() {
+      this.pic = 0;
+    },
+    fanhui() {
+      this.pic = 0;
+    },
+    chuxian() {
+      if (this.iii) {
+        this.pic = 1;
+      } else {
+        this.pic = 0;
+        alert("请选择支付方式");
+      }
+    },
+    sbank() {
+      this.iii = "./static/yinhang.png";
+    },
+    sxiane() {
+      this.iii = "./static/yinhang.png";
     }
   },
   created() {
-
-    this.all = this.$route.query.op
-    this.ajax.post('/xinda-api/business-order/detail',this.qs.stringify({
-      businessNo:this.$route.query.businessNo
-    }))
-    .then((data)=>{
-      console.log(data.data.data)
-      this.businessOrder = data.data.data.businessOrder;
-      this.serviceOrderList = data.data.data.serviceOrderList;
-      this.sd = data.data.data.businessOrder.createTime
-      this.createTime = this.timestampToTime(this.sd)
-    })
-  },
-
-}
+    this.all = this.$route.query.op;
+    this.ajax
+      .post(
+        "/xinda-api/business-order/detail",
+        this.qs.stringify({
+          businessNo: this.$route.query.businessNo
+        })
+      )
+      .then(data => {
+        console.log(data.data.data);
+        this.businessOrder = data.data.data.businessOrder;
+        this.serviceOrderList = data.data.data.serviceOrderList;
+        this.sd = data.data.data.businessOrder.createTime;
+        this.createTime = this.timestampToTime(this.sd);
+      });
+  }
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-@media screen and (min-width:768px){
-  .all_weixin{
+@media screen and (min-width: 768px) {
+  .all_weixin {
     display: none;
   }
-  .goods_all{
-    width: 1238px;   
+  .goods_all {
+    width: 1238px;
     margin: 7px auto 0;
     font-size: 14px;
   }
-  .goods_one{
+  .goods_one {
     margin-left: 22px;
   }
-  .goods_two{
+  .goods_two {
     color: #3d9bd9;
     margin-top: 18px;
     padding-bottom: 7px;
     border-bottom: 1px solid #bdbdbd;
   }
   // 订单详细信息
-  .goods_thr{
+  .goods_thr {
     margin-top: 38px;
-    ul{
-      height: 40px;
+    ul {
+      height: 75px;
       display: flex;
       background-color: #e5e5e5;
       border: 1px solid #b6b6b6;
-      li:nth-child(1){
+      li:nth-child(1) {
         width: 430px;
       }
-      li{
+      li {
         width: 400px;
         text-align: center;
         line-height: 40px;
       }
     }
   }
-  .goods_thr2{
+  .goods_thr2 {
     margin-top: 0;
     ul{
       height: 65px;
@@ -258,91 +260,91 @@ export default {
       }
     }
   }
-  a{
+  a {
     color: #62a8dc;
   }
-  .goods_way{
+  .goods_way {
     margin-top: 45px;
     padding-bottom: 7px;
     border-bottom: 1px solid #bdbdbd;
     color: #76b0de;
   }
-  .goods_noway{
+  .goods_noway {
     margin: 21px 0 26px 22px;
   }
   // 非网银支付
-  .goods_box1{
+  .goods_box1 {
     width: 207px;
     height: 50px;
     border: 1px solid #efefef;
     margin-left: 24px;
-    .iimg1{
+    .iimg1 {
       margin: 5px 0 0 30px;
     }
-    .iimg2{
-      margin: 9px 0 0 30px;    
+    .iimg2 {
+      margin: 9px 0 0 30px;
     }
   }
-  .iimg3{
-      margin: 5px 0 0 30px;    
-    }
-  .goods_bb{
+  .iimg3 {
+    margin: 5px 0 0 30px;
+  }
+  .goods_bb {
     display: flex;
   }
-  .goods_d{
+  .goods_d {
     margin: -24px 0 0 3px;
     vertical-align: middle;
   }
   // bank
-  .goods_zizhu{
+  .goods_zizhu {
     display: inline-block;
     margin: 38px 16px 0 22px;
     color: #242424;
   }
-  .goods_xiaozi{
+  .goods_xiaozi {
     color: #242424;
     font-size: 12px;
   }
-  .goods_bank{
+  .goods_bank {
     width: 422px;
     height: 68px;
     border: 1px solid #efefef;
     margin: 23px 0 0 24px;
   }
   // 红字
-  .goods_red{
+  .goods_red {
     font-size: 1px;
     color: #ff6867;
     margin: 13px 0 0 22px;
   }
   // 结算
-  .goods_jiesuan{
+  .goods_jiesuan {
     width: 190px;
     height: 100px;
     position: relative;
     margin: 80px 0 0 999px;
   }
-  .goods_am{
+  .goods_am {
     color: #020202;
     margin-top: 5px;
     display: inline-block;
   }
-  .goods_shuzi{
+  .goods_shuzi {
     margin-left: 10px;
     position: absolute;
-    font-family: '黑体';
+    font-family: "黑体";
     font-weight: bold;
     color: #2793d3;
     font-size: 30px;
   }
-  .goods_kuang{
+  .goods_kuang {
     border: 1px solid #2693d4;
     width: 102px;
-    height: 26px; 
+    height: 26px;
     margin: 12px 0 0 77px;
     border-radius: 5px;
   }
-  .goods_end{
+  .goods_end {
     text-decoration: none;
     // text-align: center;
     // line-height: 26px;
@@ -350,7 +352,7 @@ export default {
     margin: -7px 0 0 35px;
     font-size: 16px;
   }
-  .imgw1{
+  .imgw1 {
     width: 332px;
     height: 364px;
     position: absolute;
@@ -358,7 +360,7 @@ export default {
     left: 542px;
     background-color: #ffffff;
     box-shadow: 0 0 10px #a7a3a3;
-    .guanbi{
+    .guanbi {
       width: 332px;
       height: 40px;
       background-color: #f8f8f8;
@@ -367,148 +369,155 @@ export default {
       font-size: 25px;
       float: right;
     }
-    .imgw{
+    .imgw {
       width: 188px;
       height: 188px;
       margin: 19px 0 0 74px;
-    }  
-    .img_p{
+    }
+    .img_p {
       text-align: center;
     }
-    .ak{
+    .ak {
       font-size: 12px;
       padding: 5px 5px;
       border: 1px solid #6fc2c6;
-      margin: 7px 13px 0 ;
+      margin: 7px 13px 0;
       display: inline-block;
     }
-    .ak1{
+    .ak1 {
       margin-left: 72px;
     }
-    .img_p2{
+    .img_p2 {
       color: #4eb5ba;
       margin-top: 20px;
       text-align: center;
       display: block;
     }
   }
-} 
-@media screen and (max-width:768px){
-  .goods_all{
+}
+@media screen and (max-width: 768px) {
+  .goods_all {
     display: none;
   }
-  .all_weixin{
-    font-size: 14px; 
+  .all_weixin {
+    font-size: 14px;
   }
-  .w_top{
+  .w_top {
     background-color: #e5e5e5;
     text-align: center;
-    p{
+    p {
       line-height: 40px;
       font-size: 18px;
     }
   }
-  .dingdanhao{
+  .dingdanhao {
     margin: 16px 0 0 16px;
   }
-  .weixin_x{
+  .weixin_x {
     height: 80px;
+<<<<<<< HEAD
     background-color: #f8f8f8; 
+=======
+    background-color: #e5e5e5;
+>>>>>>> c6aa9eb6294466cf72600d5312707332906f8842
     border-bottom: 1px solid #000000;
-    ul{
+    display: flex;
+    align-items: center;
+    ul {
       display: flex;
-      justify-content:space-around;
-    } 
-    .fumc{
+      justify-content: space-around;
+      align-items: center;
+      width: 100%;
+    }
+    .fumc {
       width: 120px;
     }
-    .fb{
+    .fb {
       width: 130px;
     }
-    li{
-      line-height: 80px;
-      width: 48px;  
-      text-align: center;          
-    }  
+    li {
+      width: 48px;
+      text-align: center;
+    }
   }
-  .weixin_li{
+  .weixin_li {
     display: flex;
-    justify-content:space-around;
+    justify-content: space-around;
     height: 60px;
-    border-bottom: 1px solid #000000;    
-    li{
+    border-bottom: 1px solid #000000;
+    li {
       line-height: 60px;
       text-align: center;
       width: 98px;
     }
   }
-  .weixin_way{
-    margin: 16px 0 0 9px;  
+  .weixin_way {
+    margin: 16px 0 0 9px;
     display: block;
     border-bottom: solid 1px #706d6d;
     padding-bottom: 20px;
   }
   // 非网银支付
-  .feiyin{
+  .feiyin {
     margin: 16px 0 0 9px;
     display: block;
     color: black;
-    font-size: 14px;  
+    font-size: 14px;
   }
-  .iimg4{
+  .iimg4 {
     width: 320px;
   }
-  .weixin_box1{
+  .weixin_box1 {
     margin-top: 20px;
     width: 207px;
     height: 50px;
     border: 1px solid #efefef;
     margin-left: 9px;
-     .iimg1{
+    .iimg1 {
       margin: 5px 0 0 30px;
     }
-    .iimg2{
-      margin: 9px 0 0 0px;    
+    .iimg2 {
+      margin: 9px 0 0 0px;
     }
-    .weixin_d{
-    margin: -24px 0 0 3px;
-    vertical-align: middle;
+    .weixin_d {
+      margin: -24px 0 0 3px;
+      vertical-align: middle;
     }
   }
-  .pingtai{
+  .pingtai {
     margin: 16px 0 0 9px;
     display: block;
-    color: black; 
-    font-size: 14px;         
+    color: black;
+    font-size: 14px;
   }
   // 自助转账
-  .zizhu{
+  .zizhu {
     margin: 16px 0 0 9px;
     display: block;
-    color: black;   
-    font-size: 14px;       
-    p{
+    color: black;
+    font-size: 14px;
+    p {
       font-size: 12px;
       display: inline-block;
       color: black;
     }
   }
-  .weixin_bank{
+  .weixin_bank {
     width: 350px;
     height: 70px;
     margin-top: 20px;
     margin-left: 11px;
-    .weixin_d{
-    margin: -24px 0 0 3px;
-    vertical-align: middle;
+    .weixin_d {
+      margin: -24px 0 0 3px;
+      vertical-align: middle;
     }
   }
-  .weixin_red{
+  .weixin_red {
     font-size: 1px;
     color: #ff6867;
     margin: 13px 0 50px 15px;
   }
-  .ph_bottom{
+  .ph_bottom {
     width: 100%;
     background-color: #e5e5e5;
     display: flex;
@@ -516,11 +525,11 @@ export default {
     line-height: 60px;
     position: fixed;
     bottom: 58px;
-    .ph_wub{
+    .ph_wub {
       width: 66vw;
       text-indent: 18px;
     }
-    .ph_sy{
+    .ph_sy {
       width: 33.5vw;
       background-color: #fb2d2d;
       // line-height: 112px;
@@ -531,7 +540,7 @@ export default {
       }
     }
   }
-  .imgw_{
+  .imgw_ {
     width: 332px;
     height: 364px;
     position: absolute;
@@ -540,7 +549,7 @@ export default {
     margin-left: -160px;
     background-color: #ffffff;
     box-shadow: 0 0 10px #a7a3a3;
-    .guanbi{
+    .guanbi {
       width: 332px;
       height: 40px;
       background-color: #f8f8f8;
@@ -549,32 +558,32 @@ export default {
       font-size: 25px;
       float: right;
     }
-    .imgw{
+    .imgw {
       width: 188px;
       height: 188px;
       margin: 19px 0 0 74px;
-    }  
-    .img_p{
+    }
+    .img_p {
       text-align: center;
     }
-    .ak{
+    .ak {
       font-size: 12px;
       padding: 5px 5px;
       border: 1px solid #6fc2c6;
-      margin: 7px 13px 0 ;
+      margin: 7px 13px 0;
       display: inline-block;
     }
-    .ak1{
+    .ak1 {
       margin-left: 72px;
     }
-    .img_p2{
+    .img_p2 {
       color: #4eb5ba;
       margin-top: 20px;
       text-align: center;
       display: block;
     }
   }
-  .fanhui{
+  .fanhui {
     font-size: 30px;
     color: black;
     position: absolute;
