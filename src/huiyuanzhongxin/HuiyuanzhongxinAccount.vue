@@ -26,21 +26,23 @@
       <div class="xingming">
         <p>姓</p>
         <p class="mingbx">名：</p>
-        <input @blur="name"  v-model="mingzi" type="text" placeholder="请输入姓名">
-        <p class="ts">{{mingzits}}</p>
+        <input @blur="name" v-model="mingzi" type="text" placeholder="请输入姓名">
+        
       </div>
+      <p class="ts">{{mingzits}}</p>
       <div class="xingbie">
         <p>性</p>
         <p class="mingbx">别：</p>
-        <input type="radio" name="radio" vulue="1" :checked="aaa"  class="nan" @click="man">男
-        <input type="radio" name="radio" vulue="2" :checked="bbb" class="nv" @click="woman" >女
+        <input type="radio"  value="1" class="nan" v-model="sex">男
+        <input type="radio"  value="2" class="nv" v-model="sex" >女
       </div>
       <div class="youxiang">
         <p>邮</p>
         <p class="mingbx">箱：</p>
         <input @blur="email"  v-model="pgone" type="text" placeholder="请输入邮箱">
-        <span class="ts">{{pgonets}}</span>
-      </div>  
+        
+      </div> 
+       <p class="ts">{{pgonets}}</p>
       <div class="diqu">
         <p>所在地区：</p>
         <div class="shq">
@@ -95,25 +97,26 @@ export default {
       .post("/xinda-api/member/info", this.qs.stringify({}))
       .then(data => {
         this.data = data.data.data;
+        // console.log(this.data)
         this.mingzi = this.data.name;
         this.pgone = this.data.email;
         this.$parent.$parent.$parent.status = "wait1";
         if (this.data.gender == 1) {
-          this.aaa = true;
+          this.sex = 1;
         } else {
-          this.bbb = true;
+          this.sex = 2;
         }
       });
   },
   data() {
     return {
-      imageUrl: '',
+      imageUrl: "",
       xy: "<",
       pgone: "", //邮箱
       pgonets: "", //邮箱提示
       mingzi: "", //姓名
       mingzits: "", //姓名提示
-      sex: 1,
+      sex: "",
       youbian: "",
       aaa: false,
       bbb: false,
@@ -131,67 +134,98 @@ export default {
     Area
   },
   methods: {
+    email() {
+      var a = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+      if (!a.test(this.pgone)) {
+        this.pgonets = "请输入正确邮箱格式！";
+        return -1;
+      } else {
+        this.pgonets = "";
+        return 1;
+      }
+    },
+    name() {
+      var a = /^\S{2,6}$/;
+      if (!a.test(this.mingzi)) {
+        this.mingzits = "姓名格式不正确！";
+        return -1;
+      } else {
+        // this.mingzits = "";
+        return 1;
+      }
+    },
     open2() {
-      this.$confirm('是否修改当前用户信息?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.ajax
-        .post(
-          "/xinda-api/member/update-info",
-          this.qs.stringify({
-            headImg: "/2016/10/28/152843b6d9a04abe83a396d2ba03675f",
-            name: this.mingzi,
-            gender: this.sex,
-            email: this.pgone,
-            regionId: this.youbian
-          })
-        )
-        .then(data => {});
-        this.$message({
-          type: 'success',
-          message: '修改成功!'
+      this.$confirm("是否修改当前用户信息?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          if (this.name() == -1) {
+            return;
+          }
+          if (this.email() == -1) {
+            return;
+          }
+          this.ajax
+            .post(
+              "/xinda-api/member/update-info",
+              this.qs.stringify({
+                headImg: "/2016/10/28/152843b6d9a04abe83a396d2ba03675f",
+                name: this.mingzi,
+                gender: this.sex,
+                email: this.pgone,
+                regionId: this.youbian
+              })
+            )
+            .then(data => {
+              this.$message({
+                type: "success",
+                message: "删除成功!"
+              });
+            });
+          }) 
+          .catch(() => {
+            this.$message({
+              type: "info",
+              message: "已取消删除"
+          });
         });
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消修改'
-        });          
-      });
     },
     open3() {
-      this.$confirm('是否修改当前密码?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-         if (this.new1 != this.reNew1) {
-        this.passwordTip = "两次密码不匹配";
-      } else {
-        this.passwordTip = "";
-        this.ajax
-          .post(
-            "/xinda-api/sso/change-pwd",
-            this.qs.stringify({
-              oldPwd: md5(this.old),
-              newPwd: md5(this.new1)
-            })
-          )
-          .then(data => {
-            this.oldTip = data.data.msg;
+      this.$confirm("是否修改当前密码?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          if (this.new1 != this.reNew1) {
+            this.passwordTip = "两次密码不匹配";
+          } else {
+            this.passwordTip = "";
+            this.ajax
+              .post(
+                "/xinda-api/sso/change-pwd",
+                this.qs.stringify({
+                  oldPwd: md5(this.old),
+                  newPwd: md5(this.new1)
+                })
+              )
+              .then(data => {
+                this.oldTip = data.data.msg;
+              });
+          }
+          // this.$message({
+          //   type: 'success',
+          //   message: '修改成功!'
+          // });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消修改"
           });
-      }
-        // this.$message({
-        //   type: 'success',
-        //   message: '修改成功!'
-        // });
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消修改'
-        });          
-      });
+        });
     },
     //
     ymm() {
@@ -209,32 +243,8 @@ export default {
     bianma(a) {
       this.youbian = a;
     },
-    man() {
-      this.sex = 1;
-    },
-    woman() {
-      this.sex = 2;
-    },
     send() {
-      this.open2()
-    },
-    email() {
-      var a = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
-      if (!a.test(this.pgone)) {
-        this.pgonets = "请输入正确邮箱格式！";
-      } else {
-        this.pgonets = "";
-        return 1;
-      }
-    },
-    name() {
-      var a = /^\S{2,6}$/;
-      if (!a.test(this.mingzi)) {
-        this.mingzits = "姓名格式不正确！";
-      } else {
-        this.mingzits = "";
-        return 1;
-      }
+      this.open2();
     }
   }
 };
@@ -350,8 +360,8 @@ export default {
       span {
         margin-left: 10px;
         overflow: hidden;
-        img{
-          width:70px;
+        img {
+          width: 70px;
           height: 70px;
         }
       }
@@ -402,6 +412,7 @@ export default {
       }
     }
     .ts {
+      margin-left: 72px;
       color: red;
     }
   }
@@ -478,53 +489,54 @@ export default {
   }
   .tckuang {
     display: none;
-  }  .tckuang{
-      top:0;
-      left: 0;
-      width:100%;
-      height:100%;
-      z-index:66;
-      position: fixed;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: rgba(0, 0, 0, 0.2);
-      .tanchuk {
-        // margin:185px 0 0 100px;
-        width: 400px;
-        height: 170px;
-        z-index: 66;
-        position: absolute;
-        background: #fff;
-        border: 1px solid #ccc;
-        .tss{
-          font-size:18px;
-          margin-top: 5%;
-        }
-        p {
-          text-align: center;
-          margin-top: 8%;
-        }
-        ul {
-          display: flex;
-          justify-content: space-between;
-        }
-        li {
-          display: inline-block;
-          margin: 25px 20px 0 20px;
-          padding: 7px 25px;
-          color: #fff;
-        }
-        .qd {
-          background: #2693d4;
-          cursor: pointer;
-        }
-        .qx {
-          background: #9c9c9c;
-          cursor: pointer;
-        }
+  }
+  .tckuang {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 66;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.2);
+    .tanchuk {
+      // margin:185px 0 0 100px;
+      width: 400px;
+      height: 170px;
+      z-index: 66;
+      position: absolute;
+      background: #fff;
+      border: 1px solid #ccc;
+      .tss {
+        font-size: 18px;
+        margin-top: 5%;
+      }
+      p {
+        text-align: center;
+        margin-top: 8%;
+      }
+      ul {
+        display: flex;
+        justify-content: space-between;
+      }
+      li {
+        display: inline-block;
+        margin: 25px 20px 0 20px;
+        padding: 7px 25px;
+        color: #fff;
+      }
+      .qd {
+        background: #2693d4;
+        cursor: pointer;
+      }
+      .qx {
+        background: #9c9c9c;
+        cursor: pointer;
       }
     }
+  }
   .rig {
     display: none;
   }
@@ -620,6 +632,7 @@ export default {
       }
     }
     .ts {
+      margin-left: 97px;
       color: red;
     }
   }

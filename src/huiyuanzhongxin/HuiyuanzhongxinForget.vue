@@ -66,6 +66,7 @@ export default {
                 })
               )
               .then(data => {
+                console.log(data)
                 if (data.data.status == -1) {
                   this.oldTip = data.data.msg;
                   this.$message({
