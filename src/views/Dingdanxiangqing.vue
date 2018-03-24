@@ -43,7 +43,8 @@
       <p class="goods_red">注：转账时请将订单编号备注在付款信息里：转账完成后，请通知客服</p>
       <div class="goods_jiesuan">
         <a class="goods_am">金额总计</a><a class="goods_shuzi">￥{{all}}.00</a>
-        <div class="goods_kuang"><a @click="chuxian" class="goods_end" :href="sdsd">去结算</a></div>
+        <!-- <div class="goods_kuang"><a @click="chuxian" class="goods_end" :href="sdsd">去结<el-button type="text" @click="open">点击打开 Message Box</el-button>算</a></div> -->
+        <div class="goods_kuang"><el-button type="text" @click="open" class="goods_end">结算</el-button></div>
       </div>
       <div class="imgw1" v-show="pic">
         <a href="javascript:void(0)"  @click="X" class="guanbi">×</a>
@@ -97,7 +98,8 @@
       <p class="weixin_red">注：转账时请将订单编号备注在付款信息里：转账完成后，请通知客服</p> 
       <ul class="ph_bottom">
         <li class="ph_wub">合计 : <a class="ph_ta">￥{{all}}.00</a></li>
-        <li class="ph_sy"><a @click="chuxian" :href="sdsd" >去结算</a></li>
+        <!-- <li class="ph_sy"><a @click="chuxian" :href="sdsd" >去结算</a></li> -->
+        <li class="ph_sy"><el-button type="text" @click="open" class="goods_end"><a>结算</a></el-button></li>
       </ul>  
       <div class="imgw_" v-show="pic">
         <a href="javascript:void(0)"  @click="X" class="guanbi">×</a>
@@ -135,19 +137,32 @@ export default {
       www: ""
     };
   },
-  methods: {
-    timestampToTime(we) {
-      var date = new Date(we);
-      var Y = date.getFullYear() + "-";
-      var M =
-        (date.getMonth() + 1 < 10
-          ? "0" + (date.getMonth() + 1)
-          : date.getMonth() + 1) + "-";
-      var D = date.getDate() + " ";
-      var h = date.getHours() + ":";
-      var m = date.getMinutes() + ":";
-      var s = date.getSeconds();
-      return Y + M + D + h + m + s;
+  methods:{
+     open() {
+         if(this.iii){
+      this.pic  = 1
+    }else{
+      this.pic  = 0   
+        this.$alert('请选择支付类型', '标题名称', {
+          confirmButtonText: '确定',
+          callback: action => {
+            this.$message({
+              type: 'info',
+              message: `action: ${ action }`
+            });
+          }
+        });
+      }
+      },
+  timestampToTime(we) {
+        var date = new Date(we);
+        var Y = date.getFullYear() + '-';
+        var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+        var D = date.getDate() + ' ';
+        var h = date.getHours() + ':';
+        var m = date.getMinutes() + ':';
+        var s = date.getSeconds();
+        return Y+M+D+h+m+s;
     },
     sweixin() {
       this.iii = "./static/weixin.jpg";
@@ -222,7 +237,7 @@ export default {
     ul {
       height: 75px;
       display: flex;
-      background-color: #f7f7f7;
+      background-color: #e5e5e5;
       border: 1px solid #b6b6b6;
       li:nth-child(1) {
         width: 430px;
@@ -230,12 +245,20 @@ export default {
       li {
         width: 400px;
         text-align: center;
-        line-height: 70px;
+        line-height: 40px;
       }
     }
   }
   .goods_thr2 {
     margin-top: 0;
+    ul{
+      height: 65px;
+      
+      background-color: #f8f8f8;
+      li{
+        line-height: 65px;
+      }
+    }
   }
   a {
     color: #62a8dc;
@@ -323,9 +346,11 @@ export default {
   }
   .goods_end {
     text-decoration: none;
-    text-align: center;
-    line-height: 26px;
+    // text-align: center;
+    // line-height: 26px;
     display: block;
+    margin: -7px 0 0 35px;
+    font-size: 16px;
   }
   .imgw1 {
     width: 332px;
@@ -505,8 +530,9 @@ export default {
       background-color: #fb2d2d;
       // line-height: 112px;
       text-align: center;
-      a {
-        color: #ffffff;
+      a{
+        color: #2693d4;
+        font-size: 18px;
       }
     }
   }

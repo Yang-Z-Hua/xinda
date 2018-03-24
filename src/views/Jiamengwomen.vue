@@ -52,6 +52,9 @@ export default {
       dsa:''
     }
   },
+  created(){
+    window.scrollTo(0, 0);
+  },
   methods:{
     evo1(){
       for(this.dsa in this.obj){
