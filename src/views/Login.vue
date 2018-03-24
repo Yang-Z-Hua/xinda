@@ -14,8 +14,8 @@
         <ul class="d2">
           <input type="text"  placeholder="请输入验证码" v-model="yzm" @keypress="inpu">
           <img :src="png" v-on:click='cha'>
-          <span class="tip">{{picTip}}</span>
         </ul>
+          <span class="tip">{{picTip}}</span>
         <ul class="d3">
           <input type="text">
           <router-link to='forget'>忘记密码？</router-link>
@@ -118,7 +118,7 @@ export default {
             this.tip = data.data.msg;
             this.cha();
           } else {
-            this.tip = data.data.msg;
+            // this.tip = data.data.msg;
             this.$parent.$parent.user = this.phone;
             this.$parent.$parent.denglu = "";
             this.$parent.$parent.ljzc = "";

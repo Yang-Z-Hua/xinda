@@ -17,7 +17,7 @@
             <span @click="bs(0)" :class="cpfw2"> 服务商</span>
         </div>
           <div class="mdd">
-            <input :class="serBS" @input="ser" :placeholder="search" list="dataList" type="text" v-model="searchFor" @keypress="inpu">
+            <input :class="serBS" :placeholder="search" list="dataList" type="text" v-model="searchFor" @input="inpu(e,inpuzj)" >
             <datalist id="dataList">
               <option v-for="val in list" :key="val.id" :value="val.serviceName"></option>
             </datalist>
@@ -30,7 +30,7 @@
           </div>
         </div>
         <div class="phone">
-          <img src="../assets/images/phone.jpg" alt="" @click="cs">
+          <img src="../assets/images/phone.jpg" alt="">
           <span>010-83421842</span>
         </div>
       </div>
@@ -80,7 +80,9 @@
 </template>
 
 <script>
+import inpu111 from "../areasData/debounce";
 export default {
+  
   name: "HelloWorld",
   data() {
     return {
@@ -99,8 +101,10 @@ export default {
       cp: "",
       search: "搜索您需要的服务或服务商(不超过30个字)",
       serBS: "", //搜索框变色
-      // rq: 0, 
-      // time: []
+      rq: 0,
+      time: [],
+      timeId: "",
+      inpu:inpu111['inpu'],
     };
   },
   created() {
@@ -115,25 +119,8 @@ export default {
         j++;
       }
     });
-    this.chen("/xinda-api/product/package/search-grid");
-    this.list = this.cp;
   },
   methods: {
-    cs() {
-      var this1 = this;
-      // this.time[this.rq] = new Date().getTime();
-      // (function(a) {
-      //   this1.rq++;
-      //   setTimeout(function() {
-      //     if (this1.time[a + 1] && this1.time[a + 1] - this1.time[a] < 1000) {
-      //       return;
-      //     } else {
-      //       //这里写实际的代码
-      //       console.log(this1.rq);
-      //     }
-      //   }, 1000);
-      // })(this.rq);
-    },
     blo() {
       this.allproduct = "allproduct";
     },
@@ -172,32 +159,13 @@ export default {
         }
       });
     },
-    chen(a) {
-      //调用一次
-      this.$parent.status = "wait";
-      this.ajax
-        .post(
-          a,
-          this.qs.stringify({
-            searchName: this.searchFor,
-            limit: 8
-          })
-        )
-        .then(data => {
-          this.$parent.status = "wait1";
-          this.cp = data.data.data;
-          this.list = this.cp;
-        });
-    },
     bs(i) {
       //搜索服务商或者产品
       if (i) {
-        this.list = this.cp;
         this.cpfw1 = "blue";
         this.cpfw2 = "";
         this.i = 1;
       } else {
-        this.list = [{ serviceName: "大唐" }, { serviceName: "云智慧" }];
         this.cpfw2 = "blue";
         this.cpfw1 = "";
         this.i = 0;
@@ -210,27 +178,97 @@ export default {
       }
       this.arr[i] = "bian";
     },
-    inpu(e) {
+    ed(e) {
       //搜索框加入摁回车键搜索功能
       if (e.keyCode == 13) {
         this.searchService();
       }
     },
-    ser() {
-      this.search = "搜索您需要的服务或服务商(不超过30个字)";
-      this.serBS = "";
-      if (this.searchFor.length > 30) {
-        this.searchFor = this.searchFor.substr(0, 30);
+    inpuzj() {
+      var this1=this;
+      console.log("456");
+      //这里写实际的代码
+      this1.search = "搜索您需要的服务或服务商(不超过30个字)";
+      this1.serBS = "";
+      if (this1.searchFor.length > 30) {
+        this1.searchFor = this1.searchFor.substr(0, 30);
       }
+      if (this1.searchFor.length == 0) {
+        this1.list = "";
+        return;
+      }
+      //搜索产品/服务
+      var b;
+      if (this1.i == 1) {
+        b = "/xinda-api/product/package/search-grid";
+      } else {
+        b = "/xinda-api/provider/search-grid";
+      }
+      this1.ajax
+        .post(
+          b,
+          this1.qs.stringify({
+            searchName: this1.searchFor
+          })
+        )
+        .then(data => {
+          this1.list = data.data.data;
+          console.log(data.data.data);
+        });
     },
+    // inpu(e) {
+    //   this.search = "搜索您需要的服务或服务商(不超过30个字)";
+    //   this.serBS = "";
+    //   if (this.searchFor.length > 30) {
+    //     this.searchFor = this.searchFor.substr(0, 30);
+    //   }
+    //   if (this.searchFor.length == 0) {
+    //     this.list = "";
+    //     clearTimeout(this.timeId)
+    //     return;
+    //   }
+    //   //debounce机制
+    //   var this1 = this;
+    //   this.time[this.rq] = new Date().getTime();
+    //   (function(a) {
+    //     this1.rq++;
+    //      this1.timeId=setTimeout(function() {
+    //       if (this1.time[a + 1] && this1.time[a + 1] - this1.time[a] < 500) {
+    //         console.log("123");
+    //         return;
+    //       } else {
+    //         console.log("456");
+    //         //这里写实际的代码
+    //         //搜索产品/服务
+    //         var b;
+    //         if (this1.i == 1) {
+    //           b = "/xinda-api/product/package/search-grid";
+    //         } else {
+    //           b = "/xinda-api/provider/search-grid";
+    //         }
+    //         this1.ajax
+    //           .post(
+    //             b,
+    //             this1.qs.stringify({
+    //               searchName: this1.searchFor
+    //             })
+    //           )
+    //           .then(data => {
+    //             this1.list = data.data.data;
+    //             console.log(data.data.data);
+    //           });
+    //       }
+    //     }, 500);
+    //   })(this.rq);
+    // },
     searchService() {
+      if (this.searchFor.length == 0) {
+        this.search = "请输入内容！";
+        this.serBS = "bian";
+        return;
+      }
       if (this.i) {
         //搜索产品走这一步，默认搜索产品
-        if (this.searchFor.length == 0) {
-          this.search = "请输入内容！";
-          this.serBS = "bian";
-          return;
-        }
         for (let j in this.arr) {
           this.arr[j] = "";
         }
@@ -265,9 +303,6 @@ export default {
       } else {
         //搜索服务商
         this.$parent.status = "wait";
-        // window.onscroll = function() {
-        //   window.scrollTo(0, 0);
-        // };
         this.ajax
           .post(
             "/xinda-api/provider/search-grid",

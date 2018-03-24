@@ -278,6 +278,9 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
+  div.zj{
+    padding-bottom:150px;
+  }
   div div ul.d3 input {
     display: inline !important;
   }

@@ -134,7 +134,7 @@ export default {
     this.$parent.$parent.status = "wait";
     if (window.innerWidth < 768) {
       // 检测是手机还是pc
-      this.fanye = 5;
+      this.fanye = 4;
     }
     window.scrollTo(0, 0);
     this.ajax
@@ -169,7 +169,6 @@ export default {
   },
   methods: {
     choose(data){
-      console.log(data,this.id3)
       if(this.id3){
         this.chen(0,this.id3,this.pxIndex,data)
       }else{
@@ -380,7 +379,6 @@ export default {
               return;
             } else {
               this.number += 1;
-              console.log("number", this.number);
             }
           }
           if (this.sx == 0) {
@@ -716,7 +714,7 @@ export default {
             align-items: flex-start;
             border-bottom: 1px solid #cccccc;
             img {
-              width: 60px;
+              width: 40px;
               height: 60px;
               border: 1px solid #cccccc;
               margin-right: 12px;

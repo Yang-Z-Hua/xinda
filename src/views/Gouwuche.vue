@@ -269,7 +269,7 @@ export default {
     font-size: 14px;
     color: #2a2a2a;
     position: relative;
-    overflow: auto;
+    overflow: hidden;
   }
   .shopping_kong {
     width: 1205px;

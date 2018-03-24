@@ -413,7 +413,7 @@ export default {
   }
   .weixin_x{
     height: 80px;
-    background-color: #e5e5e5; 
+    background-color: #f8f8f8; 
     border-bottom: 1px solid #000000;
     ul{
       display: flex;
@@ -526,7 +526,7 @@ export default {
       // line-height: 112px;
       text-align: center;
       a{
-        color: #2693d4;
+        color: white;
         font-size: 18px;
       }
     }
