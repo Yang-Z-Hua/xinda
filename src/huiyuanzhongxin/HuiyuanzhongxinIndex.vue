@@ -29,7 +29,7 @@
         <li class="zt">订单状态</li>
         <li class="cz">订单操作</li>
       </ul>
-      <div class="list-top"  v-for="aa in da" :key="aa.id">
+      <div :class="list"  v-for="aa in da" :key="aa.id">
         <div class="order-time">
           <div>
             <p>订单号：</p>
@@ -122,7 +122,8 @@ export default {
   name: "HelloWorld",
   data() {
     return {
-      dingdcx:'',
+      ccc: 0,
+      dingdcx: "",
       mnr: false,
       xy: "<",
       nextTip: "",
@@ -131,6 +132,7 @@ export default {
       startNum: 0,
       No: undefined,
       data: "",
+      list: "list-top",
       startDate: undefined,
       da: "",
       endDate: undefined,
@@ -207,11 +209,18 @@ export default {
       this.xr(0);
     },
     search() {
-      if(this.No == undefined){
-        this.dingdcx = '请输入订单号'
+      if (this.No == undefined) {
+        this.dingdcx = "请输入订单号";
+        console.log(111111);
       }
+      // if(this.No != this.No){
+      //   // this.dingdcx = '请输入订单号1111'
+      //   console.log(222222)
+      //   return
+      // }
       this.startNum = 0;
       this.count = 1;
+      this.ccc = 1;
       this.xr();
     },
     xr(i) {
@@ -235,6 +244,11 @@ export default {
           if (data.data.data.length == 0) {
             this.$parent.$parent.$parent.status = "wait1";
             this.mnr = !this.mnr;
+            if (this.ccc) {
+              this.list = "none";
+              this.ccc=0;
+            }
+
             if (i == "sc") {
               this.da = "";
               if (this.count > 1) {
@@ -540,16 +554,16 @@ export default {
         position: absolute;
         margin-left: 9px;
       }
-    } 
-    .ddch{
-        color: red;
-        font-size:14px;
-        margin-left:76px;
-      } 
+    }
+    .ddch {
+      color: red;
+      font-size: 14px;
+      margin-left: 76px;
+    }
     .order {
       margin: 22px 0 0 2px;
       height: 26px;
-     
+
       p {
         font-size: 14px;
         display: inline-block;
@@ -612,6 +626,9 @@ export default {
         .cz {
           margin-left: 86px;
         }
+      }
+      .none {
+        display: none;
       }
       .list-top {
         margin-top: 10px;
