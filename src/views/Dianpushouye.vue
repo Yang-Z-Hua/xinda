@@ -36,7 +36,7 @@
             <div></div>
           </div>
           <div class="weichat_list">
-            <div v-for="(four,underNum) in data_3" :key="underNum" class="weichat_goos_list">
+            <div v-for="(four,underNum) in data_2" :key="underNum" class="weichat_goos_list">
               <div class="left"><img :src="imgSrc+four.productImg" alt="" @click="go_shopping(four)" @error='defaultImg'></div>
               <div class="right">
                 <p class="service_t" @click="go_shopping(four)">{{four.serviceName.split('（')[0]}}</p>
@@ -83,60 +83,41 @@
         </ul>
       </div>
     </div>
-    
-    <span class="bot_1">
-      <button @click="backfirst">首页</button>
-      <button @click="prev()" :class="currentUnder==0?'noclick':''">上一页</button>
-      <ul>
-        <li v-for="(yema,key_1) in array" :key="key_1" @click="choose(key_1)" :class="currentUnder==key_1?'chooseIt':''">{{yema}}</li>
-      </ul>
-      <button @click="next()" :class="currentUnder==3?'noclick':''">下一页</button>
-      <button @click="goend">尾页</button>
-    </span>
+    <Page @confirm='zhang' :TotalCount='totalCount' :fanye='fanye' :reset='reset' />
   </div>
 </template>
 
 <script>
 const defaultImgUrl = require("../assets/images/notFound.jpg");
 const defaultImgUrl1 = require("../assets/images/u4652.png");
+import Page from "../components/Page.vue";
 
 export default {
   name: "HelloWorld",
   created() {
+    if(window.screenX<768){
+      this.fanye=12;
+    }else{
+      this.fanye=6;
+    }
+    
+    this.requi();
     window.scrollTo(0, 0);
     var th = this;
-      this.ajax
-        .post(
-          "/xinda-api/provider/detail",
-          this.qs.stringify({
-            id: this.$route.query.id
-          })
-        )
-        .then(data => {
-          this.arr = data.data.data;
-        });
     this.ajax
       .post(
-        "/xinda-api/product/package/grid",
+        "/xinda-api/provider/detail",
         this.qs.stringify({
-          providerId: this.$route.query.id
+          id: this.$route.query.id
         })
       )
       .then(data => {
-        this.data_1 = data.data.data;
-        this.data_2 = this.data_1.slice(0, 6);
-        this.data_3 = this.data_1.slice(0,4);
-        let number = Math.ceil(this.data_1.length / 6);
-        for (let i = 0; i < number; i++) {
-          this.array[i] = i + 1;
-        }
-          document.onscroll = function() {
-            th.data_3 = th.data_1
-          }
+        this.arr = data.data.data;
       });
   },
   data() {
     return {
+      startFro: "",
       msg: "Welcome to Your Vue.js App",
       arr: "",
       array: [],
@@ -155,7 +136,30 @@ export default {
       currentUnder: 0
     };
   },
+  components: {
+    Page
+  },
   methods: {
+    zhang(Num) {
+      this.startFro = Num;
+      this.requi();
+    },
+    requi() {
+      window.scrollTo(0, 400);
+      this.ajax
+        .post(
+          "/xinda-api/product/package/grid",
+          this.qs.stringify({
+            providerId: this.$route.query.id,
+            limit: this.fanye,
+            start: this.startFro
+          })
+        )
+        .then(data => {
+          this.data_2 = data.data.data;
+          this.totalCount = data.data.totalCount;
+        });
+    },
     defaultImg(e) {
       // 错误图片的代替
       e.target.src = defaultImgUrl;
@@ -217,44 +221,6 @@ export default {
             this.array[i] = i + 1;
           }
         });
-    },
-    backfirst() {
-      this.currentUnder = 0;
-      this.data_2 = this.data_1.slice(0, 6);
-    },
-    goend() {
-      this.currentUnder = Math.ceil(this.data_1.length / 6) - 1;
-      this.data_2 = this.data_1.slice(
-        this.currentUnder * 6,
-        this.currentUnder * 6 + 6
-      );
-    },
-    prev() {
-      if (this.currentUnder == 0) {
-        this.currentUnder = 0;
-        this.data_2 = this.data_1.slice(0, 6);
-      } else {
-        this.currentUnder -= 1;
-        this.data_2 = this.data_1.slice(
-          this.currentUnder * 6,
-          this.currentUnder * 6 + 6
-        );
-      }
-    },
-    next() {
-      if (this.currentUnder == 3) {
-        this.currentUnder = 3;
-        this.data_2 = this.data_1.slice(
-          this.currentUnder * 6,
-          this.currentUnder * 6 + 6
-        );
-      } else {
-        this.currentUnder += 1;
-        this.data_2 = this.data_1.slice(
-          this.currentUnder * 6,
-          this.currentUnder * 6 + 6
-        );
-      }
     },
     go_shopping(four) {
       this.$router.push({
@@ -451,8 +417,8 @@ export default {
   }
   .style1 {
     color: #74b3df;
-    p{
-    border-bottom: 2px solid #2693d4;
+    p {
+      border-bottom: 2px solid #2693d4;
     }
   }
   .style2 {
@@ -639,7 +605,7 @@ export default {
   .bot_1 {
     display: none;
   }
-  h4{
+  h4 {
     font-weight: bold;
   }
 }

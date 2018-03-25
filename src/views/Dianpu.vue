@@ -43,11 +43,7 @@
     </div>
 
     <!-- 下部页码数 -->
-    <ul class="page">
-      <button>上一页</button>
-      <li><p>1</p></li>
-      <button>下一页</button>
-    </ul>
+    <Page @confirm='zhang' :TotalCount='totalCount' :fanye='fanye' :reset='reset' />
 
 
 
@@ -57,6 +53,8 @@
 
 <script>
 import Area from "../components/Area";
+import Page from "../components/Page.vue";
+
 export default {
   name: "HelloWorld",
   data() {
@@ -84,9 +82,11 @@ export default {
       weichat: ["综合排序", "销量"],
       worryshow: "no",
       prevhtml: "",
+      num: 0
     };
   },
   created() {
+    this.fanye=2;
     if (this.$route.query.all == 1) {
       this.$parent.$parent.status = "wait";
       window.scrollTo(0, 0);
@@ -95,10 +95,7 @@ export default {
       //   this.$parent.$parent.status = "wait1";
       //   return;
       // }
-      this.ajax.post("/xinda-api/provider/grid").then(data => {
-        this.arr = data.data.data;
-        this.$parent.$parent.status = "wait1";
-      });
+      this.search();
     } else if (this.$route.query.arr.length != 0) {
       this.arr = this.$route.query.arr;
     } else if (this.$route.query.arr.length == 0) {
@@ -107,9 +104,29 @@ export default {
   },
 
   components: {
-    Area
+    Area,
+    Page
   },
   methods: {
+     zhang(Num) {
+      this.num = Num;
+      this.search();
+    },
+    search() {
+      this.ajax
+        .post(
+          "/xinda-api/provider/grid",
+          this.qs.stringify({
+            limit: 2,
+            start: this.num
+          })
+        )
+        .then(data => {
+          this.arr = data.data.data;
+          this.totalCount = data.data.totalCount;
+          this.$parent.$parent.status = "wait1";
+        });
+    },
     go(index) {
       this.$router.push({
         path: "/inner/Dianpushouye",
@@ -123,7 +140,7 @@ export default {
     test(under) {
       this.currentUnder = under;
       if (under == 0) {
-          this.arr = this.$parent.fwsAll.data.data;
+        this.arr = this.$parent.fwsAll.data.data;
       } else {
         this.ajax
           .post(
@@ -136,13 +153,14 @@ export default {
       }
     },
     close(value) {
-          this.ajax
-          .post(
-            "/xinda-api/provider/grid",this.qs.stringify({ regionId: value })
-          )
-          .then(data => {
-            this.arr = data.data.data;
-          });
+      this.ajax
+        .post(
+          "/xinda-api/provider/grid",
+          this.qs.stringify({ regionId: value })
+        )
+        .then(data => {
+          this.arr = data.data.data;
+        });
     },
     change(number) {
       this.currentUnder_1 = number;
@@ -174,7 +192,6 @@ export default {
           )
           .then(data => {
             this.arr = data.data.data;
-            console.log("店铺排序", this.dianpu);
           });
       }
     },

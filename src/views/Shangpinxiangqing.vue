@@ -576,7 +576,7 @@ export default {
             this.$confirm("尚未登录页面，是否登录？", "提示", {
               confirmButtonText: "登录",
               cancelButtonText: "取消",
-              type: "warning"
+              type: "warning"             
             })
               .then(() => {
                 this.$router.push({
