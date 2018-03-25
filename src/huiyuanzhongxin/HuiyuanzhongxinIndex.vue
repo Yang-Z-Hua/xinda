@@ -237,29 +237,13 @@ export default {
         }
       });
     },
-    // next() {
-    //   this.prevTip = 0;
-    //   if (this.arrLength < 3) {
-    //     this.nextTip = 1;
-    //     return;
-    //   } else {
-    //     this.startNum += 2;
-    //     this.xr(2);
-    //   }
-    // },
-    // prev() {
-    //   this.nextTip = 0;
-    //   if (this.count == 1) {
-    //     this.prevTip = 1;
-    //     return;
-    //   }
-    //   this.startNum -= 2;
-    //   this.xr(0);
-    // },
+
     search() {
       if (this.No == "") {
         this.dingdcx = "请输入订单号";
         return;
+      }else{
+        this.dingdcx = "";
       }
 
       this.startNum = 0;
@@ -279,13 +263,13 @@ export default {
         .post(
           "/xinda-api/business-order/grid",
           this.qs.stringify({
-            limit: 2,
+            limit: 4,
             start: this.startNum,
             businessNo: this.No
           })
         )
         .then(data => {
-          console.log(data.data.totalCount)
+          // console.log(data.data.totalCount)
           this.totalCount=data.data.totalCount
           if (data.data.data.length == 0) {
             this.$parent.$parent.$parent.status = "wait1";
@@ -351,7 +335,7 @@ export default {
     Page,
   },
   created() {
-    this.fanye = 2;
+    this.fanye = 4;
     this.totalCount = 10;
     window.scrollTo(0, 0);
     this.$parent.$parent.$parent.status = "wait";
