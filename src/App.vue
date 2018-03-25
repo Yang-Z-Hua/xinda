@@ -140,6 +140,7 @@ export default {
     },
     logOut() {
       //退出登录
+      sessionStorage.setItem("xshi", "");
       // this.status = "wait";
       this.ajax
         .post("/xinda-api/sso/logout", this.qs.stringify({}))
@@ -159,15 +160,15 @@ export default {
 
 <style lang='less'>
 div.el-message-box {
-  width: 330px !important
+  width: 330px !important;
 }
-.qd1{
+.qd1 {
   position: absolute;
   color: red;
   padding-left: 4px;
   top: 30px;
   background: white;
-  border: 1px solid ;
+  border: 1px solid;
   border-radius: 5px;
   line-height: 2;
   display: none;
@@ -304,8 +305,8 @@ div.el-message-box {
     color: #2693d4;
     margin-left: 17px;
   }
-  .mmm .right li:hover span{
-    display: block
+  .mmm .right li:hover span {
+    display: block;
   }
   .mmm .right ul {
     cursor: pointer;

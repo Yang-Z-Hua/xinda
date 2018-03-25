@@ -48,7 +48,8 @@ export default {
       }
     },
     TotalCount() {
-      if (this.TotalCount <= 3) {
+      // console.log('hh',this.TotalCount)
+      if (this.TotalCount <= this.fanye) {
         this.xia = "wait111";
       } else {
         this.xia = "";
@@ -72,7 +73,6 @@ export default {
   props: {
     fanye: String,
     TotalCount: String,
-    num: String,
     reset: String
   },
   methods: {

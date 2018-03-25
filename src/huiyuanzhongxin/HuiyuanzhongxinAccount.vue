@@ -19,7 +19,15 @@
     <div class="touxiang">
       <p>当前头像：</p>
       <span>
-        <img src="../assets/images/u7066.png" alt="">    
+        <el-upload
+          class="avatar-uploader"
+          action="https://jsonplaceholder.typicode.com/posts/"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload">
+          <img v-if="imageUrl" :src="imageUrl" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
       </span>
     </div>
     <div class="information">
@@ -97,7 +105,7 @@ export default {
       .post("/xinda-api/member/info", this.qs.stringify({}))
       .then(data => {
         this.data = data.data.data;
-        // console.log(this.data)
+        console.log(this.data)
         this.mingzi = this.data.name;
         this.pgone = this.data.email;
         this.$parent.$parent.$parent.status = "wait1";
@@ -134,6 +142,9 @@ export default {
     Area
   },
   methods: {
+     handleAvatarSuccess(res, file) {
+        this.imageUrl = URL.createObjectURL(file.raw);
+      },
     email() {
       var a = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
       if (!a.test(this.pgone)) {
@@ -181,14 +192,14 @@ export default {
             .then(data => {
               this.$message({
                 type: "success",
-                message: "删除成功!"
+                message: "修改成功!"
               });
             });
           }) 
           .catch(() => {
             this.$message({
               type: "info",
-              message: "已取消删除"
+              message: "已取消修改="
           });
         });
     },
@@ -250,6 +261,31 @@ export default {
 };
 </script>
 
+<style>
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    text-align: center;
+  }
+  .avatar {
+    width: 70px;
+    height: 70px;
+    display: block;
+  }
+</style>
 <style lang="less">
 .ar {
   select {

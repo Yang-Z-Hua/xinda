@@ -62,7 +62,8 @@
             <div class="tsnr" v-if="!arrLength">当前选项无内容</div>
           </div>
         </div>
-        <Page :num='num' @confirm='zhang' :TotalCount='totalCount'  :fanye='fanye' :reset='reset' />
+        <Page @confirm='zhang' :TotalCount='totalCount'  :fanye='fanye' :reset='reset' />
+        <!-- reset:重置   num -->
       </div>
       <div class="right">
         <div>

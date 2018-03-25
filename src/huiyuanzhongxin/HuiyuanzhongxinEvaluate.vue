@@ -43,7 +43,7 @@
         </div>
         <div class="ganshou">
             <p>感受：</p>
-            <textarea name="a"></textarea>
+            <textarea name="a" maxlength="200"></textarea>
         </div>
          <router-link to="/Huiyuanzhongxin/HuiyuanzhongxinAlready"  tag="div"> 
         <p class="tijiao">提交</p>

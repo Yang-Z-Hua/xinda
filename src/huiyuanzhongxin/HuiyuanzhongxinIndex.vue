@@ -15,9 +15,17 @@
     </div>
     <p class="ddch">{{dingdcx}}</p>
     <div class="time">
-      <p>创建时间：</p>
-      <el-date-picker class="rili" v-model="startDate" type="date"></el-date-picker>
-      <el-date-picker class="rili" v-model="endDate" type="date"></el-date-picker>
+      <!-- <p>创建时间：</p> -->
+       <div class="block">
+        <span class="demonstration">创建时间：</span>
+        <el-date-picker
+          v-model="value6"
+          type="daterange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期">
+        </el-date-picker>
+      </div>
     </div>
     
     <div class="list">
@@ -29,7 +37,7 @@
         <li class="zt">订单状态</li>
         <li class="cz">订单操作</li>
       </ul>
-      <div :class="list"  v-for="aa in da" :key="aa.id">
+      <div class="list-top" v-if="ddxx" v-for="aa in da" :key="aa.id">
         <div class="order-time">
           <div>
             <p>订单号：</p>
@@ -109,19 +117,26 @@
     <div class="meidd" v-if="mnr">
       <span>还没有订单！</span>
     </div>
-    <div class="molu" v-if="!mnr">
+    <Page @confirm='zhang' :TotalCount='totalCount'  :fanye='fanye' :reset='reset' />
+
+    <!-- <div class="molu" v-if="!mnr">
       <span class="sy" @click="prev" >上一页</span>
       <span class="noone">{{count}}</span>
       <p v-if="prevTip"></p><span class="sy" @click="next" >下一页</span><p v-if="nextTip">xiayiye</p>
-    </div>
+    </div> -->
+
   </div>
 </template>
 
 <script>
+import Page from "../components/Page.vue";
 export default {
   name: "HelloWorld",
   data() {
     return {
+      cz: 0, //重置
+      totalCount: "",
+      fanye: 3,
       ccc: 0,
       dingdcx: "",
       mnr: false,
@@ -130,21 +145,54 @@ export default {
       prevTip: "",
       count: 1,
       startNum: 0,
-      No: undefined,
+      No: "",
       data: "",
-      list: "list-top",
+      ddxx: true,
       startDate: undefined,
       da: "",
       endDate: undefined,
       yfk: "",
       id: "",
       // imgSrc: "http://123.58.241.146:8088/xinda/pic",
-      disabledDate(time) {
-        return time.getTime() > Date.now();
-      }
+      pickerOptions2: {
+        shortcuts: [
+          {
+            text: "最近一周",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", [start, end]);
+            }
+          },
+          {
+            text: "最近一个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit("pick", [start, end]);
+            }
+          },
+          {
+            text: "最近三个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit("pick", [start, end]);
+            }
+          }
+        ]
+      },
+      value6: ""
     };
   },
   methods: {
+    zhang(Num) {
+      this.startNum = Num;
+      this.xr();
+    },
     open2(id) {
       this.$confirm("此操作将删除该订单, 是否继续?", "提示", {
         confirmButtonText: "确定",
@@ -189,35 +237,31 @@ export default {
         }
       });
     },
-    next() {
-      this.prevTip = 0;
-      if (this.arrLength < 3) {
-        this.nextTip = 1;
-        return;
-      } else {
-        this.startNum += 2;
-        this.xr(2);
-      }
-    },
-    prev() {
-      this.nextTip = 0;
-      if (this.count == 1) {
-        this.prevTip = 1;
-        return;
-      }
-      this.startNum -= 2;
-      this.xr(0);
-    },
+    // next() {
+    //   this.prevTip = 0;
+    //   if (this.arrLength < 3) {
+    //     this.nextTip = 1;
+    //     return;
+    //   } else {
+    //     this.startNum += 2;
+    //     this.xr(2);
+    //   }
+    // },
+    // prev() {
+    //   this.nextTip = 0;
+    //   if (this.count == 1) {
+    //     this.prevTip = 1;
+    //     return;
+    //   }
+    //   this.startNum -= 2;
+    //   this.xr(0);
+    // },
     search() {
-      if (this.No == undefined) {
+      if (this.No == "") {
         this.dingdcx = "请输入订单号";
-        console.log(111111);
+        return;
       }
-      // if(this.No != this.No){
-      //   // this.dingdcx = '请输入订单号1111'
-      //   console.log(222222)
-      //   return
-      // }
+
       this.startNum = 0;
       this.count = 1;
       this.ccc = 1;
@@ -241,14 +285,15 @@ export default {
           })
         )
         .then(data => {
+          console.log(data.data.totalCount)
+          this.totalCount=data.data.totalCount
           if (data.data.data.length == 0) {
             this.$parent.$parent.$parent.status = "wait1";
             this.mnr = !this.mnr;
             if (this.ccc) {
-              this.list = "none";
-              this.ccc=0;
+              this.ddxx = !this.ddxx;
+              this.ccc = 0;
             }
-
             if (i == "sc") {
               this.da = "";
               if (this.count > 1) {
@@ -269,7 +314,9 @@ export default {
           if (i == 0) {
             this.count--;
           }
+
           let orderList = data.data.data;
+
           var j = 0;
           // this.$parent.$parent.$parent.status = "Lwait";
           for (let i in orderList) {
@@ -300,7 +347,12 @@ export default {
       this.open2(id);
     }
   },
+  components: {
+    Page,
+  },
   created() {
+    this.fanye = 2;
+    this.totalCount = 10;
     window.scrollTo(0, 0);
     this.$parent.$parent.$parent.status = "wait";
     this.xr("csh");
@@ -309,20 +361,20 @@ export default {
 </script>
 
 <style lang="less">
-.el-date-editor.el-input,
-.el-date-editor.el-input__inner {
-  width: 111px;
-  .el-input__inner {
-    padding: 0;
-    height: 23px;
-  }
-  .el-input__icon {
-    line-height: 0;
-  }
-  .el-input__prefix {
-    left: 85px;
-  }
-}
+// .el-date-editor.el-input,
+// .el-date-editor.el-input__inner {
+//   width: 111px;
+//   .el-input__inner {
+//     padding: 0;
+//     height: 23px;
+//   }
+//   .el-input__icon {
+//     line-height: 0;
+//   }
+//   .el-input__prefix {
+//     left: 85px;
+//   }
+// }
 </style>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -626,9 +678,6 @@ export default {
         .cz {
           margin-left: 86px;
         }
-      }
-      .none {
-        display: none;
       }
       .list-top {
         margin-top: 10px;
