@@ -117,19 +117,26 @@
     <div class="meidd" v-if="mnr">
       <span>还没有订单！</span>
     </div>
-    <div class="molu" v-if="!mnr">
+    <Page @confirm='zhang' :TotalCount='totalCount'  :fanye='fanye' :reset='reset' />
+
+    <!-- <div class="molu" v-if="!mnr">
       <span class="sy" @click="prev" >上一页</span>
       <span class="noone">{{count}}</span>
       <p v-if="prevTip"></p><span class="sy" @click="next" >下一页</span><p v-if="nextTip">xiayiye</p>
-    </div>
+    </div> -->
+
   </div>
 </template>
 
 <script>
+import Page from "../components/Page.vue";
 export default {
   name: "HelloWorld",
   data() {
     return {
+      cz: 0, //重置
+      totalCount: "",
+      fanye: 3,
       ccc: 0,
       dingdcx: "",
       mnr: false,
@@ -138,46 +145,54 @@ export default {
       prevTip: "",
       count: 1,
       startNum: 0,
-      No: '',
+      No: "",
       data: "",
-      ddxx:true,
+      ddxx: true,
       startDate: undefined,
       da: "",
       endDate: undefined,
       yfk: "",
       id: "",
       // imgSrc: "http://123.58.241.146:8088/xinda/pic",
-           pickerOptions2: {
-          shortcuts: [{
-            text: '最近一周',
+      pickerOptions2: {
+        shortcuts: [
+          {
+            text: "最近一周",
             onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
-          }, {
-            text: '最近一个月',
+          },
+          {
+            text: "最近一个月",
             onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
-          }, {
-            text: '最近三个月',
+          },
+          {
+            text: "最近三个月",
             onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
-          }]
-        },
-        value6: '',
+          }
+        ]
+      },
+      value6: ""
     };
   },
   methods: {
+    zhang(Num) {
+      this.startNum = Num;
+      this.xr();
+    },
     open2(id) {
       this.$confirm("此操作将删除该订单, 是否继续?", "提示", {
         confirmButtonText: "确定",
@@ -222,37 +237,31 @@ export default {
         }
       });
     },
-    next() {
-      this.prevTip = 0;
-      if (this.arrLength < 3) {
-        this.nextTip = 1;
-        return;
-      } else {
-        this.startNum += 2;
-        this.xr(2);
-      }
-    },
-    prev() {
-      this.nextTip = 0;
-      if (this.count == 1) {
-        this.prevTip = 1;
-        return;
-      }
-      this.startNum -= 2;
-      this.xr(0);
-    },
+    // next() {
+    //   this.prevTip = 0;
+    //   if (this.arrLength < 3) {
+    //     this.nextTip = 1;
+    //     return;
+    //   } else {
+    //     this.startNum += 2;
+    //     this.xr(2);
+    //   }
+    // },
+    // prev() {
+    //   this.nextTip = 0;
+    //   if (this.count == 1) {
+    //     this.prevTip = 1;
+    //     return;
+    //   }
+    //   this.startNum -= 2;
+    //   this.xr(0);
+    // },
     search() {
-      if (this.No == '') {
+      if (this.No == "") {
         this.dingdcx = "请输入订单号";
-        this.ddxx = !this.ddxx;
-        this.mnr = !this.mnr;
-        return
+        return;
       }
-      if(this.No != ''){
-        this.dingdcx = '';
-        this.mnr = !this.mnr;
-        this.ddxx = !this.ddxx
-      }
+
       this.startNum = 0;
       this.count = 1;
       this.ccc = 1;
@@ -276,12 +285,14 @@ export default {
           })
         )
         .then(data => {
+          console.log(data.data.totalCount)
+          this.totalCount=data.data.totalCount
           if (data.data.data.length == 0) {
             this.$parent.$parent.$parent.status = "wait1";
             this.mnr = !this.mnr;
             if (this.ccc) {
               this.ddxx = !this.ddxx;
-              this.ccc=0;
+              this.ccc = 0;
             }
             if (i == "sc") {
               this.da = "";
@@ -303,9 +314,9 @@ export default {
           if (i == 0) {
             this.count--;
           }
-          
+
           let orderList = data.data.data;
-        
+
           var j = 0;
           // this.$parent.$parent.$parent.status = "Lwait";
           for (let i in orderList) {
@@ -336,7 +347,12 @@ export default {
       this.open2(id);
     }
   },
+  components: {
+    Page,
+  },
   created() {
+    this.fanye = 2;
+    this.totalCount = 10;
     window.scrollTo(0, 0);
     this.$parent.$parent.$parent.status = "wait";
     this.xr("csh");
