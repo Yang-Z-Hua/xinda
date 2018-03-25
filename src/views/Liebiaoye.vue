@@ -24,7 +24,10 @@
         <div class="xia">
           <div class="head1">
             <span @click="zh" :class="px1">综合排序<ul></ul></span>
-            <span @click="price" :class="px2">价格<ul></ul></span>
+            <span @click="price" :class="px2">价格<ul></ul>
+              <li class='el-icon-caret-top' :class='pxT'></li>
+              <li class='el-icon-caret-bottom' :class='pxB'></li>
+            </span>
           </div>
           <div class="sp">
             <span>商品</span>
@@ -51,7 +54,7 @@
               <div class="sizeal">
                 <ul>￥{{a.price}}.00</ul>
                 <li>
-                  <span @mousedown="gm(a.id)" @mouseup="gm1" :class="ljgm==a.id?'down':''" @click="buy(a.id,a.price)">立即购买</span>
+                  <span :class="ljgm==a.id?'down':''" @click="buy(a.id,a.price)">立即购买</span>
                   <span @mousedown="gw(a.id)" @mouseup="gw1" :class="jrgwc==a.id?'down':''" @click="gouwuche(a.id,a.price)">加入购物车</span>
                 </li>
               </div>
@@ -59,15 +62,7 @@
             <div class="tsnr" v-if="!arrLength">当前选项无内容</div>
           </div>
         </div>
-        <Page @confirm='zhang' :TotalCount='totalCount' :nage='nage' :number='number' :fanye='fanye'/>
-        <!-- <div class="fanye">
-          <span @click="prev" :class="shang1">上一页</span>
-          <ul>{{number}}</ul>
-          <p v-if="prevTip">当前是第一页!!</p>
-          <span @click="next" :class="xia1">下一页</span>
-          <p v-if="nextTip">当前是最后一页!!</p>
-        </div>
-        <div class="tip" v-if="prevTip||nextTip">没有更多了!!!</div> -->
+        <Page :num='num' @confirm='zhang' :TotalCount='totalCount'  :fanye='fanye' :reset='reset' />
       </div>
       <div class="right">
         <div>
@@ -100,6 +95,8 @@ export default {
   name: "HelloWorld",
   data() {
     return {
+      pxT: "none",
+      pxB: "none",
       arr: "",
       imgSrc: "http://123.58.241.146:8088/xinda/pic",
       img: require("../assets/images/zz.jpg"),
@@ -110,7 +107,6 @@ export default {
       // xia1: "blue",
       // nextTip: "",
       // prevTip: "",
-      nage: "",
       data1: "", //主页传过来的大类
       data: "",
       background: "",
@@ -127,11 +123,12 @@ export default {
       jrgwc: "", //加入购物车背景
       px1: "click", //排序
       px2: "", //排序
-      pxIndex: "",
+      pxIndex: 1,
       key: 1,
       totalCount: "",
+      reset: "",
       fanye: 3,
-      sx: "dede" //上一页下一页标志
+      cz: 0 //重置
     };
   },
   created() {
@@ -184,14 +181,6 @@ export default {
       // 错误图片的代替
       e.target.src = defaultImgUrl;
     },
-    gm(a) {
-      //立即购买摁下背景
-      this.ljgm = a;
-    },
-    gm1() {
-      //立即购买抬起背景
-      this.ligm = "";
-    },
     gw(a) {
       //加入购物车摁下背景
       this.jrgwc = a;
@@ -216,13 +205,28 @@ export default {
       this.$parent.$parent.status = "Lwait";
       if (!this.$parent.$parent.user) {
         // 未登录的话需要登录
-        this.$router.push({
-          path: "/outter/login",
-          query: {
-            id: id1,
-            newPrice: b
-          }
-        });
+        this.$confirm("您未登录，将跳转到登录页, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+          .then(() => {
+            this.$router.push({
+              path: "/outter/login",
+              query: {
+                id: id1,
+                newPrice: b
+              }
+            });
+          })
+          .catch(() => {
+            this.$parent.$parent.status = "wait1";
+            this.$message({
+              type: "info",
+              message: "已取消登录",
+              duration: 700
+            });
+          });
         return;
       }
       // 添加到购物车并且修改右上角购物车数量
@@ -241,9 +245,10 @@ export default {
               // this.$parent.$parent.number = data.data.data.length;
               this.addNum(data.data.data.length);
               this.$parent.$parent.status = "wait1";
-              this.$confirm("添加成功", "提示", {
-                confirmButtonText: "确定",
-                type: "success"
+              this.$message({
+                message: "已成功加入购物车！",
+                type: "success",
+                duration: 700
               });
             });
         });
@@ -253,14 +258,27 @@ export default {
       // 立即购买
       if (!this.$parent.$parent.user) {
         // 检测是否登录
-        this.$parent.$parent.status = "wait";
-        this.$router.push({
-          path: "/outter/login",
-          query: {
-            id: id1,
-            newPrice: b
-          }
-        });
+        this.$confirm("您未登录，将跳转到登录页, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+          .then(() => {
+            this.$router.push({
+              path: "/outter/login",
+              query: {
+                id: id1,
+                newPrice: b
+              }
+            });
+          })
+          .catch(() => {
+            this.$message({
+              type: "info",
+              message: "已取消登录",
+              duration: 700
+            });
+          });
         return;
       }
       this.ajax
@@ -283,25 +301,6 @@ export default {
             });
         });
     },
-    // next() {
-    //   // 下一页
-    //   this.sx = 1;
-    //   this.prevTip = 0;
-    //   this.num += this.fanye;
-    //   this.chen(this.fyCode, this.fyId, this.pxIndex);
-    // },
-    // prev() {
-    //   //上一页
-    //   this.sx = 0;
-    //   this.nextTip = 0;
-    //   // if (this.number == 1) {
-    //   //   this.prevTip = 1;
-    //   //   return;
-    //   // }
-    //   this.num -= this.fanye;
-    //   // (this.xia1 = "blue"), this.number--;
-    //   this.chen(this.fyCode, this.fyId, this.pxIndex);
-    // },
     fwfl(a) {
       //就开始调用一次
       //服务分类
@@ -315,11 +314,9 @@ export default {
       }
     },
     fwflClick(index, code) {
+      this.reset = ++this.cz;
       // 点击二级标题
       this.$parent.$parent.status = "Lwait";
-      this.nextTip = 0;
-      this.prevTip = 0;
-      this.number = 1;
       this.num = 0;
       this.fyCode = code;
       this.fyId = undefined;
@@ -340,10 +337,8 @@ export default {
     },
     lxclick(index) {
       // 点击三级标题
+      this.reset = ++this.cz;
       this.$parent.$parent.status = "Lwait";
-      this.nextTip = 0;
-      this.prevTip = 0;
-      this.number = 1;
       this.num = 0;
       this.fyId = index;
       this.fyCode = undefined;
@@ -358,14 +353,12 @@ export default {
       var data = this.data.data.data[this.$route.query.id].itemList[a].itemList;
       this.sleType = data;
     },
-    zhang(Num, Sx) {
+    zhang(Num) {
       this.num = Num;
-      this.sx = Sx;
       this.chen(this.fyCode, this.fyId, this.pxIndex);
     },
     chen(code, id, sort1, yb) {
       //产品服务列表
-
       this.$parent.$parent.status = "Lwait";
       this.ajax
         .post(
@@ -382,26 +375,6 @@ export default {
         .then(data => {
           this.totalCount = data.data.totalCount;
           this.$parent.$parent.status = "wait1";
-          if (this.sx == 1) {
-            this.sx = "wqwq";
-            if (data.data.data.length == 0) {
-              this.nextTip = 1;
-              this.nage = 1;
-              return;
-            } else {
-              this.number += 1;
-            }
-          }
-          if (this.sx == 0) {
-            this.sx = "wqwq";
-            if (this.number == 1) {
-              this.prevTip = 1;
-              this.nage = 0;
-              return;
-            } else {
-              this.number--;
-            }
-          }
           this.arr = data.data.data;
           this.arrLength = this.arr.length;
         });
@@ -409,8 +382,10 @@ export default {
     zh() {
       // 综合排序
       this.px1 = "click";
-      this.pxIndex = "";
+      this.pxIndex = 1;
       this.px2 = "";
+      this.pxT = "none";
+      this.pxB = "none";
       if (this.code) {
         this.chen(this.code, undefined);
       } else {
@@ -419,7 +394,19 @@ export default {
     },
     price() {
       // 价格排序
-      this.pxIndex = 2;
+      if (this.pxIndex == 1) {
+        this.pxT = "";
+        this.pxB = "none";
+        this.pxIndex = 2;
+      } else if (this.pxIndex == 2) {
+        this.pxB = "";
+        this.pxT = "none";
+        this.pxIndex = 3;
+      } else if (this.pxIndex == 3) {
+        this.pxT = "";
+        this.pxB = "none";
+        this.pxIndex = 2;
+      }
       this.px2 = "click";
       this.px1 = "";
       if (this.code) {
@@ -432,6 +419,9 @@ export default {
 };
 </script>
 <style scoped lang='less'>
+.none {
+  display: none;
+}
 @media screen and (min-width: 768px) {
   .tip {
     display: none;

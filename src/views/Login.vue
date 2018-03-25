@@ -39,7 +39,6 @@ export default {
     this.$parent.meth = "立即注册";
     this.$parent.tb = "欢迎登录";
     this.$parent.de = "register";
-    console.log(this.$route.query.id);
     var a = this;
     setTimeout(function() {
       a.$parent.$parent.status = "wait1";
@@ -116,7 +115,6 @@ export default {
         )
         .then(data => {
           if (data.data.status == -1) {
-            console.log(data);
             this.tip = data.data.msg;
             this.cha();
           } else {

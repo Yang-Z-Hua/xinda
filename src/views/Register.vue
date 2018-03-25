@@ -135,7 +135,6 @@ export default {
               this.hq11 = "qq qq2";
               var re = this;
               var ID = setInterval(function() {
-                console.log(1);
                 if (re.djs == 0) {
                   re.hq11 = "qq qq1";
                   re.djs = 60;
@@ -229,7 +228,6 @@ export default {
                       .then(data => {
                         this.$parent.$parent.status = "wait1";
                         this.open2();
-                        console.log(data);
                       });
                   }
                 });

@@ -6,10 +6,15 @@
           <img src="./../assets/images/logo.jpg" alt="" @click="tiao">
           <ul>
             <li>北京市</li>
-            <p>[切换城市]
-              <span class="qd">当前仅北京开放！！</span>
-            </p>
+            <p @click="dialogVisible = true">[切换城市]</p>
           </ul>
+          <el-dialog title="请选择当前城市" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+                <span class="check">北京</span>
+                <span slot="footer" class="dialog-footer">
+                  <el-button @click="dialogVisible = false">取 消</el-button>
+                  <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+                </span>
+          </el-dialog>
         </div>
         <div class="search">
           <div class="cp">
@@ -82,10 +87,10 @@
 <script>
 import inpu111 from "../areasData/debounce";
 export default {
-  
   name: "HelloWorld",
   data() {
     return {
+      dialogVisible: false, //切换城市
       msg: "Welcome to Your Vue.js App",
       data: "",
       list: "",
@@ -104,10 +109,14 @@ export default {
       rq: 0,
       time: [],
       timeId: "",
-      inpu:inpu111['inpu'],
+      inpu: inpu111["inpu"]
     };
   },
   created() {
+    for (let j in this.arr) {
+      this.arr[j] = "";
+    }
+    this.arr[sessionStorage.getItem("xshi")] = "bian";
     this.ajax.post("/xinda-api/provider/grid").then(data => {
       this.dataqq = data.data.data;
     });
@@ -136,6 +145,7 @@ export default {
       for (let j in this.arr) {
         this.arr[j] = "";
       }
+      sessionStorage.setItem("xshi", "");
       this.allproduct = "allproduct1";
       this.$router.push({
         path: "/inner/liebiaoye",
@@ -149,6 +159,7 @@ export default {
     },
     thirdGo(a, c, index, b) {
       this.allproduct = "allproduct1";
+      sessionStorage.setItem("xshi", "");
       this.$router.push({
         path: "/inner/liebiaoye",
         query: {
@@ -172,6 +183,7 @@ export default {
       }
     },
     qq(i) {
+      sessionStorage.setItem("xshi", i);
       //  加盟我们、店铺点击变色
       for (let j in this.arr) {
         this.arr[j] = "";
@@ -185,8 +197,7 @@ export default {
       }
     },
     inpuzj() {
-      var this1=this;
-      console.log("456");
+      var this1 = this;
       //这里写实际的代码
       this1.search = "搜索您需要的服务或服务商(不超过30个字)";
       this1.serBS = "";
@@ -213,54 +224,8 @@ export default {
         )
         .then(data => {
           this1.list = data.data.data;
-          console.log(data.data.data);
         });
     },
-    // inpu(e) {
-    //   this.search = "搜索您需要的服务或服务商(不超过30个字)";
-    //   this.serBS = "";
-    //   if (this.searchFor.length > 30) {
-    //     this.searchFor = this.searchFor.substr(0, 30);
-    //   }
-    //   if (this.searchFor.length == 0) {
-    //     this.list = "";
-    //     clearTimeout(this.timeId)
-    //     return;
-    //   }
-    //   //debounce机制
-    //   var this1 = this;
-    //   this.time[this.rq] = new Date().getTime();
-    //   (function(a) {
-    //     this1.rq++;
-    //      this1.timeId=setTimeout(function() {
-    //       if (this1.time[a + 1] && this1.time[a + 1] - this1.time[a] < 500) {
-    //         console.log("123");
-    //         return;
-    //       } else {
-    //         console.log("456");
-    //         //这里写实际的代码
-    //         //搜索产品/服务
-    //         var b;
-    //         if (this1.i == 1) {
-    //           b = "/xinda-api/product/package/search-grid";
-    //         } else {
-    //           b = "/xinda-api/provider/search-grid";
-    //         }
-    //         this1.ajax
-    //           .post(
-    //             b,
-    //             this1.qs.stringify({
-    //               searchName: this1.searchFor
-    //             })
-    //           )
-    //           .then(data => {
-    //             this1.list = data.data.data;
-    //             console.log(data.data.data);
-    //           });
-    //       }
-    //     }, 500);
-    //   })(this.rq);
-    // },
     searchService() {
       if (this.searchFor.length == 0) {
         this.search = "请输入内容！";
@@ -269,6 +234,7 @@ export default {
       }
       if (this.i) {
         //搜索产品走这一步，默认搜索产品
+        sessionStorage.setItem("xshi", "");
         for (let j in this.arr) {
           this.arr[j] = "";
         }
@@ -292,6 +258,9 @@ export default {
               });
             } else {
               //多件产品跳到列表页
+              for (let j in this.arr) {
+                this.arr[j] = "";
+              }
               this.$router.push({
                 path: "/inner/search",
                 query: {
@@ -302,6 +271,7 @@ export default {
           });
       } else {
         //搜索服务商
+        sessionStorage.setItem("xshi", "");
         this.$parent.status = "wait";
         this.ajax
           .post(
@@ -324,6 +294,7 @@ export default {
     },
     csfw(i) {
       //点击财税服务
+      sessionStorage.setItem("xshi", 0);
       this.$parent.status = "wait";
       for (let j in this.arr) {
         this.arr[j] = "";
@@ -342,6 +313,7 @@ export default {
     },
     gsgs(i) {
       //点击公司工商
+      sessionStorage.setItem("xshi", 1);
       for (let j in this.arr) {
         this.arr[j] = "";
       }
@@ -372,6 +344,12 @@ export default {
   }
 }
 @media screen and (min-width: 768px) {
+  .check{
+    border: 2px solid #2693d4;
+    padding: 2px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
   .head-1 {
     width: 1200px;
     height: 148px;
@@ -392,21 +370,7 @@ export default {
         p {
           color: #2693d4;
           position: relative;
-          span.qd {
-            position: absolute;
-            color: red;
-            width: 130px;
-            padding-left: 4px;
-            top: 20px;
-            background: white;
-            border: 1px solid;
-            border-radius: 5px;
-            line-height: 2;
-            display: none;
-          }
-        }
-        p:hover .qd {
-          display: block;
+          cursor: pointer;
         }
       }
     }
@@ -467,7 +431,7 @@ export default {
       position: absolute;
       z-index: 9999;
       top: 32px;
-      left: 0;
+      left: -40px;
       .product_list {
         width: 200px;
         background-color: #1b2d43;
@@ -500,8 +464,7 @@ export default {
             padding-left: 17px;
           }
           .message {
-            width: 916px;
-            // height: 100%;
+            width: 956px;
             background-color: #2693d4;
             opacity: 0.9;
             position: absolute;
@@ -524,12 +487,15 @@ export default {
               margin: 10px 0;
             }
             div {
-              width: 800px;
+              width: 950px;
               display: flex;
               line-height: 17px;
               li {
                 display: flex;
                 flex-wrap: wrap;
+              }
+              .secondTitle:hover {
+                background: #95a8bf;
               }
               .secondTitle {
                 width: 120px;
@@ -553,6 +519,9 @@ export default {
         }
         ul:hover {
           background-color: #2693d4;
+          > li:nth-child(3) {
+            background: #95a8bf;
+          }
         }
       }
     }

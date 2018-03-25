@@ -328,7 +328,6 @@ export default {
   },
   created() {
     window.scrollTo(0, 0);
-    // console.log(this.$route.query.newPrice)
     // 商品详情
     this.ajax
       .post(

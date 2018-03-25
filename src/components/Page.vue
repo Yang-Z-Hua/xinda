@@ -1,14 +1,10 @@
 <template>
 <div>
-  <div class="fanye">
-      <span @click="prev" :class="shang1">上一页</span>
-      <ul>{{number}}</ul>
-      <!-- <p v-if="prevTip">当前是第一页!!</p> -->
-      <span @click="next" :class="xia1">下一页</span>
-      <!-- <p v-if="nextTip">当前是最后一页!!</p> -->
-      <p>(共{{TotalCount%fanye?parseInt(TotalCount/fanye)+1:TotalCount/fanye}}页)</p>
+  <div class="fanye" :class='de'>
+      <span @click="prev" class="blue" :class='shang'>上一页</span>
+      <ul v-for="(a,b) in this.arr" :key="b" :class="++b==number?'blue':''" @click="change(b)">{{b}}</ul>
+      <span @click="next" class="blue" :class='xia'>下一页</span>
   </div>
-      <div class="tip" v-if="prevTip||nextTip">没有更多了!!!</div>
 </div>
 </template>
 
@@ -17,91 +13,110 @@ export default {
   name: "HelloWorld",
   data() {
     return {
-      shang1: "blue",
-      xia1: "blue",
+      arr: [""],
+      shang: "",
+      xia: "",
       number: 1,
       nextTip: "",
       prevTip: "",
       num: 0,
-      sx: 1
+      de: ""
     };
   },
+  created() {
+    this.shang = "wait111";
+  },
   watch: {
-    nage() {
-      if (this.nage == 1) {
-        this.nextTip = 1;
-        this.num -= this.fanye;
-      } else {
-        this.prevTip = 1;
-        this.num += this.fanye;
-      }
+    reset() {
+      this.number = 1;
     },
     number() {
-      console.log(this.number)
-      if(this.number==1){
-        this.num=0;
-        this.shang1='grey'
-        if(this.TotalCount <= this.number * this.fanye){
-          this.xia1='grey'
-        }else{
-          this.xia1='blue'
-        }
-      }else{
-        this.shang1='blue';
-        if(this.TotalCount <= this.number * this.fanye){
-          this.xia1='grey'
-        }else{
-          this.xia1='blue'
-        }
+      this.arr.length =
+        this.TotalCount % this.fanye
+          ? parseInt(this.TotalCount / this.fanye) + 1
+          : this.TotalCount / this.fanye;
+      if (this.number == 1) {
+        this.num = 0;
+        this.shang = "wait111";
+      } else {
+        this.shang = "";
+      }
+      if (this.number == this.arr.length) {
+        this.xia = "wait111";
+      } else {
+        this.xia = "";
       }
     },
     TotalCount() {
-      if(this.number==1){
-        this.shang1='grey'
-        if(this.TotalCount <= this.number * this.fanye){
-          this.xia1='grey'
-        }else{
-          this.xia1='blue'
-        }
-      }else{
-        this.shang1='blue';
-        if(this.TotalCount <= this.number * this.fanye){
-          this.xia1='grey'
-        }else{
-          this.xia1='blue'
-        }
+      if (this.TotalCount <= 3) {
+        this.xia = "wait111";
+      } else {
+        this.xia = "";
       }
+      if (this.TotalCount == 0) {
+        this.de = "none";
+      } else {
+        this.de = "";
+      }
+      this.arr.length =
+        this.TotalCount % this.fanye
+          ? parseInt(this.TotalCount / this.fanye) + 1
+          : this.TotalCount / this.fanye;
+      var arr1 = [];
+      for (var i = 0; i < this.arr.length; i++) {
+        arr1[i] = i;
+      }
+      this.arr = arr1;
     }
   },
   props: {
-    display: String,
-    are: String,
     fanye: String,
-    number: String,
-    nage: String,
-    TotalCount: String
+    TotalCount: String,
+    num: String,
+    reset: String
   },
   methods: {
+    change(i) {
+      this.number = i;
+      this.num = (i - 1) * this.fanye;
+      this.$emit("confirm", this.num);
+      // num：第几条开始
+    },
     next() {
       // 下一页
-      this.sx = 1;
-      this.prevTip = 0;
-      this.num += this.fanye; //从第几条开始
-      this.$emit("confirm", this.num, this.sx);
-      // this.chen(this.fyCode, this.fyId, this.pxIndex);
+      if (this.arr.length == this.number) {
+        return;
+      } else {
+        this.$parent.status = "Lwait";
+        this.number++;
+        this.num += this.fanye; //从第几条开始
+        this.$emit("confirm", this.num);
+      }
     },
     prev() {
       //上一页
-      this.sx = 0;
-      this.nextTip = 0;
+      if (this.number == 1) {
+        return;
+      }
+      this.number--;
       this.num -= this.fanye;
-      this.$emit("confirm", this.num, this.sx);
+      this.$emit("confirm", this.num);
     }
   }
 };
 </script>
 
 <style scoped lang='less'>
+.wait111 {
+  cursor: not-allowed !important;
+}
+.none {
+  display: none !important;
+}
+ul {
+  cursor: pointer;
+}
+
 @media screen and (max-width: 768px) {
   .fanye {
     p {
@@ -122,14 +137,14 @@ export default {
       line-height: 1;
       padding: 10px 13px;
     }
-    span.grey {
-      color: #cccccc;
+    .grey {
+      color: #cccccc !important;
     }
-    span.blue {
-      color: #2693d4;
+    .blue {
+      color: #2693d4 !important;
     }
     ul {
-      color: #2693d4;
+      color: #cccccc;
       border: 1px solid;
       line-height: 1;
       padding: 10px 13px;
@@ -163,14 +178,15 @@ export default {
       line-height: 1;
       padding: 10px 13px;
     }
-    span.grey {
-      color: #cccccc;
+
+    .grey {
+      color: #2693d4 !important;
     }
-    span.blue {
-      color: #2693d4;
+    .blue {
+      color: #2693d4 !important;
     }
     ul {
-      color: #2693d4;
+      color: #cccccc;
       border: 1px solid;
       line-height: 1;
       padding: 10px 13px;

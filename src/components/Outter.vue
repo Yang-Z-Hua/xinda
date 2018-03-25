@@ -59,6 +59,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style  lang='less'>
+.d1 input,.d2 input,.d3 input,.d4 input,.d5 input {
+  margin-bottom: 13px!important
+}
 .d5 {
   position: relative;
   img {

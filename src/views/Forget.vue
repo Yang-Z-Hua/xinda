@@ -96,7 +96,6 @@ export default {
               this.hq11 = "qq2";
               var re = this;
               var ID = setInterval(function() {
-                console.log(1);
                 if (re.djs == 0) {
                   re.hq11 = "qq qq1";
                   re.djs = 60;
@@ -162,6 +161,11 @@ export default {
                 })
               )
               .then(data => {
+                console.log(data.data)
+                if(data.data.status==-2){
+                  this.phoneTip=data.data.msg;
+                  return
+                }
                 // this.mmbyz = data.data.msg;
                 if ((11, data.data.msg)) {
                   this.open2();

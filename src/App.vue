@@ -137,7 +137,6 @@ export default {
         this.cl[i] = " ";
         this.cl[a] = "cl";
       }
-      console.log(this.cl);
     },
     logOut() {
       //退出登录
