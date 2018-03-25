@@ -48,7 +48,6 @@ export default {
       }
     },
     TotalCount() {
-      console.log('hh',this.TotalCount)
       if (this.TotalCount <= this.fanye) {
         this.xia = "wait111";
       } else {

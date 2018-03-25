@@ -192,6 +192,7 @@ export default {
     },
     xpxq(a, b) {
       // 点击商品标题
+      this.$parent.ccc++
       this.$parent.$parent.status = "wait";
       this.$router.push({
         path: "/inner/shangpinxiangqing",

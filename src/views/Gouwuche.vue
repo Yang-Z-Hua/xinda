@@ -244,6 +244,7 @@ export default {
     }
   },
   created() {
+    this.$parent.ccc++
     this.$parent.$parent.status = "wait";
     this.spxr();
     this.ajax

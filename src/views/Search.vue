@@ -272,7 +272,6 @@ export default {
     },
     chen(sort1) {
       //产品服务列表
-      console.log(this.num, this.searchName);
       this.$parent.$parent.status = "Lwait";
       this.ajax
         .post(
@@ -285,7 +284,6 @@ export default {
           })
         )
         .then(data => {
-          console.log(data);
           this.totalCount = data.data.totalCount;
           this.$parent.$parent.status = "wait1";
           this.arr = data.data.data;

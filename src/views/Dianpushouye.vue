@@ -95,7 +95,7 @@ import Page from "../components/Page.vue";
 export default {
   name: "HelloWorld",
   created() {
-    if(window.screenX<768){
+    if(window.innerWidth < 768){
       this.fanye=12;
     }else{
       this.fanye=6;

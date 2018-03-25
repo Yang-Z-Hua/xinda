@@ -118,7 +118,6 @@ export default {
       for (let j in this.arr) {
         this.arr[j] = 'DQ';
       }
-      console.log(1111111,this.arr);
     }
   },
   created() {

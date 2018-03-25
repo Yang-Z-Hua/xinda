@@ -7,7 +7,7 @@
         <img :src="imgSrc">
         <div class="nr">
             <ul>{{mess}}!</ul>
-            <li>{{zfzt}}<br><span :class="wd">{{span}}</span></li>
+            <li>{{zfzt}}<br><span @click="qqq" :class="wd">{{span}}</span></li>
             <p>如有问题，请联系客服：<span >010-83421842</span></p>
         </div>
     </div>
@@ -25,6 +25,13 @@ export default {
       span: "返回支付首页",
       wd: ""
     };
+  },
+  methods:{
+    qqq(){
+      this.$router.push({
+        path: "/inner/dingdanxiangqing",
+      });
+    }
   }
 };
 </script>
@@ -64,11 +71,14 @@ export default {
       font-size: 18px;
       margin: 25px 0 10px;
       span.span {
+        cursor: pointer;
         color: #2494d6;
         border: 1px solid;
         border-radius: 4px;
         padding: 8px 15px;
         font-size: 14px;
+        display: inline-block;
+        margin-top: 10px
       }
     }
     p {

@@ -161,7 +161,6 @@ export default {
                 })
               )
               .then(data => {
-                console.log(data.data)
                 if(data.data.status==-2){
                   this.phoneTip=data.data.msg;
                   return
