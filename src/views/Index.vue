@@ -38,40 +38,17 @@
       <p>明星产品推荐</p>
       <li class="triangle"></li>
     </ul>
-    <div class="star_list">
-      <!-- 社保代理 -->
-      <router-link :to='{path:"/inner/liebiaoye",query:{
-          id: "cc7eb9bbd40f4b0e9f31c8cbcb903a59",
-          firstName: "社保代理",
-          code: 6,
-          }}'>
-        <img :src="linshi1" alt="" :class="picc">
-      </router-link>
-      <!-- 公司工商 -->
-      <router-link :to='{path:"/inner/liebiaoye",query:{
-          id: "5af629246fa34f6f8d49758c6a7b25f1",
-          firstName: "公司工商",
-          code: 4,
-          }}'>
-        <img :src="linshi2" alt="" :class="picc">
-      </router-link>
-      <!-- 财税服务 -->
-      <router-link :to='{path:"/inner/liebiaoye",query:{
-          id: "2e110f0df53243c197fede52fba8e5d0",
-          firstName: "财税服务",
-          code: 3
-          }}'>
-        <img :src="linshi3" alt="" :class="picc">
-      </router-link>
-      <!-- 知识产权 -->
-      <router-link :to='{path:"/inner/liebiaoye",query:{
-          id: "1eff122d06604fc1aadf9e7acefba21a",
-          firstName: "知识产权",
-          code: 10,
-          }}'>
-        <img :src="linshi4" alt="" :class="picc">
-      </router-link>  
-    </div>
+      <div class="company">
+        <div v-for="(a,index) in arr.hq" :key="index">
+            <li class="img"><img :src="imgSrc+a.providerImg" alt="" @click="goods(a)"></li>
+            <ul>
+              <p class="product_title" @click="goods(a)">{{a.serviceName.split('（')[0]}}</p>
+              <li class="introduce_li"><p class="product_introduce">{{a.providerName}}</p></li>
+              <p class="product_price"><span>￥{{a.price}}</span>{{a.unit}}</p>
+              <button @click="goods(a)">查看详情</button>
+            </ul>
+        </div>      
+      </div>
 
     <!-- 微信端=================================== -->
     <div class="move_lead">
@@ -227,7 +204,7 @@
         <p>服务指数：8.4</p>
         <p>提供的服务</p>
         <ul>
-          <li v-for="(type,under) in d.productTypes.split(',')" :key="under"><p>{{type}}</p></li>
+          <li v-for="(type,under) in d.products.split(',').slice(0,3)" :key="under"><p>{{type}}</p></li>
           <li class="more">更多产品</li>
         </ul>
       </div>
@@ -277,32 +254,18 @@ export default {
         a = 0;
         rf.ajax.post("/xinda-api/recommend/list").then(data => {
           rf.$parent.$parent.status = "wait1";
-          rf.arr = data.data.data;
+          rf.arr = data.data.data;           //首页产品推荐
+          rf.arr2 = data.data.data.provider;//首页服务商
         });
-
-        // 推荐服务商
-        rf.ajax.post("/xinda-api/provider/search-grid").then(data => {/*  */
-          rf.arr2 = data.data.data;
-          rf.$parent.fwsAll=data;
-        });
-      };
-      rf.linshi1 =require('../assets/images/u10.png');
-      rf.linshi2 = require('../assets/images/u12.png');
-      rf.linshi3 = require('../assets/images/u14.png');
-      rf.linshi4 = require('../assets/images/u16.png');
-      rf.linshi5 = require('../assets/images/u82.png');
-      rf.linshi6 = require('../assets/images/u84.png');
-      rf.linshi7 = require('../assets/images/u86.png');
-      rf.linshi8 = require('../assets/images/aaa.png');
-      rf.linshi9 = require('../assets/images/zanshi2.png');
-      rf.linshi10 = require('../assets/images/approve.png');
-      rf.picc = 'picture'
+      }
+      rf.linshi5 = require("../assets/images/u82.png");
+      rf.linshi6 = require("../assets/images/u84.png");
+      rf.linshi7 = require("../assets/images/u86.png");
+      rf.linshi8 = require("../assets/images/aaa.png");
+      rf.linshi9 = require("../assets/images/zanshi2.png");
+      rf.linshi10 = require("../assets/images/approve.png");
+      rf.picc = "picture";
     };
-    // 创业必备 推荐服务
-
-    // rf.ajax.post("/xinda-api/product/package/search-grid").then(data => {
-    //   rf.arr3 = data.data.data;
-    // });
   },
 
   data() {
@@ -311,6 +274,7 @@ export default {
       arr: "",
       arr1: "",
       arr2: "",
+      star: "",
       // arr3: "",
       q: 1,
       w: 0,
@@ -320,18 +284,7 @@ export default {
       choose2: "yuan",
       imgSrc: "http://123.58.241.146:8088/xinda/pic",
       currentIndex: -1,
-      // 以下是图片不加载部分====
-      linshi1:require('../assets/images/linshipic.png'),
-      linshi2:require('../assets/images/linshipic.png'),
-      linshi3:require('../assets/images/linshipic.png'),
-      linshi4:require('../assets/images/linshipic.png'),
-      linshi5:require('../assets/images/linshipic.png'),
-      linshi6:require('../assets/images/linshipic.png'),
-      linshi7:require('../assets/images/linshipic.png'),
-      linshi8:require('../assets/images/linshipic.png'),
-      linshi9:require('../assets/images/linshipic.png'),
-      linshi10:require('../assets/images/linshipic.png'),
-      picc:'',
+      picc: ""
     };
   },
   mounted() {
@@ -590,6 +543,9 @@ export default {
       }
       p {
         font-size: 14px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
       ul {
         margin-top: 30px;
@@ -705,23 +661,18 @@ export default {
       border-bottom: 5px solid #2393d3;
     }
   }
+
+  // 明星产品推荐========================
   .star_list {
     width: 1200px;
     height: 400px;
     margin-top: 46px;
     display: flex;
     justify-content: space-between;
-    a{
-      width: 254px;
-      height: 382px;
-    }
-    .picture {
-      cursor: pointer;
-      width: 254px;
-      height: 382px;
-    }
-    .picture:hover{
-      box-shadow: 0 0 2px 2px rgb(192, 236, 247)
+    .star_list_four {
+      width: 270px;
+      height: 398px;
+      border: 1px solid #e8e8e8;
     }
   }
   .move_lead {
@@ -747,13 +698,24 @@ export default {
         justify-content: center;
         height: 158px;
         img {
-          width: 150px;
+          width: 120px;
         }
       }
       ul {
+        width: 90%;
         display: flex;
+        justify-content: center;
         flex-direction: column;
         align-items: center;
+        li {
+        width: 90%;
+        height: 70px;
+        margin-top: 14px;
+        text-align: center;
+        .product_introduce {
+          font-size: 14px;
+        }
+      }
       }
       .product_title {
         font-size: 16px;
@@ -761,14 +723,7 @@ export default {
         color: black;
         margin-top: 20px;
       }
-      li {
-        width: 90%;
-        height: 70px;
-        margin-top: 14px;
-        .product_introduce {
-          font-size: 14px;
-        }
-      }
+      
 
       .product_price {
         font-size: 14px;

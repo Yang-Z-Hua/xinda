@@ -83,6 +83,7 @@
         </ul>
       </div>
     </div>
+    
     <span class="bot_1">
       <button @click="backfirst">首页</button>
       <button @click="prev()" :class="currentUnder==0?'noclick':''">上一页</button>
