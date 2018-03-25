@@ -85,6 +85,7 @@ export default {
     },
     login() {
       // 立即登录
+      sessionStorage.setItem("xshi", "");
       var a = /1[3,4,5,7,8,9]\d{9}/;
       if (!a.test(this.phone)) {
         this.phoneTip = "手机号不正确！";

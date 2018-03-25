@@ -72,7 +72,6 @@ export default {
   props: {
     fanye: String,
     TotalCount: String,
-    num: String,
     reset: String
   },
   methods: {

@@ -268,6 +268,7 @@ import "../assets/swiper.js";
 export default {
   name: "HelloWorld",
   created() {
+    this.$parent.ccc++;
     var a = 1;
     window.scrollTo(0, 0);
     var rf = this;

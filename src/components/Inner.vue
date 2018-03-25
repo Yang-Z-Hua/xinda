@@ -95,7 +95,7 @@ export default {
       data: "",
       list: "",
       searchFor: "",
-      arr: ["", "", "", ""],
+      arr: {0:'',1:'',2:'',3:''},
       cpfw1: "blue",
       cpfw2: "",
       i: 1,
@@ -109,8 +109,17 @@ export default {
       rq: 0,
       time: [],
       timeId: "",
-      inpu: inpu111["inpu"]
+      inpu: inpu111["inpu"],
+      ccc: 1
     };
+  },
+  watch: {
+    ccc() {
+      for (let j in this.arr) {
+        this.arr[j] = 'DQ';
+      }
+      console.log(1111111,this.arr);
+    }
   },
   created() {
     for (let j in this.arr) {
@@ -344,7 +353,7 @@ export default {
   }
 }
 @media screen and (min-width: 768px) {
-  .check{
+  .check {
     border: 2px solid #2693d4;
     padding: 2px 8px;
     border-radius: 4px;
