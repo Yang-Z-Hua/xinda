@@ -15,9 +15,17 @@
     </div>
     <p class="ddch">{{dingdcx}}</p>
     <div class="time">
-      <p>创建时间：</p>
-      <el-date-picker class="rili" v-model="startDate" type="date"></el-date-picker>
-      <el-date-picker class="rili" v-model="endDate" type="date"></el-date-picker>
+      <!-- <p>创建时间：</p> -->
+       <div class="block">
+        <span class="demonstration">创建时间：</span>
+        <el-date-picker
+          v-model="value6"
+          type="daterange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期">
+        </el-date-picker>
+      </div>
     </div>
     
     <div class="list">
@@ -29,7 +37,7 @@
         <li class="zt">订单状态</li>
         <li class="cz">订单操作</li>
       </ul>
-      <div :class="list"  v-for="aa in da" :key="aa.id">
+      <div class="list-top" v-if="ddxx" v-for="aa in da" :key="aa.id">
         <div class="order-time">
           <div>
             <p>订单号：</p>
@@ -130,18 +138,43 @@ export default {
       prevTip: "",
       count: 1,
       startNum: 0,
-      No: undefined,
+      No: '',
       data: "",
-      list: "list-top",
+      ddxx:true,
       startDate: undefined,
       da: "",
       endDate: undefined,
       yfk: "",
       id: "",
       // imgSrc: "http://123.58.241.146:8088/xinda/pic",
-      disabledDate(time) {
-        return time.getTime() > Date.now();
-      }
+           pickerOptions2: {
+          shortcuts: [{
+            text: '最近一周',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit('pick', [start, end]);
+            }
+          }, {
+            text: '最近一个月',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit('pick', [start, end]);
+            }
+          }, {
+            text: '最近三个月',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit('pick', [start, end]);
+            }
+          }]
+        },
+        value6: '',
     };
   },
   methods: {
@@ -209,15 +242,17 @@ export default {
       this.xr(0);
     },
     search() {
-      if (this.No == undefined) {
+      if (this.No == '') {
         this.dingdcx = "请输入订单号";
-        console.log(111111);
+        this.ddxx = !this.ddxx;
+        this.mnr = !this.mnr;
+        return
       }
-      // if(this.No != this.No){
-      //   // this.dingdcx = '请输入订单号1111'
-      //   console.log(222222)
-      //   return
-      // }
+      if(this.No != ''){
+        this.dingdcx = '';
+        this.mnr = !this.mnr;
+        this.ddxx = !this.ddxx
+      }
       this.startNum = 0;
       this.count = 1;
       this.ccc = 1;
@@ -245,10 +280,9 @@ export default {
             this.$parent.$parent.$parent.status = "wait1";
             this.mnr = !this.mnr;
             if (this.ccc) {
-              this.list = "none";
+              this.ddxx = !this.ddxx;
               this.ccc=0;
             }
-
             if (i == "sc") {
               this.da = "";
               if (this.count > 1) {
@@ -269,7 +303,9 @@ export default {
           if (i == 0) {
             this.count--;
           }
+          
           let orderList = data.data.data;
+        
           var j = 0;
           // this.$parent.$parent.$parent.status = "Lwait";
           for (let i in orderList) {
@@ -309,20 +345,20 @@ export default {
 </script>
 
 <style lang="less">
-.el-date-editor.el-input,
-.el-date-editor.el-input__inner {
-  width: 111px;
-  .el-input__inner {
-    padding: 0;
-    height: 23px;
-  }
-  .el-input__icon {
-    line-height: 0;
-  }
-  .el-input__prefix {
-    left: 85px;
-  }
-}
+// .el-date-editor.el-input,
+// .el-date-editor.el-input__inner {
+//   width: 111px;
+//   .el-input__inner {
+//     padding: 0;
+//     height: 23px;
+//   }
+//   .el-input__icon {
+//     line-height: 0;
+//   }
+//   .el-input__prefix {
+//     left: 85px;
+//   }
+// }
 </style>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -626,9 +662,6 @@ export default {
         .cz {
           margin-left: 86px;
         }
-      }
-      .none {
-        display: none;
       }
       .list-top {
         margin-top: 10px;
