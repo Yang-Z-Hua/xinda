@@ -179,10 +179,6 @@ export default {
           if (this1.time[a + 1] && this1.time[a + 1] - this1.time[a] < 300) {
             return;
           } else {
-<<<<<<< HEAD
-=======
-            // console.log(this1);
->>>>>>> 579c0d7742217c6d24cc4509855d04491ac27827
             this1.outt(item.serviceId, item.buyNum);
           }
         }, 300);
@@ -198,10 +194,6 @@ export default {
           if (this1.time[a + 1] && this1.time[a + 1] - this1.time[a] < 300) {
             return;
           } else {
-<<<<<<< HEAD
-=======
-            // console.log(this1);
->>>>>>> 579c0d7742217c6d24cc4509855d04491ac27827
             this1.outt(item.serviceId, item.buyNum);
           }
         }, 300);
@@ -265,7 +257,6 @@ export default {
       .then(data => {
         this.culb = data.data.data.hq;
         this.$parent.$parent.status = "wait1";
-        // console.log(data)
       });
   }
 };
