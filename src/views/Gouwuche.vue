@@ -43,7 +43,7 @@
             <p class="shopping_p2">{{item.serviceInfo}}</p>
             <p class="shopoing_p3">销量:</p>
             <p class="shopoing_p4">￥1400.00</p>
-            <a class="shopoing_p5">原价:￥2000.00</a><a href="javascrip:void(0)" class="shopoing_p6">查看详情>>></a>
+            <a class="shopoing_p5">原价:￥2000.00</a><a href="javascrip:void(0)" @click="chakanx(item.id)" class="shopoing_p6">查看详情>>></a>
           </div>
         </div>
       </div>
@@ -148,6 +148,14 @@ export default {
         });
     },
     //
+    chakanx(ss){
+      this.$router.push({
+      path: "/shangpinxiangqing",
+      query: {
+        id: ss,
+      }
+    })
+    },
     jiesuan() {
       this.ajax
         .post("/xinda-api/cart/submit", this.qs.stringify({}))
@@ -171,6 +179,10 @@ export default {
           if (this1.time[a + 1] && this1.time[a + 1] - this1.time[a] < 300) {
             return;
           } else {
+<<<<<<< HEAD
+=======
+            // console.log(this1);
+>>>>>>> 579c0d7742217c6d24cc4509855d04491ac27827
             this1.outt(item.serviceId, item.buyNum);
           }
         }, 300);
@@ -186,6 +198,10 @@ export default {
           if (this1.time[a + 1] && this1.time[a + 1] - this1.time[a] < 300) {
             return;
           } else {
+<<<<<<< HEAD
+=======
+            // console.log(this1);
+>>>>>>> 579c0d7742217c6d24cc4509855d04491ac27827
             this1.outt(item.serviceId, item.buyNum);
           }
         }, 300);
@@ -249,6 +265,7 @@ export default {
       .then(data => {
         this.culb = data.data.data.hq;
         this.$parent.$parent.status = "wait1";
+        // console.log(data)
       });
   }
 };

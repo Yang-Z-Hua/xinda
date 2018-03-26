@@ -5,9 +5,9 @@
       <p class="goods_one goods_two">订单详情</p>
       <div class="goods_thr">
         <ul>
-          <li>订单编号：<a class="goodsp_1">{{businessOrder.businessNo}}</a></li>
-          <li>创建时间：{{createTime}}</li>
-          <li>订单金额<a>{{businessOrder.totalPrice}}</a>元</li>
+          <li class="juz">订单编号：<a class="goodsp_1">{{businessOrder.businessNo}}</a></li>
+          <li class="juz">创建时间：{{createTime}}</li>
+          <li class="juz">订单金额<a>{{businessOrder.totalPrice}}</a>元</li>
         </ul>
       <div class="goods_thr goods_thr2" v-for="(item,index) in serviceOrderList" :key="index">      
           <ul>
@@ -44,8 +44,10 @@
       <div class="goods_jiesuan">
         <a class="goods_am">金额总计</a><a class="goods_shuzi">￥{{all}}.00</a>
         <!-- <div class="goods_kuang"><a @click="chuxian" class="goods_end" :href="sdsd">去结<el-button type="text" @click="open">点击打开 Message Box</el-button>算</a></div> -->
-        <div class="goods_kuang"><el-button type="text" @click="open" class="goods_end">结算</el-button></div>
+        <div class="goods_kuang"><el-button type="text" @click="open" class="goods_end"><p class="sjie">结算</p></el-button></div>
       </div>
+      <!-- <a v-html="ceshide"></a> -->
+      <!-- <a @click="woshijiad">点击</a> -->
       <div class="imgw1" v-show="pic">
         <a href="javascript:void(0)"  @click="X" class="guanbi">×</a>
         <img :src="iii" class="imgw">   
@@ -134,11 +136,15 @@ export default {
       iii: "",
       sdsd: "javascript:void(0)",
       ceshi: "",
-      www: ""
+      www: "",
+      ceshide:"",
     };
   },
   methods:{
-     open() {
+    woshijiad(){
+      document.forms['alipaysubmit'].submit()
+    },
+    open() {
          if(this.iii){
       this.pic  = 1
     }else{
@@ -192,6 +198,19 @@ export default {
     }
   },
   created() {
+
+    this.ajax
+      .post(
+        "/xinda-api/pay/ali-pay",
+        this.qs.stringify({
+          businessNo: this.$route.query.businessNo
+        })
+      )
+      .then(data => {
+        console.log(data.data)
+        this.ceshide = data.data
+      });
+
     this.all = this.$route.query.op;
     this.ajax
       .post(
@@ -213,6 +232,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 @media screen and (min-width: 768px) {
+  .sjie{
+    padding: 6px 29px;
+    margin: -5px 0 0 -28px;
+  }
   .all_weixin {
     display: none;
   }
@@ -232,6 +255,9 @@ export default {
   }
   // 订单详细信息
   .goods_thr {
+    .juz{
+      line-height: 75px;
+    }
     margin-top: 38px;
     ul {
       height: 75px;
