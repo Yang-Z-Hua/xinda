@@ -201,7 +201,6 @@ export default {
         })
       )
       .then(data => {
-        console.log(data.data.data);
         this.businessOrder = data.data.data.businessOrder;
         this.serviceOrderList = data.data.data.serviceOrderList;
         this.sd = data.data.data.businessOrder.createTime;

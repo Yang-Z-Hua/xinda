@@ -54,7 +54,8 @@
       <div class="diqu">
         <p>所在地区：</p>
         <div class="shq">
-            <Area @confirm='bianma' display='ar'/>
+            <Area @confirm='bianma' :youbian='kk' display='ar'/>
+            <span class="ts">{{areaTip}}</span>
         </div>
       </div>
       <p class="baocun" @click="open2">保存</p>
@@ -105,7 +106,7 @@ export default {
       .post("/xinda-api/member/info", this.qs.stringify({}))
       .then(data => {
         this.data = data.data.data;
-        console.log(this.data)
+        this.kk=this.data.regionId
         this.mingzi = this.data.name;
         this.pgone = this.data.email;
         this.$parent.$parent.$parent.status = "wait1";
@@ -118,6 +119,8 @@ export default {
   },
   data() {
     return {
+      kk:'',
+      areaTip: "",
       imageUrl: "",
       xy: "<",
       pgone: "", //邮箱
@@ -128,7 +131,6 @@ export default {
       youbian: "",
       aaa: false,
       bbb: false,
-
       user: "",
       old: "",
       oldTip: "",
@@ -142,9 +144,9 @@ export default {
     Area
   },
   methods: {
-     handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
-      },
+    handleAvatarSuccess(res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw);
+    },
     email() {
       var a = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
       if (!a.test(this.pgone)) {
@@ -166,18 +168,29 @@ export default {
       }
     },
     open2() {
+      if (this.name() == -1) {
+        return;
+      } else {
+        this.mingzits = "";
+      }
+      if (this.email() == -1) {
+        return;
+      } else {
+        this.pgonets = "";
+      }
+      if (this.youbian == "") {
+        this.areaTip = "请修改地区!";
+        return;
+      } else {
+        this.areaTip = "";
+      }
       this.$confirm("是否修改当前用户信息?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       })
         .then(() => {
-          if (this.name() == -1) {
-            return;
-          }
-          if (this.email() == -1) {
-            return;
-          }
+          
           this.ajax
             .post(
               "/xinda-api/member/update-info",
@@ -190,16 +203,17 @@ export default {
               })
             )
             .then(data => {
+              this.youbian=''
               this.$message({
                 type: "success",
                 message: "修改成功!"
               });
             });
-          }) 
-          .catch(() => {
-            this.$message({
-              type: "info",
-              message: "已取消修改="
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消修改="
           });
         });
     },
@@ -262,29 +276,34 @@ export default {
 </script>
 
 <style>
-  .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 70px;
-    height: 70px;
-    line-height: 70px;
-    text-align: center;
-  }
-  .avatar {
-    width: 70px;
-    height: 70px;
-    display: block;
-  }
+span.ts {
+  margin-left: 0 !important;
+  margin-top: 3px;
+  display: block
+}
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409eff;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 70px;
+  height: 70px;
+  line-height: 70px;
+  text-align: center;
+}
+.avatar {
+  width: 70px;
+  height: 70px;
+  display: block;
+}
 </style>
 <style lang="less">
 .ar {
@@ -658,7 +677,7 @@ export default {
         }
       }
       .baocun {
-        margin: 41px 0 0 95px;
+        margin: 20px 0 0 95px;
         display: inline-block;
         padding: 5px 20px;
         color: #2992d3;

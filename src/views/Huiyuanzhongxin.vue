@@ -82,7 +82,6 @@ export default {
     if (sessionStorage.getItem("key") == 3) {
       (this.style = "dd"), (this.sty = "pj"), (this.styl = "pj");
     }
-    // console.log(sessionStorage.getItem("key"));
     if(this.$route.query.chn==1){
       this.sty = "dd";
       this.style = "pj";

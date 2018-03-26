@@ -29,15 +29,25 @@ export default {
       citySelect: "0", //选中的市
       areaSelect: "0", //选中的区
       style: "",
-      areaCheck: "" //地区提示码
+      areaCheck: "" ,//地区提示码
     };
   },
   props: {
     display: String,
-    are: String
+    are: String,
+    youbian:String,
   },
   created() {
     this.style = this.display;
+  },
+  watch:{
+   youbian(){
+     this.provinceSelect=this.youbian.substr(0,2)+'0000';
+     this.provinceChange()
+     this.citySelect=this.youbian.substr(0,4)+'00';
+     this.cityChange();
+     this.areaSelect=this.youbian;
+   }
   },
   methods: {
     provinceChange() {

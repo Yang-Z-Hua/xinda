@@ -165,14 +165,12 @@ export default {
     jjia(item) {
       item.buyNum++;
       var this1 = this;
-      // console.log(111,this.time);
       this.time[this.rq] = new Date().getTime();
       (function(a) {
         var id = setTimeout(function() {
           if (this1.time[a + 1] && this1.time[a + 1] - this1.time[a] < 300) {
             return;
           } else {
-            console.log(this1);
             this1.outt(item.serviceId, item.buyNum);
           }
         }, 300);
@@ -188,7 +186,6 @@ export default {
           if (this1.time[a + 1] && this1.time[a + 1] - this1.time[a] < 300) {
             return;
           } else {
-            console.log(this1);
             this1.outt(item.serviceId, item.buyNum);
           }
         }, 300);

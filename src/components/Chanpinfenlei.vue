@@ -72,7 +72,6 @@ export default {
         .then(data => {
           this.$parent.status = "wait1";
           this.list = data.data.data;
-          console.log(this.list);
         });
     }
   }

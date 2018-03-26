@@ -66,7 +66,6 @@ export default {
                 })
               )
               .then(data => {
-                // console.log(data)
                 if(this.old == this.new1){
                    this.xinmim = "新密码与旧密码重复，请重新输入新密码";
                    return

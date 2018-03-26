@@ -269,7 +269,6 @@ export default {
           })
         )
         .then(data => {
-          // console.log(data.data.totalCount)
           this.totalCount=data.data.totalCount
           if (data.data.data.length == 0) {
             this.$parent.$parent.$parent.status = "wait1";
