@@ -95,7 +95,7 @@ export default {
       data: "",
       list: "",
       searchFor: "",
-      arr: {0:'',1:'',2:'',3:''},
+      arr: { 0: "", 1: "", 2: "", 3: "" },
       cpfw1: "blue",
       cpfw2: "",
       i: 1,
@@ -116,7 +116,7 @@ export default {
   watch: {
     ccc() {
       for (let j in this.arr) {
-        this.arr[j] = 'DQ';
+        this.arr[j] = "DQ";
       }
     }
   },
