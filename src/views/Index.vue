@@ -31,14 +31,14 @@
       </div>
     </div>
 
-    <!-- 明星产品推荐=================================================== -->
-
+<!-- 明星产品推荐=============================================================================================================== -->
+  
     <!-- PC端============================= -->
     <ul class="product_star none">
       <p>明星产品推荐</p>
       <li class="triangle"></li>
     </ul>
-      <div class="company">
+      <div class="company company_weichat_none">
         <div v-for="(a,index) in arr.hq" :key="index">
             <li class="img"><img :src="imgSrc+a.providerImg" alt="" @click="goods(a)"></li>
             <ul>
@@ -124,13 +124,13 @@
 
     <!-- 此盒子为了颠倒顺序 -->
     <div class="weichat_use">
-      <!-- 初创企业必备==========================    PC  +   weichat   ================  -->
+<!-- 初创企业必备==========================    PC  +   weichat   =======================================================  -->
       <div>
       <ul class="product_star">
         <p>初创企业必备</p>
         <li class="triangle1"></li>
       </ul>
-      <div class="company">
+      <div class="company company_weichat_show">
         <div v-for="(a,index) in arr.hq" :key="index">
             <li class="img"><img :src="imgSrc+a.providerImg" alt="" @click="goods(a)"></li>
             <ul>
@@ -144,7 +144,7 @@
       </div>
 
 
-      <!-- 知识产权 ============================ PC + WEICHAT  ================================-->
+<!-- 知识产权 ============================ PC + WEICHAT  ==========================================================================-->
       <div>
       <ul class="product_star">
         <p>知识产权</p>
@@ -188,11 +188,11 @@
     </div>
 
 
-    <!-- 中部广告============================================================== -->
+<!-- 中部广告==================================================================================================================== -->
     <img :src="linshi10" alt="" class="approve">
 
 
-    <!-- 推荐服务商 ===========================  PC ================================-->
+<!-- 推荐服务商 ===========================  PC ==================================================================================-->
     <ul class="recommend"> 
       <li :class="choose1" @click="see1()"><p>推荐服务商</p><span v-show="q"></span></li>
       <li :class="choose2" @click="see2()"><p>推荐服务</p><span v-show="w"></span></li>
@@ -211,7 +211,7 @@
     </ul>
 
 
-    <!-- 推荐服务====================================================== -->
+<!-- 推荐服务======================================================================================================================== -->
     <ul v-show="r" class="again">
       <div v-for="(a,index) in arr.hq" :key="index">
           <li class="img"><img :src="imgSrc+a.providerImg" alt=""></li>
@@ -240,14 +240,14 @@
 </template>
 
 <script>
-import "../assets/swiper.js";
+import "../assets/swiper.js";  //引入swiper插件
 
 export default {
   name: "HelloWorld",
   created() {
     this.$parent.ccc++;
     var a = 1;
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 0);//进入页面显示最上部
     var rf = this;
     this.$parent.$parent.status = "wait1";
     document.onscroll = function() {
@@ -255,8 +255,8 @@ export default {
         a = 0;
         rf.ajax.post("/xinda-api/recommend/list").then(data => {
           rf.$parent.$parent.status = "wait1";
-          rf.arr = data.data.data;           //首页产品推荐
-          rf.arr2 = data.data.data.provider;//首页服务商
+          rf.arr = data.data.data; //首页产品推荐
+          rf.arr2 = data.data.data.provider; //首页服务商
         });
       }
       rf.linshi5 = require("../assets/images/u82.png");
@@ -264,7 +264,7 @@ export default {
       rf.linshi7 = require("../assets/images/u86.png");
       rf.linshi8 = require("../assets/images/aaa.png");
       rf.linshi9 = require("../assets/images/zanshi2.png");
-      rf.linshi10 = require("../assets/images/approve.png");
+      rf.linshi10 = require("../assets/images/approve.png");//以上是首页未滑动时图片显示默认
       rf.picc = "picture";
     };
   },
@@ -276,7 +276,6 @@ export default {
       arr1: "",
       arr2: "",
       star: "",
-      // arr3: "",
       q: 1,
       w: 0,
       e: 1,
@@ -288,6 +287,8 @@ export default {
       picc: ""
     };
   },
+
+  // swiper轮播插件===========
   mounted() {
     var mySwiper = new Swiper(".HM_lb", {
       direction: "horizontal",
@@ -305,6 +306,8 @@ export default {
     });
   },
   methods: {
+
+    // 推荐服务商，跳转店铺首页===================
     goShop(check) {
       this.$router.push({
         path: "/inner/Dianpushouye",
@@ -313,6 +316,8 @@ export default {
         }
       });
     },
+
+    // 推荐服务，跳转商品详情===================
     goods(a) {
       this.$router.push({
         path: "/inner/shangpinxiangqing",
@@ -322,6 +327,8 @@ export default {
         }
       });
     },
+
+    // 推荐服务商与推荐服务相互切换===================
     see1() {
       this.q = 1;
       this.w = 0;
@@ -338,6 +345,8 @@ export default {
       this.choose1 = "sty2";
       this.choose2 = "sty1";
     },
+
+    //以下三条是知识产权二级标题，span覆盖点击跳转操作
     jia1() {
       this.$router.push({
         path: "/inner/liebiaoye",
@@ -384,6 +393,9 @@ export default {
   align-items: center;
 }
 @media screen and (min-width: 768px) {
+
+  //以下是需要隐藏的，即在微信端显示的部分===================================================================================================
+  //1，地区列表
   .small_top {
     display: none;
   }
@@ -709,14 +721,14 @@ export default {
         flex-direction: column;
         align-items: center;
         li {
-        width: 90%;
-        height: 70px;
-        margin-top: 14px;
-        text-align: center;
-        .product_introduce {
-          font-size: 14px;
+          width: 90%;
+          height: 70px;
+          margin-top: 14px;
+          text-align: center;
+          .product_introduce {
+            font-size: 14px;
+          }
         }
-      }
       }
       .product_title {
         font-size: 16px;
@@ -724,7 +736,6 @@ export default {
         color: black;
         margin-top: 20px;
       }
-      
 
       .product_price {
         font-size: 14px;
@@ -856,6 +867,11 @@ export default {
     }
   }
 
+
+// 明星产品推荐
+  .company_weichat_none{
+    display: none;
+  }
   // 微信中部
   .move_lead {
     width: 100%;
@@ -915,7 +931,7 @@ export default {
       left: 60px;
     }
   }
-  .company {
+  .company_weichat_show {
     display: flex;
     flex-direction: column;
     align-items: center;
