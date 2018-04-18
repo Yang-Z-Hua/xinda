@@ -304,6 +304,9 @@ span.ts {
   height: 70px;
   display: block;
 }
+.el-icon-plus:before{
+    line-height: 70px;
+}
 </style>
 <style lang="less">
 .ar {
