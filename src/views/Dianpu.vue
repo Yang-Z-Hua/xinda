@@ -28,7 +28,7 @@
           </ul>
           <ul class="right">
             <h5 @click="go(index)">{{a.providerName}}</h5>
-            <li class="believe"><span>信誉</span><img src="../assets/images/xinyu.png" alt=""></li>
+            <li class="believe"><span>信誉:</span><img src="../assets/images/xinyu.png" alt=""></li>
             <li class="adress_1"><span>{{a.regionName}}</span></li>
             <li class="adress_2"><img src="../assets/images/adress.png" alt=""><span>{{a.regionName.split('-')[1]}}　{{a.regionName.split('-')[2]}}</span></li>
             <li class="two"><p>累计客户服务次数：<span>{{a.orderNum}}</span></p><p>好评率：<span>{{a.goodJudge*100/4*a.totalJudge}}%</span></p></li>
